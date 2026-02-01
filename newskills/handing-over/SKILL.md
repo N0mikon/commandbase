@@ -1,5 +1,6 @@
 ---
-description: Document current work context for handover to another session
+name: handing-over
+description: "Use this skill when ending a session, switching context, or preparing for another session to continue your work. This includes documenting current progress, capturing open questions, listing modified files, and writing handover documents to .docs/handoffs/. Trigger phrases: '/handover', 'hand this off', 'document where we are', 'save progress for later', 'end session'."
 ---
 
 # Handover
@@ -7,6 +8,42 @@ description: Document current work context for handover to another session
 You are creating a handover document to pass your work to another session (or yourself later). The goal is to distill your context to its essential elements - what matters, what you learned, what's next.
 
 This is NOT a lossy auto-summary. This is intelligent extraction of crucial context.
+
+**Violating the letter of these rules is violating the spirit of these rules.**
+
+## The Iron Law
+
+```
+NO HANDOVER WITHOUT KEY LEARNINGS
+```
+
+If you haven't captured what you learned (not just what you did), the handover is incomplete.
+
+**No exceptions:**
+- Don't just list tasks - capture insights
+- Don't skip learnings because "nothing special happened"
+- Don't hand over without file:line references
+- Don't assume the next session knows anything
+
+## The Gate Function
+
+```
+BEFORE writing the handover document:
+
+1. REVIEW: What tasks were worked on?
+2. EXTRACT: What were the KEY LEARNINGS?
+   - Patterns discovered
+   - Gotchas encountered
+   - Decisions made and WHY
+3. REFERENCE: What file:line locations matter?
+4. PRIORITIZE: What should the next session do FIRST?
+5. VERIFY: Is "Key Learnings" section substantive?
+   - If NO: Think harder - every session teaches something
+   - If YES: Proceed to write
+6. ONLY THEN: Write the handover document
+
+Skip learnings = useless handover
+```
 
 ## Process
 
@@ -116,8 +153,33 @@ Handover created at:
 .docs/handoffs/MM-DD-YYYY-description.md
 
 To resume this work in a new session:
-/takeover .docs/handoffs/MM-DD-YYYY-description.md
+/taking-over .docs/handoffs/MM-DD-YYYY-description.md
 ```
+
+## Red Flags - STOP and Extract Learnings
+
+If you notice any of these, STOP immediately:
+
+- Key Learnings section is empty or generic
+- Writing "nothing special to note"
+- Listing only tasks without insights
+- No file:line references in the handover
+- Handover reads like a status report, not a knowledge transfer
+
+**When you hit a red flag:**
+1. Stop and reflect on the session
+2. What would you tell a colleague taking over?
+3. What mistakes should they avoid?
+4. Add these insights to Key Learnings
+
+## Rationalization Prevention
+
+| Excuse | Reality |
+|--------|---------|
+| "Nothing special happened" | Every session teaches something. Find it. |
+| "Next session can figure it out" | That wastes time. Capture it now. |
+| "It's all in the code" | Context and reasoning aren't in code. Document. |
+| "I'm in a hurry" | Hurried handovers cause rework. Take time. |
 
 ## Guidelines
 
@@ -146,3 +208,11 @@ To resume this work in a new session:
    - Aim for clarity, not length
    - Bullet points over paragraphs
    - Code references over code blocks
+
+## The Bottom Line
+
+**No shortcuts for handover.**
+
+Distill the learnings. Cite file:line references. Write for someone with zero context.
+
+This is non-negotiable. Every handover. Every time.

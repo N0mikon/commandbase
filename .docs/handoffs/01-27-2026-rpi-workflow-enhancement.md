@@ -1,10 +1,11 @@
 ---
 git_commit: 469a6d81ebb8b827e284d4afb090c6c622d97747
-last_updated: 2026-01-27
-last_updated_by: claude
+last_updated: 2026-02-01
+last_updated_by: docs-updater
+last_updated_note: "Marked historical - skills renamed since this handover"
 topic: "RPI Workflow Enhancement with Superpowers Patterns"
 tags: [handover, rpi-workflow, superpowers, enforcement-patterns]
-status: active
+status: historical
 references:
   - .docs/research/01-27-2026-superpowers-patterns-for-rpi-workflow.md
   - newskills/
@@ -15,6 +16,17 @@ references:
 
 **Date**: 2026-01-27
 **Branch**: main
+
+> **Historical Note (2026-02-01)**: Skills referenced in this handover have been renamed:
+> - `pcode` -> `planning-codebases`
+> - `icode` -> `implementing-plans`
+> - `rcode` -> `researching-codebases`
+> - `vcode` -> `validating-implementations`
+> - `commit` -> `committing-changes`
+> - `pr` -> `creating-pull-requests`
+> - `handover` -> `handing-over`
+> - `takeover` -> `taking-over`
+> See `.docs/plans/02-01-2026-skill-structure-updates.md` for the rename plan.
 
 ## What I Was Working On
 

@@ -1,10 +1,45 @@
 ---
-description: Resume work from a handover document
+name: taking-over
+description: "Use this skill when picking up work from a handover document, resuming a previous session, or continuing where another session left off. This includes reading handover documents from .docs/handoffs/, understanding prior context, reviewing modified files, and continuing implementation. Trigger phrases: '/takeover', 'continue from handover', 'resume previous work', 'pick up where we left off', 'read the handover'."
 ---
 
 # Takeover
 
 You are picking up work from a handover document. Your job is to absorb the context, verify the current state, and continue the work.
+
+**Violating the letter of these rules is violating the spirit of these rules.**
+
+## The Iron Law
+
+```
+NO WORK WITHOUT STATE VERIFICATION
+```
+
+If you haven't verified the current state matches the handover, you cannot start working.
+
+**No exceptions:**
+- Don't trust the handover blindly - verify state
+- Don't skip reading linked docs
+- Don't start work before confirming approach with user
+- Don't ignore drift between handover and reality
+
+## The Gate Function
+
+```
+BEFORE starting any work from a handover:
+
+1. READ: The handover document FULLY
+2. READ: All linked plans and research docs
+3. VERIFY: Run `git status`, `git log -5`, check file existence
+4. COMPARE: Does reality match the handover?
+   - If NO: Note the differences, ask user how to proceed
+   - If YES: Continue to step 5
+5. ABSORB: Internalize the Key Learnings section
+6. CONFIRM: Present summary and get user approval
+7. ONLY THEN: Begin work
+
+Skip verification = working blind
+```
 
 ## Process
 
@@ -24,7 +59,7 @@ Available handovers in .docs/handoffs/:
 
 Which handover would you like to resume from?
 
-Usage: /takeover .docs/handoffs/MM-DD-YYYY-description.md
+Usage: /taking-over .docs/handoffs/MM-DD-YYYY-description.md
 ```
 
 ### Step 2: Absorb Context
@@ -91,6 +126,32 @@ Once confirmed:
 - Start with the first next step
 - Apply learnings throughout
 - Reference the handover when relevant
+
+## Red Flags - STOP and Verify
+
+If you notice any of these, STOP immediately:
+
+- Starting work without reading full handover
+- Skipping linked documents
+- Not running `git status` to verify state
+- State doesn't match handover but continuing anyway
+- Ignoring Key Learnings section
+- Starting work without user confirmation
+
+**When you hit a red flag:**
+1. Stop and read the handover fully
+2. Verify state with git commands
+3. Note any differences
+4. Get user confirmation before proceeding
+
+## Rationalization Prevention
+
+| Excuse | Reality |
+|--------|---------|
+| "I read the summary" | Read the full handover. Details matter. |
+| "State probably hasn't changed" | Verify anyway. Time passes. Things change. |
+| "I'll check files as I go" | Upfront verification prevents wasted work. |
+| "User is waiting" | Wrong assumptions waste more time. Verify first. |
 
 ## Guidelines
 
@@ -170,7 +231,7 @@ Should I proceed without them, or can you provide updated paths?
 ## Example Interaction
 
 ```
-User: /takeover .docs/handoffs/01-27-2026-auth-implementation.md
+User: /taking-over .docs/handoffs/01-27-2026-auth-implementation.md
 Assistant: I've absorbed the handover from January 27th.
 
 **Previous Work:**
@@ -197,3 +258,11 @@ Ready to continue with the logout endpoint?
 User: Yes, go ahead
 Assistant: [Creates todos and begins implementation]
 ```
+
+## The Bottom Line
+
+**No shortcuts for takeover.**
+
+Read everything. Verify state. Apply learnings. Get confirmation. THEN work.
+
+This is non-negotiable. Every takeover. Every time.

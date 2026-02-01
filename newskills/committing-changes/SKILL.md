@@ -1,10 +1,47 @@
 ---
-description: Commit and push changes, auto-create private repo if needed
+name: committing-changes
+description: "Use this skill when committing work to git, pushing changes to GitHub, or ending a session with saved progress. This includes staging files, writing commit messages, pushing to remote, and auto-creating private repos when needed. Trigger phrases: '/commit', 'commit this', 'save my work', 'push changes', 'git commit', 'commit and push'."
 ---
 
 # Commit and Push
 
 You are tasked with committing and pushing all changes from this session.
+
+**Violating the letter of these rules is violating the spirit of these rules.**
+
+## The Iron Law
+
+```
+NO COMMIT WITHOUT STAGED FILE VERIFICATION
+```
+
+If you haven't reviewed what you're staging and why, you cannot commit.
+
+**No exceptions:**
+- Don't use `git add -A` or `git add .` - stage specific files
+- Don't commit without understanding the diff
+- Don't stage sensitive files (.env, credentials, keys)
+- Don't assume previous state - check fresh
+
+## The Gate Function
+
+```
+BEFORE running git commit:
+
+1. STATUS: Run `git status` to see current state
+2. DIFF: Run `git diff` to understand changes
+3. REVIEW: Identify logical groups of changes
+4. STAGE: Add SPECIFIC files (never -A or .)
+5. VERIFY: Check for sensitive files in staging
+   - If .env, credentials, keys found: STOP and unstage
+6. SECURITY: If PUBLIC repo, run /reviewing-security on staged files
+   - If BLOCK verdict: STOP and show remediation
+   - If WARN verdict: Show warning, ask for confirmation
+   - If PASS verdict: Continue
+7. ONLY THEN: Commit with clear message
+
+Skip any step = risky commit
+```
 
 ## Process
 
@@ -50,7 +87,27 @@ For each logical group of changes:
 - **NEVER include Co-Authored-By or Claude attribution**
 - Write as if the user wrote it
 
-### Step 4: Ensure Remote Exists
+### Step 4: Security Review (Public Repos Only)
+
+Before committing to a public repository, run security review:
+
+1. Check if repo is public:
+   ```bash
+   gh repo view --json visibility -q '.visibility' 2>/dev/null || echo "unknown"
+   ```
+
+2. If public (or visibility unknown and pushing to github.com):
+   - Invoke `/reviewing-security` skill with staged files
+   - Pass the list of staged files for review
+
+3. Handle the verdict:
+   - **BLOCK**: Stop the commit. Show the security report with remediation steps. Do not proceed until CRITICAL/HIGH issues are fixed.
+   - **WARN**: Show the warning. Ask user: "Security review found MEDIUM issues. Proceed anyway? (yes/no)"
+   - **PASS**: Continue to Step 5.
+
+4. If private repo: Skip security review, continue to Step 5.
+
+### Step 5: Ensure Remote Exists
 
 Check if remote exists:
 ```bash
@@ -76,7 +133,7 @@ git remote -v
    git remote add origin <your-repo-url>
    ```
 
-### Step 5: Push Changes
+### Step 6: Push Changes
 
 Push to remote:
 ```bash
@@ -87,7 +144,7 @@ If the branch doesn't exist on remote yet, this creates it.
 
 If push fails due to diverged history, inform the user rather than force pushing.
 
-### Step 6: Report Results
+### Step 7: Report Results
 
 ```
 Committed and pushed:
@@ -101,7 +158,7 @@ Branch: [branch name]
 [N] file(s) changed, [X] insertions(+), [Y] deletions(-)
 ```
 
-### Step 7: Check for Stale Documentation
+### Step 8: Check for Stale Documentation
 
 After successful push, check if any `.docs/` files are stale:
 
@@ -142,14 +199,43 @@ After successful push, check if any `.docs/` files are stale:
 
 **Note**: Skip this step if `.docs/` directory doesn't exist or contains no files with `git_commit` frontmatter.
 
+## Red Flags - STOP and Review
+
+If you notice any of these, STOP immediately:
+
+- About to use `git add -A` or `git add .`
+- Staging files you haven't reviewed
+- Committing without understanding the diff
+- .env, credentials, or keys in staged files
+- About to force push
+- Feeling rushed to commit
+
+**When you hit a red flag:**
+1. Stop and run `git status`
+2. Unstage suspicious files
+3. Review the diff carefully
+4. Stage specific files only
+
+## Rationalization Prevention
+
+| Excuse | Reality |
+|--------|---------|
+| "I know what changed" | Run git diff anyway. Verify. |
+| "`git add .` is faster" | Faster to commit wrong files too. Stage specifically. |
+| "It's just this once" | One wrong commit can leak secrets. Never. |
+| ".env is in .gitignore" | Check anyway. Gitignore can have holes. |
+| "I need to push quickly" | Fast mistakes take longer to fix. Take time. |
+
 ## Important Rules
 
 - **NEVER** add Claude attribution or Co-Authored-By lines
 - **NEVER** use `git add -A` or `git add .` (stage specific files)
 - **NEVER** force push without explicit user request
 - **NEVER** commit sensitive files (.env, credentials, keys)
+- **NEVER** skip security review for public repos
 - **ALWAYS** create private repos by default when auto-creating
 - **ALWAYS** push after committing
+- **ALWAYS** run `/reviewing-security` before public commits
 
 ## Handling Edge Cases
 
@@ -186,5 +272,13 @@ Cannot auto-create repository (gh CLI not available or not authenticated).
 To set up manually:
 1. Create a repo at https://github.com/new
 2. Run: git remote add origin <repo-url>
-3. Run: /commit again
+3. Run: /committing-changes again
 ```
+
+## The Bottom Line
+
+**No shortcuts for committing.**
+
+Check status. Review diff. Stage specific files. Verify no secrets. THEN commit.
+
+This is non-negotiable. Every commit. Every time.

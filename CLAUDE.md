@@ -6,37 +6,25 @@ Personal Claude Code workflow tools - skills, agents, and hooks for the RPI work
 
 ```
 commandbase/
-├── newskills/       # Skills in development (will become ~/.claude/skills/)
-├── newagents/       # Agents in development (will become ~/.claude/agents/)
-├── newhooks/        # Hooks in development (will become ~/.claude/hooks/)
+├── newskills/       # Skills in development (→ ~/.claude/skills/)
+├── newagents/       # Agents in development (→ ~/.claude/agents/)
+├── newhooks/        # Hooks in development (→ ~/.claude/hooks/)
 └── .docs/           # Research, plans, and handoff documents
-    ├── research/    # Pattern research from other repos
-    ├── plans/       # Implementation plans
-    └── handoffs/    # Session handover documents
 ```
 
-## Development Workflow
+## Development
 
-### Develop → Deploy → Iterate
-1. **Develop** in `newskills/`, `newagents/`, `newhooks/`
-2. **Deploy** working versions to `~/.claude/` (global config)
-3. **Iterate** using v1 tools to build v2, v2 to build v3, etc.
-
-### Key Commands
+### Deploy to Global Config
 ```bash
-# Deploy a skill to global config
-cp newskills/pcode.md ~/.claude/skills/pcode/SKILL.md
-
-# Deploy an agent to global config
-cp newagents/codebase-analyzer.md ~/.claude/agents/codebase-analyzer.md
+cp -r newskills/skillname ~/.claude/skills/
+cp newagents/agent.md ~/.claude/agents/
 ```
 
-## Source Repos for Patterns
+## Additional Context
 
-Reference these repos for patterns and inspiration:
-- `C:/code/superpowers/` - Enforcement patterns, skill structure
-- Other repos as discovered
+- `.docs/handoffs/` - Latest session context
+- `.docs/research/` - Pattern analysis from other repos
 
-## Current Focus
+## Automatic Behaviors
 
-See `.docs/handoffs/` for latest session context and `.docs/research/` for pattern analysis.
+When I mention a repeat problem ("this happened before", "same issue again"), offer to save the solution as a learned pattern.

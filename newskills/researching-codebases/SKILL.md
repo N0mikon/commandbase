@@ -1,11 +1,13 @@
 ---
-description: Research and document codebase to understand implementation details
-model: opus
+name: researching-codebases
+description: "Use this skill when researching a codebase to understand how it works. This includes answering questions like 'how does X work', 'where is Y defined', 'explain the architecture', documenting existing implementations, tracing data flows, and creating technical documentation. Activate when the user says 'research codebase', 'how does this work', 'where is this defined', or 'explain the code'."
 ---
 
-# Research Codebase
+# Researching Codebases
 
 You are tasked with conducting comprehensive research across the codebase to answer user questions by spawning parallel sub-agents and synthesizing their findings.
+
+**Violating the letter of these rules is violating the spirit of these rules.**
 
 ## Your Role
 
@@ -16,9 +18,39 @@ Document and explain the codebase as it exists today:
 - Do NOT critique the implementation or identify problems
 - Only describe the current state
 
+## The Iron Law
+
+```
+NO SYNTHESIS WITHOUT PARALLEL RESEARCH FIRST
+```
+
+If you haven't spawned research agents and waited for their results, you cannot synthesize findings.
+
+**No exceptions:**
+- Don't answer from memory - spawn agents to verify
+- Don't skip agents for "simple" questions - simple questions have complex answers
+- Don't synthesize partial results - wait for ALL agents to complete
+- Don't guess at file locations - let agents find them
+
+## The Gate Function
+
+```
+BEFORE synthesizing findings or writing the research document:
+
+1. IDENTIFY: What aspects of the question need investigation?
+2. SPAWN: Create parallel agents for each aspect (minimum 2 agents)
+3. WAIT: All agents must complete before proceeding
+4. VERIFY: Did agents return file:line references?
+   - If NO: Spawn follow-up agents to get specific references
+   - If YES: Proceed to synthesis
+5. ONLY THEN: Synthesize findings with evidence
+
+Skipping steps = guessing, not researching
+```
+
 ## Initial Response
 
-When this command is invoked:
+When this skill is invoked:
 
 1. **If a specific question or area was provided**, begin research immediately
 2. **If no parameters provided**, respond with:
@@ -52,22 +84,9 @@ If the user mentions specific files:
 
 ### Step 3: Spawn Parallel Research Agents
 
-Create multiple Task agents to research different aspects concurrently:
+Create multiple Task agents to research different aspects concurrently.
 
-**Use these specialized agents:**
-- **codebase-locator** - Find WHERE files and components live
-- **codebase-analyzer** - Understand HOW specific code works
-- **codebase-pattern-finder** - Find examples of existing patterns
-
-**For historical context in `.docs/`:**
-- **docs-locator** - Discover what documentation already exists about the topic
-- **docs-analyzer** - Extract key insights from existing research/plans
-
-**Agent instructions should:**
-- Be specific about what to search for
-- Specify which directories to focus on
-- Request file:line references in responses
-- Ask for documentation, not evaluation
+See ./reference/research-agents.md for the full guide on available agents and how to use them effectively.
 
 ### Step 4: Synthesize Findings
 
@@ -82,64 +101,7 @@ After ALL sub-agents complete:
 Write findings to `.docs/research/MM-DD-YYYY-description.md`
 - Create `.docs/research/` directory if it doesn't exist
 
-**Format:**
-- MM-DD-YYYY is today's date
-- description is a brief kebab-case description of the topic
-
-**Examples:**
-- `01-27-2026-authentication-flow.md`
-- `01-27-2026-api-endpoint-structure.md`
-
-**Document Template:**
-
-```markdown
----
-git_commit: [current HEAD commit hash]
-last_updated: [YYYY-MM-DD]
-last_updated_by: [user or agent name]
-topic: "[Research Topic]"
-tags: [research, relevant-component-names]
-status: complete
-references:
-  - [list of key files this research covers]
----
-
-# Research: [Topic]
-
-**Date**: [Current date]
-**Branch**: [Current git branch]
-
-## Research Question
-
-[Original user query]
-
-## Summary
-
-[High-level documentation answering the user's question]
-
-## Detailed Findings
-
-### [Component/Area 1]
-- Description of what exists ([file.ext:line](path))
-- How it connects to other components
-- Current implementation details
-
-### [Component/Area 2]
-...
-
-## Code References
-
-- `path/to/file.py:123` - Description of what's there
-- `another/file.ts:45-67` - Description of the code block
-
-## Architecture Notes
-
-[Patterns, conventions, and design implementations found]
-
-## Open Questions
-
-[Any areas that need further investigation]
-```
+See ./templates/research-document-template.md for the full template and section guidelines.
 
 ### Step 6: Present Findings
 
@@ -160,19 +122,28 @@ references:
    - Connect related components
 
 3. **Be Accurate**
-   - Verify findings against actual code
-   - Don't guess - investigate
-   - Note uncertainties clearly
+   - Verify findings against actual code via agents
+   - Don't guess - spawn agents to investigate
+   - Every claim needs a file:line reference
+   - Note uncertainties clearly and spawn follow-up agents
 
 4. **Stay Focused**
    - Answer the specific question asked
    - Don't go on tangents
    - Keep the research scoped
 
+## Evidence Requirements
+
+See ./reference/evidence-requirements.md for:
+- What counts as valid evidence
+- Red flags that indicate guessing
+- Rationalization prevention
+- Verification checklist
+
 ## Example Interaction
 
 ```
-User: /rcode how does the API handle errors?
+User: /researching-codebases how does the API handle errors?
 Assistant: I'll research how the API handles errors...
 
 [Spawns parallel research agents]
@@ -191,3 +162,11 @@ I've documented the full details in `.docs/research/01-27-2026-api-error-handlin
 
 Would you like me to dig deeper into any specific aspect?
 ```
+
+## The Bottom Line
+
+**No shortcuts for research.**
+
+Spawn the agents. Wait for results. Cite file:line references. THEN synthesize.
+
+This is non-negotiable. Every question. Every time.
