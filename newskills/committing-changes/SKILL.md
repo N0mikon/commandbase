@@ -185,7 +185,7 @@ After successful push, check if any `.docs/` files are stale:
      # Check if commit exists and count distance to HEAD
      if git rev-parse "$commit" >/dev/null 2>&1; then
        behind=$(git rev-list "$commit"..HEAD --count 2>/dev/null)
-       [ "$behind" -gt 0 ] && echo "$behind commits behind: $f"
+       [ -n "$behind" ] && [ "$behind" -gt 0 ] && echo "$behind commits behind: $f"
      fi
    done | sort -rn
    ```
