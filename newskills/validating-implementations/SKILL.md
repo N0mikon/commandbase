@@ -161,7 +161,8 @@ Would you like me to:
 1. Fix the failing issues
 2. Update the plan to reflect changes
 3. Run checkpoint comparison (if checkpoints exist)
-4. Continue to commit/PR
+4. Review changes before committing (`/reviewing-changes`)
+5. Continue to commit/PR
 ```
 
 ## Validation Checklist
