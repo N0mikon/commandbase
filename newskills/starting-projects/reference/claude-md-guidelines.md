@@ -42,6 +42,25 @@ Based on "Writing a good CLAUDE.md" by Kyle (HumanLayer).
 - Database schema details
 - Every possible command
 - Technology tutorials
+- Security NEVER rules (defined in ~/.claude/CLAUDE.md)
+- Personal identity/accounts (defined in ~/.claude/CLAUDE.md)
+
+## Hierarchy Awareness
+
+Project CLAUDE.md inherits from global (`~/.claude/CLAUDE.md`).
+
+**Don't duplicate in project:**
+- Security NEVER rules (defined globally)
+- Git safety rules (defined globally)
+- Personal identity/accounts (defined globally)
+- Pattern learning behaviors (defined globally)
+
+**Do include in project:**
+- Project-specific identity and purpose
+- This project's directory structure
+- This project's commands
+- This project's verification steps
+- Pointers to this project's .docs/
 
 ## Progressive Disclosure Pattern
 

@@ -37,6 +37,31 @@ BEFORE proposing any edit:
 Skip any step = risk corrupting project configuration
 ```
 
+## Scope Detection
+
+Detect whether updating global or project CLAUDE.md based on file path:
+
+**Global** (`~/.claude/CLAUDE.md` or `~/.claude/CLAUDE.local.md`):
+- Contains: Identity, NEVER rules, Scaffolding, Cross-project behaviors
+- Validation focus: Universality across ALL projects
+- Red flag: Adding project-specific content (commands, structure)
+
+**Project** (`./CLAUDE.md` or `./CLAUDE.local.md`):
+- Contains: Project identity, Structure, Commands, Verification
+- Validation focus: THIS project's needs
+- Red flag: Duplicating global rules (security, identity)
+
+### Detection Logic
+
+```
+IF path contains "~/.claude/" OR path contains home directory + "/.claude/"
+  THEN scope = GLOBAL
+ELSE
+  scope = PROJECT
+```
+
+Report scope in initial response before proposing changes.
+
 ## The 5 Principles
 
 Every change must respect these guidelines from `/starting-projects`:
@@ -54,13 +79,15 @@ Every change must respect these guidelines from `/starting-projects`:
 When invoked:
 
 1. **Read CLAUDE.md** in the current project (or specified path)
-2. **Report current state**:
+2. **Detect scope** (global vs project based on path)
+3. **Report current state**:
    ```
    Current CLAUDE.md: [line count] lines
+   Scope: [GLOBAL | PROJECT]
    Sections: [list of ## headings]
    Status: [under ideal / approaching limit / over limit]
    ```
-3. **Ask what change is needed** if not already specified
+4. **Ask what change is needed** if not already specified
 
 ## Update Types
 
@@ -224,6 +251,9 @@ Pause if you notice:
 - Including detailed documentation inline (use progressive disclosure)
 - Making changes without showing the proposal
 - Skipping the principles check
+- Adding project-specific content to global file (commands, structure)
+- Duplicating global rules in project file (security, identity)
+- Not detecting scope before proposing changes
 
 ## Error Recovery
 

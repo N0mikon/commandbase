@@ -49,7 +49,8 @@ For detailed documentation, see:
 
 ## Automatic Behaviors
 
-When I mention a repeat problem ("this happened before", "same issue again", etc.), offer to save the solution as a learned pattern to `~/.claude/skills/learned/`.
+See ~/.claude/CLAUDE.md for global behaviors.
+Project-specific behaviors can be added here if needed.
 ````
 
 ## Generation Process
