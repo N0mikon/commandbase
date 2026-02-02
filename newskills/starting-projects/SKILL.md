@@ -112,6 +112,7 @@ Your project is initialized!
 3. Start building!
 
 **Your workflow going forward:**
+- `/discussing-features` - Capture user preferences before planning (optional)
 - `/researching-codebases` - Research and document codebase patterns
 - `/planning-codebases` - Create implementation plans for new features
 - `/implementing-plans` - Execute plans
