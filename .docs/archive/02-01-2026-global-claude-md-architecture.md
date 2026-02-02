@@ -4,7 +4,9 @@ last_updated: 2026-02-01
 last_updated_by: claude
 topic: "Global CLAUDE.md Architecture - Research and Planning"
 tags: [handover, claude-md, security, configuration, hierarchy]
-status: active
+status: archived
+archived: 2026-02-02
+archive_reason: "Work completed in commit 448f0d2. Global CLAUDE.md created, skills updated with scope detection."
 references:
   - newskills/updating-claude-md/SKILL.md
   - newskills/starting-projects/reference/claude-md-guidelines.md

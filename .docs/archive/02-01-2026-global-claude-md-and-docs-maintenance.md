@@ -4,7 +4,9 @@ last_updated: 2026-02-01
 last_updated_by: claude
 topic: "Global CLAUDE.md Implementation and Documentation Maintenance"
 tags: [handover, claude-md, security, docs-updater, configuration]
-status: active
+status: archived
+archived: 2026-02-02
+archive_reason: "Handoff acted upon in commit b23869d - next steps completed (debugging-codebases deployed, blueprints given historical frontmatter)"
 references:
   - ~/.claude/CLAUDE.md
   - newskills/updating-claude-md/SKILL.md

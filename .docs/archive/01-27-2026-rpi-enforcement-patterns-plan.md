@@ -1,11 +1,13 @@
 ---
-git_commit: 22359f413f53a227cf695a4c10141a1379ed74a0
-last_updated: 2026-02-01
+git_commit: b23869dc6f346484f97da036e060cebbb50b809b
+last_updated: 2026-02-02
 last_updated_by: docs-updater
-last_updated_note: "Marked historical - all phases complete, skills renamed to gerund form"
+last_updated_note: "Archived - completed implementation plan, all phases executed"
 topic: "RPI Skill Enforcement Patterns (All Skills)"
 tags: [plan, implementation, researching-codebases, implementing-plans, planning-codebases, validating-implementations, committing-changes, creating-pull-requests, handing-over, taking-over, starting-projects, enforcement, superpowers-patterns]
 status: historical
+archived: 2026-02-02
+archive_reason: "Completed implementation plan - all 17 phases executed, skills restructured and renamed to gerund form. See the skills themselves in newskills/*/SKILL.md for current enforcement patterns."
 references:
   - newskills/researching-codebases/SKILL.md
   - newskills/implementing-plans/SKILL.md

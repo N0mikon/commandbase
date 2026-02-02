@@ -162,21 +162,35 @@ Branch: [branch name]
 
 After successful push, check if any `.docs/` files are stale:
 
-1. Find all docs with frontmatter:
+1. Check for untracked docs (separate concern):
    ```bash
-   # List docs and their git_commit from frontmatter
-   for f in .docs/**/*.md; do
-     if [ -f "$f" ]; then
-       commit=$(grep -m1 "^git_commit:" "$f" 2>/dev/null | cut -d' ' -f2)
-       if [ -n "$commit" ]; then
-         behind=$(git rev-list "$commit"..HEAD --count 2>/dev/null || echo "?")
-         echo "$behind commits behind: $f"
-       fi
-     fi
-   done
+   # Warn about docs that should probably be committed
+   untracked=$(git ls-files --others --exclude-standard '.docs/*.md' '.docs/**/*.md' 2>/dev/null)
+   if [ -n "$untracked" ]; then
+     echo "Warning: Untracked docs found:"
+     echo "$untracked"
+   fi
    ```
 
-2. If any docs are significantly behind (>5 commits), report:
+2. Find stale tracked docs (cross-platform, uses `find` instead of `**` globs):
+   ```bash
+   # Works on Linux, macOS, Git Bash, WSL
+   find .docs -name "*.md" -type f 2>/dev/null | while read -r f; do
+     # Skip untracked files
+     git ls-files --error-unmatch "$f" >/dev/null 2>&1 || continue
+     # Extract git_commit from frontmatter
+     commit=$(head -10 "$f" | grep "^git_commit:" | awk '{print $2}')
+     # Skip if no commit, or special values like "n/a"
+     [ -z "$commit" ] || [ "$commit" = "n/a" ] && continue
+     # Check if commit exists and count distance to HEAD
+     if git rev-parse "$commit" >/dev/null 2>&1; then
+       behind=$(git rev-list "$commit"..HEAD --count 2>/dev/null)
+       [ "$behind" -gt 0 ] && echo "$behind commits behind: $f"
+     fi
+   done | sort -rn
+   ```
+
+3. If any docs are significantly behind (>5 commits), report:
    ```
    Documentation status:
    - .docs/plans/01-15-2026-auth-impl.md (12 commits behind)
