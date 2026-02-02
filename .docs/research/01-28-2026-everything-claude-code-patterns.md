@@ -1,7 +1,8 @@
 ---
-git_commit: 22359f4
-last_updated: 2026-01-28
-last_updated_by: rcode
+git_commit: 448f0d2
+last_updated: 2026-02-01
+last_updated_by: docs-updater
+last_updated_note: "Updated after 8 commits - marked implemented recommendations, added implementation status section"
 topic: "Workflow Enhancement Ideas from everything-claude-code"
 tags: [research, workflow, skills, agents, hooks]
 status: complete
@@ -220,14 +221,36 @@ everything-claude-code assigns models per agent (Opus for planning, Haiku for ob
 
 ## Recommended Enhancements
 
-| Priority | Pattern | Adaptation |
-|----------|---------|------------|
-| 🔴 High | `/learn` | Create `/learn` to capture patterns mid-session |
-| 🔴 High | `/checkpoint` | Add checkpoint support to `/icode` phases |
-| 🟡 Medium | Contexts | Create RPI phase contexts |
-| 🟡 Medium | Iterative retrieval | Enhance agents with refinement loops |
-| 🟢 Low | `/orchestrate` | Create `/rpi` for full workflow automation |
-| 🟢 Low | `/skill-create` | Add project pattern extraction |
+| Priority | Pattern | Adaptation | Status |
+|----------|---------|------------|--------|
+| 🔴 High | `/learn` | Create `/learn` to capture patterns mid-session | **IMPLEMENTED** as `learning-from-sessions` skill |
+| 🔴 High | `/checkpoint` | Add checkpoint support to `/icode` phases | **IMPLEMENTED** as `checkpointing` skill |
+| 🟡 Medium | Contexts | Create RPI phase contexts | Not started |
+| 🟡 Medium | Iterative retrieval | Enhance agents with refinement loops | Not started |
+| 🟢 Low | `/orchestrate` | Create `/rpi` for full workflow automation | Not started |
+| 🟢 Low | `/skill-create` | Add project pattern extraction | Partially covered by `creating-skills` skill |
+
+## Implementation Status (Updated 2026-02-01)
+
+### Completed
+
+**`learning-from-sessions` skill** (newskills/learning-from-sessions/SKILL.md)
+- Implements the `/learn` pattern from everything-claude-code
+- Goes beyond the original with: dedup checking, complexity assessment, quality gates, research integration
+- Includes extraction workflow, retrospective mode, and output routing
+- Reference files: description-optimization.md, extraction-workflow.md, quality-gates.md, research-foundations.md
+
+**`checkpointing` skill** (newskills/checkpointing/SKILL.md)
+- Implements the `/checkpoint` pattern with create/verify/list/clear operations
+- Uses file-based storage (.claude/checkpoints.log) as recommended in Open Questions
+- Integrates with RPI workflow: plan-approved -> phase-N-done checkpoints
+- Git-aware with uncommitted change warnings
+
+### Remaining
+
+- **Contexts**: Could still add RPI phase contexts for mode switching
+- **Iterative retrieval**: Agents could be enhanced but current research approach works
+- **Orchestrate**: Full workflow automation remains aspirational
 
 ## Architecture Notes
 
@@ -256,6 +279,6 @@ everything-claude-code supports both plugin install and manual copy. Our command
 
 ## Open Questions
 
-1. Should `/learn` patterns go in `.docs/learnings/` or `~/.claude/skills/learned/`?
-2. Should checkpoints be git-based (stash/tag) or file-based (.claude/checkpoints.log)?
-3. Would contexts conflict with skill enforcement patterns?
+1. ~~Should `/learn` patterns go in `.docs/learnings/` or `~/.claude/skills/learned/`?~~ **RESOLVED**: `learning-from-sessions` routes to `.claude/skills/` (project) or `~/.claude/skills/` (user) based on scope, with CLAUDE.md for simple entries.
+2. ~~Should checkpoints be git-based (stash/tag) or file-based (.claude/checkpoints.log)?~~ **RESOLVED**: File-based via `.claude/checkpoints.log` with pipe-delimited format.
+3. Would contexts conflict with skill enforcement patterns? (Still open)

@@ -6,6 +6,8 @@ last_updated_note: "Marked historical - skills renamed since this handover"
 topic: "RPI Skill Enforcement Patterns Implementation"
 tags: [handover, rcode, icode, enforcement, superpowers-patterns]
 status: historical
+archived: 2026-02-01
+archive_reason: "Completed work from 2026-01-27, superseded by 01-27-2026-skill-enforcement-complete.md which documents final state of all phases"
 references:
   - newskills/researching-codebases/SKILL.md
   - newskills/implementing-plans/SKILL.md

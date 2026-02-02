@@ -1,10 +1,12 @@
 ---
-git_commit: 22359f4
-last_updated: 2026-01-28
-last_updated_by: rcode
+git_commit: 448f0d2
+last_updated: 2026-02-01
+last_updated_by: docs-updater
+last_updated_note: "Updated after 8 commits - research successfully applied to newskills/checkpointing/SKILL.md"
 topic: "/checkpoint Command - Progress Verification Gates"
 tags: [research, checkpoint, verification, git]
 status: complete
+applied_to: newskills/checkpointing/SKILL.md
 references:
   - C:/code/everything-claude-code/commands/checkpoint.md
   - C:/code/everything-claude-code/commands/verify.md

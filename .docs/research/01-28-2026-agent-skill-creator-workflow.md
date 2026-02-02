@@ -1,9 +1,10 @@
 ---
-git_commit: 22359f4
-last_updated: 2026-01-28
-last_updated_by: rcode
+git_commit: 448f0d24
+last_updated: 2026-02-01
+last_updated_by: docs-updater
+last_updated_note: "Refreshed after 8 commits - external research, no content changes needed. Referenced by creating-skills-blueprint.md."
 topic: "Agent Skill Creator - 6-Phase Autonomous Skill Creation Workflow"
-tags: [research, skill-creator, agent-skill-creator, workflow, activation-system, meta-skill, FrancyJGLisboa]
+tags: [research, skill-creator, agent-skill-creator, workflow, activation-system, meta-skill, FrancyJGLisboa, external-repo]
 status: complete
 references:
   - https://github.com/FrancyJGLisboa/agent-skill-creator

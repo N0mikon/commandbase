@@ -1,7 +1,8 @@
 ---
-git_commit: 22359f413f53a227cf695a4c10141a1379ed74a0
-last_updated: 2026-01-28
-last_updated_by: rcode
+git_commit: 448f0d24e2381056f1aa59f01b2b881fac397ae5
+last_updated: 2026-02-01
+last_updated_by: docs-updater
+last_updated_note: "Updated after 8 commits - added Application in This Codebase section documenting how findings were used"
 topic: "Skill Creator Repos - Multi-Repo Analysis"
 tags: [research, skill-builder, skill-creation, continuous-learning, metaskills, claudeception, blader]
 status: complete
@@ -253,6 +254,25 @@ Compared to other skill creators in the ecosystem:
 2. **Scale limits**: At what point does the progressive disclosure pattern break down (too many reference files)?
 3. **Node.js exclusivity**: The strict "no Python" stance may limit adoption for data science workflows where Python tooling is standard
 4. **Version tracking**: No versioning system for skills - how to manage skill evolution across teams?
+
+## Application in This Codebase
+
+This research directly informed the design of `newskills/creating-skills/`:
+
+| Pattern from skill-builder | Applied in creating-skills |
+|---------------------------|---------------------------|
+| Gerund-form naming | `./reference/naming-conventions.md` |
+| Description-as-invocation-trigger | `./reference/description-writing-guide.md` |
+| Progressive disclosure | Reference file structure, skinny pointers |
+| 5-step creation workflow | Mode 1: Create New Skill (Steps 1-5) |
+| Sub-agent conversion | Mode 3 + `./reference/converting-subagents.md` |
+| Validation checklists | `./reference/validation-rules.md` |
+
+Key decisions informed by this research:
+- Adopted gerund naming over kebab-case nouns (metaskills pattern)
+- Chose description-first workflow (description determines triggering)
+- Kept SKILL.md under 500 lines with reference file overflow
+- Used intention-revealing file names (not generic `helpers.md`)
 
 ---
 ---
@@ -619,3 +639,26 @@ The design draws from 5 core papers:
 4. **Bash exclusion**: No Bash in allowed-tools means skills can't include runnable verification commands - is this intentional?
 5. **Version 3.0.0**: The skill is at v3.0.0 but the repo has limited git history - what changed between major versions?
 6. **Cross-skill deduplication**: The existing-skill check uses `rg` search, but how reliable is text-based dedup for semantic similarity?
+
+## Application in This Codebase
+
+This research directly informed the design of `newskills/learning-from-sessions/`:
+
+| Pattern from Claudeception | Applied in learning-from-sessions |
+|---------------------------|----------------------------------|
+| 6-step extraction workflow | Steps 1-6 in Extraction Workflow section |
+| 5 self-reflection prompts | Self-Reflection Prompts section (identical) |
+| Quality gates checklist | `./reference/quality-gates.md` + Step 5 |
+| Dedup decision matrix | Step 1: Dedup Check with decision table |
+| Symptom-based descriptions | `./reference/description-optimization.md` |
+| Retrospective mode | Retrospective Mode section |
+| Output template sections | `./templates/extracted-skill-template.md` |
+
+The academic research basis (Voyager, CASCADE, SEAgent, Reflexion, EvoFSM) is documented in `./reference/research-foundations.md`, which explicitly credits Claudeception as an implementation source.
+
+Key decisions informed by this research:
+- Adopted verify-before-storing principle (Iron Law)
+- Implemented dedup-first workflow
+- Used symptom-based description formulas with exact error messages
+- Added complexity check to route to /rcode for complex extractions
+- Set 3-skill-per-session limit based on quality-over-quantity principle

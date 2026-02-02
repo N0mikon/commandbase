@@ -1,7 +1,8 @@
 ---
-git_commit: 22359f4
-last_updated: 2026-01-28
-last_updated_by: rcode
+git_commit: 448f0d2
+last_updated: 2026-02-01
+last_updated_by: docs-updater
+last_updated_note: "Updated after 8 commits - refreshed skill names to match current conventions"
 topic: "/orchestrate Command - Agent Pipelines"
 tags: [research, orchestrate, agents, workflow]
 status: complete
@@ -123,25 +124,25 @@ Create `/rpi` command that chains our skills:
 /rpi feature "Add user authentication"
 ```
 
-**Agent Chain**:
+**Skill Chain** (using current skill names):
 ```
-rcode-agent → pcode-agent → icode-agent → vcode-agent
+researching-codebases → planning-codebases → implementing-plans → validating-implementations
 ```
 
 **Handoff Documents**:
-- rcode outputs: `.docs/research/MM-DD-YYYY-topic.md`
-- pcode outputs: `.docs/plans/MM-DD-YYYY-topic.md`
-- icode outputs: Implementation + phase verification
-- vcode outputs: Validation report
+- researching-codebases outputs: `.docs/research/MM-DD-YYYY-topic.md`
+- planning-codebases outputs: `.docs/plans/MM-DD-YYYY-topic.md`
+- implementing-plans outputs: Implementation + phase verification
+- validating-implementations outputs: Validation report
 
 ### Workflow Types
 
 | Workflow | Chain | Use Case |
 |----------|-------|----------|
-| **feature** | rcode → pcode → icode → vcode | New functionality |
-| **bugfix** | rcode → icode → vcode | Bug investigation and fix |
-| **refactor** | rcode → pcode → icode → vcode | Code restructuring |
-| **research** | rcode only | Understanding codebase |
+| **feature** | research → plan → implement → validate | New functionality |
+| **bugfix** | research → implement → validate | Bug investigation and fix |
+| **refactor** | research → plan → implement → validate | Code restructuring |
+| **research** | research only | Understanding codebase |
 
 ### Trade-offs
 
@@ -157,7 +158,7 @@ rcode-agent → pcode-agent → icode-agent → vcode-agent
 
 ### Recommendation
 
-**Low priority** - Our manual workflow (/rcode → /pcode → /icode → /vcode) allows user control at each step. Automation is nice-to-have but not essential. Consider after other improvements are stable.
+**Low priority** - Our manual workflow (researching-codebases → planning-codebases → implementing-plans → validating-implementations) allows user control at each step. Automation is nice-to-have but not essential. Consider after other improvements are stable.
 
 ## Code References
 

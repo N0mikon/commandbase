@@ -1,7 +1,8 @@
 ---
-git_commit: 22359f4
-last_updated: 2026-01-28
-last_updated_by: rcode
+git_commit: 448f0d24
+last_updated: 2026-02-01
+last_updated_by: docs-updater
+last_updated_note: "Verified after 8 commits - source file unchanged, content still accurate"
 topic: "/skill-create Command - Extract Patterns from Git"
 tags: [research, skill-create, git, patterns]
 status: complete

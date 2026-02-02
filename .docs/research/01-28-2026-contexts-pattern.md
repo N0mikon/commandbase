@@ -1,7 +1,8 @@
 ---
-git_commit: 22359f4
-last_updated: 2026-01-28
-last_updated_by: rcode
+git_commit: 448f0d2
+last_updated: 2026-02-01
+last_updated_by: docs-updater
+last_updated_note: "Refreshed after 8 commits - content verified still accurate, recommendation (low priority) validated by current skill enforcement patterns"
 topic: "Contexts - Mode Switching via CLI"
 tags: [research, contexts, modes, cli]
 status: complete

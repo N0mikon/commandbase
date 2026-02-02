@@ -1,13 +1,14 @@
 ---
-git_commit: a7794e1
+git_commit: 448f0d2
 last_updated: 2026-02-01
 last_updated_by: docs-updater
-last_updated_note: "Marked 4 recommendations as DECLINED: quick-implementing, UAT mode, structured codebase mapping, wave-based parallel execution"
+last_updated_note: "Updated integration points - starting-projects now mentions discussing-features (b124504)"
 topic: "GSD vs Commandbase Skills Comparison"
 tags: [research, skill-comparison, gsd, workflow]
 references:
   - newskills/discussing-features/SKILL.md
   - newskills/debugging-codebases/SKILL.md
+  - newskills/starting-projects/SKILL.md
   - .docs/plans/02-01-2026-discussing-features-skill.md
   - .docs/plans/02-01-2026-debugging-codebases-skill.md
 ---
@@ -350,10 +351,10 @@ For each feature:
 
 ### Integration Points to Implement
 
-1. **`/starting-projects`** should mention `/discussing-features` in "workflow going forward"
-2. **`/discussing-features`** should output `.docs/context/{feature-name}.md`
-3. **`/planning-codebases`** should check for and honor existing context documents
-4. **`/researching-codebases`** should be aware of discussion context to focus research
+1. **`/starting-projects`** should mention `/discussing-features` in "workflow going forward" - **DONE** (commit b124504)
+2. **`/discussing-features`** should output `.docs/context/{feature-name}.md` - **DONE** (outputs to `.docs/context/`)
+3. **`/planning-codebases`** should check for and honor existing context documents - Not yet implemented
+4. **`/researching-codebases`** should be aware of discussion context to focus research - Not yet implemented
 
 ### Standalone vs Embedded
 

@@ -6,6 +6,8 @@ last_updated_note: "Marked historical - newreference/ approach superseded by ski
 topic: "Pattern Learning Research and Planning"
 tags: [handover, learn, patterns, hooks, reference]
 status: historical
+archived: 2026-02-01
+archive_reason: "Completed handoff - /learn skill implemented as /learning-from-sessions, all work items from this session have been completed"
 references:
   - .docs/research/01-28-2026-everything-claude-code-patterns.md
   - .docs/research/01-28-2026-learn-command-pattern.md

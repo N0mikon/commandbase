@@ -1,10 +1,13 @@
 ---
-git_commit: 22359f4
-last_updated: 2026-01-28
-last_updated_by: rcode
+git_commit: 448f0d2
+last_updated: 2026-02-01
+last_updated_by: docs-updater
+last_updated_note: "Reviewed after 8 commits - research remains relevant; informed learning-from-sessions skill"
 topic: "Claudeception - Claude Code Continuous Learning Skill"
 tags: [research, skills, continuous-learning, meta-skill, hooks, knowledge-extraction]
 status: complete
+external_source: https://github.com/blader/claude-code-continuous-learning-skill
+implemented_as: newskills/learning-from-sessions/SKILL.md
 references:
   - claude-code-continuous-learning-skill/SKILL.md
   - claude-code-continuous-learning-skill/README.md

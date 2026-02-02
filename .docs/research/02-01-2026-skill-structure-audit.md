@@ -1,7 +1,8 @@
 ---
-git_commit: 22359f4
+git_commit: 448f0d2
 last_updated: 2026-02-01
-last_updated_by: researching-codebases
+last_updated_by: docs-updater
+last_updated_note: "Updated after 8 commits - skill count increased from 12 to 16, added 4 new skills, updated coverage table"
 topic: "Current Skillset Audit vs everything-claude-code Recommendations"
 tags: [research, skills, audit, gaps, workflow]
 status: complete
@@ -22,7 +23,7 @@ Review our current skillset after recent updates and compare against everything-
 
 ## Summary
 
-Your skillset has evolved significantly since the January 28th review. You now have **12 skills** covering the complete RPI workflow plus supporting functions. The original recommendation of `/learn` and `/checkpoint` has been implemented (as `/learning-from-sessions` and `/checkpointing`).
+Your skillset has evolved significantly since the January 28th review. You now have **16 skills** (15 deployed) covering the complete RPI workflow plus supporting functions. The original recommendation of `/learn` and `/checkpoint` has been implemented (as `/learning-from-sessions` and `/checkpointing`). Since this audit was written, 4 new skills have been added: `/debugging-codebases`, `/discussing-features`, `/reviewing-security`, and `/updating-claude-md`.
 
 **Coverage Assessment:**
 
@@ -33,19 +34,19 @@ Your skillset has evolved significantly since the January 28th review. You now h
 | `/checkpoint` | ✅ COVERED | `/checkpointing` |
 | `/learn` | ✅ COVERED | `/learning-from-sessions` |
 | `/tdd` | ❌ NOT COVERED | - |
-| `/code-review` | ❌ NOT COVERED | - |
+| `/code-review` | ✅ COVERED | `/reviewing-security` (added 2026-02-01) |
 | `/build-fix` | ⚠️ PARTIAL | `/implementing-plans` has pattern |
 | `/e2e` | ❌ NOT COVERED | - |
 | `/orchestrate` | ⚠️ PARTIAL | Research agents pattern exists |
 | `/eval` | ❌ NOT COVERED | - |
 | Contexts | ⚠️ PARTIAL | Skills serve as implicit modes |
-| `code-reviewer` agent | ❌ NOT COVERED | - |
-| `security-reviewer` agent | ❌ NOT COVERED | - |
+| `code-reviewer` agent | ✅ COVERED | `/reviewing-security` (added 2026-02-01) |
+| `security-reviewer` agent | ✅ COVERED | `/reviewing-security` (added 2026-02-01) |
 | `tdd-guide` agent | ❌ NOT COVERED | - |
 
 ---
 
-## Your Current Skillset (12 Skills)
+## Your Current Skillset (16 Skills)
 
 ### Core RPI Workflow
 
@@ -78,6 +79,15 @@ Your skillset has evolved significantly since the January 28th review. You now h
 | `/learning-from-sessions` | Extract reusable knowledge as skills | NO EXTRACTION WITHOUT VERIFICATION AND USER APPROVAL |
 | `/creating-skills` | Build and validate skill files | NO SKILL WITHOUT VALIDATED DESCRIPTION AND STRUCTURE |
 | `/starting-projects` | Greenfield project initialization | Research before recommending |
+| `/updating-claude-md` | Maintain CLAUDE.md files | NO CHANGE WITHOUT READING THE CURRENT FILE FIRST |
+
+### Quality/Security Skills (NEW)
+
+| Skill | Purpose | Iron Law |
+|-------|---------|----------|
+| `/reviewing-security` | Security review before public commits | NO PUBLIC COMMIT WITH CRITICAL SECURITY ISSUES |
+| `/debugging-codebases` | Systematic hypothesis-driven debugging | HYPOTHESIS BEFORE ACTION |
+| `/discussing-features` | Capture user intent before planning | CAPTURE HOW PREFERENCES BEFORE RESEARCH |
 
 ---
 
@@ -86,15 +96,17 @@ Your skillset has evolved significantly since the January 28th review. You now h
 ### Tier 1: High Value Additions
 
 #### 1. `/code-reviewing` - Security and Quality Review
-**Why needed**: Your `/validating-implementations` checks if code matches the plan, but doesn't catch:
-- Security vulnerabilities (SQL injection, XSS, hardcoded secrets)
-- Code smells (>50 line functions, >4 nesting levels)
-- Missing error handling
-- Console.log statements left in code
+**Status**: ✅ IMPLEMENTED as `/reviewing-security` (commit eab1cb7)
 
-**Integration point**: Run before `/committing-changes`
+The skill now provides:
+- Hardcoded secret detection
+- SQL injection and XSS vulnerability scanning
+- OWASP Top 10 issue detection
+- CRITICAL/HIGH/MEDIUM/LOW severity classification
+- PASS/WARN/BLOCK verdicts
+- Iron Law: "NO PUBLIC COMMIT WITH CRITICAL SECURITY ISSUES"
 
-**Iron Law suggestion**: "NO APPROVAL WITHOUT SECURITY CHECK"
+**Integration point**: Run before `/committing-changes` for public repos
 
 #### 2. `/tdd-testing` - Test-Driven Development
 **Why needed**: Your workflow assumes tests exist but doesn't enforce writing tests first. TDD pattern:
@@ -219,13 +231,13 @@ Reference: `learning-from-sessions/SKILL.md:26-42, 175-188`
 
 ### Immediate Actions
 
-1. **Create `/code-reviewing`** - Security/quality gate before commits
-   - Spawns code-reviewer agent
-   - Checks for CRITICAL (secrets, injection), HIGH (code smells), MEDIUM (logs, TODOs)
-   - Blocks commit if CRITICAL found
-   - Iron Law: "NO COMMIT APPROVAL WITH SECURITY VULNERABILITIES"
+1. **~~Create `/code-reviewing`~~** - ✅ DONE as `/reviewing-security`
+   - Security/quality gate before commits
+   - Checks for CRITICAL (secrets, injection), HIGH (exploitable vulnerabilities), MEDIUM (context-dependent), LOW (best practice)
+   - Blocks commit if CRITICAL or HIGH found
+   - Iron Law: "NO PUBLIC COMMIT WITH CRITICAL SECURITY ISSUES"
 
-2. **Create `/tdd-testing`** - Test-driven development enforcement
+2. **Create `/tdd-testing`** - Test-driven development enforcement (STILL NEEDED)
    - RED → GREEN → REFACTOR cycle
    - 80% coverage target
    - Iron Law: "NO IMPLEMENTATION WITHOUT FAILING TEST FIRST"
@@ -259,18 +271,21 @@ All your skills follow consistent pattern:
 - Templates for outputs
 
 ### Deployment Status
-All 12 skills are synchronized between:
-- Development: `C:/code/commandbase/newskills/`
-- Deployed: `C:/Users/Jason/.claude/skills/`
+16 skills in development, 15 deployed:
+- Development: `C:/code/commandbase/newskills/` (16 skills)
+- Deployed: `C:/Users/Jason/.claude/skills/` (15 skills - `/debugging-codebases` pending deployment)
 
 ### Reference Directory Usage
-Skills with `reference/` subdirectories: 7
-- creating-skills (4 files)
-- learning-from-sessions (4 files)
-- starting-projects (3 files)
-- researching-codebases (2 files)
-- planning-codebases (2 files)
+Skills with `reference/` subdirectories: 10+
+- creating-skills (4 files + templates)
+- learning-from-sessions (4 files + templates)
+- starting-projects (3 files + templates)
+- researching-codebases (2 files + templates)
+- planning-codebases (2 files + templates)
 - implementing-plans (2 files)
+- debugging-codebases (3 files + templates) - NEW
+- discussing-features (1 file + templates) - NEW
+- updating-claude-md (2 files) - NEW
 - validating-implementations (0 files - references exist in SKILL.md but files not created)
 
 ---
@@ -288,6 +303,15 @@ Skills with `reference/` subdirectories: 7
 
 ## Open Questions
 
-1. Should `/code-reviewing` be integrated into `/committing-changes` or standalone?
+1. ~~Should `/code-reviewing` be integrated into `/committing-changes` or standalone?~~ **RESOLVED**: Created as standalone `/reviewing-security` skill
 2. Should `/tdd-testing` be a skill or a reference doc in `/implementing-plans`?
 3. Do you need `/e2e-testing` for your current projects?
+4. Should `/debugging-codebases` be deployed to production? (Currently in development only)
+
+---
+
+## Update History
+
+| Date | Commits Behind | Changes |
+|------|----------------|---------|
+| 2026-02-01 | 8 | Updated skill count 12->16, marked `/code-reviewing` as DONE (`/reviewing-security`), added new skills to tables, updated deployment status |

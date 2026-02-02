@@ -6,6 +6,8 @@ topic: "History of /new_project and /learning-from-sessions Creation"
 tags: [research, starting-projects, learning-from-sessions, learn, newreferences, pattern-learning]
 status: resolved
 resolution: "/new_project renamed to /starting-projects with proper structure (reference/, templates/)"
+archived: 2026-02-01
+archive_reason: "Research complete - all resolutions implemented. /new_project became /starting-projects, newreferences/ directory removed, referenced handoffs and plans also archived."
 references:
   - .docs/handoffs/01-28-2026-pattern-learning-research.md
   - .docs/plans/01-28-2026-automatic-pattern-learning.md

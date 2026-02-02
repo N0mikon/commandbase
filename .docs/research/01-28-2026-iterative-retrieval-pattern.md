@@ -1,7 +1,8 @@
 ---
-git_commit: 22359f4
-last_updated: 2026-01-28
-last_updated_by: rcode
+git_commit: 448f0d2
+last_updated: 2026-02-01
+last_updated_by: docs-updater
+last_updated_note: "Updated after 8 commits - verified references still valid, added adoption status"
 topic: "Iterative Retrieval - Smarter Agent Context"
 tags: [research, agents, retrieval, context]
 status: complete
@@ -153,6 +154,17 @@ When researching [topic]:
 ### Recommendation
 
 **Medium priority** - Worth adding to agent prompts if we notice agents missing relevant files or using wrong terminology. Monitor agent results before implementing.
+
+### Adoption Status (as of 2026-02-01)
+
+**Not yet adopted.** Current agents use simpler approaches:
+- `codebase-locator` (newagents/codebase-locator.md): Uses broad search then refine by language/framework - one pass
+- `codebase-analyzer` (newagents/codebase-analyzer.md): Read entry points, follow code paths - linear tracing
+- `codebase-pattern-finder` (newagents/codebase-pattern-finder.md): Search, read, extract - single cycle
+
+The `researching-codebases` skill takes a different approach: spawning parallel sub-agents for different aspects rather than iterative refinement of a single search. This parallel approach may be complementary to iterative retrieval rather than a substitute.
+
+**Revisit if:** Agents frequently miss relevant files or use wrong terminology in their searches.
 
 ## Code References
 

@@ -6,6 +6,8 @@ last_updated_note: "Added historical context note - skills have been renamed sin
 topic: "RPI Skill Enforcement Patterns - Implementation Complete"
 tags: [handover, skills, enforcement, rpi-workflow]
 status: historical
+archived: 2026-02-01
+archive_reason: "Completed handoff - work was committed in a7794e1, skills have been renamed and restructured since"
 references:
   - .docs/plans/01-27-2026-rpi-enforcement-patterns.md
   - .docs/research/01-27-2026-superpowers-patterns-for-rpi-workflow.md

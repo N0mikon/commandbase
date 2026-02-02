@@ -1,10 +1,14 @@
 ---
-git_commit: 22359f4
-last_updated: 2026-01-28
-last_updated_by: rcode
+git_commit: 448f0d2
+last_updated: 2026-02-01
+last_updated_by: docs-updater
+last_updated_note: "Updated after 8 commits - marked as consumed, cross-referenced implementation"
 topic: "/learn Command - Mid-Session Pattern Extraction"
 tags: [research, learn, patterns, skills]
-status: complete
+status: consumed
+consumed_by:
+  - newskills/learning-from-sessions/SKILL.md
+  - .docs/research/01-28-2026-learning-from-sessions-blueprint.md
 references:
   - C:/code/everything-claude-code/commands/learn.md
   - C:/code/everything-claude-code/skills/continuous-learning/SKILL.md
@@ -81,15 +85,22 @@ Saves to `~/.claude/skills/learned/[pattern-name].md`:
 
 ## Adaptation for Commandbase
 
+> **Status**: This research was consumed to build `newskills/learning-from-sessions/SKILL.md`.
+> See `.docs/research/01-28-2026-learning-from-sessions-blueprint.md` for the comprehensive blueprint that synthesized this research with Claudeception and Claude-Reflect patterns.
+
+The original adaptation options were:
+
 ### Option A: Separate /learn Command
 Create `newskills/learn/SKILL.md` that saves to `.docs/learnings/MM-DD-YYYY-pattern-name.md`
 
 ### Option B: Enhance /handover
 Add "Key Learnings" section to handover that extracts patterns in skill format
 
-### Option C: Both
+### Option C: Both (IMPLEMENTED)
 - `/learn` for immediate pattern capture (saves globally)
 - `/handover` includes learnings in handoff doc (project-specific)
+
+**Implementation**: The `learning-from-sessions` skill at `newskills/learning-from-sessions/SKILL.md` implements Option C with significant enhancements: dedup-first workflow, web research step, quality gates, self-reflection prompts, and description optimization for semantic retrieval.
 
 ## Key Implementation Details
 

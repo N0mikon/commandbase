@@ -1,7 +1,8 @@
 ---
-git_commit: 22359f4
-last_updated: 2026-01-28
-last_updated_by: rcode
+git_commit: 448f0d2
+last_updated: 2026-02-01
+last_updated_by: docs-updater
+last_updated_note: "Updated after 8 commits - refreshed frontmatter, added implementation progress section"
 topic: "Comprehensive Review of everything-claude-code for Suite Enhancement"
 tags: [research, workflow, skills, agents, hooks, commands]
 status: complete
@@ -22,6 +23,31 @@ references:
 ## Research Question
 
 Conduct a thorough review of everything-claude-code to identify ALL patterns, commands, skills, and agents we could add to our suite - not just the 6 previously identified.
+
+---
+
+## Implementation Progress (Updated 2026-02-01)
+
+Since this research was conducted, the following related capabilities have been added to commandbase:
+
+| Recommended Item | Status | Implementation |
+|------------------|--------|----------------|
+| Security Review | Implemented | `newskills/reviewing-security/` - Full security scanning skill with OWASP checks |
+| Verification | Partial | `newskills/validating-implementations/` - Two-stage validation (spec + quality) |
+| Checkpointing | Implemented | `newskills/checkpointing/` - State capture and comparison |
+| Planning | Implemented | `newskills/planning-codebases/` - Structured planning workflow |
+
+**Still Recommended (Not Yet Implemented):**
+- `/verify` command (quick pre-commit sanity check) - could complement `/validating-implementations`
+- `/tdd` command (TDD enforcement) - no explicit TDD workflow yet
+- `/build-fix` command (incremental error resolution)
+- `/code-review` command (automated quality gate)
+- Contexts pattern (dev/research/review mode switching)
+- Hooks for session lifecycle
+
+The Tier 1-4 priority recommendations below remain a valid roadmap for future enhancements.
+
+---
 
 ## Executive Summary
 
