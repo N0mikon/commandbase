@@ -4,7 +4,9 @@ last_updated: 2026-01-27
 last_updated_by: claude
 topic: "Portable Plugin System - Agents and Commands"
 tags: [handover, plugin, agents, commands]
-status: active
+status: archived
+archived: 2026-02-01
+archive_reason: "Superseded by skill-based workflow. newcommands/ directory no longer exists - commands converted to skills in newskills/. Plugin architecture abandoned in favor of direct skill deployment."
 references:
   - newagents/
   - newcommands/
