@@ -1,6 +1,6 @@
 ---
 name: implementing-plans
-description: "Implement technical plans from .docs/plans with automated verification. Use when the user says 'implement this plan', 'execute the plan', provides a plan path, or needs to continue implementation of a phased plan with success criteria."
+description: "Use this skill when implementing technical plans from .docs/plans/ with automated verification. This includes executing phased plans, running success criteria checks, updating completion checkboxes, and continuing implementation after interruption. Trigger phrases: 'implement this plan', 'execute the plan', 'continue implementation', or providing a plan path."
 ---
 
 # Implementing Plans
@@ -22,6 +22,21 @@ If you haven't run the verification commands in this response, you cannot claim 
 - Don't proceed to next phase without evidence
 - Don't trust previous runs - run fresh
 - Don't claim "should pass" - show it passes
+
+## The Gate Function
+
+```
+BEFORE claiming any phase is complete:
+
+1. READ: The plan phase requirements fully
+2. IMPLEMENT: Make the required changes
+3. RUN: Execute verification commands fresh
+4. READ: Full output - exit codes, pass/fail counts
+5. EVIDENCE: Show command output in response
+6. ONLY THEN: Mark checkboxes and proceed
+
+Skip verification = false completion claim
+```
 
 ## Getting Started
 
@@ -120,7 +135,27 @@ Run the commands. Read the output. Show the evidence. THEN claim completion.
 
 This is non-negotiable. Every phase. Every time.
 
-See `reference/anti-patterns.md` for red flags and rationalization traps.
+See `reference/anti-patterns.md` for detailed anti-patterns.
+
+## Red Flags - STOP and Verify
+
+If you notice any of these, pause:
+
+- About to mark a checkbox without running verification
+- Claiming "should pass" or "looks correct" without evidence
+- Proceeding to next phase without showing command output
+- Trusting previous test runs instead of running fresh
+- Skipping phases because they "seem simple"
+
+## Rationalization Prevention
+
+| Excuse | Reality |
+|--------|---------|
+| "Tests passed earlier" | Run them again. State changes. Fresh evidence only. |
+| "This phase is trivial" | Trivial phases still need verification. No exceptions. |
+| "I can see the code is correct" | Show command output. Visual inspection isn't evidence. |
+| "User is waiting" | Wrong implementation wastes more time. Verify first. |
+| "I'll verify at the end" | Per-phase verification catches issues early. Do it now. |
 
 ## Workflow Integration
 

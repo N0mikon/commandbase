@@ -9,14 +9,34 @@ You are tasked with helping initialize a brand new (greenfield) project. This sk
 
 **Violating the letter of these rules is violating the spirit of these rules.**
 
-## Key Principles
+## The Iron Law
 
-This is an interactive workflow, so enforcement is lighter. But these principles apply:
+```
+NO RECOMMENDATION WITHOUT RESEARCH
+```
 
-1. **Research before recommending** - Spawn web-search agents for current best practices
-2. **Confirm before writing** - Get user approval at each phase
-3. **Keep CLAUDE.md minimal** - Under 60 lines, universally applicable
-4. **Adapt to answers** - Skip irrelevant questions, add needed ones
+Don't recommend tools, structures, or practices without researching current best practices first.
+
+**Guiding Principles:**
+- Research before recommending - spawn web-search agents for current best practices
+- Confirm before writing - get user approval at each phase
+- Keep CLAUDE.md minimal - under 60 lines, universally applicable
+- Adapt to answers - skip irrelevant questions, add needed ones
+
+## The Gate Function
+
+```
+BEFORE recommending any technology or structure:
+
+1. DISCOVER: Ask questions to understand project needs
+2. RESEARCH: Spawn web-search agents for current best practices
+3. SYNTHESIZE: Combine findings into recommendations
+4. CONFIRM: Get user approval before proceeding
+5. CREATE: Write plan and CLAUDE.md only after approval
+6. ONLY THEN: Present next steps
+
+Skip research = outdated recommendations
+```
 
 ## Initial Response
 
@@ -112,7 +132,6 @@ Your project is initialized!
 3. Start building!
 
 **Your workflow going forward:**
-- `/discussing-features` - Capture user preferences before planning (optional)
 - `/researching-codebases` - Research and document codebase patterns
 - `/planning-codebases` - Create implementation plans for new features
 - `/implementing-plans` - Execute plans
@@ -123,7 +142,7 @@ Your project is initialized!
 - `/taking-over` - Resume from a handover document
 ```
 
-## Red Flags - STOP and Reconsider
+## Red Flags - STOP and Verify
 
 If you notice any of these, pause:
 
@@ -133,11 +152,15 @@ If you notice any of these, pause:
 - Skipping user confirmation at major decision points
 - Assuming technology choices without asking
 
-**When you hit a red flag:**
-1. Stop and consider the principle being violated
-2. Research if needed
-3. Ask user if unsure
-4. Proceed with confirmation
+## Rationalization Prevention
+
+| Excuse | Reality |
+|--------|---------|
+| "I know this tech stack well" | Best practices change. Research anyway. |
+| "User seems in a hurry" | Bad foundations waste more time. Do the research. |
+| "CLAUDE.md needs more context" | 60 lines max. Move details to .docs/ if needed. |
+| "This is a common setup" | Common doesn't mean current. Verify best practices. |
+| "I'll ask about that later" | Ask now. Discovery happens before research. |
 
 ## Important Guidelines
 

@@ -1,13 +1,15 @@
 ---
-git_commit: 571571e7f790c13712150098e0d047bed017f0e2
+git_commit: 2d7b28a9b83b0ebb31c5c1d4860f9e8905f2ef5a
 last_updated: 2026-02-02
-last_updated_by: claude
-topic: "Created reviewing-changes skill and planned updating-skills"
+last_updated_by: docs-updater
+last_updated_note: "Updated after 1 commit - updating-skills now implemented"
+topic: "Created reviewing-changes and updating-skills skills"
 tags: [handover, skills, reviewing-changes, updating-skills]
 status: active
 references:
   - newskills/reviewing-changes/SKILL.md
   - newskills/validating-implementations/SKILL.md
+  - newskills/updating-skills/SKILL.md
   - .docs/plans/02-02-2026-updating-skills-skill.md
 ---
 
@@ -20,7 +22,7 @@ references:
 
 1. Comprehensive skills ecosystem review - **completed**
 2. Create `reviewing-changes` skill - **completed**
-3. Plan `updating-skills` skill - **planned, not implemented**
+3. Create `updating-skills` skill - **completed**
 
 ## What I Accomplished
 
@@ -59,31 +61,34 @@ references:
 - `.docs/research/02-02-2026-skills-ecosystem-review.md` - Full ecosystem analysis
 - `.docs/research/02-02-2026-reviewing-and-updating-skills-research.md` - Pre-planning research
 - `.docs/plans/02-02-2026-reviewing-changes-skill.md` - Completed plan (all checkboxes marked)
-- `.docs/plans/02-02-2026-updating-skills-skill.md` - Ready for implementation
+- `.docs/plans/02-02-2026-updating-skills-skill.md` - Completed plan (implemented)
+- `newskills/updating-skills/SKILL.md` - New skill (218 lines)
+- `newskills/updating-skills/reference/audit-checklist.md` - Audit mode checklist
+- `newskills/updating-skills/reference/common-fixes.md` - Common fix patterns
 
 ## Current State
 
 - `reviewing-changes` deployed to `~/.claude/skills/` and working
 - Skill tested via `/reviewing-changes` - produced WARN with atomicity finding
 - `/validating-implementations` updated to reference new skill
-- `updating-skills` plan written but not implemented
+- `updating-skills` implemented and deployed to `~/.claude/skills/`
+  - Two modes: Audit (read-only) and Update (interactive fixes)
+  - No batch operations per user preference
 
 ## Next Steps
 
-1. **Implement updating-skills** - Plan at `.docs/plans/02-02-2026-updating-skills-skill.md`
-   - Use `/creating-skills` this time (lesson learned)
-   - Two modes: Audit (read-only) and Update (interactive fixes)
-   - No batch operations per user preference
+1. **Test reviewing-changes in real workflow** - Use it before next few commits to validate the check categories are useful
 
-2. **Test reviewing-changes in real workflow** - Use it before next few commits to validate the check categories are useful
+2. **Test updating-skills on real skills** - Run audit mode to find inconsistencies
 
 3. **Consider debating-options improvements** - The skill worked well for mode selection debate earlier in session
 
 ## Context & References
 
-- Plan: `.docs/plans/02-02-2026-updating-skills-skill.md` (ready for /implementing-plans)
+- Plan: `.docs/plans/02-02-2026-updating-skills-skill.md` (completed)
 - Research: `.docs/research/02-02-2026-skills-ecosystem-review.md` (full analysis)
 - Validation rules: `~/.claude/skills/creating-skills/reference/validation-rules.md`
+- Deployed skills: `~/.claude/skills/reviewing-changes/`, `~/.claude/skills/updating-skills/`
 
 ## Notes
 

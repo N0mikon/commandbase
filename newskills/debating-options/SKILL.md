@@ -1,11 +1,42 @@
 ---
 name: debating-options
-description: Use this skill when the user says '/debating-options', 'debate these options', 'compare these choices', 'which should I choose', or wants parallel research on multiple options with synthesized recommendations. Launches research agents for each option, then synthesizes into a decision matrix. Default is objective analysis; use advocate mode when user is unsure or wants deeper exploration.
+description: "Use this skill when the user says '/debating-options', 'debate these options', 'compare these choices', 'which should I choose', or wants parallel research on multiple options with synthesized recommendations. Launches research agents for each option, then synthesizes into a decision matrix. Default is objective analysis; use advocate mode when user is unsure or wants deeper exploration."
 ---
 
 # Debating Options
 
 Launch parallel research agents to investigate multiple options, then synthesize findings into a decision matrix with recommendation.
+
+**Violating the letter of these rules is violating the spirit of these rules.**
+
+## The Iron Law
+
+```
+NO SYNTHESIS WITHOUT COMPLETE RESEARCH FROM ALL AGENTS
+```
+
+If any research agent hasn't completed, you cannot synthesize findings or make recommendations.
+
+**No exceptions:**
+- Don't synthesize with partial results - wait for ALL agents
+- Don't skip the judge synthesis step
+- Don't present findings without the decision matrix
+- Don't recommend without showing tradeoffs
+
+## The Gate Function
+
+```
+BEFORE presenting any recommendation:
+
+1. IDENTIFY: Extract 2-4 distinct options from user input
+2. CLARIFY: If options unclear, ask user to specify
+3. SPAWN: Launch one research agent per option (parallel)
+4. WAIT: All agents must complete before proceeding
+5. SYNTHESIZE: Run judge agent to create decision matrix
+6. ONLY THEN: Present findings with recommendation
+
+Skip any step = incomplete analysis
+```
 
 ## When This Activates
 
@@ -204,3 +235,30 @@ Response: Launches advocates who argue for each option, judge decides.
   - Explicitly requests advocate mode
   - Seems paralyzed by the decision
   - Wants to understand *why* each option matters, not just facts
+
+## Red Flags - STOP and Verify
+
+If you notice any of these, pause:
+
+- Synthesizing before all research agents complete
+- Presenting recommendation without decision matrix
+- Skipping the judge synthesis step
+- Not showing tradeoffs for each option
+- Defaulting to advocate mode without user indication
+
+## Rationalization Prevention
+
+| Excuse | Reality |
+|--------|---------|
+| "One agent is taking too long" | Wait. Partial research = partial recommendation. |
+| "The answer is obvious" | Run the full process. Obvious answers may have hidden tradeoffs. |
+| "User seems impatient" | Quality matters more than speed. Complete the analysis. |
+| "I can synthesize as results come in" | Wait for ALL results. Order effects bias synthesis. |
+
+## The Bottom Line
+
+**No recommendation without complete research from all options.**
+
+Identify options. Spawn parallel agents. Wait for all results. Synthesize with decision matrix. THEN recommend.
+
+This is non-negotiable. Every debate. Every time.

@@ -1,6 +1,6 @@
 ---
 name: reviewing-changes
-description: Use this skill when reviewing code changes before committing, checking commit quality, or preparing changes for a PR. This includes reviewing diffs for debug statements, checking if changes should be split into multiple commits, drafting commit messages, and verifying documentation is in sync. Trigger phrases: '/reviewing-changes', 'review my changes', 'check before commit', 'is this ready to commit'.
+description: "Use this skill when reviewing code changes before committing, checking commit quality, or preparing changes for a PR. This includes reviewing diffs for debug statements, checking if changes should be split into multiple commits, drafting commit messages, and verifying documentation is in sync. Trigger phrases: '/reviewing-changes', 'review my changes', 'check before commit', 'is this ready to commit'."
 ---
 
 # Reviewing Changes
@@ -254,7 +254,7 @@ Would you like to:
 - Before committing
 - When unsure if changes are commit-ready
 
-## Red Flags - STOP
+## Red Flags - STOP and Verify
 
 - About to say "PASS" without running git diff
 - Skipping check categories because "changes are small"

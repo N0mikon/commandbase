@@ -14,11 +14,20 @@ commandbase/
 
 ## Development
 
-### Deploy to Global Config
+### Workflow: This Repo ↔ Global Config
+
+**This repo is the source of truth.** Skills are developed here and deployed to global.
+
 ```bash
+# Deploy to global (after development)
 cp -r newskills/skillname ~/.claude/skills/
 cp newagents/agent.md ~/.claude/agents/
+
+# Sync back to repo (after editing deployed skills)
+cp ~/.claude/skills/skillname/SKILL.md newskills/skillname/SKILL.md
 ```
+
+**Important:** When editing skills via `/updating-skills` or directly in `~/.claude/skills/`, always copy changes back to `newskills/` before committing. The global config is live but this repo tracks history.
 
 ## Additional Context
 
