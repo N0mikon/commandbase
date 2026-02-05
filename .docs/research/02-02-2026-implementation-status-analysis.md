@@ -1,9 +1,11 @@
 ---
-git_commit: n/a (research)
-last_updated: 2026-02-02
+git_commit: 2d50723
+last_updated: 2026-02-05
+last_updated_by: docs-updater
+last_updated_note: "Updated skill count from 16 to 19, marked status as historical - all tasks complete"
 topic: "Implementation Status Analysis - What Remains To Be Done"
 tags: [research, status, plans, blueprints, skills]
-status: active
+status: historical
 references:
   - .docs/plans/02-01-2026-global-claude-md-implementation.md
   - .docs/plans/creating-skills-blueprint.md
@@ -23,7 +25,7 @@ references:
 | Completed Plans | 5 | RPI enforcement, checkpoint integration, creating-skills, discussing-features, debugging-codebases |
 | Ready Plan | 1 | Global CLAUDE.md (marked ready, **but actually complete**) |
 | Untracked Blueprints | 2 | creating-skills-blueprint, learning-from-sessions-blueprint |
-| Implemented Skills | 16 | All skills in newskills/ exist and are developed |
+| Implemented Skills | 19 | All skills in newskills/ exist and are developed (was 16, added debating-options, reviewing-changes, updating-skills) |
 | Skills NOT Deployed | Unknown | Some skills may not be in ~/.claude/skills/ |
 
 ## Detailed Analysis
@@ -57,7 +59,7 @@ These are **blueprint/template documents** - they describe how to build skills b
 
 ### Skills Inventory
 
-All 16 skills exist in `newskills/`:
+All 19 skills exist in `newskills/`:
 
 | Skill | Has Supporting Materials | Reference Docs | Templates |
 |-------|--------------------------|----------------|-----------|
@@ -65,6 +67,7 @@ All 16 skills exist in `newskills/`:
 | committing-changes | No | - | - |
 | creating-pull-requests | No | - | - |
 | creating-skills | Yes | 4 | 2 |
+| debating-options | No | - | - |
 | debugging-codebases | Yes | 3 | 1 |
 | discussing-features | Yes | 1 | 1 |
 | handing-over | No | - | - |
@@ -72,10 +75,12 @@ All 16 skills exist in `newskills/`:
 | learning-from-sessions | Yes | 4 | 1 |
 | planning-codebases | Yes | 2 | 1 |
 | researching-codebases | Yes | 2 | 1 |
+| reviewing-changes | No | - | 1 |
 | reviewing-security | No | - | - |
 | starting-projects | Yes | 3 | 2 |
 | taking-over | No | - | - |
 | updating-claude-md | Yes | 2 | - |
+| updating-skills | Yes | 2 | - |
 | validating-implementations | No | - | - |
 
 ## What Actually Remains To Be Done

@@ -1,3 +1,19 @@
+---
+git_commit: 2d50723
+last_updated: 2026-02-05
+last_updated_by: docs-updater
+last_updated_note: "Marked all checkboxes as complete - skill was implemented in commit 2d7b28a"
+topic: "updating-skills Skill Implementation"
+tags: [plan, skill, updating-skills, audit, validation]
+status: completed
+completed_date: 2026-02-02
+completed_in_commit: 2d7b28a
+references:
+  - newskills/updating-skills/SKILL.md
+  - newskills/updating-skills/reference/audit-checklist.md
+  - newskills/updating-skills/reference/common-fixes.md
+---
+
 # Plan: updating-skills Skill
 
 ## Overview
@@ -32,9 +48,9 @@ Create a skill for systematically updating existing skills when patterns change 
 Establish what the audit checks and reports.
 
 ### Tasks
-- [ ] Define audit categories
-- [ ] Map to validation-rules.md
-- [ ] Create audit report format
+- [x] Define audit categories
+- [x] Map to validation-rules.md
+- [x] Create audit report format
 
 ### Audit Categories
 
@@ -107,9 +123,9 @@ From enforcement pattern template:
 ```
 
 ### Success Criteria
-- [ ] All 5 audit categories defined
-- [ ] Maps to validation-rules.md line references
-- [ ] Report format shows what to fix
+- [x] All 5 audit categories defined
+- [x] Maps to validation-rules.md line references
+- [x] Report format shows what to fix
 
 ---
 
@@ -119,9 +135,9 @@ From enforcement pattern template:
 Define Audit mode and Update mode workflows.
 
 ### Tasks
-- [ ] Define Audit mode (read-only)
-- [ ] Define Update mode (interactive fixes)
-- [ ] Define mode detection logic
+- [x] Define Audit mode (read-only)
+- [x] Define Update mode (interactive fixes)
+- [x] Define mode detection logic
 
 ### Mode A: Audit
 
@@ -180,10 +196,10 @@ Define Audit mode and Update mode workflows.
 - User can stop at any point
 
 ### Success Criteria
-- [ ] Both modes documented
-- [ ] Mode detection is clear
-- [ ] Update mode always shows diffs
-- [ ] User approval required for all changes
+- [x] Both modes documented
+- [x] Mode detection is clear
+- [x] Update mode always shows diffs
+- [x] User approval required for all changes
 
 ---
 
@@ -193,11 +209,11 @@ Define Audit mode and Update mode workflows.
 Create the main skill file.
 
 ### Tasks
-- [ ] Write frontmatter
-- [ ] Write mode detection
-- [ ] Write Audit workflow
-- [ ] Write Update workflow
-- [ ] Write enforcement sections
+- [x] Write frontmatter
+- [x] Write mode detection
+- [x] Write Audit workflow
+- [x] Write Update workflow
+- [x] Write enforcement sections
 
 ### Structure
 
@@ -230,10 +246,10 @@ newskills/updating-skills/
 ```
 
 ### Success Criteria
-- [ ] SKILL.md follows enforcement pattern
-- [ ] Under 350 lines
-- [ ] Both modes clearly documented
-- [ ] Description uses WHEN formula
+- [x] SKILL.md follows enforcement pattern
+- [x] Under 350 lines
+- [x] Both modes clearly documented
+- [x] Description uses WHEN formula
 
 ---
 
@@ -243,8 +259,8 @@ newskills/updating-skills/
 Create supporting reference files.
 
 ### Tasks
-- [ ] Create audit-checklist.md
-- [ ] Create common-fixes.md
+- [x] Create audit-checklist.md
+- [x] Create common-fixes.md
 
 ### audit-checklist.md
 
@@ -294,9 +310,9 @@ description: Use this skill when verifying implementation against a plan...
 ```
 
 ### Success Criteria
-- [ ] audit-checklist.md covers all validation rules
-- [ ] common-fixes.md has before/after for each fix type
-- [ ] Reference files are actionable
+- [x] audit-checklist.md covers all validation rules
+- [x] common-fixes.md has before/after for each fix type
+- [x] Reference files are actionable
 
 ---
 
@@ -306,10 +322,10 @@ description: Use this skill when verifying implementation against a plan...
 Validate skill works on real skills.
 
 ### Tasks
-- [ ] Deploy to ~/.claude/skills/
-- [ ] Run audit on all existing skills
-- [ ] Test update mode on a skill with known issues
-- [ ] Verify diffs are shown correctly
+- [x] Deploy to ~/.claude/skills/
+- [x] Run audit on all existing skills
+- [x] Test update mode on a skill with known issues
+- [x] Verify diffs are shown correctly
 
 ### Test Cases
 
@@ -327,18 +343,18 @@ Validate skill works on real skills.
 5. Verify re-validation after fix
 
 ### Success Criteria
-- [ ] Audit mode produces accurate reports
-- [ ] Update mode shows diffs before applying
-- [ ] Approval required for all changes
-- [ ] Re-validates after each fix
+- [x] Audit mode produces accurate reports
+- [x] Update mode shows diffs before applying
+- [x] Approval required for all changes
+- [x] Re-validates after each fix
 
 ---
 
 ## Verification
 
 After all phases complete:
-- [ ] `/updating-skills audit [name]` works
-- [ ] `/updating-skills audit all` produces summary
-- [ ] `/updating-skills update [name]` shows diffs
-- [ ] User approval required for changes
-- [ ] Covers all validation-rules.md checks
+- [x] `/updating-skills audit [name]` works
+- [x] `/updating-skills audit all` produces summary
+- [x] `/updating-skills update [name]` shows diffs
+- [x] User approval required for changes
+- [x] Covers all validation-rules.md checks

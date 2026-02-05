@@ -6,6 +6,8 @@ last_updated_note: "Marked historical - skills renamed since this handover"
 topic: "RPI Workflow Enhancement with Superpowers Patterns"
 tags: [handover, rpi-workflow, superpowers, enforcement-patterns]
 status: historical
+archived: 2026-02-05
+archive_reason: "Historical handoff from 2026-01-27, superseded by subsequent work. All proposed patterns were implemented across 19 skills. git_commit reference (469a6d8) no longer in local history."
 references:
   - .docs/research/01-27-2026-superpowers-patterns-for-rpi-workflow.md
   - newskills/

@@ -1,8 +1,10 @@
 # Research: committing-changes Skill
 
+> **Updated 2026-02-05**: Stale docs check moved from Step 8 (post-push) to Step 2 (pre-commit gate). Process steps renumbered accordingly.
+
 ## Overview
 
-The `committing-changes` skill (`~/.claude/skills/committing-changes/SKILL.md`) is a comprehensive git workflow skill that enforces strict safety protocols for staging, committing, and pushing code changes. It integrates security review for public repositories, auto-creates GitHub repositories when needed, and checks for stale documentation after successful pushes.
+The `committing-changes` skill (`~/.claude/skills/committing-changes/SKILL.md`) is a comprehensive git workflow skill that enforces strict safety protocols for staging, committing, and pushing code changes. It integrates security review for public repositories, auto-creates GitHub repositories when needed, and checks for stale documentation as a pre-commit gate.
 
 **Trigger phrases**: `/commit`, `commit this`, `save my work`, `push changes`, `git commit`, `commit and push`
 
@@ -38,12 +40,15 @@ git status
 git remote -v
 ```
 
-### Step 2: Analyze Changes
+### Step 2: Check for Stale Documentation (Pre-Commit Gate)
+Before staging, check if any `.docs/` files need updating. Finds tracked docs with `git_commit` frontmatter that are behind HEAD. If docs are >5 commits behind, offers to spawn `docs-updater` agent to include updated docs in the same commit. User can say "yes", "pick", or "skip".
+
+### Step 3: Analyze Changes
 - Run `git status` to see all changes
 - Run `git diff` to understand modifications
 - Determine if changes should be one commit or multiple
 
-### Step 3: Create Commits
+### Step 4: Create Commits
 Stage specific files (NEVER use `git add -A` or `git add .`):
 ```bash
 git add path/to/file1 path/to/file2
@@ -56,32 +61,29 @@ git commit -m "Clear description of what changed and why"
 - Keep first line under 72 characters
 - **NEVER include Co-Authored-By or Claude attribution**
 
-### Step 4: Security Review (Public Repos Only)
+### Step 5: Security Review (Public Repos Only)
 1. Check visibility: `gh repo view --json visibility -q '.visibility'`
 2. If public: Invoke `/reviewing-security` with staged files
 3. Handle verdict: BLOCK (halt), WARN (ask confirmation), PASS (continue)
 
-### Step 5: Ensure Remote Exists
+### Step 6: Ensure Remote Exists
 Auto-create private repo if no remote:
 ```bash
 gh repo create <repo-name> --private --source=. --remote=origin
 ```
 
-### Step 6: Push Changes
+### Step 7: Push Changes
 ```bash
 git push -u origin HEAD
 ```
 
-### Step 7: Report Results
+### Step 8: Report Results
 ```
 Committed and pushed:
 [commit hash] [commit message]
 Remote: [remote url]
 Branch: [branch name]
 ```
-
-### Step 8: Check for Stale Documentation
-Find docs >5 commits behind HEAD and offer to spawn `docs-updater` agent.
 
 ## Security Review Integration
 

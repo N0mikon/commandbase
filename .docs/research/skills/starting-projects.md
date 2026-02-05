@@ -131,6 +131,25 @@ Next steps:
 | "This is a common setup" | Common doesn't mean current. Verify best practices. |
 | "I'll ask about that later" | Ask now. Discovery happens before research. |
 
+## Hierarchy Awareness (Added 2026-02-05)
+
+The `claude-md-guidelines.md` reference file now includes a Hierarchy Awareness section explaining that project CLAUDE.md inherits from global (`~/.claude/CLAUDE.md`).
+
+**Don't duplicate in project CLAUDE.md:**
+- Security NEVER rules (defined globally)
+- Git safety rules (defined globally)
+- Personal identity/accounts (defined globally)
+- Pattern learning behaviors (defined globally)
+
+**Do include in project CLAUDE.md:**
+- Project-specific identity and purpose
+- This project's directory structure
+- This project's commands
+- This project's verification steps
+- Pointers to this project's .docs/
+
+The `claude-md-template.md` template's Automatic Behaviors section now references `~/.claude/CLAUDE.md` for global behaviors instead of inlining specific instructions.
+
 ## File Reference
 
 - Main: `~/.claude/skills/starting-projects/SKILL.md`

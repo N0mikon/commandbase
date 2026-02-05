@@ -1,11 +1,12 @@
 ---
-git_commit: 448f0d2
-last_updated: 2026-02-01
+git_commit: 2d50723
+last_updated: 2026-02-05
 last_updated_by: docs-updater
-last_updated_note: "Updated after 7 commits - verified all implementation files exist, plan fully completed"
+last_updated_note: "Updated after 8 commits - marked all checkboxes complete, all 5 implementation files verified"
 topic: "Debugging Codebases Skill"
 tags: [plan, implementation, skill, debugging, rpi-workflow]
-status: implemented
+status: completed
+completed_date: 2026-02-01
 references:
   - newskills/debugging-codebases/SKILL.md
   - newskills/debugging-codebases/templates/debug-session-template.md
@@ -324,12 +325,12 @@ This is non-negotiable. Every bug. Every time.
 ```
 
 ### Success Criteria:
-- [ ] File exists at `newskills/debugging-codebases/SKILL.md`
-- [ ] Frontmatter has correct name and description
-- [ ] Description includes trigger phrases
-- [ ] Iron Law and Gate Function defined
-- [ ] All process steps documented
-- [ ] Integration points specified
+- [x] File exists at `newskills/debugging-codebases/SKILL.md`
+- [x] Frontmatter has correct name and description
+- [x] Description includes trigger phrases
+- [x] Iron Law and Gate Function defined
+- [x] All process steps documented
+- [x] Integration points specified
 
 ---
 
@@ -466,11 +467,11 @@ No automatic archival - user decides.
 ```
 
 ### Success Criteria:
-- [ ] File exists at `newskills/debugging-codebases/templates/debug-session-template.md`
-- [ ] Template includes all sections (Current Focus, Symptoms, Eliminated, Evidence, Resolution)
-- [ ] Section rules clearly documented
-- [ ] Resume behavior explained
-- [ ] Update discipline emphasized
+- [x] File exists at `newskills/debugging-codebases/templates/debug-session-template.md`
+- [x] Template includes all sections (Current Focus, Symptoms, Eliminated, Evidence, Resolution)
+- [x] Section rules clearly documented
+- [x] Resume behavior explained
+- [x] Update discipline emphasized
 
 ---
 
@@ -659,10 +660,10 @@ Techniques compose. Often use multiple together:
 ```
 
 ### Success Criteria:
-- [ ] File exists at `newskills/debugging-codebases/reference/investigation-techniques.md`
-- [ ] Technique selection table included
-- [ ] Each technique has When/How/Example
-- [ ] Combining techniques section present
+- [x] File exists at `newskills/debugging-codebases/reference/investigation-techniques.md`
+- [x] Technique selection table included
+- [x] Each technique has When/How/Example
+- [x] Combining techniques section present
 
 ---
 
@@ -827,11 +828,11 @@ Consider starting over when:
 ```
 
 ### Success Criteria:
-- [ ] File exists at `newskills/debugging-codebases/reference/hypothesis-testing.md`
-- [ ] Falsifiability requirement explained with examples
-- [ ] Experimental design framework documented
-- [ ] Cognitive biases table included
-- [ ] Recovery from wrong hypotheses covered
+- [x] File exists at `newskills/debugging-codebases/reference/hypothesis-testing.md`
+- [x] Falsifiability requirement explained with examples
+- [x] Experimental design framework documented
+- [x] Cognitive biases table included
+- [x] Recovery from wrong hypotheses covered
 
 ---
 
@@ -959,22 +960,22 @@ function processUserData(user) {
 
 ```markdown
 ### Original Issue
-- [ ] Can reproduce original bug before fix
-- [ ] Have documented exact reproduction steps
+- [x] Can reproduce original bug before fix
+- [x] Have documented exact reproduction steps
 
 ### Fix Validation
-- [ ] Original steps now work correctly
-- [ ] Can explain WHY the fix works
-- [ ] Fix is minimal and targeted
+- [x] Original steps now work correctly
+- [x] Can explain WHY the fix works
+- [x] Fix is minimal and targeted
 
 ### Regression Testing
-- [ ] Adjacent features work
-- [ ] Existing tests pass
-- [ ] Added test to prevent regression (if appropriate)
+- [x] Adjacent features work
+- [x] Existing tests pass
+- [x] Added test to prevent regression (if appropriate)
 
 ### Stability Testing
-- [ ] Tested multiple times: zero failures
-- [ ] Tested edge cases
+- [x] Tested multiple times: zero failures
+- [x] Tested edge cases
 ```
 
 ---
@@ -1006,11 +1007,11 @@ The cost of insufficient verification: bug returns, user frustration, emergency 
 ```
 
 ### Success Criteria:
-- [ ] File exists at `newskills/debugging-codebases/reference/verification-patterns.md`
-- [ ] "What verified means" clearly defined
-- [ ] Reproduction verification covered
-- [ ] Test-first debugging explained
-- [ ] Verification checklist included
+- [x] File exists at `newskills/debugging-codebases/reference/verification-patterns.md`
+- [x] "What verified means" clearly defined
+- [x] Reproduction verification covered
+- [x] Test-first debugging explained
+- [x] Verification checklist included
 
 ---
 
