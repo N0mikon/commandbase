@@ -59,14 +59,47 @@ If no git repo exists:
 If no remote exists:
 - Continue to Step 2 (will create remote before push)
 
-### Step 2: Analyze Changes
+### Step 2: Check for Stale Documentation
+
+Before staging, check if any `.docs/` files need updating:
+
+1. Find stale tracked docs:
+   ```bash
+   find .docs -name "*.md" -type f 2>/dev/null | while read -r f; do
+     git ls-files --error-unmatch "$f" >/dev/null 2>&1 || continue
+     commit=$(head -10 "$f" | grep "^git_commit:" | awk '{print $2}')
+     [ -z "$commit" ] || [ "$commit" = "n/a" ] && continue
+     if git rev-parse "$commit" >/dev/null 2>&1; then
+       behind=$(git rev-list "$commit"..HEAD --count 2>/dev/null)
+       [ -n "$behind" ] && [ "$behind" -gt 0 ] && echo "$behind commits behind: $f"
+     fi
+   done | sort -rn
+   ```
+
+2. If any docs are significantly behind (>5 commits), report:
+   ```
+   Stale documentation found:
+   - .docs/plans/01-15-2026-auth-impl.md (12 commits behind)
+
+   Update before committing? (yes/skip/pick)
+   ```
+
+3. If user says "yes" or "pick":
+   - Spawn `docs-updater` agent for each selected doc
+   - Updated docs will be included in the commit
+
+4. If user says "skip" or no stale docs: Continue to Step 3.
+
+**Note**: Skip this step if `.docs/` directory doesn't exist.
+
+### Step 3: Analyze Changes
 
 - Run `git status` to see all changes
 - Run `git diff` to understand modifications
 - Review conversation history to understand what was accomplished
 - Determine if changes should be one commit or multiple logical commits
 
-### Step 3: Create Commit(s)
+### Step 4: Create Commit(s)
 
 For each logical group of changes:
 
@@ -87,7 +120,7 @@ For each logical group of changes:
 - **NEVER include Co-Authored-By or Claude attribution**
 - Write as if the user wrote it
 
-### Step 4: Security Review (Public Repos Only)
+### Step 5: Security Review (Public Repos Only)
 
 Before committing to a public repository, run security review:
 
@@ -103,11 +136,11 @@ Before committing to a public repository, run security review:
 3. Handle the verdict:
    - **BLOCK**: Stop the commit. Show the security report with remediation steps. Do not proceed until CRITICAL/HIGH issues are fixed.
    - **WARN**: Show the warning. Ask user: "Security review found MEDIUM issues. Proceed anyway? (yes/no)"
-   - **PASS**: Continue to Step 5.
+   - **PASS**: Continue to Step 6.
 
-4. If private repo: Skip security review, continue to Step 5.
+4. If private repo: Skip security review, continue to Step 6.
 
-### Step 5: Ensure Remote Exists
+### Step 6: Ensure Remote Exists
 
 Check if remote exists:
 ```bash
@@ -133,7 +166,7 @@ git remote -v
    git remote add origin <your-repo-url>
    ```
 
-### Step 6: Push Changes
+### Step 7: Push Changes
 
 Push to remote:
 ```bash
@@ -144,7 +177,7 @@ If the branch doesn't exist on remote yet, this creates it.
 
 If push fails due to diverged history, inform the user rather than force pushing.
 
-### Step 7: Report Results
+### Step 8: Report Results
 
 ```
 Committed and pushed:
@@ -157,61 +190,6 @@ Branch: [branch name]
 
 [N] file(s) changed, [X] insertions(+), [Y] deletions(-)
 ```
-
-### Step 8: Check for Stale Documentation
-
-After successful push, check if any `.docs/` files are stale:
-
-1. Check for untracked docs (separate concern):
-   ```bash
-   # Warn about docs that should probably be committed
-   untracked=$(git ls-files --others --exclude-standard '.docs/*.md' '.docs/**/*.md' 2>/dev/null)
-   if [ -n "$untracked" ]; then
-     echo "Warning: Untracked docs found:"
-     echo "$untracked"
-   fi
-   ```
-
-2. Find stale tracked docs (cross-platform, uses `find` instead of `**` globs):
-   ```bash
-   # Works on Linux, macOS, Git Bash, WSL
-   find .docs -name "*.md" -type f 2>/dev/null | while read -r f; do
-     # Skip untracked files
-     git ls-files --error-unmatch "$f" >/dev/null 2>&1 || continue
-     # Extract git_commit from frontmatter
-     commit=$(head -10 "$f" | grep "^git_commit:" | awk '{print $2}')
-     # Skip if no commit, or special values like "n/a"
-     [ -z "$commit" ] || [ "$commit" = "n/a" ] && continue
-     # Check if commit exists and count distance to HEAD
-     if git rev-parse "$commit" >/dev/null 2>&1; then
-       behind=$(git rev-list "$commit"..HEAD --count 2>/dev/null)
-       [ -n "$behind" ] && [ "$behind" -gt 0 ] && echo "$behind commits behind: $f"
-     fi
-   done | sort -rn
-   ```
-
-3. If any docs are significantly behind (>5 commits), report:
-   ```
-   Documentation status:
-   - .docs/plans/01-15-2026-auth-impl.md (12 commits behind)
-   - .docs/research/01-10-2026-auth-patterns.md (18 commits behind)
-
-   Oldest doc is 18 commits behind.
-
-   Update stale docs? (yes/skip/pick)
-   ```
-
-3. If user says "yes" or "pick":
-   - For "yes": spawn `docs-updater` agent for the oldest doc, then ask again
-   - For "pick": let user choose which doc to update
-   - Process one doc at a time
-   - After each update, ask if they want to continue with the next
-
-4. If user says "skip":
-   - End the command
-   - Docs remain unchanged
-
-**Note**: Skip this step if `.docs/` directory doesn't exist or contains no files with `git_commit` frontmatter.
 
 ## Red Flags - STOP and Review
 

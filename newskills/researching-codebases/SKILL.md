@@ -35,7 +35,7 @@ If you haven't spawned research agents and waited for their results, you cannot 
 ## The Gate Function
 
 ```
-BEFORE synthesizing findings or writing the research document:
+BEFORE completing research:
 
 1. IDENTIFY: What aspects of the question need investigation?
 2. SPAWN: Create parallel agents for each aspect (minimum 2 agents)
@@ -43,9 +43,12 @@ BEFORE synthesizing findings or writing the research document:
 4. VERIFY: Did agents return file:line references?
    - If NO: Spawn follow-up agents to get specific references
    - If YES: Proceed to synthesis
-5. ONLY THEN: Synthesize findings with evidence
+5. SYNTHESIZE: Compile findings with evidence
+6. WRITE: Create .docs/research/MM-DD-YYYY-description.md (MANDATORY)
+7. PRESENT: Summary to user with link to research file
 
-Skipping steps = guessing, not researching
+Skipping steps = incomplete research
+Research without a file = research that will be lost
 ```
 
 ## Initial Response
@@ -163,10 +166,30 @@ I've documented the full details in `.docs/research/01-27-2026-api-error-handlin
 Would you like me to dig deeper into any specific aspect?
 ```
 
+## Red Flags - STOP and Verify
+
+If you notice any of these, pause:
+
+- Presenting findings without creating a research file first
+- Saying "I'll document this later" or "if you want I can save this"
+- Completing research without a `.docs/research/` file path in your response
+- Skipping the research file because "it was a simple question"
+- Synthesizing without spawning parallel agents first
+
+## Rationalization Prevention
+
+| Excuse | Reality |
+|--------|---------|
+| "It was a quick answer, no file needed" | Every research produces a file. No exceptions. |
+| "I'll create the file if they ask" | Create it first. They shouldn't have to ask. |
+| "The question was about non-code topics" | Still create a research file documenting findings. |
+| "I already presented the findings" | File comes BEFORE presentation, not after. |
+| "There wasn't much to document" | Short findings = short file. Still required. |
+
 ## The Bottom Line
 
 **No shortcuts for research.**
 
-Spawn the agents. Wait for results. Cite file:line references. THEN synthesize.
+Spawn the agents. Wait for results. Cite file:line references. Write the research file. THEN present findings.
 
 This is non-negotiable. Every question. Every time.
