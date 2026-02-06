@@ -33,7 +33,7 @@ Convert from gerund form to noun form:
 | `reviewing-code` | `code-reviewer` |
 | `running-tests` | `test-runner` |
 | `generating-docs` | `doc-generator` |
-| `analyzing-codebases` | `codebase-analyzer` |
+| `analyzing-codebases` | `code-analyzer` |
 | `managing-deployments` | `deploy-manager` |
 
 The pattern: take the action the skill performs and express it as a noun/role.

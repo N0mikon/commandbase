@@ -20,7 +20,7 @@ model: sonnet
 **After:**
 ```yaml
 ---
-name: codebase-analyzer
+name: code-analyzer
 description: "Analyzes codebase components..."
 tools: Read, Grep, Glob, LS
 model: sonnet
@@ -36,7 +36,7 @@ model: sonnet
 **Before:**
 ```yaml
 ---
-name: codebase-analyzer
+name: code-analyzer
 tools: Read, Grep, Glob, LS
 model: sonnet
 ---
@@ -45,8 +45,8 @@ model: sonnet
 **After:**
 ```yaml
 ---
-name: codebase-analyzer
-description: "Analyzes codebase implementation details. Call the codebase-analyzer agent when you need to find detailed information about specific components."
+name: code-analyzer
+description: "Analyzes codebase implementation details. Call the code-analyzer agent when you need to find detailed information about specific components."
 tools: Read, Grep, Glob, LS
 model: sonnet
 ---
@@ -115,7 +115,7 @@ tools: Read, Grep, Glob, LS, Edit
 | Current (gerund) | Suggested (noun/role) |
 |-------------------|----------------------|
 | reviewing-code | code-reviewer |
-| analyzing-codebases | codebase-analyzer |
+| analyzing-code | code-analyzer |
 | locating-docs | docs-locator |
 | finding-patterns | pattern-finder |
 | updating-docs | docs-updater |
@@ -134,7 +134,7 @@ tools: Read, Grep, Glob, LS, Edit
 **Before (filename: `code-analyzer.md`):**
 ```yaml
 ---
-name: codebase-analyzer
+name: code-analyzer
 ---
 ```
 
@@ -176,7 +176,7 @@ description: "Use this skill when analyzing codebase components to understand ho
 
 **After:**
 ```yaml
-description: "Analyzes codebase implementation details. Call the codebase-analyzer agent when you need to find detailed information about specific components."
+description: "Analyzes codebase implementation details. Call the code-analyzer agent when you need to find detailed information about specific components."
 ```
 
 **Formula:** `"[Capability statement]. [Delegation trigger]."`
@@ -206,7 +206,7 @@ description: "Finds files and directories in the codebase using pattern matching
 
 **After:**
 ```yaml
-description: "Locates files, directories, and components relevant to a feature or task. Call codebase-locator with a human language prompt describing what you're looking for."
+description: "Locates files, directories, and components relevant to a feature or task. Call code-locator with a human language prompt describing what you're looking for."
 ```
 
 ### Description contains angle brackets
@@ -234,7 +234,7 @@ description: "Analyzes component files and generates report documents. Call when
 **Before:**
 ```yaml
 ---
-name: codebase-locator
+name: code-locator
 description: "..."
 model: sonnet
 ---
@@ -243,7 +243,7 @@ model: sonnet
 **After:**
 ```yaml
 ---
-name: codebase-locator
+name: code-locator
 description: "..."
 tools: Grep, Glob, LS
 model: sonnet

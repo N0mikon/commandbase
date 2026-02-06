@@ -61,7 +61,7 @@ After gathering project information, spawn parallel web search agents to researc
 I have a good understanding of your project. Let me research current best practices for [project type] with [tech stack].
 ```
 
-1. **Spawn web-search-researcher agents in parallel** for:
+1. **Spawn web-researcher agents in parallel** for:
    - Project structure best practices for [framework/language]
    - Testing patterns for [tech stack]
    - Common tooling setup for [project type]
@@ -187,7 +187,7 @@ Claude: Great! A few more questions...
 User: [Answers questions]
 
 Claude: I have a good understanding. Let me research best practices...
-[Spawns web-search-researcher agents]
+[Spawns web-researcher agents]
 [Presents findings]
 
 User: Looks good!

@@ -5,7 +5,7 @@ description: "Use this skill when researching topics on the web to find up-to-da
 
 # Researching Web
 
-You are tasked with conducting comprehensive web research by spawning parallel web-search-researcher agents and synthesizing their findings into a documented, sourced answer.
+You are tasked with conducting comprehensive web research by spawning parallel web-researcher agents and synthesizing their findings into a documented, sourced answer.
 
 **Violating the letter of these rules is violating the spirit of these rules.**
 
@@ -24,7 +24,7 @@ Find, verify, and synthesize information from web sources:
 NO SYNTHESIS WITHOUT PARALLEL WEB RESEARCH FIRST
 ```
 
-If you haven't spawned web-search-researcher agents and waited for their results, you cannot synthesize findings.
+If you haven't spawned web-researcher agents and waited for their results, you cannot synthesize findings.
 
 **No exceptions:**
 - Don't answer from training data - spawn agents to get current information
@@ -39,7 +39,7 @@ BEFORE completing research:
 
 1. IDENTIFY: What angles of the question need investigation?
 2. DECOMPOSE: Break into 2-4 distinct search angles
-3. SPAWN: Create parallel web-search-researcher agents (minimum 2)
+3. SPAWN: Create parallel web-researcher agents (minimum 2)
 4. WAIT: All agents must complete before proceeding
 5. VERIFY: Did agents return sourced findings with URLs?
    - If NO: Spawn follow-up agents with refined queries
@@ -83,9 +83,9 @@ Break the query into distinct search angles that cover different facets:
 
 Not every question needs all four. Choose 2-4 angles that fit the question.
 
-### Step 2: Spawn Parallel web-search-researcher Agents
+### Step 2: Spawn Parallel web-researcher Agents
 
-Create multiple Task agents with `subagent_type: "web-search-researcher"` to research different angles concurrently.
+Create multiple Task agents with `subagent_type: "web-researcher"` to research different angles concurrently.
 
 See ./reference/search-strategies.md for domain-specific search approaches and query crafting guidance.
 
@@ -174,7 +174,7 @@ User: /researching-web What are the best testing frameworks for Bun in 2026?
 Assistant: I'll research testing frameworks for Bun...
 
 [Decomposes into search angles]
-[Spawns 3 web-search-researcher agents in parallel]
+[Spawns 3 web-researcher agents in parallel]
   - Agent 1: Bun official docs on built-in test runner
   - Agent 2: "Bun testing framework comparison 2026" community articles
   - Agent 3: Bun + Jest/Vitest compatibility and migration guides

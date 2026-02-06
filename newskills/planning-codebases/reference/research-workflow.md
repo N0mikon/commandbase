@@ -16,8 +16,8 @@ Detailed process for researching the codebase before writing implementation plan
 2. **Spawn initial research tasks to gather context**:
    Before asking the user any questions, use specialized agents to research in parallel:
 
-   - Use the **codebase-locator** agent to find all files related to the task
-   - Use the **codebase-analyzer** agent to understand how the current implementation works
+   - Use the **code-locator** agent to find all files related to the task
+   - Use the **code-analyzer** agent to understand how the current implementation works
 
    These agents will:
    - Find relevant source files, configs, and tests
@@ -70,9 +70,9 @@ After getting initial clarifications:
    - Use the right agent for each type of research:
 
    **For deeper investigation:**
-   - **codebase-locator** - To find more specific files (e.g., "find all files that handle [specific component]")
-   - **codebase-analyzer** - To understand implementation details (e.g., "analyze how [system] works")
-   - **codebase-pattern-finder** - To find similar features we can model after
+   - **code-locator** - To find more specific files (e.g., "find all files that handle [specific component]")
+   - **code-analyzer** - To understand implementation details (e.g., "analyze how [system] works")
+   - **code-librarian** - To find similar features we can model after
 
    **For historical context:**
    - **docs-locator** - To find existing research, plans, or decisions in `.docs/`

@@ -30,7 +30,7 @@ Skills need intent-matching keywords because they activate implicitly. Agents ne
 ### Example 1: Codebase analysis agent
 
 ```yaml
-description: Analyzes codebase implementation details. Call the codebase-analyzer
+description: Analyzes codebase implementation details. Call the code-analyzer
   agent when you need to find detailed information about specific components.
 ```
 

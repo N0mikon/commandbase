@@ -18,7 +18,7 @@ NO PLAN WITHOUT CODEBASE RESEARCH FIRST
 If you haven't spawned research agents and read the results, you cannot write the plan.
 
 **No exceptions:**
-- Don't plan from memory - spawn codebase-locator and codebase-analyzer agents
+- Don't plan from memory - spawn code-locator and code-analyzer agents
 - Don't skip research for "simple" changes - simple changes touch complex systems
 - Don't assume patterns - verify them in THIS codebase
 - Don't write the plan before ALL research agents complete
@@ -29,7 +29,7 @@ If you haven't spawned research agents and read the results, you cannot write th
 BEFORE writing any implementation plan:
 
 1. IDENTIFY: What aspects of the codebase need investigation?
-2. SPAWN: Create parallel research agents (minimum 2: codebase-locator + codebase-analyzer)
+2. SPAWN: Create parallel research agents (minimum 2: code-locator + code-analyzer)
 3. WAIT: All agents must complete before proceeding
 4. READ: Read ALL files identified by agents into main context
 5. VERIFY: Do you have file:line references for integration points?
@@ -106,7 +106,7 @@ See ./reference/research-workflow.md for the full research process.
 
 **Summary:**
 1. Read all mentioned files immediately and FULLY
-2. Spawn initial research agents (codebase-locator, codebase-analyzer)
+2. Spawn initial research agents (code-locator, code-analyzer)
 3. Read all files identified by research tasks
 4. Present informed understanding with file:line references
 5. Ask only questions research couldn't answer

@@ -41,7 +41,7 @@ Every claim needs a URL from actual agent findings.
 
 If you notice any of these, STOP immediately:
 
-- About to answer without spawning any web-search-researcher agents
+- About to answer without spawning any web-researcher agents
 - Using only training data without current web sources
 - Providing recommendations without source URLs
 - Citing a source without having fetched and verified it
@@ -81,7 +81,7 @@ When sources disagree:
 
 Before writing the research document:
 
-- [ ] Spawned at least 2 web-search-researcher agents in parallel
+- [ ] Spawned at least 2 web-researcher agents in parallel
 - [ ] All agents returned results with source URLs
 - [ ] Every finding has a URL attribution
 - [ ] No "typically" or "generally" phrases without sources

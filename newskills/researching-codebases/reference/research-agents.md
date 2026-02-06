@@ -8,9 +8,9 @@ Guide to using specialized sub-agents for codebase research.
 
 | Agent | Purpose | Use When |
 |-------|---------|----------|
-| **codebase-locator** | Find WHERE files and components live | Need to discover file locations, directory structures |
-| **codebase-analyzer** | Understand HOW specific code works | Need deep analysis of specific files or functions |
-| **codebase-pattern-finder** | Find examples of existing patterns | Need to see how similar things are implemented |
+| **code-locator** | Find WHERE files and components live | Need to discover file locations, directory structures |
+| **code-analyzer** | Understand HOW specific code works | Need deep analysis of specific files or functions |
+| **code-librarian** | Find examples of existing patterns | Need to see how similar things are implemented |
 
 ### Documentation Agents
 
@@ -30,21 +30,21 @@ When spawning agents, instructions should:
 
 ## Example Agent Prompts
 
-**codebase-locator**:
+**code-locator**:
 ```
 Find all files related to authentication in this codebase.
 Focus on src/ and lib/ directories.
 Return file paths with brief descriptions of each file's role.
 ```
 
-**codebase-analyzer**:
+**code-analyzer**:
 ```
 Analyze the error handling in src/middleware/errorHandler.ts.
 Document the error classes, how they're caught, and what responses they produce.
 Include file:line references for each finding.
 ```
 
-**codebase-pattern-finder**:
+**code-librarian**:
 ```
 Find examples of how API endpoints are defined in this codebase.
 Look for patterns in route definitions, middleware usage, and response formatting.

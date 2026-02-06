@@ -1,6 +1,6 @@
 # Search Strategies
 
-Guide to crafting effective search prompts for web-search-researcher agents by domain.
+Guide to crafting effective search prompts for web-researcher agents by domain.
 
 ## Decomposition Patterns
 

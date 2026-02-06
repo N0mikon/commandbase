@@ -29,9 +29,9 @@ Complete checklist for agent validation. Each item maps to the agent specificati
 | No vague suffix | Does not end in `-helper`, `-handler`, `-manager`, `-util` |
 
 **Gerund detection heuristic:** Flag if the name contains a component ending in `-ing` that is the verb portion. Examples:
-- `codebase-analyzer` OK (analyzer is a noun/role)
+- `code-analyzer` OK (analyzer is a noun/role)
 - `code-reviewing` BAD (reviewing is a gerund - skill pattern)
-- `codebase-pattern-finder` OK (finder is a noun/role)
+- `code-librarian` OK (finder is a noun/role)
 - `finding-patterns` BAD (finding is a gerund)
 
 **Note:** Some words ending in `-ing` are legitimate nouns (e.g., `testing` as a domain). Use judgment - the test is whether the name describes WHAT the agent IS (noun) vs WHAT ACTION it performs (gerund).

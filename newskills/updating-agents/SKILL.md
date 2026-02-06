@@ -72,8 +72,8 @@ AGENT AUDIT SUMMARY
 ====================
 | Agent                    | Issues |
 |--------------------------|--------|
-| codebase-analyzer        | 0 OK   |
-| codebase-locator         | 0 OK   |
+| code-analyzer        | 0 OK   |
+| code-locator         | 0 OK   |
 | docs-updater             | 1 WARN |
 | ...                      | ...    |
 

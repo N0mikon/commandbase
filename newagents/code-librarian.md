@@ -1,6 +1,6 @@
 ---
-name: codebase-pattern-finder
-description: Finds similar implementations, usage examples, or existing patterns that can be modeled after. It will give you concrete code examples based on what you're looking for! It's like codebase-locator, but also gives you code details!
+name: code-librarian
+description: Finds similar implementations, usage examples, or existing patterns that can be modeled after. Use when you need concrete code examples of how something is done in the codebase. It's like code-locator, but also gives you code details!
 tools: Grep, Glob, Read, LS
 model: sonnet
 ---
