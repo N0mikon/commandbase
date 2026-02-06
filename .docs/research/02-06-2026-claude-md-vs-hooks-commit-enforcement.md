@@ -106,7 +106,7 @@ A hook that detects when `git commit` was run directly and injects a reminder. T
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ~/.claude/hooks/nudge-commit-skill.py"
+            "command": "bash -c 'python3 ~/.claude/hooks/nudge-commit-skill.py'"
           }
         ]
       }
