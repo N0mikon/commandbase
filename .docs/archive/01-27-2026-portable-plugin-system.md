@@ -28,20 +28,20 @@ Final review and fixes for a portable Claude Code plugin system with custom agen
 
 - Reviewed all 7 agents in `newagents/`
 - Reviewed all 9 commands in `newcommands/`
-- Fixed `docs-updater.md` - removed invalid reference to spawning `codebase-analyzer` (agent lacks Task tool)
-- Fixed `codebase-pattern-finder.md` - clarified ambiguous wording about "preferred" approaches
+- Fixed `docs-updater.md` - removed invalid reference to spawning `code-analyzer` (agent lacks Task tool)
+- Fixed `code-librarian.md` - clarified ambiguous wording about "preferred" approaches
 
 ## Key Learnings
 
-- **Agents cannot spawn sub-agents** - `docs-updater.md:98` originally said "Use codebase-analyzer" but the agent doesn't have Task tool. Agents must be self-contained with their own tools.
+- **Agents cannot spawn sub-agents** - `docs-updater.md:98` originally said "Use code-analyzer" but the agent doesn't have Task tool. Agents must be self-contained with their own tools.
 - **"Document, don't evaluate"** - Core philosophy for research agents. They report facts, not recommendations.
 - **Frontmatter staleness detection** - `git_commit` field in frontmatter enables `git rev-list <commit>..HEAD --count` to detect stale docs
 - **Nested code blocks** - Use 4-backtick fence when template contains code blocks (see `new_project.md:236`)
 
 ## Files Changed
 
-- `newagents/docs-updater.md:98` - Changed "Use codebase-analyzer" to "Read the referenced files"
-- `newagents/codebase-pattern-finder.md:36` - Changed "Note which approach is preferred" to "Note which approach is most commonly used in the codebase"
+- `newagents/docs-updater.md:98` - Changed "Use code-analyzer" to "Read the referenced files"
+- `newagents/code-librarian.md:36` - Changed "Note which approach is preferred" to "Note which approach is most commonly used in the codebase"
 
 ## Current State
 
@@ -51,10 +51,10 @@ Final review and fixes for a portable Claude Code plugin system with custom agen
 | docs-locator | Find docs in `.docs/` | Grep, Glob, LS |
 | docs-analyzer | Extract insights from docs | Read, Grep, Glob, LS |
 | docs-updater | Update/archive stale docs | Read, Grep, Glob, LS, Edit, Bash |
-| codebase-locator | Find WHERE code lives | Grep, Glob, LS |
-| codebase-analyzer | Analyze HOW code works | Read, Grep, Glob, LS |
-| codebase-pattern-finder | Find existing patterns | Grep, Glob, Read, LS |
-| web-search-researcher | Research web for info | WebSearch, WebFetch, Read, Grep, Glob, LS |
+| code-locator | Find WHERE code lives | Grep, Glob, LS |
+| code-analyzer | Analyze HOW code works | Read, Grep, Glob, LS |
+| code-librarian | Find existing patterns | Grep, Glob, Read, LS |
+| web-researcher | Research web for info | WebSearch, WebFetch, Read, Grep, Glob, LS |
 
 **Commands (9 total)** - All complete and consistent:
 | Command | Purpose | Spawns Agents |
@@ -67,7 +67,7 @@ Final review and fixes for a portable Claude Code plugin system with custom agen
 | pr | Create pull request | - |
 | handover | Create handover doc | - |
 | takeover | Resume from handover | - |
-| new_project | Initialize greenfield project | web-search-researcher |
+| new_project | Initialize greenfield project | web-researcher |
 
 ## Next Steps
 

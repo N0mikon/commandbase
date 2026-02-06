@@ -219,7 +219,7 @@ All of these mean: Delete code. Start over with TDD.
 - "This is a simple change"
 - "The user gave detailed requirements"
 - "Research takes too long"
-- Skipping codebase-locator because "I remember where things are"
+- Skipping code-locator because "I remember where things are"
 - Writing plan based on similar project, not THIS codebase
 - Assuming integration points without verification
 

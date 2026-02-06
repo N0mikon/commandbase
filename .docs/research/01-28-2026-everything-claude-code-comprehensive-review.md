@@ -33,12 +33,12 @@ Since this research was conducted, the following related capabilities have been 
 | Recommended Item | Status | Implementation |
 |------------------|--------|----------------|
 | Security Review | Implemented | `newskills/reviewing-security/` - Full security scanning skill with OWASP checks |
-| Verification | Partial | `newskills/validating-implementations/` - Two-stage validation (spec + quality) |
-| Checkpointing | Implemented | `newskills/checkpointing/` - State capture and comparison |
-| Planning | Implemented | `newskills/planning-codebases/` - Structured planning workflow |
+| Verification | Partial | `newskills/validating-code/` - Two-stage validation (spec + quality) |
+| Checkpointing | Implemented | `newskills/bookmarking-code/` - State capture and comparison |
+| Planning | Implemented | `newskills/planning-code/` - Structured planning workflow |
 
 **Still Recommended (Not Yet Implemented):**
-- `/verify` command (quick pre-commit sanity check) - could complement `/validating-implementations`
+- `/verify` command (quick pre-commit sanity check) - could complement `/validating-code`
 - `/tdd` command (TDD enforcement) - no explicit TDD workflow yet
 - `/build-fix` command (incremental error resolution)
 - `/code-review` command (automated quality gate)

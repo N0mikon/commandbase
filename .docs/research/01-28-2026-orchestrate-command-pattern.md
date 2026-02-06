@@ -126,14 +126,14 @@ Create `/rpi` command that chains our skills:
 
 **Skill Chain** (using current skill names):
 ```
-researching-codebases → planning-codebases → implementing-plans → validating-implementations
+researching-code → planning-code → implementing-plans → validating-code
 ```
 
 **Handoff Documents**:
-- researching-codebases outputs: `.docs/research/MM-DD-YYYY-topic.md`
-- planning-codebases outputs: `.docs/plans/MM-DD-YYYY-topic.md`
+- researching-code outputs: `.docs/research/MM-DD-YYYY-topic.md`
+- planning-code outputs: `.docs/plans/MM-DD-YYYY-topic.md`
 - implementing-plans outputs: Implementation + phase verification
-- validating-implementations outputs: Validation report
+- validating-code outputs: Validation report
 
 ### Workflow Types
 
@@ -158,7 +158,7 @@ researching-codebases → planning-codebases → implementing-plans → validati
 
 ### Recommendation
 
-**Low priority** - Our manual workflow (researching-codebases → planning-codebases → implementing-plans → validating-implementations) allows user control at each step. Automation is nice-to-have but not essential. Consider after other improvements are stable.
+**Low priority** - Our manual workflow (researching-code → planning-code → implementing-plans → validating-code) allows user control at each step. Automation is nice-to-have but not essential. Consider after other improvements are stable.
 
 ## Code References
 

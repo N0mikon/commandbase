@@ -106,17 +106,17 @@ Six categories (vs five for skills):
 |-------|-------|-------|-------|---------------------|
 | docs-analyzer | 160 | sonnet | Read, Grep, Glob, LS | Yes |
 | docs-locator | 116 | sonnet | Grep, Glob, LS | Yes |
-| codebase-analyzer | 144 | sonnet | Read, Grep, Glob, LS | Yes |
-| codebase-locator | 123 | sonnet | Grep, Glob, LS | Yes |
-| codebase-pattern-finder | 179 | sonnet | Grep, Glob, Read, LS | Yes |
-| web-search-researcher | 83 | sonnet | WebSearch, WebFetch | No |
+| code-analyzer | 144 | sonnet | Read, Grep, Glob, LS | Yes |
+| code-locator | 123 | sonnet | Grep, Glob, LS | Yes |
+| code-librarian | 179 | sonnet | Grep, Glob, Read, LS | Yes |
+| web-researcher | 83 | sonnet | WebSearch, WebFetch | No |
 | docs-updater | 180 | opus | Read, Grep, Glob, LS, Edit, Bash | Yes |
 
 **Notable patterns:**
 - All 7 agents have explicit `tools` fields (good practice)
 - All use `name`, `description`, `tools`, `model` in frontmatter
 - 6 of 7 have "What NOT to Do" enforcement sections
-- `web-search-researcher` lacks enforcement section (potential audit finding)
+- `web-researcher` lacks enforcement section (potential audit finding)
 - `docs-updater` is the only state-modifier with `opus` model (appropriate)
 - 3 codebase agents use consistent "REMEMBER:" meta-reminder pattern
 

@@ -1,8 +1,8 @@
-# Research: web-search-researcher Agent
+# Research: web-researcher Agent
 
 ## Overview
 
-The `web-search-researcher` agent (`~/.claude/agents/web-search-researcher.md`) researches information from the web when you need modern, up-to-date information that may not be in training data.
+The `web-researcher` agent (`~/.claude/agents/web-researcher.md`) researches information from the web when you need modern, up-to-date information that may not be in training data.
 
 **When to Use**: For API docs, best practices, library usage, and technical solutions that require current information.
 
@@ -21,7 +21,7 @@ The `web-search-researcher` agent (`~/.claude/agents/web-search-researcher.md`) 
 
 Called from skills via Task tool:
 ```
-subagent_type: "web-search-researcher"
+subagent_type: "web-researcher"
 prompt: "Research [topic] - focus on [specific aspect]"
 ```
 
@@ -56,10 +56,10 @@ Based on research:
 
 ## Integration Points
 
-- Supports `/planning-codebases` for technology research
+- Supports `/planning-code` for technology research
 - Helps `/starting-projects` with best practices
-- Assists `/researching-codebases` for external context
+- Assists `/researching-code` for external context
 
 ## File Reference
 
-- Agent: `~/.claude/agents/web-search-researcher.md`
+- Agent: `~/.claude/agents/web-researcher.md`

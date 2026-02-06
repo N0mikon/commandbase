@@ -126,8 +126,8 @@ Should I proceed without them?
 ## Integration Points
 
 - Consumes handovers from `/handing-over`
-- References plans from `/planning-codebases`
-- Links to research from `/researching-codebases`
+- References plans from `/planning-code`
+- Links to research from `/researching-code`
 
 ## File Reference
 

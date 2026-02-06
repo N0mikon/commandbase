@@ -9,7 +9,7 @@ status: historical
 archived: 2026-02-01
 archive_reason: "Completed work from 2026-01-27, superseded by 01-27-2026-skill-enforcement-complete.md which documents final state of all phases"
 references:
-  - newskills/researching-codebases/SKILL.md
+  - newskills/researching-code/SKILL.md
   - newskills/implementing-plans/SKILL.md
   - .docs/plans/01-27-2026-rpi-enforcement-patterns.md
   - .docs/research/01-27-2026-superpowers-patterns-for-rpi-workflow.md
@@ -21,12 +21,12 @@ references:
 **Branch**: master
 
 > **Historical Note (2026-02-01)**: Skills referenced in this handover have been renamed:
-> - `rcode` -> `researching-codebases`
+> - `rcode` -> `researching-code`
 > - `icode` -> `implementing-plans`
-> - `pcode` -> `planning-codebases`
-> - `vcode` -> `validating-implementations`
+> - `pcode` -> `planning-code`
+> - `vcode` -> `validating-code`
 > - `commit` -> `committing-changes`
-> - `pr` -> `creating-pull-requests`
+> - `pr` -> `creating-prs`
 > - `handover` -> `handing-over`
 > - `takeover` -> `taking-over`
 > - `new_project` -> `starting-projects`

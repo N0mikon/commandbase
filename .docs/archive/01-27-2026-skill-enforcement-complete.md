@@ -20,10 +20,10 @@ references:
 **Branch**: master
 
 > **Historical Note (2026-02-01)**: Skills referenced in this handover have been renamed:
-> - `pcode` -> `planning-codebases`
-> - `vcode` -> `validating-implementations`
+> - `pcode` -> `planning-code`
+> - `vcode` -> `validating-code`
 > - `commit` -> `committing-changes`
-> - `pr` -> `creating-pull-requests`
+> - `pr` -> `creating-prs`
 > - `handover` -> `handing-over`
 > - `takeover` -> `taking-over`
 > - `new_project` -> `starting-projects`

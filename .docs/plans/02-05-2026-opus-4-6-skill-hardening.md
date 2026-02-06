@@ -9,7 +9,7 @@ references:
   - .docs/research/02-05-2026-opus-4-6-skill-audit.md
   - ~/.claude/skills/implementing-plans/SKILL.md
   - ~/.claude/skills/committing-changes/SKILL.md
-  - ~/.claude/skills/creating-pull-requests/SKILL.md
+  - ~/.claude/skills/creating-prs/SKILL.md
   - ~/.claude/skills/reviewing-changes/SKILL.md
 ---
 
@@ -27,7 +27,7 @@ All 22 skills pass the standard 5-category structural audit. However, four skill
 - `implementing-plans/SKILL.md:56`: "Follow the plan's intent while adapting to what you find" - too permissive for a model that makes unsolicited changes
 - `implementing-plans/SKILL.md:89`: "Do NOT pause between phases" amplifies verbosity + unexpected modification risks
 - `committing-changes/SKILL.md:119`: 72-char first-line limit exists, but no body length constraint
-- `creating-pull-requests/SKILL.md:102`: "Be concise but thorough" is subjective with no numeric limits
+- `creating-prs/SKILL.md:102`: "Be concise but thorough" is subjective with no numeric limits
 - `reviewing-changes/SKILL.md:97-103`: Commit message template lacks length constraints
 
 ## Desired End State
@@ -35,7 +35,7 @@ All 22 skills pass the standard 5-category structural audit. However, four skill
 After this plan is complete:
 1. implementing-plans has explicit Red Flag and Rationalization Prevention entries for out-of-plan changes, and tightened adaptation language
 2. committing-changes has explicit commit message body length guidance
-3. creating-pull-requests has explicit section length limits in the PR description template
+3. creating-prs has explicit section length limits in the PR description template
 4. reviewing-changes mirrors the commit message length guidance from committing-changes
 
 ### Verification:
@@ -47,9 +47,9 @@ After this plan is complete:
 
 - Rewriting skills from scratch
 - Adding model-specific language (no "Because Opus 4.6 tends to...")
-- Changing skills rated Low risk (checkpointing, discussing-features, reviewing-security, taking-over, updating-skills)
+- Changing skills rated Low risk (bookmarking-code, discussing-features, reviewing-security, taking-over, updating-skills)
 - Modifying enforcement architecture (Iron Law, Gate Function structure stays the same)
-- Updating debugging-codebases or validating-implementations (the audit found their persistence risk is actually positive)
+- Updating debugging-code or validating-code (the audit found their persistence risk is actually positive)
 
 ## Implementation Approach
 
@@ -145,7 +145,7 @@ Highest frequency impact - every session ends with a commit. Add explicit body l
 
 ---
 
-## Phase 3: creating-pull-requests (Verbosity)
+## Phase 3: creating-prs (Verbosity)
 
 ### Overview
 External visibility impact - PR descriptions are read by reviewers. Add explicit section length limits to replace subjective "concise but thorough" guidance.
@@ -153,7 +153,7 @@ External visibility impact - PR descriptions are read by reviewers. Add explicit
 ### Changes Required:
 
 #### 1. Add section length limits to PR description template
-**File**: `~/.claude/skills/creating-pull-requests/SKILL.md`
+**File**: `~/.claude/skills/creating-prs/SKILL.md`
 **Location**: PR description rules section (around line 99-103)
 **Change**: Replace "Be concise but thorough" with explicit limits
 
@@ -170,9 +170,9 @@ After:
 ```
 
 ### Success Criteria:
-- [x] `/updating-skills update creating-pull-requests` completes with user approval
+- [x] `/updating-skills update creating-prs` completes with user approval
 - [x] Updated skill passes all 5 audit categories
-- [x] Changes synced to `newskills/creating-pull-requests/SKILL.md`
+- [x] Changes synced to `newskills/creating-prs/SKILL.md`
 
 ---
 

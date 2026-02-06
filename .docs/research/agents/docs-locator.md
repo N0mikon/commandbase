@@ -51,9 +51,9 @@ Returns list of relevant documents:
 
 ## Integration Points
 
-- Used by `/planning-codebases` to find existing research
+- Used by `/planning-code` to find existing research
 - Supports `/taking-over` for context gathering
-- Helps `/researching-codebases` avoid duplication
+- Helps `/researching-code` avoid duplication
 
 ## File Reference
 

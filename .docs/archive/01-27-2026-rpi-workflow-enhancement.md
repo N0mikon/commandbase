@@ -20,12 +20,12 @@ references:
 **Branch**: main
 
 > **Historical Note (2026-02-01)**: Skills referenced in this handover have been renamed:
-> - `pcode` -> `planning-codebases`
+> - `pcode` -> `planning-code`
 > - `icode` -> `implementing-plans`
-> - `rcode` -> `researching-codebases`
-> - `vcode` -> `validating-implementations`
+> - `rcode` -> `researching-code`
+> - `vcode` -> `validating-code`
 > - `commit` -> `committing-changes`
-> - `pr` -> `creating-pull-requests`
+> - `pr` -> `creating-prs`
 > - `handover` -> `handing-over`
 > - `takeover` -> `taking-over`
 > See `.docs/plans/02-01-2026-skill-structure-updates.md` for the rename plan.
@@ -41,7 +41,7 @@ Adapting patterns from the Superpowers Claude Code plugin to enhance our RPI wor
 
 1. **Recovered lost agents** from Claude session log at `~/.claude/projects/C--code-humanlayer/6947d63e-f308-4e4b-a9bd-3efccb70d2bb.jsonl`
    - Extracted all 7 agents to `newagents/`
-   - Applied 2 fixes from original handover (docs-updater, codebase-pattern-finder)
+   - Applied 2 fixes from original handover (docs-updater, code-librarian)
 
 2. **Comprehensive research** of Superpowers codebase using 5 parallel agents
    - Documented in `.docs/research/01-27-2026-superpowers-patterns-for-rpi-workflow.md`
@@ -91,8 +91,8 @@ Session logs are JSONL files at `~/.claude/projects/`. Can extract Write tool ca
 ## Files Changed
 
 - `newagents/` - All 7 agents recovered and verified
-  - `codebase-pattern-finder.md:36` - Fixed "preferred" → "most commonly used"
-  - `docs-updater.md:98` - Fixed invalid codebase-analyzer reference
+  - `code-librarian.md:36` - Fixed "preferred" → "most commonly used"
+  - `docs-updater.md:98` - Fixed invalid code-analyzer reference
 - `newcommands/` - 9 commands copied from `~/.claude/commands/`
 - `.docs/research/01-27-2026-superpowers-patterns-for-rpi-workflow.md` - Full research document
 

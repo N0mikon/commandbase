@@ -2,7 +2,7 @@
 
 **Date**: February 5, 2026
 **Query**: What changed in Opus 4.6 compared to Opus 4.5?
-**Agents**: 4 parallel web-search-researcher agents (official announcement, benchmarks, community reactions, technical details)
+**Agents**: 4 parallel web-researcher agents (official announcement, benchmarks, community reactions, technical details)
 
 ## TL;DR
 

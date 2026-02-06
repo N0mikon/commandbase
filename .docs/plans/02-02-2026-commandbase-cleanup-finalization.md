@@ -19,7 +19,7 @@ Complete remaining maintenance tasks to finalize the commandbase project. All 19
 
 ## What We're Doing
 
-1. Deploy the one missing skill (`debugging-codebases`)
+1. Deploy the one missing skill (`debugging-code`)
 2. Update stale plan status frontmatter
 3. Archive completed blueprint documents
 4. Verify all skills are active
@@ -32,23 +32,23 @@ Complete remaining maintenance tasks to finalize the commandbase project. All 19
 
 ---
 
-## Phase 1: Deploy debugging-codebases Skill
+## Phase 1: Deploy debugging-code Skill
 
 **Goal:** Copy the missing skill to global config so it's available everywhere.
 
 ### Tasks
 
-1. Copy `newskills/debugging-codebases/` to `~/.claude/skills/debugging-codebases/`
+1. Copy `newskills/debugging-code/` to `~/.claude/skills/debugging-code/`
 
 ### Commands
 
 ```bash
-cp -r C:/code/commandbase/newskills/debugging-codebases ~/.claude/skills/
+cp -r C:/code/commandbase/newskills/debugging-code ~/.claude/skills/
 ```
 
 ### Success Criteria
 
-- [x] `ls ~/.claude/skills/debugging-codebases/SKILL.md` exists
+- [x] `ls ~/.claude/skills/debugging-code/SKILL.md` exists
 - [x] `ls ~/.claude/skills/ | wc -l` returns 16
 
 ---
@@ -119,7 +119,7 @@ note: "Reference document used to create newskills/learning-from-sessions/. Skil
 
 1. List all deployed skills
 2. Verify count matches expected (16)
-3. Spot-check that debugging-codebases is recognized
+3. Spot-check that debugging-code is recognized
 
 ### Commands
 
@@ -130,14 +130,14 @@ ls ~/.claude/skills/ | wc -l
 # List all skill names
 ls ~/.claude/skills/
 
-# Verify debugging-codebases has content
-ls ~/.claude/skills/debugging-codebases/
+# Verify debugging-code has content
+ls ~/.claude/skills/debugging-code/
 ```
 
 ### Success Criteria
 
 - [x] 16 skill directories exist in `~/.claude/skills/`
-- [x] `debugging-codebases` contains SKILL.md and reference/ directory
+- [x] `debugging-code` contains SKILL.md and reference/ directory
 
 ---
 

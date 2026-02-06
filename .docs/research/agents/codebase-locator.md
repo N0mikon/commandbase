@@ -1,8 +1,8 @@
-# Research: codebase-locator Agent
+# Research: code-locator Agent
 
 ## Overview
 
-The `codebase-locator` agent (`~/.claude/agents/codebase-locator.md`) locates files, directories, and components relevant to a feature or task. It's a "Super Grep/Glob/LS tool" for finding things.
+The `code-locator` agent (`~/.claude/agents/code-locator.md`) locates files, directories, and components relevant to a feature or task. It's a "Super Grep/Glob/LS tool" for finding things.
 
 **When to Use**: When searching for a keyword or file and not confident you'll find the right match in the first few tries.
 
@@ -18,7 +18,7 @@ The `codebase-locator` agent (`~/.claude/agents/codebase-locator.md`) locates fi
 
 Called from skills via Task tool:
 ```
-subagent_type: "codebase-locator"
+subagent_type: "code-locator"
 prompt: "Find all files related to [feature/component]"
 ```
 
@@ -54,10 +54,10 @@ component/
 
 ## Integration Points
 
-- First step in `/planning-codebases` research
-- Used by `/researching-codebases` for exploration
-- Supports `/debugging-codebases` investigation
+- First step in `/planning-code` research
+- Used by `/researching-code` for exploration
+- Supports `/debugging-code` investigation
 
 ## File Reference
 
-- Agent: `~/.claude/agents/codebase-locator.md`
+- Agent: `~/.claude/agents/code-locator.md`

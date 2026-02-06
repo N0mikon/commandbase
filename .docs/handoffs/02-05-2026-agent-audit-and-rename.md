@@ -33,25 +33,25 @@ references:
 
 ### Phase 1: Audit (all 7 agents)
 - Ran full 6-category audit against every agent
-- 3 agents passed clean: docs-locator, codebase-analyzer, codebase-locator
+- 3 agents passed clean: docs-locator, code-analyzer, code-locator
 - 4 agents had WARN issues (0 ERROR)
 
 ### Phase 2: Compliance Fixes
 - `docs-analyzer` — Added "What NOT to Do" enforcement section (line 159)
-- `codebase-pattern-finder` — Strengthened delegation trigger in description
-- `web-search-researcher` — Added Core Responsibilities (5 items), "What NOT to Do" section, and closing meta-reminder
+- `code-librarian` — Strengthened delegation trigger in description
+- `web-researcher` — Added Core Responsibilities (5 items), "What NOT to Do" section, and closing meta-reminder
 - `docs-updater` — Added closing meta-reminder (line 181)
 
 ### Phase 3: Fleet Rename (4 agents)
-- `codebase-analyzer` → `code-analyzer`
-- `codebase-locator` → `code-locator`
-- `codebase-pattern-finder` → `code-librarian`
-- `web-search-researcher` → `web-researcher`
+- `code-analyzer` → `code-analyzer`
+- `code-locator` → `code-locator`
+- `code-librarian` → `code-librarian`
+- `web-researcher` → `web-researcher`
 
 ### Phase 4: Stale Reference Cleanup
 - Searched all 7 agents — 0 stale refs
 - Searched all 22 skills — found stale refs in 6 skills across 13 files
-- Updated all ~60 references across: researching-web, starting-projects, researching-codebases, planning-codebases, creating-agents, updating-agents
+- Updated all ~60 references across: researching-web, starting-projects, researching-code, planning-code, creating-agents, updating-agents
 
 ## Key Learnings
 
@@ -64,22 +64,22 @@ references:
 ## Files Changed
 
 ### Agents (renamed + content fixes)
-- `~/.claude/agents/code-analyzer.md` — renamed from codebase-analyzer, updated name/description
-- `~/.claude/agents/code-locator.md` — renamed from codebase-locator, updated name/description
-- `~/.claude/agents/code-librarian.md` — renamed from codebase-pattern-finder, updated name/description/cross-ref
-- `~/.claude/agents/web-researcher.md` — renamed from web-search-researcher, updated name
+- `~/.claude/agents/code-analyzer.md` — renamed from code-analyzer, updated name/description
+- `~/.claude/agents/code-locator.md` — renamed from code-locator, updated name/description
+- `~/.claude/agents/code-librarian.md` — renamed from code-librarian, updated name/description/cross-ref
+- `~/.claude/agents/web-researcher.md` — renamed from web-researcher, updated name
 - `~/.claude/agents/docs-analyzer.md` — added "What NOT to Do" section
 - `~/.claude/agents/docs-updater.md` — added meta-reminder
 - `~/.claude/agents/docs-locator.md` — unchanged (passed audit clean)
 
 ### Skills (stale reference cleanup)
-- `~/.claude/skills/researching-web/SKILL.md` — web-search-researcher → web-researcher
+- `~/.claude/skills/researching-web/SKILL.md` — web-researcher → web-researcher
 - `~/.claude/skills/researching-web/reference/search-strategies.md` — same
 - `~/.claude/skills/researching-web/reference/evidence-requirements.md` — same
-- `~/.claude/skills/starting-projects/SKILL.md` — web-search-researcher → web-researcher
-- `~/.claude/skills/researching-codebases/reference/research-agents.md` — all 3 code agent renames
-- `~/.claude/skills/planning-codebases/SKILL.md` — code-locator, code-analyzer
-- `~/.claude/skills/planning-codebases/reference/research-workflow.md` — all 3 code agent renames
+- `~/.claude/skills/starting-projects/SKILL.md` — web-researcher → web-researcher
+- `~/.claude/skills/researching-code/reference/research-agents.md` — all 3 code agent renames
+- `~/.claude/skills/planning-code/SKILL.md` — code-locator, code-analyzer
+- `~/.claude/skills/planning-code/reference/research-workflow.md` — all 3 code agent renames
 - `~/.claude/skills/creating-agents/reference/naming-conventions.md` — all 4 renames + domain columns + examples
 - `~/.claude/skills/creating-agents/reference/converting-skills.md` — code-analyzer
 - `~/.claude/skills/creating-agents/reference/description-writing-guide.md` — code-analyzer

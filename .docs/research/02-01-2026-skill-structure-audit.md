@@ -23,15 +23,15 @@ Review our current skillset after recent updates and compare against everything-
 
 ## Summary
 
-Your skillset has evolved significantly since the January 28th review. You now have **16 skills** (15 deployed) covering the complete RPI workflow plus supporting functions. The original recommendation of `/learn` and `/checkpoint` has been implemented (as `/learning-from-sessions` and `/checkpointing`). Since this audit was written, 4 new skills have been added: `/debugging-codebases`, `/discussing-features`, `/reviewing-security`, and `/updating-claude-md`.
+Your skillset has evolved significantly since the January 28th review. You now have **16 skills** (15 deployed) covering the complete RPI workflow plus supporting functions. The original recommendation of `/learn` and `/checkpoint` has been implemented (as `/learning-from-sessions` and `/bookmarking-code`). Since this audit was written, 4 new skills have been added: `/debugging-code`, `/discussing-features`, `/reviewing-security`, and `/updating-claude-md`.
 
 **Coverage Assessment:**
 
 | everything-claude-code Item | Status | Your Skill |
 |----------------------------|--------|------------|
-| `/verify` | ✅ COVERED | `/validating-implementations` |
-| `/plan` | ✅ COVERED | `/planning-codebases` |
-| `/checkpoint` | ✅ COVERED | `/checkpointing` |
+| `/verify` | ✅ COVERED | `/validating-code` |
+| `/plan` | ✅ COVERED | `/planning-code` |
+| `/checkpoint` | ✅ COVERED | `/bookmarking-code` |
 | `/learn` | ✅ COVERED | `/learning-from-sessions` |
 | `/tdd` | ❌ NOT COVERED | - |
 | `/code-review` | ✅ COVERED | `/reviewing-security` (added 2026-02-01) |
@@ -52,18 +52,18 @@ Your skillset has evolved significantly since the January 28th review. You now h
 
 | Skill | Purpose | Iron Law |
 |-------|---------|----------|
-| `/researching-codebases` | Document codebase with parallel agents | NO SYNTHESIS WITHOUT PARALLEL RESEARCH FIRST |
-| `/planning-codebases` | Create phased plans with research | NO PLAN WITHOUT CODEBASE RESEARCH FIRST |
+| `/researching-code` | Document codebase with parallel agents | NO SYNTHESIS WITHOUT PARALLEL RESEARCH FIRST |
+| `/planning-code` | Create phased plans with research | NO PLAN WITHOUT CODEBASE RESEARCH FIRST |
 | `/implementing-plans` | Execute plans with verification | NO PHASE COMPLETION CLAIM WITHOUT FRESH VERIFICATION EVIDENCE |
-| `/validating-implementations` | Two-stage validation (spec + quality) | NO VERDICT WITHOUT FRESH EVIDENCE |
+| `/validating-code` | Two-stage validation (spec + quality) | NO VERDICT WITHOUT FRESH EVIDENCE |
 
 ### Supporting Skills
 
 | Skill | Purpose | Iron Law |
 |-------|---------|----------|
-| `/checkpointing` | Named git snapshots for regression detection | NO CHECKPOINT WITHOUT GIT STATE VERIFICATION |
+| `/bookmarking-code` | Named git snapshots for regression detection | NO CHECKPOINT WITHOUT GIT STATE VERIFICATION |
 | `/committing-changes` | Git commit with staged file verification | NO COMMIT WITHOUT STAGED FILE VERIFICATION |
-| `/creating-pull-requests` | PR creation with full branch analysis | NO PR WITHOUT FULL BRANCH ANALYSIS |
+| `/creating-prs` | PR creation with full branch analysis | NO PR WITHOUT FULL BRANCH ANALYSIS |
 
 ### Session Management
 
@@ -86,7 +86,7 @@ Your skillset has evolved significantly since the January 28th review. You now h
 | Skill | Purpose | Iron Law |
 |-------|---------|----------|
 | `/reviewing-security` | Security review before public commits | NO PUBLIC COMMIT WITH CRITICAL SECURITY ISSUES |
-| `/debugging-codebases` | Systematic hypothesis-driven debugging | HYPOTHESIS BEFORE ACTION |
+| `/debugging-code` | Systematic hypothesis-driven debugging | HYPOTHESIS BEFORE ACTION |
 | `/discussing-features` | Capture user intent before planning | CAPTURE HOW PREFERENCES BEFORE RESEARCH |
 
 ---
@@ -169,9 +169,9 @@ The skill now provides:
 
 #### Contexts (dev, research, review)
 **Your skills already serve as implicit contexts**:
-- `/researching-codebases` = research mode
+- `/researching-code` = research mode
 - `/implementing-plans` = dev mode
-- `/validating-implementations` = review mode
+- `/validating-code` = review mode
 
 **Recommendation**: Don't add formal contexts - your Iron Laws in skills already enforce correct behavior
 
@@ -181,10 +181,10 @@ The skill now provides:
 
 ```
 Current:
-/researching-codebases → /planning-codebases → /implementing-plans → /validating-implementations → /committing-changes
+/researching-code → /planning-code → /implementing-plans → /validating-code → /committing-changes
 
 Recommended Addition (Tier 1 only):
-/researching-codebases → /planning-codebases → /implementing-plans → /validating-implementations → /code-reviewing → /committing-changes
+/researching-code → /planning-code → /implementing-plans → /validating-code → /code-reviewing → /committing-changes
                                                     ↑
                                             (use /tdd-testing within phases)
 ```
@@ -194,27 +194,27 @@ Recommended Addition (Tier 1 only):
 ## What You Already Cover Well
 
 ### ✅ Verification (maps to `/verify`)
-Your `/validating-implementations` does two-stage review:
+Your `/validating-code` does two-stage review:
 - **Stage 1**: Spec compliance (does code match plan?)
 - **Stage 2**: Code quality (do tests pass? type check?)
 
-Reference: `validating-implementations/SKILL.md:26-59`
+Reference: `validating-code/SKILL.md:26-59`
 
 ### ✅ Planning with Confirmation (maps to `/plan`)
-Your `/planning-codebases` requires:
+Your `/planning-code` requires:
 - Research agents BEFORE planning
 - Interactive development with user confirmation
 - Checkpoint suggestion after plan approval
 
-Reference: `planning-codebases/SKILL.md:26-41, 159-184`
+Reference: `planning-code/SKILL.md:26-41, 159-184`
 
 ### ✅ Checkpointing (maps to `/checkpoint`)
-Your `/checkpointing` provides:
+Your `/bookmarking-code` provides:
 - Named git snapshots
 - State verification before checkpoint
 - Regression detection via comparison
 
-Reference: `checkpointing/SKILL.md:42-178`
+Reference: `bookmarking-code/SKILL.md:42-178`
 
 ### ✅ Pattern Learning (maps to `/learn`)
 Your `/learning-from-sessions` provides:
@@ -273,29 +273,29 @@ All your skills follow consistent pattern:
 ### Deployment Status
 16 skills in development, 15 deployed:
 - Development: `C:/code/commandbase/newskills/` (16 skills)
-- Deployed: `C:/Users/Jason/.claude/skills/` (15 skills - `/debugging-codebases` pending deployment)
+- Deployed: `C:/Users/Jason/.claude/skills/` (15 skills - `/debugging-code` pending deployment)
 
 ### Reference Directory Usage
 Skills with `reference/` subdirectories: 10+
 - creating-skills (4 files + templates)
 - learning-from-sessions (4 files + templates)
 - starting-projects (3 files + templates)
-- researching-codebases (2 files + templates)
-- planning-codebases (2 files + templates)
+- researching-code (2 files + templates)
+- planning-code (2 files + templates)
 - implementing-plans (2 files)
-- debugging-codebases (3 files + templates) - NEW
+- debugging-code (3 files + templates) - NEW
 - discussing-features (1 file + templates) - NEW
 - updating-claude-md (2 files) - NEW
-- validating-implementations (0 files - references exist in SKILL.md but files not created)
+- validating-code (0 files - references exist in SKILL.md but files not created)
 
 ---
 
 ## Code References
 
-- `validating-implementations/SKILL.md:26-59` - Two-stage review gate function
-- `planning-codebases/SKILL.md:159-184` - Confirmation gate and checkpoint suggestion
+- `validating-code/SKILL.md:26-59` - Two-stage review gate function
+- `planning-code/SKILL.md:159-184` - Confirmation gate and checkpoint suggestion
 - `implementing-plans/SKILL.md:76-84` - Getting stuck guidance
-- `checkpointing/SKILL.md:42-178` - Full checkpoint operations
+- `bookmarking-code/SKILL.md:42-178` - Full checkpoint operations
 - `learning-from-sessions/SKILL.md:26-42` - Gate function for extraction
 - `committing-changes/SKILL.md:12-24` - Staged file verification iron law
 
@@ -306,7 +306,7 @@ Skills with `reference/` subdirectories: 10+
 1. ~~Should `/code-reviewing` be integrated into `/committing-changes` or standalone?~~ **RESOLVED**: Created as standalone `/reviewing-security` skill
 2. Should `/tdd-testing` be a skill or a reference doc in `/implementing-plans`?
 3. Do you need `/e2e-testing` for your current projects?
-4. Should `/debugging-codebases` be deployed to production? (Currently in development only)
+4. Should `/debugging-code` be deployed to production? (Currently in development only)
 
 ---
 

@@ -101,7 +101,7 @@ Ready to proceed? /committing-changes
 ## Integration Points
 
 - Invoked before `/committing-changes`
-- Called from `/validating-implementations` as option 4
+- Called from `/validating-code` as option 4
 - Can be run independently for pre-commit review
 
 ## Red Flags - STOP and Verify

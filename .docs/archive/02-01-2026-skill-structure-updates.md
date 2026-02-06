@@ -25,7 +25,7 @@ Update 6 non-compliant skills to match the `/creating-skills` format. Each skill
 
 **If original intent is unclear**: Use `/learning-from-sessions` to review the session where the skill was created.
 
-## Phase 1: vcode → validating-implementations
+## Phase 1: vcode → validating-code
 
 Most referenced skill. Update first to establish the pattern.
 
@@ -33,10 +33,10 @@ Most referenced skill. Update first to establish the pattern.
 
 **1. Rename directory:**
 ```bash
-mv newskills/vcode newskills/validating-implementations
+mv newskills/vcode newskills/validating-code
 ```
 
-**2. Update frontmatter** (`newskills/validating-implementations/SKILL.md:1-3`):
+**2. Update frontmatter** (`newskills/validating-code/SKILL.md:1-3`):
 
 Before:
 ```yaml
@@ -48,41 +48,41 @@ description: Validate implementation against plan, verify success criteria
 After:
 ```yaml
 ---
-name: validating-implementations
+name: validating-code
 description: "Use this skill when verifying implementation against a plan, checking success criteria, or after /implementing-plans completes. This includes running validation commands, comparing code to plan specifications, checking test coverage, and confirming all phases meet their success criteria. Trigger phrases: '/vcode', 'validate the implementation', 'check against the plan', 'verify success criteria'."
 ---
 ```
 
-**3. Update cross-references** (replace `/vcode` with `/validating-implementations`):
+**3. Update cross-references** (replace `/vcode` with `/validating-code`):
 - `newskills/implementing-plans/SKILL.md`
-- `newskills/planning-codebases/SKILL.md`
+- `newskills/planning-code/SKILL.md`
 - `newskills/checkpoint/SKILL.md` (will be renamed in Phase 2)
 
 **4. Deploy:**
 ```bash
 rm -rf ~/.claude/skills/vcode
-cp -r newskills/validating-implementations ~/.claude/skills/
+cp -r newskills/validating-code ~/.claude/skills/
 ```
 
 ### Success Criteria
-- [x] `ls newskills/validating-implementations/SKILL.md` exists
-- [x] `grep -c "^name: validating-implementations" newskills/validating-implementations/SKILL.md` returns 1
-- [x] `grep -c "Use this skill when" newskills/validating-implementations/SKILL.md` returns 1
+- [x] `ls newskills/validating-code/SKILL.md` exists
+- [x] `grep -c "^name: validating-code" newskills/validating-code/SKILL.md` returns 1
+- [x] `grep -c "Use this skill when" newskills/validating-code/SKILL.md` returns 1
 - [x] `grep "/vcode" newskills/` returns no matches (all updated)
-- [x] `ls ~/.claude/skills/validating-implementations/SKILL.md` exists
+- [x] `ls ~/.claude/skills/validating-code/SKILL.md` exists
 
 ---
 
-## Phase 2: checkpoint → checkpointing
+## Phase 2: checkpoint → bookmarking-code
 
 ### Changes
 
 **1. Rename directory:**
 ```bash
-mv newskills/checkpoint newskills/checkpointing
+mv newskills/checkpoint newskills/bookmarking-code
 ```
 
-**2. Update frontmatter** (`newskills/checkpointing/SKILL.md:1-3`):
+**2. Update frontmatter** (`newskills/bookmarking-code/SKILL.md:1-3`):
 
 Before:
 ```yaml
@@ -94,27 +94,27 @@ description: Create and verify named checkpoints for regression detection
 After:
 ```yaml
 ---
-name: checkpointing
+name: bookmarking-code
 description: "Use this skill when saving development checkpoints, comparing against previous states, or detecting regressions between phases. This includes creating named snapshots before risky changes, verifying no regressions after implementation, listing available checkpoints, and clearing old checkpoints. Trigger phrases: '/checkpoint create', '/checkpoint verify', '/checkpoint list', 'save a checkpoint', 'compare to checkpoint'."
 ---
 ```
 
-**3. Update cross-references** (replace `/checkpoint` with `/checkpointing`):
+**3. Update cross-references** (replace `/checkpoint` with `/bookmarking-code`):
 - `newskills/implementing-plans/SKILL.md`
-- `newskills/validating-implementations/SKILL.md` (already renamed)
+- `newskills/validating-code/SKILL.md` (already renamed)
 
 **4. Deploy:**
 ```bash
 rm -rf ~/.claude/skills/checkpoint
-cp -r newskills/checkpointing ~/.claude/skills/
+cp -r newskills/bookmarking-code ~/.claude/skills/
 ```
 
 ### Success Criteria
-- [x] `ls newskills/checkpointing/SKILL.md` exists
-- [x] `grep -c "^name: checkpointing" newskills/checkpointing/SKILL.md` returns 1
-- [x] `grep -c "Use this skill when" newskills/checkpointing/SKILL.md` returns 1
-- [x] `grep "/checkpoint" newskills/` returns no matches except within checkpointing skill itself
-- [x] `ls ~/.claude/skills/checkpointing/SKILL.md` exists
+- [x] `ls newskills/bookmarking-code/SKILL.md` exists
+- [x] `grep -c "^name: bookmarking-code" newskills/bookmarking-code/SKILL.md` returns 1
+- [x] `grep -c "Use this skill when" newskills/bookmarking-code/SKILL.md` returns 1
+- [x] `grep "/checkpoint" newskills/` returns no matches except within bookmarking-code skill itself
+- [x] `ls ~/.claude/skills/bookmarking-code/SKILL.md` exists
 
 ---
 
@@ -145,7 +145,7 @@ description: "Use this skill when committing work to git, pushing changes to Git
 ```
 
 **3. Update cross-references** (replace `/commit` with `/committing-changes`):
-- `newskills/validating-implementations/SKILL.md`
+- `newskills/validating-code/SKILL.md`
 - `newskills/implementing-plans/SKILL.md`
 
 **4. Deploy:**
@@ -163,16 +163,16 @@ cp -r newskills/committing-changes ~/.claude/skills/
 
 ---
 
-## Phase 4: pr → creating-pull-requests
+## Phase 4: pr → creating-prs
 
 ### Changes
 
 **1. Rename directory:**
 ```bash
-mv newskills/pr newskills/creating-pull-requests
+mv newskills/pr newskills/creating-prs
 ```
 
-**2. Update frontmatter** (`newskills/creating-pull-requests/SKILL.md:1-3`):
+**2. Update frontmatter** (`newskills/creating-prs/SKILL.md:1-3`):
 
 Before:
 ```yaml
@@ -184,26 +184,26 @@ description: Generate PR description and create pull request with confirmation
 After:
 ```yaml
 ---
-name: creating-pull-requests
+name: creating-prs
 description: "Use this skill when creating a pull request, opening a PR for review, or generating PR descriptions. This includes analyzing commits for the PR summary, writing PR descriptions with test plans, creating the PR via gh CLI, and requesting reviewers. Trigger phrases: '/pr', 'create a PR', 'make a pull request', 'open a pull request', 'submit for review'."
 ---
 ```
 
-**3. Update cross-references** (replace `/pr` with `/creating-pull-requests`):
-- `newskills/validating-implementations/SKILL.md`
+**3. Update cross-references** (replace `/pr` with `/creating-prs`):
+- `newskills/validating-code/SKILL.md`
 
 **4. Deploy:**
 ```bash
 rm -rf ~/.claude/skills/pr
-cp -r newskills/creating-pull-requests ~/.claude/skills/
+cp -r newskills/creating-prs ~/.claude/skills/
 ```
 
 ### Success Criteria
-- [x] `ls newskills/creating-pull-requests/SKILL.md` exists
-- [x] `grep -c "^name: creating-pull-requests" newskills/creating-pull-requests/SKILL.md` returns 1
-- [x] `grep -c "Use this skill when" newskills/creating-pull-requests/SKILL.md` returns 1
-- [x] `grep "/pr" newskills/` returns no matches except within creating-pull-requests skill itself
-- [x] `ls ~/.claude/skills/creating-pull-requests/SKILL.md` exists
+- [x] `ls newskills/creating-prs/SKILL.md` exists
+- [x] `grep -c "^name: creating-prs" newskills/creating-prs/SKILL.md` returns 1
+- [x] `grep -c "Use this skill when" newskills/creating-prs/SKILL.md` returns 1
+- [x] `grep "/pr" newskills/` returns no matches except within creating-prs skill itself
+- [x] `ls ~/.claude/skills/creating-prs/SKILL.md` exists
 
 ---
 
@@ -301,7 +301,7 @@ After all phases complete:
 
 ```bash
 # Verify all skills have proper frontmatter
-for skill in checkpointing committing-changes creating-pull-requests handing-over taking-over validating-implementations; do
+for skill in bookmarking-code committing-changes creating-prs handing-over taking-over validating-code; do
   echo "=== $skill ==="
   head -5 newskills/$skill/SKILL.md
 done

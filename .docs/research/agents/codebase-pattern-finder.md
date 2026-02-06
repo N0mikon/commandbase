@@ -1,8 +1,8 @@
-# Research: codebase-pattern-finder Agent
+# Research: code-librarian Agent
 
 ## Overview
 
-The `codebase-pattern-finder` agent (`~/.claude/agents/codebase-pattern-finder.md`) finds similar implementations, usage examples, or existing patterns that can be modeled after. It provides concrete code examples.
+The `code-librarian` agent (`~/.claude/agents/code-librarian.md`) finds similar implementations, usage examples, or existing patterns that can be modeled after. It provides concrete code examples.
 
 **When to Use**: When looking for patterns to follow or examples to model after.
 
@@ -19,7 +19,7 @@ The `codebase-pattern-finder` agent (`~/.claude/agents/codebase-pattern-finder.m
 
 Called from skills via Task tool:
 ```
-subagent_type: "codebase-pattern-finder"
+subagent_type: "code-librarian"
 prompt: "Find examples of [pattern] in the codebase"
 ```
 
@@ -58,10 +58,10 @@ Based on existing patterns, you should [recommendation].
 
 ## Integration Points
 
-- Deep research phase of `/planning-codebases`
-- Pattern identification for `/researching-codebases`
+- Deep research phase of `/planning-code`
+- Pattern identification for `/researching-code`
 - Convention discovery for `/creating-skills`
 
 ## File Reference
 
-- Agent: `~/.claude/agents/codebase-pattern-finder.md`
+- Agent: `~/.claude/agents/code-librarian.md`

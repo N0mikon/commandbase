@@ -13,22 +13,22 @@ Out of 19 skills, **3 skills have drifts** across **4 files**. In all cases, the
 
 The following skills are fully in sync (SKILL.md and all subdirectory files match):
 
-- checkpointing
-- creating-pull-requests
+- bookmarking-code
+- creating-prs
 - creating-skills (+ reference/ + templates/)
 - debating-options
-- debugging-codebases (+ reference/ + templates/)
+- debugging-code (+ reference/ + templates/)
 - discussing-features (+ reference/ + templates/)
 - handing-over
 - implementing-plans (+ reference/)
 - learning-from-sessions (+ reference/ + templates/)
-- planning-codebases (+ reference/ + templates/)
+- planning-code (+ reference/ + templates/)
 - reviewing-changes (+ templates/)
 - reviewing-security
 - taking-over
 - updating-claude-md (+ reference/)
 - updating-skills (+ reference/)
-- validating-implementations
+- validating-code
 
 ### Changed Skill 1: committing-changes
 
@@ -41,9 +41,9 @@ The following skills are fully in sync (SKILL.md and all subdirectory files matc
 
 **Impact:** The global version treats stale docs as a blocking pre-commit concern. The repo version treats it as a post-push notification. This is a significant workflow difference.
 
-### Changed Skill 2: researching-codebases
+### Changed Skill 2: researching-code
 
-**File:** `researching-codebases/SKILL.md`
+**File:** `researching-code/SKILL.md`
 **Direction:** Global is newer
 
 **What changed:**
@@ -80,7 +80,7 @@ The following skills are fully in sync (SKILL.md and all subdirectory files matc
 | Skill | File | Status | Newer |
 |-------|------|--------|-------|
 | committing-changes | SKILL.md | DIFFERS | Global |
-| researching-codebases | SKILL.md | DIFFERS | Global |
+| researching-code | SKILL.md | DIFFERS | Global |
 | starting-projects | reference/claude-md-guidelines.md | DIFFERS | Global |
 | starting-projects | templates/claude-md-template.md | DIFFERS | Global |
 
@@ -90,7 +90,7 @@ Copy these 4 files from `~/.claude/skills/` to `newskills/` to sync the repo:
 
 ```bash
 cp ~/.claude/skills/committing-changes/SKILL.md newskills/committing-changes/SKILL.md
-cp ~/.claude/skills/researching-codebases/SKILL.md newskills/researching-codebases/SKILL.md
+cp ~/.claude/skills/researching-code/SKILL.md newskills/researching-code/SKILL.md
 cp ~/.claude/skills/starting-projects/reference/claude-md-guidelines.md newskills/starting-projects/reference/claude-md-guidelines.md
 cp ~/.claude/skills/starting-projects/templates/claude-md-template.md newskills/starting-projects/templates/claude-md-template.md
 ```

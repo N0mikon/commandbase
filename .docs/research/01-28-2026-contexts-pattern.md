@@ -127,7 +127,7 @@ Focus: Understanding before synthesis
 - Document, don't evaluate
 
 ## Tools to favor
-- Task with codebase-locator, codebase-analyzer
+- Task with code-locator, code-analyzer
 - Grep, Glob, Read
 ```
 
@@ -142,7 +142,7 @@ Focus: Research before planning
 - Get user confirmation before finalizing
 
 ## Tools to favor
-- Task with codebase-pattern-finder
+- Task with code-librarian
 - Read for understanding existing code
 ```
 

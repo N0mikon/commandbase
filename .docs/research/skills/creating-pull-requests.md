@@ -1,8 +1,8 @@
-# Research: creating-pull-requests Skill
+# Research: creating-prs Skill
 
 ## Overview
 
-The `creating-pull-requests` skill (`~/.claude/skills/creating-pull-requests/SKILL.md`) orchestrates the complete workflow for creating GitHub pull requests via the `gh` CLI. It enforces mandatory analysis of ALL commits on a branch before drafting PR descriptions, requiring user confirmation before execution.
+The `creating-prs` skill (`~/.claude/skills/creating-prs/SKILL.md`) orchestrates the complete workflow for creating GitHub pull requests via the `gh` CLI. It enforces mandatory analysis of ALL commits on a branch before drafting PR descriptions, requiring user confirmation before execution.
 
 **Trigger phrases**: `/pr`, `create a PR`, `make a pull request`, `open a pull request`, `submit for review`
 
@@ -137,4 +137,4 @@ URL: [pr url]
 
 ## File Reference
 
-- Main: `~/.claude/skills/creating-pull-requests/SKILL.md`
+- Main: `~/.claude/skills/creating-prs/SKILL.md`

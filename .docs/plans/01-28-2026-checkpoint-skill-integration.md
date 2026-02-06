@@ -4,26 +4,26 @@ last_updated: 2026-02-05
 last_updated_by: docs-updater
 last_updated_note: "Updated git_commit to current HEAD - no content changes needed, plan remains completed"
 topic: "Checkpoint Skill with RPI Workflow Integration"
-tags: [plan, checkpoint, implementing-plans, planning-codebases, validating-implementations, regression]
+tags: [plan, checkpoint, implementing-plans, planning-code, validating-code, regression]
 status: completed
 references:
   - C:/code/commandbase/.docs/research/01-28-2026-checkpoint-command-pattern.md
-  - C:/code/commandbase/newskills/planning-codebases/SKILL.md
+  - C:/code/commandbase/newskills/planning-code/SKILL.md
   - C:/code/commandbase/newskills/implementing-plans/SKILL.md
-  - C:/code/commandbase/newskills/validating-implementations/SKILL.md
-  - C:/code/commandbase/newskills/checkpointing/SKILL.md
+  - C:/code/commandbase/newskills/validating-code/SKILL.md
+  - C:/code/commandbase/newskills/bookmarking-code/SKILL.md
 ---
 
 # Checkpoint Skill with RPI Workflow Integration
 
 > **Historical Note (2026-02-01)**:
 > Skills referenced in this plan have been renamed:
-> - `/checkpoint` -> `/checkpointing`
-> - `/pcode` -> `/planning-codebases`
+> - `/checkpoint` -> `/bookmarking-code`
+> - `/pcode` -> `/planning-code`
 > - `/icode` -> `/implementing-plans`
-> - `/vcode` -> `/validating-implementations`
+> - `/vcode` -> `/validating-code`
 > - `/commit` -> `/committing-changes`
-> See `newskills/checkpointing/SKILL.md` for the implemented skill.
+> See `newskills/bookmarking-code/SKILL.md` for the implemented skill.
 
 ## Overview
 

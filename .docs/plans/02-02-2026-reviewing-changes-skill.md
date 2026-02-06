@@ -2,14 +2,14 @@
 
 ## Overview
 
-Create a pre-commit quality gate skill that reviews code changes between `/validating-implementations` and `/committing-changes`. Uses PASS/WARN verdicts (no auto-blocking) to surface quality issues while letting the user decide whether to proceed.
+Create a pre-commit quality gate skill that reviews code changes between `/validating-code` and `/committing-changes`. Uses PASS/WARN verdicts (no auto-blocking) to surface quality issues while letting the user decide whether to proceed.
 
 ## Context
 
 **Research:** `.docs/research/02-02-2026-reviewing-and-updating-skills-research.md`
 
 **The Gap:**
-- `/validating-implementations` confirms code matches plan and tests pass
+- `/validating-code` confirms code matches plan and tests pass
 - `/committing-changes` checks git status, security (public repos only)
 - Between them: no check for code quality, commit structure, or message quality
 
@@ -22,7 +22,7 @@ Create a pre-commit quality gate skill that reviews code changes between `/valid
 
 - No auto-BLOCK verdicts (user always decides)
 - No security checks (that's `/reviewing-security`)
-- No spec compliance (that's `/validating-implementations`)
+- No spec compliance (that's `/validating-code`)
 - No enforcement of commit message format (suggest, don't require)
 
 ---
@@ -162,7 +162,7 @@ newskills/reviewing-changes/
 6. ONLY THEN: User decides to proceed or fix
 
 **Integration with workflow:**
-- Triggered after `/validating-implementations` says "Continue to commit?"
+- Triggered after `/validating-code` says "Continue to commit?"
 - Produces report that `/committing-changes` can use
 - Suggested commit message passed forward
 
@@ -209,13 +209,13 @@ Connect skill to workflow and validate it works.
 - [x] Deploy to ~/.claude/skills/
 - [x] Test on real changes
 - [x] Verify report format works
-- [x] Update workflow documentation - Added option 4 to /validating-implementations
+- [x] Update workflow documentation - Added option 4 to /validating-code
 
 ### Integration Points
 
 **After validation:**
 ```
-/validating-implementations
+/validating-code
    ↓ "Continue to commit/PR?"
    ↓
 /reviewing-changes  <-- invoke here
@@ -224,7 +224,7 @@ Connect skill to workflow and validate it works.
 /committing-changes
 ```
 
-**Workflow suggestion:** Add to `/validating-implementations` next-action prompt:
+**Workflow suggestion:** Add to `/validating-code` next-action prompt:
 - Option 5: "Review changes before committing"
 
 ### Success Criteria

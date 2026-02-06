@@ -1,8 +1,8 @@
-# Research: validating-implementations Skill
+# Research: validating-code Skill
 
 ## Overview
 
-The `validating-implementations` skill (`~/.claude/skills/validating-implementations/SKILL.md`) verifies implementation against a plan, checking success criteria and confirming all phases meet their requirements. It produces a validation report with verdicts and next-step options.
+The `validating-code` skill (`~/.claude/skills/validating-code/SKILL.md`) verifies implementation against a plan, checking success criteria and confirming all phases meet their requirements. It produces a validation report with verdicts and next-step options.
 
 **Trigger phrases**: `/vcode`, `validate the implementation`, `check against the plan`, `verify success criteria`
 
@@ -62,12 +62,12 @@ If checkpoints were created during `/implementing-plans` phases:
 ```
 Checkpoint comparison available.
 
-/checkpointing list
+/bookmarking-code list
 - plan-approved (2026-01-28-10:30) @ abc1234
 - phase-1-done (2026-01-28-11:45) @ def5678
 
 Run full comparison to plan baseline?
-/checkpointing verify "plan-approved"
+/bookmarking-code verify "plan-approved"
 ```
 
 This shows:
@@ -79,9 +79,9 @@ This shows:
 
 - Runs after `/implementing-plans` completes
 - Can invoke `/reviewing-changes` before commit
-- Can invoke `/checkpointing verify` for delta comparison
+- Can invoke `/bookmarking-code verify` for delta comparison
 - Leads to `/committing-changes` when validation passes
 
 ## File Reference
 
-- Main: `~/.claude/skills/validating-implementations/SKILL.md`
+- Main: `~/.claude/skills/validating-code/SKILL.md`

@@ -1,10 +1,10 @@
-# Research: researching-codebases Skill
+# Research: researching-code Skill
 
 > **Updated 2026-02-05**: Gate Function expanded to 7 steps with mandatory research file creation. Added Red Flags and Rationalization Prevention sections that were added to the global version.
 
 ## Overview
 
-The `researching-codebases` skill (`~/.claude/skills/researching-codebases/SKILL.md`) researches a codebase to understand how it works. It spawns specialized agents for parallel investigation and produces documentation of findings. Research MUST be written to a `.docs/research/` file before presenting to the user.
+The `researching-code` skill (`~/.claude/skills/researching-code/SKILL.md`) researches a codebase to understand how it works. It spawns specialized agents for parallel investigation and produces documentation of findings. Research MUST be written to a `.docs/research/` file before presenting to the user.
 
 **Trigger phrases**: `research codebase`, `how does this work`, `where is this defined`, `explain the code`, `explain the architecture`
 
@@ -43,9 +43,9 @@ Parse user query to understand what needs to be researched:
 
 ### Step 2: Spawn Research Agents
 Launch specialized agents in parallel:
-- **codebase-locator**: Find relevant files
-- **codebase-analyzer**: Understand implementation details
-- **codebase-pattern-finder**: Find similar patterns
+- **code-locator**: Find relevant files
+- **code-analyzer**: Understand implementation details
+- **code-librarian**: Find similar patterns
 - **docs-locator**: Find existing documentation
 
 ### Step 3: Collect Results
@@ -94,9 +94,9 @@ Output comprehensive documentation with:
 
 ## Integration Points
 
-- Produces context for `/planning-codebases`
+- Produces context for `/planning-code`
 - Informs `/discussing-features` decisions
-- Supports `/debugging-codebases` investigation
+- Supports `/debugging-code` investigation
 
 ## Red Flags - STOP and Verify
 
@@ -118,4 +118,4 @@ Output comprehensive documentation with:
 
 ## File Reference
 
-- Main: `~/.claude/skills/researching-codebases/SKILL.md`
+- Main: `~/.claude/skills/researching-code/SKILL.md`

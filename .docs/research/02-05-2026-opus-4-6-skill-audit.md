@@ -65,19 +65,19 @@ Additional context: Opus 4.6 has adaptive thinking (auto-decides reasoning depth
 
 | # | Skill | Verbosity | Unexpected Changes | Persistence | Overall |
 |---|-------|-----------|--------------------|-------------|---------|
-| 1 | checkpointing | Low | Low | Low | Low |
+| 1 | bookmarking-code | Low | Low | Low | Low |
 | 2 | committing-changes | **HIGH** | Low | Low | **HIGH** |
 | 3 | creating-agents | Medium | Low | Low | Medium |
-| 4 | creating-pull-requests | **HIGH** | Low | Low | **HIGH** |
+| 4 | creating-prs | **HIGH** | Low | Low | **HIGH** |
 | 5 | creating-skills | Medium | Low | Low | Medium |
 | 6 | debating-options | Medium | Low | Medium | Medium |
-| 7 | debugging-codebases | Low | Low | **HIGH** | **HIGH** |
+| 7 | debugging-code | Low | Low | **HIGH** | **HIGH** |
 | 8 | discussing-features | Low | Low | Low | Low |
 | 9 | handing-over | Medium | Low | Low | Medium |
 | 10 | implementing-plans | Medium | **HIGH** | **HIGH** | **HIGH** |
 | 11 | learning-from-sessions | Medium | Low | Low | Medium |
-| 12 | planning-codebases | Medium | Low | Medium | Medium |
-| 13 | researching-codebases | Medium | Low | Medium | Medium |
+| 12 | planning-code | Medium | Low | Medium | Medium |
+| 13 | researching-code | Medium | Low | Medium | Medium |
 | 14 | researching-web | Medium | Low | Medium | Medium |
 | 15 | reviewing-changes | Medium | Medium | Low | Medium |
 | 16 | reviewing-security | Low | Low | Low | Low |
@@ -85,10 +85,10 @@ Additional context: Opus 4.6 has adaptive thinking (auto-decides reasoning depth
 | 18 | taking-over | Low | Low | Low | Low |
 | 19 | updating-claude-md | Low | Medium | Low | Medium |
 | 20 | updating-skills | Low | Low | Low | Low |
-| 21 | validating-implementations | Low | Low | **HIGH** | **HIGH** |
+| 21 | validating-code | Low | Low | **HIGH** | **HIGH** |
 | 22 | (audit covers all) | - | - | - | - |
 
-**HIGH risk skills**: committing-changes, creating-pull-requests, debugging-codebases, implementing-plans, validating-implementations
+**HIGH risk skills**: committing-changes, creating-prs, debugging-code, implementing-plans, validating-code
 
 ---
 
@@ -106,7 +106,7 @@ Additional context: Opus 4.6 has adaptive thinking (auto-decides reasoning depth
 - **Risk**: Bloated multi-paragraph commit messages where a single line would suffice.
 - **Proposed fix**: Add explicit body length guidance: "Body should be 0-3 bullet points. If you need more, the commit is too large - split it."
 
-#### creating-pull-requests
+#### creating-prs
 - **Current guardrail** (line 99-103): "Be concise but thorough"
 - **Gap**: No word or line limits on PR description sections. "Concise but thorough" is subjective.
 - **Risk**: PR descriptions that are walls of text, especially the Summary and Changes sections.
@@ -153,7 +153,7 @@ Additional context: Opus 4.6 has adaptive thinking (auto-decides reasoning depth
 
 **Skills with persistence concerns**:
 
-#### debugging-codebases
+#### debugging-code
 - **Current guardrail**: Hypothesis tracking, Eliminated section, debug file persistence.
 - **Assessment**: Actually well-designed for persistent agents. The hypothesis/elimination loop prevents going in circles. The debug file prevents re-investigating eliminated theories.
 - **Risk**: Positive. 4.6's persistence is a feature here, not a bug. The structured investigation loop channels persistence productively.
@@ -165,7 +165,7 @@ Additional context: Opus 4.6 has adaptive thinking (auto-decides reasoning depth
 - **Risk**: HIGH. The "don't pause" instruction amplifies both other risks.
 - **Proposed fix**: The don't-pause instruction is correct for efficiency, but needs the unexpected-modifications guardrail above to compensate. The Gate Function (line 19-24) requiring fresh verification per phase is the correct checkpoint mechanism.
 
-#### validating-implementations
+#### validating-code
 - **Current guardrail**: Two-stage gate (spec compliance THEN code quality).
 - **Assessment**: Well-guarded. The sequential stage requirement prevents skipping ahead. The "fresh evidence" Iron Law prevents trusting cached results.
 - **Risk**: Positive. Persistence helps thoroughness here.
@@ -197,9 +197,9 @@ Additional context: Opus 4.6 has adaptive thinking (auto-decides reasoning depth
 
 1. **Model-agnostic design**: Skills should NOT contain model-specific language like "Because Opus 4.6 tends to..." The enforcement patterns are the right abstraction.
 
-2. **debugging-codebases structure**: The hypothesis/elimination loop is excellent design that channels persistence productively.
+2. **debugging-code structure**: The hypothesis/elimination loop is excellent design that channels persistence productively.
 
-3. **Approval gates**: Skills that require user approval before changes (updating-skills, updating-claude-md, creating-pull-requests) are naturally resistant to all three 4.6 behaviors.
+3. **Approval gates**: Skills that require user approval before changes (updating-skills, updating-claude-md, creating-prs) are naturally resistant to all three 4.6 behaviors.
 
 ---
 
@@ -215,7 +215,7 @@ Additional context: Opus 4.6 has adaptive thinking (auto-decides reasoning depth
 - Add explicit commit message body length guidance
 - **Why second**: Every session ends with a commit; verbosity here has the highest frequency impact
 
-### Priority 3: creating-pull-requests
+### Priority 3: creating-prs
 - Add explicit section length limits to PR description template
 - **Why third**: PR descriptions are visible to reviewers; verbosity here has external impact
 

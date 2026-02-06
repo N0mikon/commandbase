@@ -4,7 +4,7 @@
 
 The `discussing-features` skill (`~/.claude/skills/discussing-features/SKILL.md`) captures user implementation preferences through structured questioning BEFORE research or planning begins. It produces context documents in `.docs/context/{feature-name}.md` that constrain downstream research scope and planning decisions.
 
-**Trigger phrases**: `let's discuss this feature`, `how should this work`, `design decisions for`, or before invoking `/planning-codebases` on a new feature
+**Trigger phrases**: `let's discuss this feature`, `how should this work`, `design decisions for`, or before invoking `/planning-code` on a new feature
 
 ## The Iron Law (SKILL.md:12-24)
 
@@ -113,8 +113,8 @@ Decisions made:
 Deferred ideas: [count or "None"]
 
 Next steps:
-- Run /planning-codebases to create implementation plan
-- Or /researching-codebases if you need to understand existing patterns first
+- Run /planning-code to create implementation plan
+- Or /researching-code if you need to understand existing patterns first
 ```
 
 ### Context Document Template
@@ -125,13 +125,13 @@ Written to `.docs/context/{feature-name}.md` with XML-tagged sections:
 - `<deferred>` - Ideas for other features
 
 Downstream skills parse these sections:
-- `/researching-codebases` reads `<decisions>` to focus research scope
-- `/planning-codebases` reads `<decisions>` to honor user choices
+- `/researching-code` reads `<decisions>` to focus research scope
+- `/planning-code` reads `<decisions>` to honor user choices
 
 ## Anti-Patterns
 
 **DON'T ask:**
-- Technical architecture questions (defer to `/planning-codebases`)
+- Technical architecture questions (defer to `/planning-code`)
 - Performance optimization questions
 - "Should we use library X?" (defer to research)
 

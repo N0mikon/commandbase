@@ -4,17 +4,17 @@ last_updated: 2026-02-02
 last_updated_by: docs-updater
 last_updated_note: "Archived - completed implementation plan, all phases executed"
 topic: "RPI Skill Enforcement Patterns (All Skills)"
-tags: [plan, implementation, researching-codebases, implementing-plans, planning-codebases, validating-implementations, committing-changes, creating-pull-requests, handing-over, taking-over, starting-projects, enforcement, superpowers-patterns]
+tags: [plan, implementation, researching-code, implementing-plans, planning-code, validating-code, committing-changes, creating-prs, handing-over, taking-over, starting-projects, enforcement, superpowers-patterns]
 status: historical
 archived: 2026-02-02
 archive_reason: "Completed implementation plan - all 17 phases executed, skills restructured and renamed to gerund form. See the skills themselves in newskills/*/SKILL.md for current enforcement patterns."
 references:
-  - newskills/researching-codebases/SKILL.md
+  - newskills/researching-code/SKILL.md
   - newskills/implementing-plans/SKILL.md
-  - newskills/planning-codebases/SKILL.md
-  - newskills/validating-implementations/SKILL.md
+  - newskills/planning-code/SKILL.md
+  - newskills/validating-code/SKILL.md
   - newskills/committing-changes/SKILL.md
-  - newskills/creating-pull-requests/SKILL.md
+  - newskills/creating-prs/SKILL.md
   - newskills/handing-over/SKILL.md
   - newskills/taking-over/SKILL.md
   - newskills/starting-projects/SKILL.md
@@ -27,12 +27,12 @@ references:
 
 > **Historical Note (2026-02-01)**:
 > This plan has been fully executed. Skills were then renamed to gerund form:
-> - `rcode` -> `researching-codebases`
+> - `rcode` -> `researching-code`
 > - `icode` -> `implementing-plans`
-> - `pcode` -> `planning-codebases`
-> - `vcode` -> `validating-implementations`
+> - `pcode` -> `planning-code`
+> - `vcode` -> `validating-code`
 > - `commit` -> `committing-changes`
-> - `pr` -> `creating-pull-requests`
+> - `pr` -> `creating-prs`
 > - `handover` -> `handing-over`
 > - `takeover` -> `taking-over`
 > - `new_project` -> `starting-projects`
@@ -672,7 +672,7 @@ NO PLAN WITHOUT CODEBASE RESEARCH FIRST
 If you haven't spawned research agents and read the results, you cannot write the plan.
 
 **No exceptions:**
-- Don't plan from memory - spawn codebase-locator and codebase-analyzer agents
+- Don't plan from memory - spawn code-locator and code-analyzer agents
 - Don't skip research for "simple" changes - simple changes touch complex systems
 - Don't assume patterns - verify them in THIS codebase
 - Don't write the plan before ALL research agents complete
@@ -689,7 +689,7 @@ If you haven't spawned research agents and read the results, you cannot write th
 BEFORE writing any implementation plan:
 
 1. IDENTIFY: What aspects of the codebase need investigation?
-2. SPAWN: Create parallel research agents (minimum 2: codebase-locator + codebase-analyzer)
+2. SPAWN: Create parallel research agents (minimum 2: code-locator + code-analyzer)
 3. WAIT: All agents must complete before proceeding
 4. READ: Read ALL files identified by agents into main context
 5. VERIFY: Do you have file:line references for integration points?

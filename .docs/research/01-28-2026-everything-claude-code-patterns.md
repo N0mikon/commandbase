@@ -98,7 +98,7 @@ DISPATCH (broad search) → EVALUATE (score relevance 0-1) → REFINE (update ke
 - Iterative retrieval would let agents refine their search
 - Particularly useful for `/pcode` research phase
 
-**Potential integration**: Teach codebase-locator and codebase-analyzer to do 2-3 refinement cycles before returning results.
+**Potential integration**: Teach code-locator and code-analyzer to do 2-3 refinement cycles before returning results.
 
 ### 4. `/orchestrate` Command - Agent Pipelines
 
@@ -224,7 +224,7 @@ everything-claude-code assigns models per agent (Opus for planning, Haiku for ob
 | Priority | Pattern | Adaptation | Status |
 |----------|---------|------------|--------|
 | 🔴 High | `/learn` | Create `/learn` to capture patterns mid-session | **IMPLEMENTED** as `learning-from-sessions` skill |
-| 🔴 High | `/checkpoint` | Add checkpoint support to `/icode` phases | **IMPLEMENTED** as `checkpointing` skill |
+| 🔴 High | `/checkpoint` | Add checkpoint support to `/icode` phases | **IMPLEMENTED** as `bookmarking-code` skill |
 | 🟡 Medium | Contexts | Create RPI phase contexts | Not started |
 | 🟡 Medium | Iterative retrieval | Enhance agents with refinement loops | Not started |
 | 🟢 Low | `/orchestrate` | Create `/rpi` for full workflow automation | Not started |
@@ -240,7 +240,7 @@ everything-claude-code assigns models per agent (Opus for planning, Haiku for ob
 - Includes extraction workflow, retrospective mode, and output routing
 - Reference files: description-optimization.md, extraction-workflow.md, quality-gates.md, research-foundations.md
 
-**`checkpointing` skill** (newskills/checkpointing/SKILL.md)
+**`bookmarking-code` skill** (newskills/bookmarking-code/SKILL.md)
 - Implements the `/checkpoint` pattern with create/verify/list/clear operations
 - Uses file-based storage (.claude/checkpoints.log) as recommended in Open Questions
 - Integrates with RPI workflow: plan-approved -> phase-N-done checkpoints

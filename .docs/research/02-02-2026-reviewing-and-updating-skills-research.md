@@ -18,7 +18,7 @@ Purpose: Pre-planning research for two new skills
 ```
 /implementing-plans
    ↓ [produces code changes]
-/validating-implementations
+/validating-code
    ↓ [produces validation report]
    ↓ [asks "Continue to commit/PR?"]
    ↓
@@ -29,9 +29,9 @@ Purpose: Pre-planning research for two new skills
    ↓ [commits]
 ```
 
-### What validating-implementations Produces
+### What validating-code Produces
 
-From `C:/Users/Jason/.claude/skills/validating-implementations/SKILL.md`:
+From `C:/Users/Jason/.claude/skills/validating-code/SKILL.md`:
 
 **Stage 1 Output (lines 30-44):** Spec compliance check
 - ✓ Implemented correctly
@@ -88,7 +88,7 @@ From `C:/Users/Jason/.claude/skills/committing-changes/SKILL.md`:
 
 Between validation report and commit, no check for:
 
-| Category | validating-implementations | committing-changes | Gap |
+| Category | validating-code | committing-changes | Gap |
 |----------|---------------------------|-------------------|-----|
 | Code Quality | ✗ Only checks plan match | ✗ Only security | **Missing** |
 | Commit Atomicity | ✗ Validates all phases together | "Identify groups" but no guidance | **Missing** |
@@ -100,7 +100,7 @@ Between validation report and commit, no check for:
 
 **With reviewing-changes inserted:**
 ```
-/validating-implementations
+/validating-code
    ↓ [validation report: tests pass, spec met]
 /reviewing-changes  <-- NEW
    ↓ [review report: quality, commit structure, message drafts]
@@ -176,10 +176,10 @@ Iron Law → Gate Function → Process → Red Flags → Rationalization Prevent
 
 **6 skills renamed:**
 ```
-vcode → validating-implementations
-checkpoint → checkpointing
+vcode → validating-code
+checkpoint → bookmarking-code
 commit → committing-changes
-pr → creating-pull-requests
+pr → creating-prs
 handover → handing-over
 takeover → taking-over
 ```
@@ -200,10 +200,10 @@ takeover → taking-over
 - `/creating-skills` - 4 reference files, 2 templates
 - `/learning-from-sessions` - 4 reference files, 1 template
 - `/starting-projects` - 3 reference files, 2 templates
-- `/researching-codebases` - 2 reference files, 1 template
-- `/planning-codebases` - 2 reference files, 1 template
+- `/researching-code` - 2 reference files, 1 template
+- `/planning-code` - 2 reference files, 1 template
 - `/implementing-plans` - 2 reference files
-- `/debugging-codebases` - 3 reference files, 1 template
+- `/debugging-code` - 3 reference files, 1 template
 - `/discussing-features` - 1 reference file, 1 template
 - `/updating-claude-md` - 2 reference files
 
@@ -215,7 +215,7 @@ takeover → taking-over
 
 **5 new skills created:**
 - `/reviewing-security`
-- `/debugging-codebases`
+- `/debugging-code`
 - `/discussing-features`
 - `/updating-claude-md`
 - `/debating-options`
@@ -294,11 +294,11 @@ From revision history:
 
 ## Key File References
 
-### validating-implementations
-- `C:/Users/Jason/.claude/skills/validating-implementations/SKILL.md:30-44` - Stage 1 spec compliance
-- `C:/Users/Jason/.claude/skills/validating-implementations/SKILL.md:47-59` - Stage 2 code quality
-- `C:/Users/Jason/.claude/skills/validating-implementations/SKILL.md:107-150` - Validation report structure
-- `C:/Users/Jason/.claude/skills/validating-implementations/SKILL.md:155-165` - Next action prompt
+### validating-code
+- `C:/Users/Jason/.claude/skills/validating-code/SKILL.md:30-44` - Stage 1 spec compliance
+- `C:/Users/Jason/.claude/skills/validating-code/SKILL.md:47-59` - Stage 2 code quality
+- `C:/Users/Jason/.claude/skills/validating-code/SKILL.md:107-150` - Validation report structure
+- `C:/Users/Jason/.claude/skills/validating-code/SKILL.md:155-165` - Next action prompt
 
 ### committing-changes
 - `C:/Users/Jason/.claude/skills/committing-changes/SKILL.md:28-44` - Gate function

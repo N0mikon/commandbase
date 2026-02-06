@@ -8,7 +8,7 @@ tags: [handover, skills, reviewing-changes, updating-skills]
 status: active
 references:
   - newskills/reviewing-changes/SKILL.md
-  - newskills/validating-implementations/SKILL.md
+  - newskills/validating-code/SKILL.md
   - newskills/updating-skills/SKILL.md
   - .docs/plans/02-02-2026-updating-skills-skill.md
 ---
@@ -29,7 +29,7 @@ references:
 - Ran 5 parallel research agents to analyze all skills (18 at the time, now 19 with debating-options added separately)
 - Identified workflow gaps (pre-PR quality gate, cold-start orientation, auto-debug)
 - Created `reviewing-changes` skill with 5 check categories and PASS/WARN verdicts
-- Updated `/validating-implementations` to include option 4 for `/reviewing-changes`
+- Updated `/validating-code` to include option 4 for `/reviewing-changes`
 - Wrote plan for `updating-skills` skill (ready for implementation)
 - Created research docs documenting skills ecosystem analysis
 
@@ -48,16 +48,16 @@ references:
 
 4. **Skills ecosystem has clear gaps**:
    - No pre-PR validation (reviewing-changes fills this)
-   - No cold-start orientation (rejected - /researching-codebases covers it)
+   - No cold-start orientation (rejected - /researching-code covers it)
    - No auto-debug on failure (not a pain point currently)
 
-5. **Workflow documentation is an integration point** - When adding a new skill to the workflow, update the skills that come before/after to reference it (validating-implementations:160-165)
+5. **Workflow documentation is an integration point** - When adding a new skill to the workflow, update the skills that come before/after to reference it (validating-code:160-165)
 
 ## Files Changed
 
 - `newskills/reviewing-changes/SKILL.md` - New skill (277 lines)
 - `newskills/reviewing-changes/templates/review-report.md` - Output template with PASS/WARN examples
-- `newskills/validating-implementations/SKILL.md:160-165` - Added option 4 for /reviewing-changes
+- `newskills/validating-code/SKILL.md:160-165` - Added option 4 for /reviewing-changes
 - `.docs/research/02-02-2026-skills-ecosystem-review.md` - Full ecosystem analysis
 - `.docs/research/02-02-2026-reviewing-and-updating-skills-research.md` - Pre-planning research
 - `.docs/plans/02-02-2026-reviewing-changes-skill.md` - Completed plan (all checkboxes marked)
@@ -70,7 +70,7 @@ references:
 
 - `reviewing-changes` deployed to `~/.claude/skills/` and working
 - Skill tested via `/reviewing-changes` - produced WARN with atomicity finding
-- `/validating-implementations` updated to reference new skill
+- `/validating-code` updated to reference new skill
 - `updating-skills` implemented and deployed to `~/.claude/skills/`
   - Two modes: Audit (read-only) and Update (interactive fixes)
   - No batch operations per user preference
@@ -94,5 +94,5 @@ references:
 
 - User explicitly rejected batch operations for updating-skills - single skill at a time only
 - User chose WARN-only verdicts for reviewing-changes - no auto-blocking
-- The "orienting-codebases" skill was rejected as redundant with /researching-codebases
+- The "orienting-codebases" skill was rejected as redundant with /researching-code
 - "recovering-failures" (auto-debug) not a current pain point - deferred

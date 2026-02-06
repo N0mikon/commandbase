@@ -77,7 +77,7 @@ Write to `.docs/research/` or `.docs/learnings/`.
 
 ## Integration Points
 
-- Called after `/debugging-codebases` resolves
+- Called after `/debugging-code` resolves
 - Can invoke `/creating-skills` for skill generation
 - Can invoke `/updating-claude-md` for pattern recording
 

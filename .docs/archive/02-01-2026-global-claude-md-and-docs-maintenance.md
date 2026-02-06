@@ -6,7 +6,7 @@ topic: "Global CLAUDE.md Implementation and Documentation Maintenance"
 tags: [handover, claude-md, security, docs-updater, configuration]
 status: archived
 archived: 2026-02-02
-archive_reason: "Handoff acted upon in commit b23869d - next steps completed (debugging-codebases deployed, blueprints given historical frontmatter)"
+archive_reason: "Handoff acted upon in commit b23869d - next steps completed (debugging-code deployed, blueprints given historical frontmatter)"
 references:
   - ~/.claude/CLAUDE.md
   - newskills/updating-claude-md/SKILL.md
@@ -95,7 +95,7 @@ Continuing from previous session's handover to implement global CLAUDE.md archit
 ## Next Steps
 
 1. **Test scope detection** - Run `/updating-claude-md` on both `~/.claude/CLAUDE.md` and a project `CLAUDE.md` to verify scope detection works
-2. **Consider `/debugging-codebases` deployment** - Skill exists but wasn't deployed this session (noted in skill-structure-audit)
+2. **Consider `/debugging-code` deployment** - Skill exists but wasn't deployed this session (noted in skill-structure-audit)
 3. **Review remaining untracked plans** - `.docs/plans/creating-skills-blueprint.md` and `.docs/plans/learning-from-sessions-blueprint.md` are untracked blueprints
 
 ## Context & References

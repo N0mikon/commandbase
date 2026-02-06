@@ -1,8 +1,8 @@
-# Research: checkpointing Skill
+# Research: bookmarking-code Skill
 
 ## Overview
 
-The `checkpointing` skill (`~/.claude/skills/checkpointing/SKILL.md`) creates and manages named snapshots of git state during development. It enables comparison against previous known-good states, providing verification anchors for regression detection across implementation phases.
+The `bookmarking-code` skill (`~/.claude/skills/bookmarking-code/SKILL.md`) creates and manages named snapshots of git state during development. It enables comparison against previous known-good states, providing verification anchors for regression detection across implementation phases.
 
 **Trigger phrases**: `/checkpoint create`, `/checkpoint verify`, `/checkpoint list`, `save a checkpoint`, `compare to checkpoint`
 
@@ -30,7 +30,7 @@ NO CHECKPOINT WITHOUT GIT STATE VERIFICATION
 ## Operations
 
 ### Create Operation
-**Command**: `/checkpointing create "name"`
+**Command**: `/bookmarking-code create "name"`
 
 **Process:**
 1. Check git status for uncommitted changes
@@ -46,11 +46,11 @@ Git SHA: abc1234
 Timestamp: 2026-01-28-14:30
 
 To verify against this checkpoint later:
-/checkpointing verify "name"
+/bookmarking-code verify "name"
 ```
 
 ### Verify Operation
-**Command**: `/checkpointing verify "name"`
+**Command**: `/bookmarking-code verify "name"`
 
 **Process:**
 1. Read log file, find checkpoint by name
@@ -73,12 +73,12 @@ Files changed: 12
 ```
 
 ### List Operation
-**Command**: `/checkpointing list`
+**Command**: `/bookmarking-code list`
 
 Shows all checkpoints with status (current vs N commits behind).
 
 ### Clear Operation
-**Command**: `/checkpointing clear`
+**Command**: `/bookmarking-code clear`
 
 Keeps 5 most recent checkpoints, requires user confirmation before deletion.
 
@@ -94,7 +94,7 @@ YYYY-MM-DD-HH:MM | checkpoint-name | git-sha
 ## Naming Conventions
 
 Suggested names aligned with RPI workflow:
-- `plan-approved` - After `/planning-codebases` plan is finalized
+- `plan-approved` - After `/planning-code` plan is finalized
 - `phase-N-done` - After completing `/implementing-plans` phase N
 - `pre-refactor` - Before major refactoring
 - `feature-complete` - Before validation/PR
@@ -102,21 +102,21 @@ Suggested names aligned with RPI workflow:
 ## RPI Workflow Integration
 
 ```
-/planning-codebases → /checkpointing create "plan-approved"
+/planning-code → /bookmarking-code create "plan-approved"
    ↓
-/implementing-plans Phase 1 → /checkpointing create "phase-1-done"
+/implementing-plans Phase 1 → /bookmarking-code create "phase-1-done"
    ↓
-/implementing-plans Phase 2 → /checkpointing verify "phase-1-done" → /checkpointing create "phase-2-done"
+/implementing-plans Phase 2 → /bookmarking-code verify "phase-1-done" → /bookmarking-code create "phase-2-done"
    ↓
-/validating-implementations → /checkpointing verify "plan-approved"
+/validating-code → /bookmarking-code verify "plan-approved"
    ↓
 /committing-changes
 ```
 
 **Integration Points:**
-- `/planning-codebases` suggests checkpoint after plan approval
+- `/planning-code` suggests checkpoint after plan approval
 - `/implementing-plans` suggests checkpoints between phases
-- `/validating-implementations` offers checkpoint comparison in validation report
+- `/validating-code` offers checkpoint comparison in validation report
 
 ## Rationalization Prevention
 
@@ -128,4 +128,4 @@ Suggested names aligned with RPI workflow:
 
 ## File Reference
 
-- Main: `~/.claude/skills/checkpointing/SKILL.md`
+- Main: `~/.claude/skills/bookmarking-code/SKILL.md`

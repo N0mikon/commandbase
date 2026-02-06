@@ -16,17 +16,17 @@ Launched 5 parallel research agents to analyze different dimensions:
 
 | Skill | Category | Trigger Type |
 |-------|----------|--------------|
-| researching-codebases | RPI - Research | User-invoked |
-| planning-codebases | RPI - Plan | User-invoked |
+| researching-code | RPI - Research | User-invoked |
+| planning-code | RPI - Plan | User-invoked |
 | implementing-plans | RPI - Implement | User-invoked |
-| validating-implementations | RPI - Validate | User-invoked |
-| checkpointing | Quality Gate | User-invoked |
+| validating-code | RPI - Validate | User-invoked |
+| bookmarking-code | Quality Gate | User-invoked |
 | committing-changes | Git Operations | User-invoked |
-| creating-pull-requests | Git Operations | User-invoked |
+| creating-prs | Git Operations | User-invoked |
 | reviewing-security | Safety Gate | Auto + User-invoked |
 | discussing-features | Decision Support | User-invoked |
 | debating-options | Decision Support | User-invoked |
-| debugging-codebases | Recovery | User-invoked |
+| debugging-code | Recovery | User-invoked |
 | learning-from-sessions | Knowledge Capture | User-invoked |
 | creating-skills | Meta | User-invoked |
 | starting-projects | Session Lifecycle | User-invoked |
@@ -74,10 +74,10 @@ Gap identified: No cold-start orientation skill when there's no handover to take
 |-----------|-------|---------|----------|
 | Secret Detection | reviewing-security | Auto on public commit | Yes (BLOCK) |
 | Injection Vulns | reviewing-security | Auto on public commit | Yes (BLOCK) |
-| Spec Compliance | validating-implementations | Manual | No |
-| Code Quality | validating-implementations | Manual | No |
+| Spec Compliance | validating-code | Manual | No |
+| Code Quality | validating-code | Manual | No |
 | Phase Verification | implementing-plans | Per-phase | Soft |
-| Checkpoints | checkpointing | Manual | No |
+| Checkpoints | bookmarking-code | Manual | No |
 
 Gaps:
 - No pre-PR validation gate
@@ -102,7 +102,7 @@ Weak support for mid-workflow decisions:
 ### Critical Missing Skills
 
 1. **reviewing-changes** - Pre-PR quality gate
-   - Fills gap between /validating-implementations and /creating-pull-requests
+   - Fills gap between /validating-code and /creating-prs
    - Would verify: tests pass, validation done, security reviewed
    - Priority: HIGH
 
@@ -157,13 +157,13 @@ Research → Plan → Implement → Validate → ??? → Commit → PR
 
 ### Strong Connections
 - committing-changes → reviewing-security (auto-invokes for public repos)
-- implementing-plans → checkpointing (suggests after each phase)
-- planning-codebases → checkpointing (suggests after plan approval)
+- implementing-plans → bookmarking-code (suggests after each phase)
+- planning-code → bookmarking-code (suggests after plan approval)
 - handing-over ↔ taking-over (complementary pair)
 
 ### Weak Connections (Opportunities)
-- validating-implementations → debugging-codebases (manual transition on failure)
-- validating-implementations → creating-pull-requests (no prerequisite check)
+- validating-code → debugging-code (manual transition on failure)
+- validating-code → creating-prs (no prerequisite check)
 - learning-from-sessions → creating-skills (complexity check could invoke debating-options)
 
 ## Recommendations

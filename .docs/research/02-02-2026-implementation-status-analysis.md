@@ -22,7 +22,7 @@ references:
 
 | Category | Status | Items |
 |----------|--------|-------|
-| Completed Plans | 5 | RPI enforcement, checkpoint integration, creating-skills, discussing-features, debugging-codebases |
+| Completed Plans | 5 | RPI enforcement, checkpoint integration, creating-skills, discussing-features, debugging-code |
 | Ready Plan | 1 | Global CLAUDE.md (marked ready, **but actually complete**) |
 | Untracked Blueprints | 2 | creating-skills-blueprint, learning-from-sessions-blueprint |
 | Implemented Skills | 19 | All skills in newskills/ exist and are developed (was 16, added debating-options, reviewing-changes, updating-skills) |
@@ -37,7 +37,7 @@ references:
 | `01-27-2026-rpi-enforcement-patterns.md` | historical | All phases complete, skills renamed to gerund form |
 | `01-28-2026-checkpoint-skill-integration.md` | completed | Fully implemented |
 | `01-28-2026-creating-skills-implementation.md` | completed | Commit a7794e1 |
-| `02-01-2026-debugging-codebases-skill.md` | implemented | Skill exists |
+| `02-01-2026-debugging-code-skill.md` | implemented | Skill exists |
 | `02-01-2026-discussing-features-skill.md` | complete | Skill exists |
 | `02-01-2026-global-claude-md-implementation.md` | **ready** (stale) | Actually complete per handoff - all checkboxes marked |
 
@@ -63,33 +63,33 @@ All 19 skills exist in `newskills/`:
 
 | Skill | Has Supporting Materials | Reference Docs | Templates |
 |-------|--------------------------|----------------|-----------|
-| checkpointing | No | - | - |
+| bookmarking-code | No | - | - |
 | committing-changes | No | - | - |
-| creating-pull-requests | No | - | - |
+| creating-prs | No | - | - |
 | creating-skills | Yes | 4 | 2 |
 | debating-options | No | - | - |
-| debugging-codebases | Yes | 3 | 1 |
+| debugging-code | Yes | 3 | 1 |
 | discussing-features | Yes | 1 | 1 |
 | handing-over | No | - | - |
 | implementing-plans | Yes | 2 | - |
 | learning-from-sessions | Yes | 4 | 1 |
-| planning-codebases | Yes | 2 | 1 |
-| researching-codebases | Yes | 2 | 1 |
+| planning-code | Yes | 2 | 1 |
+| researching-code | Yes | 2 | 1 |
 | reviewing-changes | No | - | 1 |
 | reviewing-security | No | - | - |
 | starting-projects | Yes | 3 | 2 |
 | taking-over | No | - | - |
 | updating-claude-md | Yes | 2 | - |
 | updating-skills | Yes | 2 | - |
-| validating-implementations | No | - | - |
+| validating-code | No | - | - |
 
 ## What Actually Remains To Be Done
 
-### 1. Deploy debugging-codebases Skill
+### 1. Deploy debugging-code Skill
 **Status**: Created but not confirmed deployed
-- Skill exists: `newskills/debugging-codebases/SKILL.md`
-- May need to copy to `~/.claude/skills/debugging-codebases/`
-- Mentioned in handoff: "Consider `/debugging-codebases` deployment"
+- Skill exists: `newskills/debugging-code/SKILL.md`
+- May need to copy to `~/.claude/skills/debugging-code/`
+- Mentioned in handoff: "Consider `/debugging-code` deployment"
 
 ### 2. Verify All Skills Are Deployed
 **Action**: Compare `newskills/` to `~/.claude/skills/` to ensure all skills are deployed globally

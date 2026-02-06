@@ -53,7 +53,7 @@ Returns extracted insights:
 
 ## Integration Points
 
-- Deep research phase of `/planning-codebases`
+- Deep research phase of `/planning-code`
 - Context gathering for `/taking-over`
 - Learning extraction for `/learning-from-sessions`
 

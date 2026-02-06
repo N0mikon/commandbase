@@ -1,8 +1,8 @@
-# Research: codebase-analyzer Agent
+# Research: code-analyzer Agent
 
 ## Overview
 
-The `codebase-analyzer` agent (`~/.claude/agents/codebase-analyzer.md`) analyzes codebase implementation details. It's a read-only agent that provides detailed information about specific components.
+The `code-analyzer` agent (`~/.claude/agents/code-analyzer.md`) analyzes codebase implementation details. It's a read-only agent that provides detailed information about specific components.
 
 **When to Use**: When you need to find detailed information about specific components.
 
@@ -19,7 +19,7 @@ The `codebase-analyzer` agent (`~/.claude/agents/codebase-analyzer.md`) analyzes
 
 Called from skills via Task tool:
 ```
-subagent_type: "codebase-analyzer"
+subagent_type: "code-analyzer"
 prompt: "Analyze how [component] works in [directory]"
 ```
 
@@ -53,10 +53,10 @@ Returns analysis with file:line references:
 
 ## Integration Points
 
-- Spawned by `/planning-codebases` for research
-- Spawned by `/researching-codebases` for investigation
-- Spawned by `/debugging-codebases` for understanding
+- Spawned by `/planning-code` for research
+- Spawned by `/researching-code` for investigation
+- Spawned by `/debugging-code` for understanding
 
 ## File Reference
 
-- Agent: `~/.claude/agents/codebase-analyzer.md`
+- Agent: `~/.claude/agents/code-analyzer.md`

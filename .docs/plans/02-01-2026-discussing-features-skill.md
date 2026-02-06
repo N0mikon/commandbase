@@ -26,12 +26,12 @@ Create a new `/discussing-features` skill that captures user implementation pref
 | Skill | Purpose | Gap |
 |-------|---------|-----|
 | `/starting-projects` | **WHAT** are we building (one-time) | Project setup, not per-feature |
-| `/researching-codebases` | **WHAT EXISTS** in the codebase | No user preference input |
-| `/planning-codebases` | **HOW TO IMPLEMENT** | Asks questions AFTER research |
+| `/researching-code` | **WHAT EXISTS** in the codebase | No user preference input |
+| `/planning-code` | **HOW TO IMPLEMENT** | Asks questions AFTER research |
 
 ### Key Discoveries:
 
-- `/planning-codebases` proceeds directly from user input to research (`SKILL.md:78-83`)
+- `/planning-code` proceeds directly from user input to research (`SKILL.md:78-83`)
 - No `.docs/context/` directory convention exists yet
 - GSD's `discuss-phase` uses domain detection to generate relevant questions (`discuss-phase.md:56-64`)
 - GSD outputs to `.planning/phases/XX-name/` - we'll adapt to `.docs/context/{feature-name}.md`
@@ -41,8 +41,8 @@ Create a new `/discussing-features` skill that captures user implementation pref
 ### Integration Points
 
 1. **Output Location**: `.docs/context/{feature-name}.md`
-2. **Downstream Consumer 1**: `/researching-codebases` - focuses research based on preferences
-3. **Downstream Consumer 2**: `/planning-codebases` - honors decisions, doesn't revisit them
+2. **Downstream Consumer 1**: `/researching-code` - focuses research based on preferences
+3. **Downstream Consumer 2**: `/planning-code` - honors decisions, doesn't revisit them
 4. **Upstream Trigger**: After `/starting-projects` for new projects, standalone for existing codebases
 
 ## Desired End State
@@ -54,14 +54,14 @@ A `/discussing-features` skill that:
 3. Uses 4-question rhythm with check-ins for depth control
 4. Outputs structured context document to `.docs/context/{feature-name}.md`
 5. Captures deferred ideas without acting on them
-6. Provides clear handoff to `/planning-codebases` or `/researching-codebases`
+6. Provides clear handoff to `/planning-code` or `/researching-code`
 
 **Verification**: Run `/discussing-features` on a sample feature, verify output structure matches template, verify downstream skills can read and honor the context.
 
 ## What We're NOT Doing
 
-- Modifying `/planning-codebases` (separate enhancement task)
-- Modifying `/researching-codebases` (separate enhancement task)
+- Modifying `/planning-code` (separate enhancement task)
+- Modifying `/researching-code` (separate enhancement task)
 - Adding model profile selection
 - Adding wave-based execution
 - Creating `/debugging` skill (separate task)
@@ -91,7 +91,7 @@ Create the SKILL.md file with frontmatter, iron law, gate function, and main wor
 ```markdown
 ---
 name: discussing-features
-description: "Use this skill when capturing user intent before planning a feature. This includes discussing layout preferences, API design choices, UX decisions, error handling behavior, and content organization. Activate when the user says 'let's discuss this feature', 'how should this work', 'design decisions for', or before invoking /planning-codebases on a new feature."
+description: "Use this skill when capturing user intent before planning a feature. This includes discussing layout preferences, API design choices, UX decisions, error handling behavior, and content organization. Activate when the user says 'let's discuss this feature', 'how should this work', 'design decisions for', or before invoking /planning-code on a new feature."
 ---
 
 # Feature Discussion
@@ -238,8 +238,8 @@ Decisions made:
 Deferred ideas: [count or "None"]
 
 Next steps:
-- Run /planning-codebases to create implementation plan
-- Or /researching-codebases if you need to understand existing patterns first
+- Run /planning-code to create implementation plan
+- Or /researching-code if you need to understand existing patterns first
 ```
 
 ## Error Recovery
@@ -441,7 +441,7 @@ Example: "User settings page" = Visual (dominant) + API (data persistence)
 ## Anti-Patterns
 
 **DON'T ask:**
-- Technical architecture questions (defer to /planning-codebases)
+- Technical architecture questions (defer to /planning-code)
 - Performance optimization questions (defer to planning)
 - "Should we use library X?" (defer to research)
 - Generic questions not specific to this feature
@@ -533,7 +533,7 @@ status: ready-for-planning
 
 ---
 *Context gathered: [YYYY-MM-DD]*
-*Next: /planning-codebases or /researching-codebases*
+*Next: /planning-code or /researching-code*
 ```
 
 ## Template Usage Notes
@@ -542,8 +542,8 @@ status: ready-for-planning
 
 The XML tags (`<domain>`, `<decisions>`, `<specifics>`, `<deferred>`) enable downstream skills to parse specific sections:
 
-- `/researching-codebases` reads `<decisions>` to focus research scope
-- `/planning-codebases` reads `<decisions>` to honor user choices
+- `/researching-code` reads `<decisions>` to focus research scope
+- `/planning-code` reads `<decisions>` to honor user choices
 - Both read `<deferred>` to know what's out of scope
 
 ### Decisions Section
@@ -617,7 +617,7 @@ Deploy skill to global config and verify it works.
 ### Integration Tests:
 - Run `/discussing-features user-dashboard`
 - Verify output at `.docs/context/user-dashboard.md`
-- Run `/planning-codebases` and verify it reads the context file
+- Run `/planning-code` and verify it reads the context file
 - Verify research scope is constrained by decisions
 
 ## References
@@ -625,4 +625,4 @@ Deploy skill to global config and verify it works.
 - Research: `.docs/research/02-01-2026-get-shit-done-skill-comparison.md`
 - GSD discuss-phase: `C:/code/repo-library/get-shit-done/commands/gsd/discuss-phase.md`
 - Workflow template: `newskills/creating-skills/templates/workflow-skill-template.md`
-- Planning skill: `newskills/planning-codebases/SKILL.md`
+- Planning skill: `newskills/planning-code/SKILL.md`

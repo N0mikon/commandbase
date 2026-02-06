@@ -7,10 +7,10 @@ topic: "GSD vs Commandbase Skills Comparison"
 tags: [research, skill-comparison, gsd, workflow]
 references:
   - newskills/discussing-features/SKILL.md
-  - newskills/debugging-codebases/SKILL.md
+  - newskills/debugging-code/SKILL.md
   - newskills/starting-projects/SKILL.md
   - .docs/plans/02-01-2026-discussing-features-skill.md
-  - .docs/plans/02-01-2026-debugging-codebases-skill.md
+  - .docs/plans/02-01-2026-debugging-code-skill.md
 ---
 
 # Get Shit Done (GSD) vs Commandbase Skills Comparison
@@ -28,11 +28,11 @@ references:
 | Recommendation | Status | Implementation |
 |----------------|--------|----------------|
 | `/discussing-features` skill | **IMPLEMENTED** | `newskills/discussing-features/` |
-| `/debugging-codebases` skill | **IMPLEMENTED** | `newskills/debugging-codebases/` |
+| `/debugging-code` skill | **IMPLEMENTED** | `newskills/debugging-code/` |
 | `/quick-implementing` skill | **DECLINED** | RPI workflow is opt-in; users can implement directly |
-| UAT mode for `/validating-implementations` | **DECLINED** | Not pursuing at this time |
-| Structured mode for `/researching-codebases` | **DECLINED** | Not pursuing at this time |
-| Wave computation for `/planning-codebases` | Not started | - |
+| UAT mode for `/validating-code` | **DECLINED** | Not pursuing at this time |
+| Structured mode for `/researching-code` | **DECLINED** | Not pursuing at this time |
+| Wave computation for `/planning-code` | Not started | - |
 | Wave-based parallel execution for `/implementing-plans` | **DECLINED** | Complexity outweighs benefit for typical work |
 
 ---
@@ -47,11 +47,11 @@ The **get-shit-done** repository is a comprehensive meta-prompting and context e
 |----------|--------------|-----------------|----------------|
 | **Phase Discussion** | `/gsd:discuss-phase` captures user intent BEFORE research | ~~We jump straight to planning~~ | ~~**ADD** - New skill~~ **DONE** - `/discussing-features` |
 | **Quick Mode** | `/gsd:quick` for ad-hoc tasks with same guarantees | All tasks go through full workflow | ~~**ADD** - Lightweight implementation skill~~ [DECLINED] |
-| **Debug System** | Persistent debug state with scientific method | ~~No dedicated debugging skill~~ | ~~**ADD** - New `/debugging` skill~~ **DONE** - `/debugging-codebases` |
-| **User Acceptance Testing** | `/gsd:verify-work` - conversational UAT | `/validating-implementations` is code-focused | ~~**ENHANCE** - Add UAT mode~~ [DECLINED] |
+| **Debug System** | Persistent debug state with scientific method | ~~No dedicated debugging skill~~ | ~~**ADD** - New `/debugging` skill~~ **DONE** - `/debugging-code` |
+| **User Acceptance Testing** | `/gsd:verify-work` - conversational UAT | `/validating-code` is code-focused | ~~**ENHANCE** - Add UAT mode~~ [DECLINED] |
 | **Model Profiles** | Budget/balanced/quality agent model selection | Hard-coded model usage | **ADD** - Model selection to config |
 | **Context Engineering** | Wave-based parallel execution, dependency graphs | Sequential execution | ~~**ENHANCE** - Add to `/implementing-plans`~~ [DECLINED] |
-| **Codebase Mapping** | `/gsd:map-codebase` for brownfield projects | We have `/researching-codebases` | ~~**ENHANCE** - Add structured templates~~ [DECLINED] |
+| **Codebase Mapping** | `/gsd:map-codebase` for brownfield projects | We have `/researching-code` | ~~**ENHANCE** - Add structured templates~~ [DECLINED] |
 | **Session Continuity** | `STATE.md` as living memory + `CONTINUE-HERE.md` | `/handing-over` + `/taking-over` | Comparable - minor improvements |
 | **Milestone Management** | Archive completed milestones, tag releases | No milestone concept | **CONSIDER** - For larger projects |
 
@@ -96,7 +96,7 @@ For ad-hoc tasks that don't warrant full planning:
 Not every task needs the full RPI workflow. Bug fixes, small features, config changes need a faster path.
 
 **Our gap:**
-We have no lightweight implementation path. Users must either skip skills entirely or go through full `/planning-codebases` → `/implementing-plans`.
+We have no lightweight implementation path. Users must either skip skills entirely or go through full `/planning-code` → `/implementing-plans`.
 
 **Decision: DECLINED**
 Not needed - the RPI workflow is already opt-in. Users can implement directly without invoking any skill when they want a lightweight path. Adding a formal `/quick-implementing` skill would add unnecessary overhead for what is essentially "just do the work."
@@ -105,7 +105,7 @@ Not needed - the RPI workflow is already opt-in. Users can implement directly wi
 
 #### C. Systematic Debugging (`/gsd:debug`) - **HIGH VALUE** [IMPLEMENTED]
 
-> **Status:** Implemented as `/debugging-codebases` skill. See `newskills/debugging-codebases/`.
+> **Status:** Implemented as `/debugging-code` skill. See `newskills/debugging-code/`.
 
 **What it does:**
 - Persistent debug state in `.planning/debug/*.md`
@@ -118,7 +118,7 @@ Not needed - the RPI workflow is already opt-in. Users can implement directly wi
 Debugging is a significant part of development. Having a structured approach prevents thrashing and ensures lessons are captured.
 
 **Our implementation:**
-Created `/debugging-codebases` skill with:
+Created `/debugging-code` skill with:
 - Persistent debug session files in `.docs/debug/`
 - Hypothesis-driven investigation with falsifiability requirements
 - Clear state transitions (gathering -> investigating -> fixing -> verifying -> resolved)
@@ -160,7 +160,7 @@ Faster execution. Fresh context per parallel agent prevents degradation.
 `/implementing-plans` executes phases sequentially.
 
 ~~**Recommendation:**~~
-~~Add wave computation to `/planning-codebases` and parallel execution to `/implementing-plans` for independent tasks.~~
+~~Add wave computation to `/planning-code` and parallel execution to `/implementing-plans` for independent tasks.~~
 
 **Decision: DECLINED** - Complexity outweighs benefit for typical work. Sequential execution is simpler to reason about and debug.
 
@@ -168,7 +168,7 @@ Faster execution. Fresh context per parallel agent prevents degradation.
 
 ### 2. Capabilities to Enhance in Existing Skills
 
-#### A. User Acceptance Testing Mode for `/validating-implementations` [DECLINED]
+#### A. User Acceptance Testing Mode for `/validating-code` [DECLINED]
 
 **GSD's approach (`/gsd:verify-work`):**
 - Extracts testable deliverables from SUMMARY files
@@ -183,7 +183,7 @@ Faster execution. Fresh context per parallel agent prevents degradation.
 - Automated verification commands
 
 ~~**Enhancement:**~~
-~~Add `--uat` flag to `/validating-implementations` that:~~
+~~Add `--uat` flag to `/validating-code` that:~~
 ~~- Extracts user-observable behaviors from plan~~
 ~~- Walks user through manual testing conversationally~~
 ~~- Captures issues for fix planning~~
@@ -192,7 +192,7 @@ Faster execution. Fresh context per parallel agent prevents degradation.
 
 ---
 
-#### B. Structured Codebase Mapping Templates for `/researching-codebases` [DECLINED]
+#### B. Structured Codebase Mapping Templates for `/researching-code` [DECLINED]
 
 **GSD's approach (`/gsd:map-codebase`):**
 Produces structured documents in `.planning/codebase/`:
@@ -208,7 +208,7 @@ Produces structured documents in `.planning/codebase/`:
 Free-form research documents in `.docs/research/`
 
 ~~**Enhancement:**~~
-~~Add optional `--structured` flag to `/researching-codebases` that produces standardized codebase documentation using GSD's templates.~~
+~~Add optional `--structured` flag to `/researching-code` that produces standardized codebase documentation using GSD's templates.~~
 
 **Decision: DECLINED** - Not pursuing at this time.
 
@@ -252,7 +252,7 @@ Add structured `must_haves` to plan template. Enhance verification to check:
 |--------|-----|-------------|
 | **Structure** | Slash commands that delegate to workflows | Skills with SKILL.md + supporting files |
 | **State** | `.planning/` directory with STATE.md, config.json | `.docs/` directory with handoffs, research, plans |
-| **Agents** | Named agents with specific roles (planner, executor, verifier) | Generic subagent types (codebase-analyzer, etc.) |
+| **Agents** | Named agents with specific roles (planner, executor, verifier) | Generic subagent types (code-analyzer, etc.) |
 | **Execution** | Wave-based parallel with dependency graphs | Sequential phase execution |
 | **Context** | @-references for lazy loading, strict size limits | Full file reads, no explicit limits |
 | **Git** | Per-task atomic commits, conventional commit format | Per-change commits |
@@ -266,13 +266,13 @@ Add structured `must_haves` to plan template. Enhance verification to check:
 
 1. **~~Create `/discussing-features` skill~~** - Pre-planning discovery to capture user intent **[IMPLEMENTED]**
 2. ~~**Create `/quick-implementing` skill** - Lightweight path for ad-hoc tasks~~ **[DECLINED]** - RPI workflow is opt-in; users can implement directly
-3. **~~Create `/debugging-codebases` skill~~** - Systematic debugging with persistent state **[IMPLEMENTED]**
+3. **~~Create `/debugging-code` skill~~** - Systematic debugging with persistent state **[IMPLEMENTED]**
 
 ### Enhancements to Existing Skills
 
-4. ~~**Enhance `/validating-implementations`** - Add `--uat` mode for conversational testing~~ **[DECLINED]** - Not pursuing at this time
-5. ~~**Enhance `/researching-codebases`** - Add `--structured` mode with codebase templates~~ **[DECLINED]** - Not pursuing at this time
-6. ~~**Enhance `/planning-codebases`** - Add wave computation for parallel execution~~ **[DECLINED]** - See item 7
+4. ~~**Enhance `/validating-code`** - Add `--uat` mode for conversational testing~~ **[DECLINED]** - Not pursuing at this time
+5. ~~**Enhance `/researching-code`** - Add `--structured` mode with codebase templates~~ **[DECLINED]** - Not pursuing at this time
+6. ~~**Enhance `/planning-code`** - Add wave computation for parallel execution~~ **[DECLINED]** - See item 7
 7. ~~**Enhance `/implementing-plans`** - Add wave-based parallel execution~~ **[DECLINED]** - Complexity outweighs benefit for typical work
 
 ### Consider for Future
@@ -295,8 +295,8 @@ GSD's `/gsd:discuss-phase` comes BEFORE `/gsd:research-phase` because discussion
 |-------|---------|-----------------|
 | `/starting-projects` | **WHAT** are we building? | Project type, tech stack, goals, constraints |
 | `/discussing-features` | **HOW** should this feature work? | Layout preferences, API design, UX decisions |
-| `/researching-codebases` | **WHAT EXISTS** in the codebase? | How does X work, where is Y defined |
-| `/planning-codebases` | **HOW TO IMPLEMENT** the feature? | Implementation approaches, file structure |
+| `/researching-code` | **WHAT EXISTS** in the codebase? | How does X work, where is Y defined |
+| `/planning-code` | **HOW TO IMPLEMENT** the feature? | Implementation approaches, file structure |
 
 ### The Correct Order: Discuss → Research → Plan → Implement
 
@@ -307,45 +307,45 @@ GSD's `/gsd:discuss-phase` comes BEFORE `/gsd:research-phase` because discussion
 For each feature:
     /discussing-features        → Capture HOW preferences (user intent)
         ↓
-    /researching-codebases      → Understand relevant existing code (as codebase grows)
+    /researching-code      → Understand relevant existing code (as codebase grows)
         ↓
-    /planning-codebases         → Research approaches + create plan
+    /planning-code         → Research approaches + create plan
         ↓                         (constrained by discussion context)
     /implementing-plans         → Execute
         ↓
-    /validating-implementations → Verify against plan
+    /validating-code → Verify against plan
 ```
 
 **BROWNFIELD Workflow:**
 ```
-/researching-codebases          → Understand existing codebase patterns (initial)
+/researching-code          → Understand existing codebase patterns (initial)
     ↓
 For each feature:
     /discussing-features        → Capture HOW preferences (user intent)
         ↓
-    /researching-codebases      → Deep dive on relevant areas (optional)
+    /researching-code      → Deep dive on relevant areas (optional)
         ↓
-    /planning-codebases         → Plan informed by research + discussion
+    /planning-code         → Plan informed by research + discussion
         ↓
     /implementing-plans         → Execute
         ↓
-    /validating-implementations → Verify
+    /validating-code → Verify
 ```
 
 ### Why This Order Matters
 
-1. **`/discussing-features` BEFORE `/researching-codebases`**
+1. **`/discussing-features` BEFORE `/researching-code`**
    - User preferences constrain research scope
    - Prevents wasted research on ruled-out approaches
    - User intent captured while fresh, not retrofitted
 
-2. **`/researching-codebases` BEFORE `/planning-codebases`**
+2. **`/researching-code` BEFORE `/planning-code`**
    - Understand existing patterns before proposing new ones
    - Identify reusable components and conventions
    - Avoid reinventing existing abstractions
 
 3. **Discussion context flows downstream**
-   - `/planning-codebases` reads discussion output
+   - `/planning-code` reads discussion output
    - Research is focused, not exploratory
    - Plans honor user decisions, don't revisit them
 
@@ -353,8 +353,8 @@ For each feature:
 
 1. **`/starting-projects`** should mention `/discussing-features` in "workflow going forward" - **DONE** (commit b124504)
 2. **`/discussing-features`** should output `.docs/context/{feature-name}.md` - **DONE** (outputs to `.docs/context/`)
-3. **`/planning-codebases`** should check for and honor existing context documents - Not yet implemented
-4. **`/researching-codebases`** should be aware of discussion context to focus research - Not yet implemented
+3. **`/planning-code`** should check for and honor existing context documents - Not yet implemented
+4. **`/researching-code`** should be aware of discussion context to focus research - Not yet implemented
 
 ### Standalone vs Embedded
 
@@ -414,13 +414,13 @@ GSD uses consistent XML for machine-readable tasks:
 
 | GSD File | Our Equivalent | Notes |
 |----------|----------------|-------|
-| `agents/gsd-debugger.md` | `/debugging-codebases` | **IMPLEMENTED** |
+| `agents/gsd-debugger.md` | `/debugging-code` | **IMPLEMENTED** |
 | `commands/gsd/discuss-phase.md` | `/discussing-features` | **IMPLEMENTED** |
 | `commands/gsd/quick.md` | None | Lightweight execution |
-| `commands/gsd/verify-work.md` | `/validating-implementations` | UAT approach |
+| `commands/gsd/verify-work.md` | `/validating-code` | UAT approach |
 | `templates/codebase/*.md` | None | Structured codebase docs |
 | `references/verification-patterns.md` | None | Three-level verification |
-| `references/checkpoints.md` | `/checkpointing` | More detailed patterns |
+| `references/checkpoints.md` | `/bookmarking-code` | More detailed patterns |
 
 ---
 
@@ -430,12 +430,12 @@ GSD is a mature, well-designed system with several capabilities that would meani
 
 **Implemented (2026-02-01):**
 1. **Pre-planning discussion** - `/discussing-features` skill captures user intent before research
-2. **Systematic debugging** - `/debugging-codebases` skill with persistent state and scientific method
+2. **Systematic debugging** - `/debugging-code` skill with persistent state and scientific method
 
 **Declined (2026-02-01):**
 3. ~~**Quick mode** for lightweight task execution (`/quick-implementing`)~~ - RPI workflow is opt-in; users can implement directly without a skill
-4. ~~**UAT mode** for `/validating-implementations`~~ - Not pursuing at this time
-5. ~~**Structured codebase mapping** for `/researching-codebases`~~ - Not pursuing at this time
+4. ~~**UAT mode** for `/validating-code`~~ - Not pursuing at this time
+5. ~~**Structured codebase mapping** for `/researching-code`~~ - Not pursuing at this time
 6. ~~**Wave-based parallel execution** for `/implementing-plans`~~ - Complexity outweighs benefit for typical work
 
 The key philosophical difference is GSD's focus on **context engineering** - actively managing Claude's context window to prevent quality degradation. This is worth adopting across our skills.

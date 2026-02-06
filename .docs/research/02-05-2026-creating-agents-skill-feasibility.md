@@ -87,8 +87,8 @@ The 5-layer enforcement architecture from `/creating-skills` transfers directly:
 
 | Template | For | Based On |
 |----------|-----|----------|
-| `templates/basic-agent-template.md` | Simple single-purpose agents | Pattern from `codebase-locator.md`, `docs-locator.md` |
-| `templates/analysis-agent-template.md` | Read-and-report agents | Pattern from `codebase-analyzer.md`, `docs-analyzer.md` |
+| `templates/basic-agent-template.md` | Simple single-purpose agents | Pattern from `code-locator.md`, `docs-locator.md` |
+| `templates/analysis-agent-template.md` | Read-and-report agents | Pattern from `code-analyzer.md`, `docs-analyzer.md` |
 | `templates/action-agent-template.md` | Agents that modify state | Pattern from `docs-updater.md` |
 
 ---
@@ -132,7 +132,7 @@ The 5-layer enforcement architecture from `/creating-skills` transfers directly:
 - Optimized for delegation decisions by the orchestrating Claude
 - Claude decides to delegate specific subtasks to specialists
 - Examples from existing agents:
-  - `"Analyzes codebase implementation details. Call the codebase-analyzer agent when you need to find detailed information about specific components."`
+  - `"Analyzes codebase implementation details. Call the code-analyzer agent when you need to find detailed information about specific components."`
   - `"Searches the web and fetches page content to find current, sourced information. Use when you need up-to-date information beyond training data..."`
 
 ### Naming Differences
@@ -289,10 +289,10 @@ BEFORE writing any agent .md file:
 - `newskills/creating-skills/templates/basic-skill-template.md:1-84` — Basic skill template
 - `newskills/creating-skills/templates/workflow-skill-template.md:1-177` — Workflow skill template
 - `newagents/NAMING-CONVENTIONS.md:1-182` — Agent naming (noun-form)
-- `newagents/web-search-researcher.md:1-83` — Example: Contract Format agent
-- `newagents/codebase-analyzer.md:1-144` — Example: Analysis agent with enforcement
-- `newagents/codebase-locator.md:1-123` — Example: Minimal locator agent
-- `newagents/codebase-pattern-finder.md:1-179` — Example: Pattern finding agent
+- `newagents/web-researcher.md:1-83` — Example: Contract Format agent
+- `newagents/code-analyzer.md:1-144` — Example: Analysis agent with enforcement
+- `newagents/code-locator.md:1-123` — Example: Minimal locator agent
+- `newagents/code-librarian.md:1-179` — Example: Pattern finding agent
 - `newagents/docs-analyzer.md:1-160` — Example: Document analysis agent
 - `newagents/docs-locator.md:1-116` — Example: Document finding agent
 - `newagents/docs-updater.md:1-180` — Example: State-modifying agent (opus model)

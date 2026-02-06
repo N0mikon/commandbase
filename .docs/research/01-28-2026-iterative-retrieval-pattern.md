@@ -110,7 +110,7 @@ Repeat max 3 cycles. Terminate early if:
 
 ### Enhance Existing Agents
 
-Add to codebase-locator, codebase-analyzer, codebase-pattern-finder:
+Add to code-locator, code-analyzer, code-librarian:
 
 ```markdown
 ## Context Retrieval
@@ -158,11 +158,11 @@ When researching [topic]:
 ### Adoption Status (as of 2026-02-01)
 
 **Not yet adopted.** Current agents use simpler approaches:
-- `codebase-locator` (newagents/codebase-locator.md): Uses broad search then refine by language/framework - one pass
-- `codebase-analyzer` (newagents/codebase-analyzer.md): Read entry points, follow code paths - linear tracing
-- `codebase-pattern-finder` (newagents/codebase-pattern-finder.md): Search, read, extract - single cycle
+- `code-locator` (newagents/code-locator.md): Uses broad search then refine by language/framework - one pass
+- `code-analyzer` (newagents/code-analyzer.md): Read entry points, follow code paths - linear tracing
+- `code-librarian` (newagents/code-librarian.md): Search, read, extract - single cycle
 
-The `researching-codebases` skill takes a different approach: spawning parallel sub-agents for different aspects rather than iterative refinement of a single search. This parallel approach may be complementary to iterative retrieval rather than a substitute.
+The `researching-code` skill takes a different approach: spawning parallel sub-agents for different aspects rather than iterative refinement of a single search. This parallel approach may be complementary to iterative retrieval rather than a substitute.
 
 **Revisit if:** Agents frequently miss relevant files or use wrong terminology in their searches.
 

@@ -103,8 +103,8 @@ references:
 ## Integration Points
 
 - Creates handover for `/taking-over` to consume
-- References plans from `/planning-codebases`
-- Links to research from `/researching-codebases`
+- References plans from `/planning-code`
+- Links to research from `/researching-code`
 
 ## File Reference
 

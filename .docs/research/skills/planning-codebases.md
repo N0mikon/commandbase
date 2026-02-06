@@ -1,8 +1,8 @@
-# Research: planning-codebases Skill
+# Research: planning-code Skill
 
 ## Overview
 
-The `planning-codebases` skill (`~/.claude/skills/planning-codebases/SKILL.md`) creates or iterates on implementation plans through an interactive, research-first process. It enforces mandatory codebase research before planning using an Iron Law and Gate Function that prevents planning from memory or assumptions.
+The `planning-code` skill (`~/.claude/skills/planning-code/SKILL.md`) creates or iterates on implementation plans through an interactive, research-first process. It enforces mandatory codebase research before planning using an Iron Law and Gate Function that prevents planning from memory or assumptions.
 
 **Trigger phrases**: `create a plan`, `implementation plan`, `plan this feature`, or provide a path to an existing plan in `.docs/plans/`
 
@@ -13,7 +13,7 @@ NO PLAN WITHOUT CODEBASE RESEARCH FIRST
 ```
 
 **Absolute requirements:**
-- Cannot plan from memory - must spawn codebase-locator and codebase-analyzer agents
+- Cannot plan from memory - must spawn code-locator and code-analyzer agents
 - Cannot skip research for "simple" changes
 - Cannot assume patterns - must verify them in THIS codebase
 - Cannot write the plan before ALL research agents complete
@@ -23,7 +23,7 @@ NO PLAN WITHOUT CODEBASE RESEARCH FIRST
 6-step mandatory checkpoint before writing any plan:
 
 1. **IDENTIFY**: What aspects of the codebase need investigation?
-2. **SPAWN**: Create parallel research agents (minimum 2: codebase-locator + codebase-analyzer)
+2. **SPAWN**: Create parallel research agents (minimum 2: code-locator + code-analyzer)
 3. **WAIT**: All agents must complete before proceeding
 4. **READ**: Read ALL files identified by agents into main context
 5. **VERIFY**: Check for file:line references for integration points
@@ -48,13 +48,13 @@ NO PLAN WITHOUT CODEBASE RESEARCH FIRST
 ### Initial Research
 1. Read all mentioned files immediately and FULLY
 2. Spawn initial research tasks in parallel:
-   - **codebase-locator**: Find all files related to the task
-   - **codebase-analyzer**: Understand how current implementation works
+   - **code-locator**: Find all files related to the task
+   - **code-analyzer**: Understand how current implementation works
 3. Read all files identified by research tasks
 4. Present informed understanding with file:line references
 
 ### Deep Research
-- **codebase-pattern-finder**: Find similar features to model after
+- **code-librarian**: Find similar features to model after
 - **docs-locator**: Find existing research, plans, or decisions
 - **docs-analyzer**: Extract key insights from relevant documents
 
@@ -147,7 +147,7 @@ Spawn the agents → Wait for results → Read the files → Cite file:line refe
 
 ## File References
 
-- Main: `~/.claude/skills/planning-codebases/SKILL.md`
-- Research workflow: `~/.claude/skills/planning-codebases/reference/research-workflow.md`
-- Plan template: `~/.claude/skills/planning-codebases/templates/plan-template.md`
-- Common patterns: `~/.claude/skills/planning-codebases/reference/common-patterns.md`
+- Main: `~/.claude/skills/planning-code/SKILL.md`
+- Research workflow: `~/.claude/skills/planning-code/reference/research-workflow.md`
+- Plan template: `~/.claude/skills/planning-code/templates/plan-template.md`
+- Common patterns: `~/.claude/skills/planning-code/reference/common-patterns.md`

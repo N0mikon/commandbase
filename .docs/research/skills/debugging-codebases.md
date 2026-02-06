@@ -1,8 +1,8 @@
-# Research: debugging-codebases Skill
+# Research: debugging-code Skill
 
 ## Overview
 
-The `debugging-codebases` skill (`~/.claude/skills/debugging-codebases/SKILL.md`) implements systematic debugging using the scientific method with persistent state across context resets. It enforces hypothesis-driven investigation rather than trial-and-error fixing.
+The `debugging-code` skill (`~/.claude/skills/debugging-code/SKILL.md`) implements systematic debugging using the scientific method with persistent state across context resets. It enforces hypothesis-driven investigation rather than trial-and-error fixing.
 
 **Trigger phrases**: `debug this`, `why is this failing`, `find the bug`, `investigate this issue`, or descriptions of unexpected behavior
 
@@ -153,12 +153,12 @@ A fix is verified when ALL are true:
 
 - `/learning-from-sessions`: After resolving, offer to extract learnings
 - `/commit`: After fix verified, suggest committing
-- `/researching-codebases`: If investigation reveals need for broader understanding
+- `/researching-code`: If investigation reveals need for broader understanding
 
 ## File References
 
-- Main: `~/.claude/skills/debugging-codebases/SKILL.md`
-- Debug session template: `~/.claude/skills/debugging-codebases/templates/debug-session-template.md`
-- Hypothesis testing: `~/.claude/skills/debugging-codebases/reference/hypothesis-testing.md`
-- Verification patterns: `~/.claude/skills/debugging-codebases/reference/verification-patterns.md`
-- Investigation techniques: `~/.claude/skills/debugging-codebases/reference/investigation-techniques.md`
+- Main: `~/.claude/skills/debugging-code/SKILL.md`
+- Debug session template: `~/.claude/skills/debugging-code/templates/debug-session-template.md`
+- Hypothesis testing: `~/.claude/skills/debugging-code/reference/hypothesis-testing.md`
+- Verification patterns: `~/.claude/skills/debugging-code/reference/verification-patterns.md`
+- Investigation techniques: `~/.claude/skills/debugging-code/reference/investigation-techniques.md`

@@ -8,18 +8,18 @@ tags: [plan, implementation, skill, debugging, rpi-workflow]
 status: completed
 completed_date: 2026-02-01
 references:
-  - newskills/debugging-codebases/SKILL.md
-  - newskills/debugging-codebases/templates/debug-session-template.md
-  - newskills/debugging-codebases/reference/investigation-techniques.md
-  - newskills/debugging-codebases/reference/hypothesis-testing.md
-  - newskills/debugging-codebases/reference/verification-patterns.md
+  - newskills/debugging-code/SKILL.md
+  - newskills/debugging-code/templates/debug-session-template.md
+  - newskills/debugging-code/reference/investigation-techniques.md
+  - newskills/debugging-code/reference/hypothesis-testing.md
+  - newskills/debugging-code/reference/verification-patterns.md
 ---
 
 # Debugging Codebases Skill Implementation Plan
 
 ## Overview
 
-Create a new `/debugging-codebases` skill that provides systematic, scientific debugging with persistent state across context resets. This fills a gap in the RPI workflow where debugging currently has no dedicated skill.
+Create a new `/debugging-code` skill that provides systematic, scientific debugging with persistent state across context resets. This fills a gap in the RPI workflow where debugging currently has no dedicated skill.
 
 **Source:** Adapted from GSD's `gsd-debugger` agent and `/gsd:debug` command, translated to commandbase skill patterns.
 
@@ -32,13 +32,13 @@ Create a new `/debugging-codebases` skill that provides systematic, scientific d
 
 ### Key Discoveries:
 - Commandbase skills use `SKILL.md` + optional `reference/` + optional `templates/` structure
-- Skills like `researching-codebases` and `discussing-features` provide good structural patterns
+- Skills like `researching-code` and `discussing-features` provide good structural patterns
 - GSD stores debug state in `.planning/debug/` - we'll use `.docs/debug/` for consistency
 - GSD's debug file structure (Current Focus, Symptoms, Eliminated, Evidence, Resolution) enables perfect resume after `/clear`
 
 ## Desired End State
 
-A fully functional `/debugging-codebases` skill that:
+A fully functional `/debugging-code` skill that:
 1. Creates persistent debug session files in `.docs/debug/`
 2. Guides investigation using scientific hypothesis testing
 3. Tracks eliminated hypotheses to prevent re-investigation after context reset
@@ -47,7 +47,7 @@ A fully functional `/debugging-codebases` skill that:
 
 **Verification:**
 - Skill appears in Claude Code's available skills list
-- Can invoke via `/debugging-codebases [issue description]`
+- Can invoke via `/debugging-code [issue description]`
 - Debug session files persist and enable resume after `/clear`
 - Follows existing skill patterns (description triggers, progressive disclosure)
 
@@ -78,12 +78,12 @@ Create the main skill definition file with frontmatter, iron law, process steps,
 ### Changes Required:
 
 #### 1. Create skill directory and SKILL.md
-**File**: `newskills/debugging-codebases/SKILL.md`
+**File**: `newskills/debugging-code/SKILL.md`
 **Changes**: New file - main skill definition
 
 ```markdown
 ---
-name: debugging-codebases
+name: debugging-code
 description: "Use this skill when debugging issues in the codebase using systematic investigation. This includes tracking hypotheses, eliminating dead ends, finding root causes, and optionally fixing verified issues. Activate when the user says 'debug this', 'why is this failing', 'find the bug', 'investigate this issue', or describes unexpected behavior they want diagnosed."
 ---
 
@@ -152,7 +152,7 @@ I'll help you debug systematically. Describe the issue you're experiencing:
 - What actually happens?
 - Any error messages?
 
-Or provide the issue description directly: /debugging-codebases [description]
+Or provide the issue description directly: /debugging-code [description]
 ```
 
 ## Process
@@ -294,7 +294,7 @@ The debug file IS the debugging brain. Perfect resume from any interruption.
 
 - **`/learning-from-sessions`**: After resolving, offer to extract learnings
 - **`/commit`**: After fix verified, suggest committing
-- **`/researching-codebases`**: If investigation reveals need for broader codebase understanding
+- **`/researching-code`**: If investigation reveals need for broader codebase understanding
 
 ## Red Flags - STOP and Refocus
 
@@ -325,7 +325,7 @@ This is non-negotiable. Every bug. Every time.
 ```
 
 ### Success Criteria:
-- [x] File exists at `newskills/debugging-codebases/SKILL.md`
+- [x] File exists at `newskills/debugging-code/SKILL.md`
 - [x] Frontmatter has correct name and description
 - [x] Description includes trigger phrases
 - [x] Iron Law and Gate Function defined
@@ -342,7 +342,7 @@ Define the persistent debug file structure that enables resume after context res
 ### Changes Required:
 
 #### 1. Create templates directory and template file
-**File**: `newskills/debugging-codebases/templates/debug-session-template.md`
+**File**: `newskills/debugging-code/templates/debug-session-template.md`
 **Changes**: New file - debug session structure
 
 ```markdown
@@ -467,7 +467,7 @@ No automatic archival - user decides.
 ```
 
 ### Success Criteria:
-- [x] File exists at `newskills/debugging-codebases/templates/debug-session-template.md`
+- [x] File exists at `newskills/debugging-code/templates/debug-session-template.md`
 - [x] Template includes all sections (Current Focus, Symptoms, Eliminated, Evidence, Resolution)
 - [x] Section rules clearly documented
 - [x] Resume behavior explained
@@ -483,7 +483,7 @@ Document debugging techniques for different scenarios.
 ### Changes Required:
 
 #### 1. Create reference directory and techniques file
-**File**: `newskills/debugging-codebases/reference/investigation-techniques.md`
+**File**: `newskills/debugging-code/reference/investigation-techniques.md`
 **Changes**: New file - debugging techniques guide
 
 ```markdown
@@ -660,7 +660,7 @@ Techniques compose. Often use multiple together:
 ```
 
 ### Success Criteria:
-- [x] File exists at `newskills/debugging-codebases/reference/investigation-techniques.md`
+- [x] File exists at `newskills/debugging-code/reference/investigation-techniques.md`
 - [x] Technique selection table included
 - [x] Each technique has When/How/Example
 - [x] Combining techniques section present
@@ -675,7 +675,7 @@ Document the scientific method for debugging: hypothesis formation, testing, and
 ### Changes Required:
 
 #### 1. Create hypothesis testing reference file
-**File**: `newskills/debugging-codebases/reference/hypothesis-testing.md`
+**File**: `newskills/debugging-code/reference/hypothesis-testing.md`
 **Changes**: New file - scientific debugging guide
 
 ```markdown
@@ -828,7 +828,7 @@ Consider starting over when:
 ```
 
 ### Success Criteria:
-- [x] File exists at `newskills/debugging-codebases/reference/hypothesis-testing.md`
+- [x] File exists at `newskills/debugging-code/reference/hypothesis-testing.md`
 - [x] Falsifiability requirement explained with examples
 - [x] Experimental design framework documented
 - [x] Cognitive biases table included
@@ -844,7 +844,7 @@ Document what "verified" means and how to confirm fixes actually work.
 ### Changes Required:
 
 #### 1. Create verification patterns reference file
-**File**: `newskills/debugging-codebases/reference/verification-patterns.md`
+**File**: `newskills/debugging-code/reference/verification-patterns.md`
 **Changes**: New file - verification guide
 
 ```markdown
@@ -1007,7 +1007,7 @@ The cost of insufficient verification: bug returns, user frustration, emergency 
 ```
 
 ### Success Criteria:
-- [x] File exists at `newskills/debugging-codebases/reference/verification-patterns.md`
+- [x] File exists at `newskills/debugging-code/reference/verification-patterns.md`
 - [x] "What verified means" clearly defined
 - [x] Reproduction verification covered
 - [x] Test-first debugging explained
@@ -1019,10 +1019,10 @@ The cost of insufficient verification: bug returns, user frustration, emergency 
 
 ### Manual Testing:
 After each phase:
-1. Copy skill directory to `~/.claude/skills/debugging-codebases/`
+1. Copy skill directory to `~/.claude/skills/debugging-code/`
 2. Start new Claude Code session
 3. Verify skill appears in available skills
-4. Test invocation with `/debugging-codebases test issue`
+4. Test invocation with `/debugging-code test issue`
 5. Verify debug file created in `.docs/debug/`
 
 ### Integration Testing:
@@ -1038,5 +1038,5 @@ After each phase:
 - GSD debug command: `C:/code/repo-library/get-shit-done/commands/gsd/debug.md`
 - GSD debug template: `C:/code/repo-library/get-shit-done/get-shit-done/templates/DEBUG.md`
 - Research document: `.docs/research/02-01-2026-get-shit-done-skill-comparison.md`
-- Similar skill pattern: `newskills/researching-codebases/SKILL.md`
+- Similar skill pattern: `newskills/researching-code/SKILL.md`
 - Similar skill pattern: `newskills/discussing-features/SKILL.md`

@@ -19,7 +19,7 @@ Skills and agents deliberately use **different naming conventions** because they
 Skills activate when Claude recognizes the user is **performing an action**. Gerund names align with that mental model:
 
 - The user is "creating skills" -> `creating-skills` skill activates
-- The user is "researching codebases" -> `researching-codebases` skill activates
+- The user is "researching codebases" -> `researching-code` skill activates
 - The user is "reviewing changes" -> `reviewing-changes` skill activates
 
 Noun names (e.g., `skill-creator`) describe a tool that exists. Gerund names describe an action being performed. Skills are triggered by intent matching against descriptions, so the name reinforces the activation-oriented framing.
@@ -43,9 +43,9 @@ A skill says: "Use this skill when reviewing code for quality issues."
 
 Agents are invoked explicitly via the Task tool or `@mention`. They don't need intent-matching activation - they're called by name when Claude (or the user) decides to delegate work to a specialist. The noun form makes them read as **roles** or **specialists**:
 
-- `codebase-analyzer` - a specialist that analyzes codebases
+- `code-analyzer` - a specialist that analyzes codebases
 - `docs-locator` - a specialist that locates documents
-- `web-search-researcher` - a specialist that researches via web search
+- `web-researcher` - a specialist that researches via web search
 
 ## Current Agent Names (All 7)
 
@@ -53,13 +53,13 @@ Agents are invoked explicitly via the Task tool or `@mention`. They don't need i
 
 | Agent Name | Pattern |
 |-----------|---------|
-| `codebase-analyzer` | {subject}-{role} |
-| `codebase-locator` | {subject}-{role} |
-| `codebase-pattern-finder` | {subject}-{role} |
+| `code-analyzer` | {subject}-{role} |
+| `code-locator` | {subject}-{role} |
+| `code-librarian` | {subject}-{role} |
 | `docs-analyzer` | {subject}-{role} |
 | `docs-locator` | {subject}-{role} |
 | `docs-updater` | {subject}-{role} |
-| `web-search-researcher` | {domain}-{role} |
+| `web-researcher` | {domain}-{role} |
 
 ## Conversion Table (Agent <-> Skill)
 
