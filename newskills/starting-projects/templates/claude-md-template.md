@@ -47,6 +47,13 @@ Run before committing: `[single verification command or script]`
 For detailed documentation, see:
 - `[path/to/doc]` - [brief description]
 
+## Git Safety
+
+See `~/.claude/CLAUDE.md` for global git rules. Key points:
+- All commits go through `/committing-changes` (never direct `git commit`)
+- Stage specific files only (never `git add -A` or `git add .`)
+- Deny rules in `~/.claude/settings.json` hard-block destructive patterns
+
 ## Automatic Behaviors
 
 See ~/.claude/CLAUDE.md for global behaviors.

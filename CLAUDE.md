@@ -9,6 +9,7 @@ commandbase/
 ├── newskills/       # Skills in development (→ ~/.claude/skills/)
 ├── newagents/       # Agents in development (→ ~/.claude/agents/)
 ├── newhooks/        # Hooks in development (→ ~/.claude/hooks/)
+│   └── nudge-commit-skill/  # PostToolUse hook enforcing /committing-changes
 └── .docs/           # Research, plans, and handoff documents
 ```
 
@@ -28,6 +29,25 @@ cp ~/.claude/skills/skillname/SKILL.md newskills/skillname/SKILL.md
 ```
 
 **Important:** When editing skills via `/updating-skills` or directly in `~/.claude/skills/`, always copy changes back to `newskills/` before committing. The global config is live but this repo tracks history.
+
+### Hooks Deployment
+
+Hooks are developed in `newhooks/` and deployed to `~/.claude/hooks/`. Each hook directory includes:
+- The hook script (`.py`)
+- A `settings-snippet.json` showing the required `~/.claude/settings.json` config
+
+```bash
+# Deploy hook
+cp newhooks/hookname/hookname.py ~/.claude/hooks/
+# Then merge settings-snippet.json into ~/.claude/settings.json
+```
+
+### Commit Enforcement (3 layers)
+
+All commits must go through `/committing-changes`. Enforced by:
+1. **CLAUDE.md rule** — `~/.claude/CLAUDE.md` Git Workflow section
+2. **PostToolUse nudge hook** — `~/.claude/hooks/nudge-commit-skill.py` sends feedback if direct `git commit`/`push` detected
+3. **Deny rules** — `~/.claude/settings.json` hard-blocks patterns the skill never uses (`git add -A`, `--no-verify`, `--force`, `reset --hard`, etc.)
 
 ## Additional Context
 
