@@ -107,6 +107,8 @@ See the Freedom Tiers section below. Match the tier to the task's error toleranc
 - Add reference files with intention-revealing names (not `reference.md` or `helpers.md`)
 - Use skinny pointers to reference files: `See ./reference/filename.md for [topic]`
 - Write for Claude, not for humans - instructions should be actionable, not explanatory
+- For skills that produce structured output: specify explicit format constraints (line counts, bullet limits, section lengths) rather than subjective guidance like "be concise" or "keep it short"
+- For skills that modify state or follow a plan: include a Red Flag for making changes beyond what was requested, and a Rationalization Prevention entry for scope creep
 
 **Step 5: Validate**
 

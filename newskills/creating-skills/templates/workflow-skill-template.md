@@ -158,7 +158,7 @@ If you notice any of these, pause:
 - [Warning: proceeding without required input]
 - [Warning: choosing a mode without checking conditions]
 - [Warning: producing output without validation]
-- [Warning: rushing due to perceived simplicity]
+- Making changes beyond the current mode's scope ("while I'm here" improvements, unsolicited cleanups)
 
 ## Rationalization Prevention
 
@@ -167,7 +167,7 @@ If you notice any of these, pause:
 | "[Shortcut that skips a mode check]" | [Why the mode check matters] |
 | "[Temptation to skip verification gate]" | [What the gate catches] |
 | "[Rushing the output phase]" | [Why output quality matters] |
-| "[Skipping error recovery planning]" | [What happens when errors hit unprepared] |
+| "The output needs more detail/context" | Stick to the format constraints. Users can ask for more. |
 
 ## The Bottom Line
 

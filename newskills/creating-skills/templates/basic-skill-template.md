@@ -66,7 +66,7 @@ If you notice any of these, pause:
 - [Warning sign that indicates a mistake is being made]
 - [Another warning sign]
 - [Sign of rushing or skipping verification]
-- [Sign of a common anti-pattern]
+- Making changes beyond what was asked ("while I'm here" improvements, unsolicited refactoring)
 
 ## Rationalization Prevention
 
@@ -75,6 +75,7 @@ If you notice any of these, pause:
 | "[Common shortcut people take]" | [Why it's wrong and what to do instead] |
 | "[Another rationalization]" | [The truth] |
 | "[Temptation to skip a step]" | [Why the step matters] |
+| "The output needs more detail/context" | Stick to the format constraints. Users can ask for more. |
 
 ## The Bottom Line
 
