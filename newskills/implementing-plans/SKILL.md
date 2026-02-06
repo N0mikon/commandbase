@@ -53,13 +53,13 @@ If no plan path provided, ask for one or list available plans in `.docs/plans/`.
 ## Implementation Philosophy
 
 Plans are carefully designed, but reality can be messy. Your job is to:
-- Follow the plan's intent while adapting to what you find
+- Follow the plan exactly. If reality requires deviation, STOP and present the deviation before making it.
 - Implement each phase fully before moving to the next
 - Verify your work with automated tests after each phase
 - Update checkboxes in the plan as you complete sections
 - Continue through all phases without stopping for manual confirmation
 
-When things don't match the plan exactly, think about why and adapt. The plan is your guide, but your judgment matters too.
+When things don't match the plan exactly, STOP and present the mismatch to the user. Do not adapt silently - explain what's different and propose the deviation. The plan is your contract, not a suggestion.
 
 If you encounter a significant mismatch that blocks progress:
 - STOP and think deeply about why the plan can't be followed
@@ -146,6 +146,8 @@ If you notice any of these, pause:
 - Proceeding to next phase without showing command output
 - Trusting previous test runs instead of running fresh
 - Skipping phases because they "seem simple"
+- Making changes not described in the plan without explaining why and getting approval
+- "Improving" or refactoring code that the plan didn't ask you to touch
 
 ## Rationalization Prevention
 
@@ -156,6 +158,8 @@ If you notice any of these, pause:
 | "I can see the code is correct" | Show command output. Visual inspection isn't evidence. |
 | "User is waiting" | Wrong implementation wastes more time. Verify first. |
 | "I'll verify at the end" | Per-phase verification catches issues early. Do it now. |
+| "This related code could use cleanup" | Only change what the plan specifies. File a separate task for other improvements. |
+| "While I'm here, I should also..." | No. Finish the planned work. Scope creep is how plans fail. |
 
 ## Workflow Integration
 

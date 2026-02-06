@@ -99,7 +99,10 @@ Create a draft following this structure:
 - **NEVER** include "Generated with Claude" or similar
 - **NEVER** include Co-Authored-By lines
 - Write as if the user wrote it
-- Be concise but thorough
+- Summary: 1-3 bullet points
+- Changes: 2-5 sentences max
+- Testing: 1-3 bullet points
+- Notes: Only if genuinely needed (breaking changes, migration steps). Omit if empty.
 - Focus on the "why" not just the "what"
 
 ### Step 4: Present for Confirmation

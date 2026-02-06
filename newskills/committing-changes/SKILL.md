@@ -119,6 +119,8 @@ For each logical group of changes:
 - Keep first line under 72 characters
 - **NEVER include Co-Authored-By or Claude attribution**
 - Write as if the user wrote it
+- Body: 0-3 bullet points max. If you need more, the commit is too large - suggest splitting it.
+- Total commit message (including body) should rarely exceed 5 lines
 
 ### Step 5: Security Review (Public Repos Only)
 

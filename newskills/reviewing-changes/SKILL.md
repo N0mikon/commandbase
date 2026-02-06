@@ -102,6 +102,10 @@ git diff --cached | grep "^+" | grep -E "(TODO|FIXME)"
 - Specific change 2
 ```
 
+**Length constraints:**
+- First line: under 72 characters
+- Body: 0-3 bullet points max. More bullets = commit too large, suggest splitting.
+
 **Types:** feat, fix, refactor, docs, test, chore
 
 ### 4. Diff Coherence
