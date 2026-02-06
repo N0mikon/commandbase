@@ -1,6 +1,6 @@
 ---
 name: docs-updater
-description: Checks if a document is stale and either updates it with current information or archives it if no longer relevant. Spawned by /commit when docs are behind HEAD.
+description: Checks if a document is stale and either updates it with current information or archives it if no longer relevant. Spawned by /committing-changes when docs are behind HEAD.
 tools: Read, Grep, Glob, LS, Edit, Bash
 model: opus
 ---

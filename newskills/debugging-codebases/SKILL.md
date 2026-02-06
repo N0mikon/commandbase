@@ -190,7 +190,7 @@ Files Changed:
 - [file]: [change]
 
 Next steps:
-- "/commit" - Commit the fix
+- "/committing-changes" - Commit the fix
 - "/learning-from-sessions" - Extract learnings
 - Delete .docs/debug/{slug}.md when done
 ```
@@ -209,7 +209,7 @@ The debug file IS the debugging brain. Perfect resume from any interruption.
 ## Integration Points
 
 - **`/learning-from-sessions`**: After resolving, offer to extract learnings
-- **`/commit`**: After fix verified, suggest committing
+- **`/committing-changes`**: After fix verified, suggest committing
 - **`/researching-codebases`**: If investigation reveals need for broader codebase understanding
 
 ## Red Flags - STOP and Refocus

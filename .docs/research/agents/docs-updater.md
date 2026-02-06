@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `docs-updater` agent (`~/.claude/agents/docs-updater.md`) checks if a document is stale and either updates it with current information or archives it if no longer relevant. Spawned by `/commit` when docs are behind HEAD.
+The `docs-updater` agent (`~/.claude/agents/docs-updater.md`) checks if a document is stale and either updates it with current information or archives it if no longer relevant. Spawned by `/committing-changes` when docs are behind HEAD.
 
 **When to Use**: When documents need to be updated after code changes or when checking documentation freshness.
 
