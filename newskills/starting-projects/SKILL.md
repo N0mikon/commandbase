@@ -132,12 +132,12 @@ Your project is initialized!
 3. Start building!
 
 **Your workflow going forward:**
-- `/researching-codebases` - Research and document codebase patterns
-- `/planning-codebases` - Create implementation plans for new features
+- `/researching-code` - Research and document codebase patterns
+- `/planning-code` - Create implementation plans for new features
 - `/implementing-plans` - Execute plans
-- `/validating-implementations` - Validate implementation against plan
+- `/validating-code` - Validate implementation against plan
 - `/committing-changes` - Commit and push changes
-- `/creating-pull-requests` - Create pull requests
+- `/creating-prs` - Create pull requests
 - `/handing-over` - Save context when ending a session
 - `/taking-over` - Resume from a handover document
 ```

@@ -1,5 +1,5 @@
 ---
-name: validating-implementations
+name: validating-code
 description: "Use this skill when verifying implementation against a plan, checking success criteria, or after /implementing-plans completes. This includes running validation commands, comparing code to plan specifications, checking test coverage, and confirming all phases meet their success criteria. Trigger phrases: '/vcode', 'validate the implementation', 'check against the plan', 'verify success criteria'."
 ---
 
@@ -216,13 +216,13 @@ If checkpoints were created during `/implementing-plans` phases:
 ```
 Checkpoint comparison available.
 
-/checkpointing list
+/bookmarking-code list
 - plan-approved (2026-01-28-10:30) @ abc1234
 - phase-1-done (2026-01-28-11:45) @ def5678
 - phase-2-done (2026-01-28-14:20) @ ghi7890
 
 Run full comparison to plan baseline?
-/checkpointing verify "plan-approved"
+/bookmarking-code verify "plan-approved"
 ```
 
 This shows:
@@ -246,11 +246,11 @@ Test delta: +12 passing, -0 failing
 ## Relationship to Other Commands
 
 Typical workflow:
-1. `/planning-codebases` - Create the plan
+1. `/planning-code` - Create the plan
 2. `/implementing-plans` - Implement the plan
 3. `/vcode` - Validate (you are here)
 4. `/committing-changes` - Commit changes
-5. `/creating-pull-requests` - Create pull request
+5. `/creating-prs` - Create pull request
 
 ## Example Interaction
 

@@ -1,5 +1,5 @@
 ---
-name: debugging-codebases
+name: debugging-code
 description: "Use this skill when debugging issues in the codebase using systematic investigation. This includes tracking hypotheses, eliminating dead ends, finding root causes, and optionally fixing verified issues. Activate when the user says 'debug this', 'why is this failing', 'find the bug', 'investigate this issue', or describes unexpected behavior they want diagnosed."
 ---
 
@@ -68,7 +68,7 @@ I'll help you debug systematically. Describe the issue you're experiencing:
 - What actually happens?
 - Any error messages?
 
-Or provide the issue description directly: /debugging-codebases [description]
+Or provide the issue description directly: /debugging-code [description]
 ```
 
 ## Process
@@ -210,7 +210,7 @@ The debug file IS the debugging brain. Perfect resume from any interruption.
 
 - **`/learning-from-sessions`**: After resolving, offer to extract learnings
 - **`/committing-changes`**: After fix verified, suggest committing
-- **`/researching-codebases`**: If investigation reveals need for broader codebase understanding
+- **`/researching-code`**: If investigation reveals need for broader codebase understanding
 
 ## Red Flags - STOP and Refocus
 

@@ -1,5 +1,5 @@
 ---
-name: researching-codebases
+name: researching-code
 description: "Use this skill when researching a codebase to understand how it works. This includes answering questions like 'how does X work', 'where is Y defined', 'explain the architecture', documenting existing implementations, tracing data flows, and creating technical documentation. Activate when the user says 'research codebase', 'how does this work', 'where is this defined', or 'explain the code'."
 ---
 
@@ -146,7 +146,7 @@ See ./reference/evidence-requirements.md for:
 ## Example Interaction
 
 ```
-User: /researching-codebases how does the API handle errors?
+User: /researching-code how does the API handle errors?
 Assistant: I'll research how the API handles errors...
 
 [Spawns parallel research agents]

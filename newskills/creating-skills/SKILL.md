@@ -35,7 +35,7 @@ BEFORE writing any SKILL.md:
    Personal (~/.claude/skills/) or project (.claude/skills/)?
 2. CHECK RESEARCH: Does `.docs/research/` have relevant analysis?
    - If YES: Read it, use findings as baseline for design decisions
-   - If NO and skill is complex*: Suggest `/researching-codebases` first
+   - If NO and skill is complex*: Suggest `/researching-code` first
    - If NO and skill is simple: Proceed directly
 3. DESIGN: Name (gerund, kebab-case), description (formula), freedom tier
 4. CHOOSE: Template from ./templates/ (basic or workflow)
@@ -57,14 +57,14 @@ Decide whether to proceed standalone or suggest research first.
 - Well-defined workflow under 200 lines
 - User knows exactly what they want
 
-**Complex - suggest `/researching-codebases` first:**
+**Complex - suggest `/researching-code` first:**
 - Will need `reference/` or `templates/` subdirectories
 - Involves unfamiliar APIs, systems, or protocols
 - Cross-cutting concerns spanning multiple tools
 - User says "I'm not sure how to structure this"
 
 When suggesting research:
-> This skill looks complex enough to benefit from upfront research. Consider running `/researching-codebases` to analyze similar patterns and existing implementations, then return here to build the skill with those findings as a baseline.
+> This skill looks complex enough to benefit from upfront research. Consider running `/researching-code` to analyze similar patterns and existing implementations, then return here to build the skill with those findings as a baseline.
 
 When existing research is found:
 > Found relevant research at `.docs/research/[file]`. Using its findings to inform design decisions.

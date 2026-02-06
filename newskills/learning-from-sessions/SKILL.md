@@ -121,7 +121,7 @@ After identifying the knowledge, assess whether it needs deeper research before 
 - Single-step solution verified in this session
 - Would produce a flat SKILL.md with no reference files
 
-**Complex -- suggest `/researching-codebases` first:**
+**Complex -- suggest `/researching-code` first:**
 - Involves unfamiliar technology, APIs, or protocols
 - Would benefit from seeing how others solved this problem
 - Would produce a skill needing `reference/` subdirectory
@@ -129,9 +129,9 @@ After identifying the knowledge, assess whether it needs deeper research before 
 - User expresses uncertainty about how to structure the knowledge
 
 When suggesting research:
-> This discovery is complex enough to benefit from upfront research. Consider running `/researching-codebases` to analyze similar patterns and existing solutions, then return here to extract the skill with those findings as context.
+> This discovery is complex enough to benefit from upfront research. Consider running `/researching-code` to analyze similar patterns and existing solutions, then return here to extract the skill with those findings as context.
 
-When the user returns from `/researching-codebases`, check `.docs/research/` for new findings and incorporate them into the extraction.
+When the user returns from `/researching-code`, check `.docs/research/` for new findings and incorporate them into the extraction.
 
 ### Step 3: Research Best Practices
 

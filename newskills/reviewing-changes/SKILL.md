@@ -36,7 +36,7 @@ No verdict without running the checks.
 
 - **No auto-blocking** - WARN only, user decides
 - **No security checks** - that's `/reviewing-security`
-- **No spec compliance** - that's `/validating-implementations`
+- **No spec compliance** - that's `/validating-code`
 - **No style enforcement** - that's linters
 
 ## The Five Check Categories
@@ -246,7 +246,7 @@ Would you like to:
 
 **Position in workflow:**
 ```
-/validating-implementations
+/validating-code
    ↓ "Continue to commit?"
 /reviewing-changes  <-- YOU ARE HERE
    ↓ [PASS: proceed | WARN: decide]

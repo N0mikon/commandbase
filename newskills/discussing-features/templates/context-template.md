@@ -57,7 +57,7 @@ status: ready-for-planning
 
 ---
 *Context gathered: [YYYY-MM-DD]*
-*Next: /planning-codebases or /researching-codebases*
+*Next: /planning-code or /researching-code*
 ```
 
 ## Template Usage Notes
@@ -66,8 +66,8 @@ status: ready-for-planning
 
 The XML tags (`<domain>`, `<decisions>`, `<specifics>`, `<deferred>`) enable downstream skills to parse specific sections:
 
-- `/researching-codebases` reads `<decisions>` to focus research scope
-- `/planning-codebases` reads `<decisions>` to honor user choices
+- `/researching-code` reads `<decisions>` to focus research scope
+- `/planning-code` reads `<decisions>` to honor user choices
 - Both read `<deferred>` to know what's out of scope
 
 ### Decisions Section

@@ -52,14 +52,14 @@ Decide whether to proceed standalone or suggest research first.
 - Adapting an existing agent for a new domain
 - User knows exactly what they want
 
-**Complex - suggest `/researching-codebases` or `/researching-web` first:**
+**Complex - suggest `/researching-code` or `/researching-web` first:**
 - Novel system prompt architecture (no existing pattern to follow)
 - Involves unfamiliar APIs, external services, or MCP tools
 - Agent needs to coordinate with other agents (family design)
 - User says "I'm not sure what tools it needs"
 
 When suggesting research:
-> This agent looks complex enough to benefit from upfront research. Consider running `/researching-codebases` to analyze similar agent patterns, or `/researching-web` for external best practices, then return here to build the agent with those findings as a baseline.
+> This agent looks complex enough to benefit from upfront research. Consider running `/researching-code` to analyze similar agent patterns, or `/researching-web` for external best practices, then return here to build the agent with those findings as a baseline.
 
 When existing research is found:
 > Found relevant research at `.docs/research/[file]`. Using its findings to inform design decisions.

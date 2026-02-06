@@ -1,6 +1,6 @@
 ---
 name: discussing-features
-description: "Use this skill when capturing user intent before planning a feature. This includes discussing layout preferences, API design choices, UX decisions, error handling behavior, and content organization. Activate when the user says 'let's discuss this feature', 'how should this work', 'design decisions for', or before invoking /planning-codebases on a new feature."
+description: "Use this skill when capturing user intent before planning a feature. This includes discussing layout preferences, API design choices, UX decisions, error handling behavior, and content organization. Activate when the user says 'let's discuss this feature', 'how should this work', 'design decisions for', or before invoking /planning-code on a new feature."
 ---
 
 # Feature Discussion
@@ -147,8 +147,8 @@ Decisions made:
 Deferred ideas: [count or "None"]
 
 Next steps:
-- Run /planning-codebases to create implementation plan
-- Or /researching-codebases if you need to understand existing patterns first
+- Run /planning-code to create implementation plan
+- Or /researching-code if you need to understand existing patterns first
 ```
 
 ## Error Recovery

@@ -138,7 +138,7 @@ Example: "User settings page" = Visual (dominant) + API (data persistence)
 ## Anti-Patterns
 
 **DON'T ask:**
-- Technical architecture questions (defer to /planning-codebases)
+- Technical architecture questions (defer to /planning-code)
 - Performance optimization questions (defer to planning)
 - "Should we use library X?" (defer to research)
 - Generic questions not specific to this feature

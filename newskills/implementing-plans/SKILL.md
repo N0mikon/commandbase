@@ -174,26 +174,26 @@ Verification:
 - [test results]
 
 Create checkpoint before next phase?
-/checkpointing create "phase-N-done"
+/bookmarking-code create "phase-N-done"
 ```
 
 ### Full Workflow
 
 ```
-/planning-codebases → /checkpointing create "plan-approved"
+/planning-code → /bookmarking-code create "plan-approved"
    ↓
-/implementing-plans Phase 1 → Evidence → /checkpointing create "phase-1-done"
+/implementing-plans Phase 1 → Evidence → /bookmarking-code create "phase-1-done"
    ↓
-/implementing-plans Phase 2 → /checkpointing verify → Evidence → /checkpointing create "phase-2-done"
+/implementing-plans Phase 2 → /bookmarking-code verify → Evidence → /bookmarking-code create "phase-2-done"
    ↓
 ... continue pattern ...
    ↓
-/validating-implementations → /checkpointing verify "plan-approved"
+/validating-code → /bookmarking-code verify "plan-approved"
    ↓
 /committing-changes
 ```
 
 **After all phases complete:**
-- Run `/validating-implementations` to get independent validation
-- Run `/checkpointing verify "plan-approved"` for full delta review
+- Run `/validating-code` to get independent validation
+- Run `/bookmarking-code verify "plan-approved"` for full delta review
 - Only then proceed to `/committing-changes`

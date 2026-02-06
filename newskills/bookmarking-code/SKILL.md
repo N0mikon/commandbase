@@ -1,5 +1,5 @@
 ---
-name: checkpointing
+name: bookmarking-code
 description: "Use this skill when saving development checkpoints, comparing against previous states, or detecting regressions between phases. This includes creating named snapshots before risky changes, verifying no regressions after implementation, listing available checkpoints, and clearing old checkpoints. Trigger phrases: '/checkpoint create', '/checkpoint verify', '/checkpoint list', 'save a checkpoint', 'compare to checkpoint'."
 ---
 
@@ -39,7 +39,7 @@ Skip verification = unreliable checkpoints
 
 ## Operations
 
-### /checkpointing create "name"
+### /bookmarking-code create "name"
 
 Creates a named checkpoint at current git state.
 
@@ -58,7 +58,7 @@ Creates a named checkpoint at current git state.
    Timestamp: 2026-01-28-14:30
 
    To verify against this checkpoint later:
-   /checkpointing verify "name"
+   /bookmarking-code verify "name"
    ```
 
 **If uncommitted changes exist:**
@@ -76,7 +76,7 @@ Options:
 Which would you prefer?
 ```
 
-### /checkpointing verify "name"
+### /bookmarking-code verify "name"
 
 Compares current state to a named checkpoint.
 
@@ -122,7 +122,7 @@ Available checkpoints:
 Did you mean one of these?
 ```
 
-### /checkpointing list
+### /bookmarking-code list
 
 Shows all checkpoints for current project.
 
@@ -141,7 +141,7 @@ Shows all checkpoints for current project.
    Total: 3 checkpoints
 
    To verify against a checkpoint:
-   /checkpointing verify "checkpoint-name"
+   /bookmarking-code verify "checkpoint-name"
    ```
 
 **If no checkpoints:**
@@ -149,10 +149,10 @@ Shows all checkpoints for current project.
 No checkpoints found for this project.
 
 Create one with:
-/checkpointing create "checkpoint-name"
+/bookmarking-code create "checkpoint-name"
 ```
 
-### /checkpointing clear
+### /bookmarking-code clear
 
 Removes old checkpoints, keeping the most recent 5.
 
@@ -196,7 +196,7 @@ YYYY-MM-DD-HH:MM | checkpoint-name | git-sha
 ## Naming Conventions
 
 Suggested checkpoint names:
-- `plan-approved` - After /planning-codebases plan is finalized
+- `plan-approved` - After /planning-code plan is finalized
 - `phase-N-done` - After completing /implementing-plans phase N
 - `pre-refactor` - Before major refactoring
 - `feature-complete` - Before validation/PR
@@ -223,15 +223,15 @@ If you notice any of these, pause:
 Checkpoints integrate with the RPI workflow:
 
 ```
-/planning-codebases → Plan approved → /checkpointing create "plan-approved"
+/planning-code → Plan approved → /bookmarking-code create "plan-approved"
    ↓
-/implementing-plans Phase 1 → Complete → /checkpointing create "phase-1-done"
+/implementing-plans Phase 1 → Complete → /bookmarking-code create "phase-1-done"
    ↓
-/implementing-plans Phase 2 → Start → /checkpointing verify "phase-1-done"
+/implementing-plans Phase 2 → Start → /bookmarking-code verify "phase-1-done"
    ↓
-/implementing-plans Phase 2 → Complete → /checkpointing create "phase-2-done"
+/implementing-plans Phase 2 → Complete → /bookmarking-code create "phase-2-done"
    ↓
-/validating-implementations → Validate → /checkpointing verify "plan-approved"
+/validating-code → Validate → /bookmarking-code verify "plan-approved"
    ↓
 /committing-changes → Commit changes
 ```

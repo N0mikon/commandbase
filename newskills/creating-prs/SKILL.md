@@ -1,5 +1,5 @@
 ---
-name: creating-pull-requests
+name: creating-prs
 description: "Use this skill when creating a pull request, opening a PR for review, or generating PR descriptions. This includes analyzing commits for the PR summary, writing PR descriptions with test plans, creating the PR via gh CLI, and requesting reviewers. Trigger phrases: '/pr', 'create a PR', 'make a pull request', 'open a pull request', 'submit for review'."
 ---
 
@@ -213,7 +213,7 @@ Or use /committing-changes to auto-create a repository.
 GitHub CLI not authenticated. Please run:
 gh auth login
 
-Then try /creating-pull-requests again.
+Then try /creating-prs again.
 ```
 
 ## Red Flags - STOP and Analyze

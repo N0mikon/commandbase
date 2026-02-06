@@ -1,5 +1,5 @@
 ---
-name: planning-codebases
+name: planning-code
 description: "Create or iterate on implementation plans with thorough codebase research. Use when the user says 'create a plan', 'implementation plan', 'plan this feature', or provides a path to an existing plan in .docs/plans/. Spawns research agents before planning, produces phased plans with success criteria."
 ---
 
@@ -93,7 +93,7 @@ Please provide:
 I'll analyze this information and work with you to create a comprehensive plan.
 
 Tip: To update an existing plan, provide the path:
-/planning-codebases .docs/plans/MM-DD-YYYY-description.md
+/planning-code .docs/plans/MM-DD-YYYY-description.md
 ```
 
 Then wait for the user's input.
@@ -175,11 +175,11 @@ After structure approval:
    Plan finalized at `.docs/plans/[filename].md`
 
    Would you like to create a checkpoint before implementation?
-   /checkpointing create "plan-approved"
+   /bookmarking-code create "plan-approved"
 
    This captures the pre-implementation state, enabling:
    - Comparison after each /implementing-plans phase
-   - Full delta review during /validating-implementations
+   - Full delta review during /validating-code
    - Rollback reference if needed
    ```
 
@@ -226,7 +226,7 @@ If you notice any of these, STOP immediately:
 
 ### Creating a New Plan
 ```
-User: /planning-codebases
+User: /planning-code
 Assistant: I'll help you create a detailed implementation plan...
 
 User: We need to add user authentication to the app
@@ -241,7 +241,7 @@ Based on my research, I understand we need to add authentication. I've found tha
 
 ### Iterating on Existing Plan
 ```
-User: /planning-codebases .docs/plans/01-27-2026-auth-implementation.md
+User: /planning-code .docs/plans/01-27-2026-auth-implementation.md
 Assistant: I've read the plan. Current phases:
 1. Database schema for users
 2. Authentication middleware
