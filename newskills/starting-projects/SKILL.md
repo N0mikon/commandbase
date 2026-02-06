@@ -18,7 +18,7 @@ NO RECOMMENDATION WITHOUT RESEARCH
 Don't recommend tools, structures, or practices without researching current best practices first.
 
 **Guiding Principles:**
-- Research before recommending - spawn web-search agents for current best practices
+- Research before recommending - use `/researching-frameworks` for current docs and best practices
 - Confirm before writing - get user approval at each phase
 - Keep CLAUDE.md minimal - under 60 lines, universally applicable
 - Adapt to answers - skip irrelevant questions, add needed ones
@@ -29,7 +29,7 @@ Don't recommend tools, structures, or practices without researching current best
 BEFORE recommending any technology or structure:
 
 1. DISCOVER: Ask questions to understand project needs
-2. RESEARCH: Spawn web-search agents for current best practices
+2. RESEARCH: Use `/researching-frameworks` for current docs and best practices
 3. SYNTHESIZE: Combine findings into recommendations
 4. CONFIRM: Get user approval before proceeding
 5. CREATE: Write plan and CLAUDE.md only after approval
@@ -55,38 +55,40 @@ See ./reference/question-design.md for question design principles, context-based
 
 ## Phase 2: Research Best Practices
 
-After gathering project information, spawn parallel web search agents to research:
+After gathering project information, delegate to `/researching-frameworks` for current documentation:
 
 ```
-I have a good understanding of your project. Let me research current best practices for [project type] with [tech stack].
+I have a good understanding of your project. Let me research current documentation and best practices for [project type] with [tech stack].
 ```
 
-1. **Spawn web-researcher agents in parallel** for:
-   - Project structure best practices for [framework/language]
-   - Testing patterns for [tech stack]
-   - Common tooling setup for [project type]
-   - Any technology-specific considerations mentioned
+1. **Invoke `/researching-frameworks`** with the discovered tech stack:
+   - Pass the primary framework, language, and key dependencies from Phase 1
+   - `/researching-frameworks` will use Context7 MCP (if available) + web search
+   - It classifies dependencies by tier and researches at appropriate depth
+   - It produces `.docs/references/` artifacts (framework snapshots, compatibility matrix, ADRs)
 
-2. **Synthesize research findings**:
-   - Identify recommended project structure
-   - Note key configuration files needed
-   - List essential dev dependencies
-   - Document any gotchas or common pitfalls
+2. **Review the research output**:
+   - Read the generated `.docs/references/framework-docs-snapshot.md`
+   - Read `.docs/references/dependency-compatibility.md` for version conflicts
+   - Review architecture decisions in `.docs/references/architecture-decisions.md`
 
 3. **Present findings to user**:
    ```
-   Based on my research, here's what I recommend for your [project type]:
+   Based on current documentation research, here's what I recommend for your [project type]:
 
    **Project Structure:**
-   - [Recommended directory layout]
+   - [Recommended directory layout from researched docs]
 
-   **Key Dependencies:**
-   - [Essential packages/tools]
+   **Key Dependencies (verified compatible):**
+   - [Essential packages with verified version ranges]
 
    **Configuration Files:**
    - [List of config files to create]
 
-   Does this align with your expectations? Any adjustments needed?
+   **Architecture Decisions:**
+   - [Key ADRs from research]
+
+   Full research saved to `.docs/references/`. Does this align with your expectations?
    ```
 
 ## Phase 3: Create Development Plan
@@ -123,6 +125,7 @@ After creating both files:
 Your project is initialized!
 
 **Created:**
+- `.docs/references/` - Framework documentation snapshots, compatibility matrix, architecture decisions
 - `.docs/plans/project-setup.md` - Your development roadmap
 - `CLAUDE.md` - Claude's project onboarding
 
@@ -132,6 +135,7 @@ Your project is initialized!
 3. Start building!
 
 **Your workflow going forward:**
+- `/researching-frameworks` - Research framework docs and library APIs
 - `/researching-code` - Research and document codebase patterns
 - `/planning-code` - Create implementation plans for new features
 - `/implementing-plans` - Execute plans
@@ -166,7 +170,7 @@ If you notice any of these, pause:
 
 1. **Be conversational**: This is a collaborative process, not a form to fill out
 2. **Adapt dynamically**: Skip questions that don't apply, add questions when needed
-3. **Research thoroughly**: Use web search to get current best practices
+3. **Research thoroughly**: Use `/researching-frameworks` to get current documentation and best practices
 4. **Keep CLAUDE.md minimal**: Resist the urge to add "nice to have" information
 5. **Respect user expertise**: If they have strong preferences, defer to them
 6. **Focus on greenfield**: This skill assumes an empty or nearly-empty repo
@@ -186,8 +190,9 @@ Claude: Great! A few more questions...
 
 User: [Answers questions]
 
-Claude: I have a good understanding. Let me research best practices...
-[Spawns web-researcher agents]
+Claude: I have a good understanding. Let me research current documentation...
+[Invokes /researching-frameworks with discovered tech stack]
+[Reviews .docs/references/ artifacts]
 [Presents findings]
 
 User: Looks good!
