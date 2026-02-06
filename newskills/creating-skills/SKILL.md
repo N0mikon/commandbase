@@ -28,6 +28,9 @@ The description field is the triggering mechanism - it determines when Claude in
 ```
 BEFORE writing any SKILL.md:
 
+0. AGENT CHECK: Is the user actually asking to create an AGENT, not a skill?
+   - If they want a single .md file with tools/model/system prompt: REDIRECT to `/creating-agents`
+   - If they want a SKILL.md directory with intent-matching description: proceed here
 1. GATHER: What task does this skill handle? When should it activate?
    Personal (~/.claude/skills/) or project (.claude/skills/)?
 2. CHECK RESEARCH: Does `.docs/research/` have relevant analysis?
@@ -136,6 +139,8 @@ Improve an existing skill's structure, description, or content.
 
 Transform a Claude Code sub-agent into a skill. The core shift: sub-agents explain WHAT they are, skills explain WHEN to use them.
 
+**Direction check:** This mode converts Agent -> Skill. If the user wants to convert a Skill -> Agent, redirect to `/creating-agents` Mode 3.
+
 1. **Read the sub-agent** file completely. Identify its purpose, instructions, and domain knowledge.
 2. **Transform the name** from noun form to gerund form (e.g., `code-reviewer` becomes `reviewing-code`).
 3. **Rewrite the description** using the WHEN formula. Strip "I am..." / "This agent..." language.
@@ -163,6 +168,27 @@ Choose how prescriptive the skill should be based on error tolerance.
 - Are errors costly or hard to reverse? → Low freedom
 - Is the domain well-understood by Claude already? → High freedom (avoid teaching what Claude knows)
 
+## Sibling Skill: /creating-agents
+
+`/creating-skills` and `/creating-agents` are siblings, not overlapping:
+
+| Aspect | /creating-skills (this skill) | /creating-agents |
+|--------|-------------------------------|-----------------|
+| Creates | `SKILL.md` + reference directory | Single `.md` agent files |
+| Names | Gerund form (`reviewing-code`) | Noun form (`code-reviewer`) |
+| Descriptions | "Use this skill when..." (intent matching) | Capability + delegation trigger |
+| Converts | Agents -> Skills (Mode 3) | Skills -> Agents (Mode 3) |
+
+**Redirect to `/creating-agents` when:**
+- The user wants to create a sub-agent (single `.md` file with tools, model, system prompt)
+- The user wants to convert a skill into an agent
+- The user says "create an agent", "build a subagent", or describes agent-like functionality
+
+**Stay in `/creating-skills` when:**
+- The user wants to create a skill (directory with SKILL.md, intent-matching activation)
+- The user wants to convert an agent into a skill
+- The user says "create a skill", "build a skill", or describes skill-like functionality
+
 ## Reference Files
 
 These contain the detailed rules and guidance referenced throughout this workflow:
@@ -183,6 +209,7 @@ Start from one of these when creating a new skill:
 
 If you notice any of these, pause:
 
+- User actually wants an agent, not a skill - redirect to `/creating-agents`
 - Writing SKILL.md body before finalizing the description
 - Description says WHAT the skill does but not WHEN to invoke it
 - Name uses noun form instead of gerund form (e.g., `code-reviewer` instead of `reviewing-code`)
