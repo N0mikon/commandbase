@@ -4,7 +4,7 @@ last_updated: 2026-02-06
 last_updated_by: planning-code
 topic: "Define Shared .docs/ Frontmatter Standard"
 tags: [plan, implementation, frontmatter, docs, standards]
-status: draft
+status: implemented
 references:
   - .docs/research/02-06-2026-framework-spec-vs-implementation-audit.md
   - .docs/plans/02-06-2026-framework-feature-adoption.md
@@ -113,10 +113,10 @@ Before finalizing, verify current best practices:
 
 ## Success Criteria
 
-- [ ] Standard is documented (in this plan and ready for Phase 2 agent prompt)
-- [ ] Standard covers all 5 doc types (research, plans, handoffs, references, debug)
-- [ ] All current skill frontmatter fields are accounted for (either standardized or moved to body)
-- [ ] No ambiguity in field names, date formats, or status values
+- [x] Standard is documented (in this plan and ready for Phase 2 agent prompt)
+- [x] Standard covers all 5 doc types (research, plans, handoffs, references, debug)
+- [x] All current skill frontmatter fields are accounted for (either standardized or moved to body)
+- [x] No ambiguity in field names, date formats, or status values
 
 ## Dependencies
 
