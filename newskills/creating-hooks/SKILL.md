@@ -56,9 +56,11 @@ Skip self-block check = deadlocked skills
 | Keep Claude working | `Stop` | Yes | MUST check `stop_hook_active` |
 | Block user prompt | `UserPromptSubmit` | Yes | No matcher support |
 | Auto-approve trusted tool | `PermissionRequest` | Yes | Use with caution |
+| Keep teammate working | `TeammateIdle` | Yes | Agent teams only; no matcher support |
+| Gate task completion | `TaskCompleted` | Yes | Validate before marking done; no matcher support |
 | Log all tool calls | `PostToolUse` | No | Use async for performance |
 
-## Hook Lifecycle (All 12 Events)
+## Hook Lifecycle (All 14 Events)
 
 | Event | When | Can Block? | Exit 2 Effect |
 |-------|------|------------|---------------|
@@ -72,6 +74,8 @@ Skip self-block check = deadlocked skills
 | `SubagentStart` | Subagent spawns | No | stderr shown to user only |
 | `SubagentStop` | Subagent finishes | Yes | Prevents subagent stopping |
 | `Stop` | Claude finishes responding | Yes | Prevents stopping, continues |
+| `TeammateIdle` | Agent team teammate about to go idle | Yes | Teammate continues working |
+| `TaskCompleted` | Task being marked complete | Yes | Prevents task completion |
 | `PreCompact` | Before context compaction | No | stderr shown to user only |
 | `SessionEnd` | Session terminates | No | stderr shown to user only |
 

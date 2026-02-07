@@ -26,9 +26,9 @@ Apply findings from the framework spec vs implementation audit to adopt high-val
 | 2 | [Docs Writer Agent](02-06-2026-phase2-docs-writer-agent.md) | Create `docs-writer` agent to enforce the standard | implemented |
 | 3 | [Skills Use Docs Writer](02-06-2026-phase3-skills-use-docs-writer.md) | Update 6 skills to delegate file creation to `docs-writer` | implemented |
 | 4 | [Skills Preloading](02-06-2026-phase4-skills-preloading.md) | Add `skills` preloading to skill frontmatter | deferred |
-| 5 | [Allowed Tools](02-06-2026-phase5-allowed-tools.md) | Add `allowed-tools` to `reviewing-security` | draft |
-| 6 | [Agent Categories](02-06-2026-phase6-agent-categories.md) | Add `category` to agent frontmatter | draft |
-| 7 | [Hook Event Fix](02-06-2026-phase7-hook-event-fix.md) | Fix framework-docs-snapshot hook event count | draft |
+| 5 | [Allowed Tools](02-06-2026-phase5-allowed-tools.md) | Add `allowed-tools` to `reviewing-security` | implemented |
+| 6 | [Agent Categories](02-06-2026-phase6-agent-categories.md) | Add `category` to agent frontmatter | skipped |
+| 7 | [Hook Event Fix](02-06-2026-phase7-hook-event-fix.md) | Fix framework-docs-snapshot hook event count | implemented |
 
 ## Dependency Order
 

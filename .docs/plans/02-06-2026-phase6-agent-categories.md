@@ -4,7 +4,7 @@ last_updated: 2026-02-06
 last_updated_by: planning-code
 topic: "Add category to All Agent Frontmatter"
 tags: [plan, implementation, agents, category, organization]
-status: draft
+status: skipped
 references:
   - newagents/code-locator.md
   - newagents/code-librarian.md
@@ -121,11 +121,13 @@ This research is **mandatory** before implementation due to the spec discrepancy
 
 ## Success Criteria
 
-- [ ] `/researching-web` clarifies `category` field status (GATE)
-- [ ] All 8 agents have `category` field in frontmatter (if proceeding)
-- [ ] Agent invocation still works: test at least 2 agents (one research, one analysis)
-- [ ] No regressions in agent behavior
-- [ ] All edited agents deployed to `~/.claude/agents/`
+- [x] `/researching-web` clarifies `category` field status (GATE) — **RESULT: Not a supported field**
+- [x] Decision gate resolved: **Skip implementation** — `category` is community-invented, not in official spec
+- [x] Framework-docs-snapshot.md corrected to remove inaccurate `category`/`color` fields
+- [x] Research documented at `.docs/research/02-06-2026-agent-category-frontmatter-validity.md`
+- [ ] ~~All 8 agents have `category` field in frontmatter~~ — Skipped (field not supported)
+- [ ] ~~Agent invocation still works~~ — Skipped (no changes made to agents)
+- [ ] ~~All edited agents deployed~~ — Skipped (no changes made to agents)
 
 ## Dependencies
 

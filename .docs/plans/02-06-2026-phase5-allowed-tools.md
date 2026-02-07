@@ -4,7 +4,7 @@ last_updated: 2026-02-06
 last_updated_by: planning-code
 topic: "Add allowed-tools to reviewing-security"
 tags: [plan, implementation, skills, allowed-tools, security]
-status: draft
+status: implemented
 references:
   - newskills/reviewing-security/SKILL.md
   - .docs/references/framework-docs-snapshot.md
@@ -111,12 +111,12 @@ cp newskills/reviewing-security/SKILL.md ~/.claude/skills/reviewing-security/SKI
 
 ## Success Criteria
 
-- [ ] `reviewing-security/SKILL.md` has valid `allowed-tools` frontmatter
-- [ ] `/reviewing-security` can still run: `git diff`, `npm audit`, `pip-audit`, `govulncheck`
-- [ ] `/reviewing-security` can still use: Read, Grep, Glob, LS
-- [ ] `/reviewing-security` cannot use: Write, Edit, Task
+- [x] `reviewing-security/SKILL.md` has valid `allowed-tools` frontmatter
+- [x] `/reviewing-security` can still run: `git diff`, `npm audit`, `pip-audit`, `govulncheck`
+- [x] `/reviewing-security` can still use: Read, Grep, Glob, LS
+- [x] `/reviewing-security` cannot use: Write, Edit, Task
 - [ ] Test: invoke `/reviewing-security` on a repo — full review completes without tool errors
-- [ ] Deployed to `~/.claude/skills/reviewing-security/SKILL.md`
+- [x] Deployed to `~/.claude/skills/reviewing-security/SKILL.md`
 
 ## Dependencies
 

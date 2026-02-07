@@ -1,6 +1,7 @@
 ---
 name: reviewing-security
 description: "Use this skill when reviewing code for security vulnerabilities before committing to public repositories. This includes scanning for hardcoded secrets and API keys, checking for SQL injection and XSS vulnerabilities, validating input sanitization, detecting OWASP Top 10 issues, and reviewing authentication/authorization logic. Trigger phrases: '/review-security', 'security review', 'check for secrets', 'is this safe to commit publicly'."
+allowed-tools: Read, Grep, Glob, LS, Bash, AskUserQuestion
 ---
 
 # Security Review

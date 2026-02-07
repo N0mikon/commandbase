@@ -4,7 +4,7 @@ last_updated: 2026-02-06
 last_updated_by: planning-code
 topic: "Fix Framework Docs Snapshot Hook Event Count"
 tags: [plan, implementation, hooks, documentation, framework-docs-snapshot]
-status: draft
+status: implemented
 references:
   - .docs/references/framework-docs-snapshot.md
   - newskills/creating-hooks/SKILL.md
@@ -142,10 +142,11 @@ With:
 
 ## Success Criteria
 
-- [ ] Table shows all 12 events with Tier classification
-- [ ] Header updated from "7 types" to "12 types"
-- [ ] All "Can Block?" values verified against current spec
-- [ ] `creating-hooks` skill and `framework-docs-snapshot.md` are consistent
+- [x] Table shows all 14 events with Tier classification (updated from plan's 12 to 14 — TeammateIdle and TaskCompleted added in v2.1.33)
+- [x] Header updated from "7 types" to "14 types"
+- [x] All "Can Block?" values verified against current spec (PostToolUse corrected to "No")
+- [x] `creating-hooks` skill and `framework-docs-snapshot.md` are consistent (both show 14 events)
+- [x] `creating-hooks` skill deployed to `~/.claude/skills/creating-hooks/SKILL.md`
 
 ## Dependencies
 

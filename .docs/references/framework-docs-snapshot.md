@@ -50,16 +50,26 @@ Shelf life: Review after 60 days (Claude Code updates frequently)
 - `/llmstxt/code_claude_llms_txt` (Trust: 9.9)
 - `/mizunashi-mana/claude-code-hook-sdk` (Trust: 9.0, 80 snippets)
 
-### Hook Events (7 types)
-| Event | When | Can Block? |
-|-------|------|-----------|
-| PreToolUse | Before tool execution | Yes (approve/block) |
-| PostToolUse | After tool completes | Yes (block) |
-| Notification | System notification | No |
-| Stop | Main agent stopping | Yes (block) |
-| SubagentStop | Subagent stopping | Yes (block) |
-| UserPromptSubmit | User submits prompt | Yes (block) |
-| PreCompact | Before context compaction | No |
+### Hook Events (14 types)
+
+**Updated 2026-02-06:** Expanded from 7 to 14 events. Source: [code.claude.com/docs/en/hooks](https://code.claude.com/docs/en/hooks)
+
+| Event | When | Can Block? | Tier |
+|-------|------|-----------|------|
+| PreToolUse | Before tool execution | Yes (approve/block) | Core |
+| PostToolUse | After tool succeeds | No (feedback only) | Core |
+| Notification | System notification | No | Core |
+| Stop | Main agent stopping | Yes (block) | Core |
+| SubagentStop | Subagent stopping | Yes (block) | Core |
+| UserPromptSubmit | User submits prompt | Yes (block) | Core |
+| PreCompact | Before context compaction | No | Core |
+| SessionStart | Session begins/resumes | No | Lifecycle |
+| SessionEnd | Session terminates | No | Lifecycle |
+| PostToolUseFailure | After tool fails | No | Lifecycle |
+| PermissionRequest | Permission dialog appears | Yes (deny) | Lifecycle |
+| SubagentStart | Subagent spawns | No | Lifecycle |
+| TeammateIdle | Agent team teammate about to go idle | Yes (exit 2) | Teams |
+| TaskCompleted | Task being marked complete | Yes (exit 2) | Teams |
 
 ### Hook Input (stdin JSON)
 ```typescript
@@ -120,12 +130,14 @@ interface PostToolUseOutput {
 ### Source
 - `/llmstxt/code_claude_llms_txt` (Trust: 9.9)
 - `/davepoon/claude-code-subagents-collection` (Trust: 9.5, 915 snippets)
+- **Correction (2026-02-06):** Official docs at [code.claude.com/docs/en/sub-agents](https://code.claude.com/docs/en/sub-agents) are authoritative. The community collection listed `category` and `color` which are NOT official fields.
 
 ### Agent File Format
 - File: `<agent-name>.md` in agents directory
 - Location: `~/.claude/agents/` (global) or `.claude/agents/` (project)
 - Required frontmatter: `name`, `description`
-- Optional frontmatter: `tools`, `model`, `category`, `color`
+- Optional frontmatter: `tools`, `disallowedTools`, `model`, `permissionMode`, `maxTurns`, `skills`, `mcpServers`, `hooks`, `memory`
+- **NOTE (2026-02-06 correction):** `category` and `color` are NOT valid agent frontmatter — they originated from the davepoon community collection, not the official spec. Unknown fields are silently ignored.
 
 ### Agent Frontmatter
 ```yaml
