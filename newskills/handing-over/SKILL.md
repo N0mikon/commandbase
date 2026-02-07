@@ -59,32 +59,23 @@ Review the conversation and gather:
 
 ### Step 2: Create Handover Document
 
-Write to `.docs/handoffs/MM-DD-YYYY-description.md`
-- Create `.docs/handoffs/` directory if it doesn't exist
+Spawn a `docs-writer` agent via the Task tool to create the handover file:
 
-**Format:**
-- MM-DD-YYYY is today's date
-- description is a brief kebab-case description of the work
+```
+Task prompt:
+  doc_type: "handoff"
+  topic: "<brief description of work>"
+  tags: [<relevant component names>]
+  references: [<key files worked on>]
+  content: |
+    <compiled handover using the body sections below>
+```
 
-**Examples:**
-- `01-27-2026-auth-implementation.md`
-- `01-27-2026-api-refactor.md`
-- `01-27-2026-vault-reorganization.md`
+The agent handles frontmatter, file naming (`MM-DD-YYYY-description.md`), and directory creation.
 
-**Template:**
+**Body sections to include in `content`:**
 
 ```markdown
----
-git_commit: [current HEAD commit hash]
-last_updated: [YYYY-MM-DD]
-last_updated_by: [user or agent name]
-topic: "[Brief Description of Work]"
-tags: [handover, relevant-component-names]
-status: active
-references:
-  - [list of key files worked on]
----
-
 # Handover: [Brief Description]
 
 **Date**: [Current date and time]

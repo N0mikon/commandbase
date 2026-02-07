@@ -123,10 +123,46 @@ After ALL agents complete:
 
 ### Step 4: Write Research Document
 
-Write findings to `.docs/research/MM-DD-YYYY-description.md`
-- Create `.docs/research/` directory if it doesn't exist
+Spawn a `docs-writer` agent via the Task tool to create the research file:
 
-See ./templates/web-research-document-template.md for the full template and section guidelines.
+```
+Task prompt:
+  doc_type: "research"
+  topic: "<research topic from user query>"
+  tags: [<relevant topic tags>]
+  content: |
+    <compiled findings using the body sections below>
+```
+
+The agent handles frontmatter, file naming, and directory creation.
+
+**Body sections to include in `content`** (see ./templates/web-research-document-template.md for section guidelines):
+
+```markdown
+# [Research Topic]
+
+## Research Question
+[Original user query]
+
+## Summary
+[2-4 sentences answering the question directly, citing the most authoritative sources]
+
+## Detailed Findings
+### [Topic/Angle 1]
+**Sources:** [URL1], [URL2]
+[Findings from this search angle]
+
+## Source Conflicts
+[Document any disagreements between sources]
+
+## Currency Assessment
+- Most recent source: [date]
+- Topic velocity: [fast-moving/stable]
+- Confidence in currency: [high/medium/low]
+
+## Open Questions
+[Areas that need further investigation]
+```
 
 ### Step 5: Present Findings
 

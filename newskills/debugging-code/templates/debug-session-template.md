@@ -11,14 +11,9 @@ Use this template for debug session files in `.docs/debug/{slug}.md`.
 
 ## Template
 
-```markdown
----
-status: gathering | investigating | fixing | verifying | resolved
-trigger: "[verbatim user input that started this session]"
-created: [ISO timestamp]
-updated: [ISO timestamp]
----
+Frontmatter is handled by the `docs-writer` agent on initial creation. Provide these body sections as the `content` field:
 
+```markdown
 ## Current Focus
 <!-- OVERWRITE on each update - always reflects NOW -->
 
@@ -30,6 +25,7 @@ next_action: [immediate next step]
 ## Symptoms
 <!-- Written during gathering, then IMMUTABLE -->
 
+trigger: [verbatim user input that started this session]
 expected: [what should happen]
 actual: [what actually happens]
 errors: [error messages if any]
@@ -64,9 +60,7 @@ files_changed: []
 
 | Section | Rule | Rationale |
 |---------|------|-----------|
-| Frontmatter.status | OVERWRITE | Reflects current phase |
-| Frontmatter.trigger | IMMUTABLE | Original problem statement |
-| Frontmatter.updated | OVERWRITE | Track last modification |
+| Frontmatter `status` | OVERWRITE | Reflects current phase (gathering → investigating → fixing → verifying → resolved) |
 | Current Focus | OVERWRITE | Always reflects NOW |
 | Symptoms | IMMUTABLE after gathering | Reference point for verification |
 | Eliminated | APPEND only | Prevents re-investigation |

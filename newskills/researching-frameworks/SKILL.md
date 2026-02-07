@@ -173,13 +173,33 @@ Present draft ADRs to the user for confirmation before persisting.
 
 ### Step 6: Persist to .docs/references/
 
-Create the `.docs/references/` directory if it doesn't exist. Write:
+Spawn a `docs-writer` agent via the Task tool for each output file:
 
-1. **`framework-docs-snapshot.md`** - Per-dependency documentation snapshots
-2. **`dependency-compatibility.md`** - Version compatibility matrix
-3. **`architecture-decisions.md`** - Confirmed ADRs
+**1. Framework Docs Snapshot:**
+```
+Task prompt:
+  doc_type: "reference"
+  topic: "<primary framework> Documentation Snapshot"
+  tags: [<framework names>]
+  references: [<source URLs>]
+  content: |
+    <compiled framework docs using body sections from ./templates/framework-research-template.md>
+```
 
-See ./templates/framework-research-template.md for the snapshot format.
+**2. Dependency Compatibility:**
+```
+Task prompt:
+  doc_type: "reference"
+  topic: "<primary framework> Dependency Compatibility"
+  tags: [<framework names>, compatibility]
+  content: |
+    <compiled compatibility matrix using body sections from ./templates/framework-research-template.md>
+```
+
+**3. Architecture Decisions** (written directly, not via docs-writer — ADRs use a different format):
+- Write `architecture-decisions.md` to `.docs/references/` using the ADR template at ./templates/architecture-decision-template.md
+
+The `docs-writer` agent handles frontmatter, file naming, and directory creation for files 1 and 2. See ./templates/framework-research-template.md for the body section templates.
 
 ### Step 7: Suggest Project MCP Configuration (Optional)
 

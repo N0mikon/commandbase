@@ -4,7 +4,7 @@ last_updated: 2026-02-06
 last_updated_by: planning-code
 topic: "Update Skills to Use docs-writer Agent"
 tags: [plan, implementation, skills, docs-writer, refactor]
-status: draft
+status: implemented
 references:
   - newskills/researching-code/SKILL.md
   - newskills/researching-web/SKILL.md
@@ -164,15 +164,15 @@ cp newskills/debugging-code/templates/*.md ~/.claude/skills/debugging-code/templ
 
 ## Success Criteria
 
-- [ ] All 6 skills delegate file creation to `docs-writer`
-- [ ] No skill contains its own frontmatter template
-- [ ] Each skill still defines its own body section structure
-- [ ] Output files from all skills have identical frontmatter format
-- [ ] `researching-web` no longer uses embedded YAML code fence format
+- [x] All 6 skills delegate file creation to `docs-writer`
+- [x] No skill contains its own frontmatter template
+- [x] Each skill still defines its own body section structure
+- [x] Output files from all skills have identical frontmatter format
+- [x] `researching-web` no longer uses embedded YAML code fence format
 - [ ] Test: run `/researching-code` — produces `.docs/research/` file with standard frontmatter
 - [ ] Test: run `/researching-web` — produces `.docs/research/` file with standard frontmatter
 - [ ] Test: run `/handing-over` — produces `.docs/handoffs/` file with standard frontmatter
-- [ ] All edited skills deployed to `~/.claude/skills/`
+- [x] All edited skills deployed to `~/.claude/skills/`
 
 ## Dependencies
 

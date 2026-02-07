@@ -75,16 +75,24 @@ Or provide the issue description directly: /debugging-code [description]
 
 ### Step 1: Create Debug Session
 
-Create `.docs/debug/` directory if needed, then create session file:
+Spawn a `docs-writer` agent via the Task tool to create the session file:
 
-**File naming:** `{slug}.md` where slug is derived from issue description (lowercase, hyphens, max 30 chars)
+```
+Task prompt:
+  doc_type: "debug"
+  topic: "<slug derived from issue description>"
+  tags: [<relevant component tags>]
+  content: |
+    <initial debug session structure from templates/debug-session-template.md>
+    Include trigger (verbatim user input) in the Symptoms section.
+    Set Current Focus next_action to "gather symptoms".
+```
 
-**Initial state:**
-- status: gathering
-- trigger: verbatim user input
-- Current Focus: next_action = "gather symptoms"
+The agent handles frontmatter (with `status: gathering`), file naming, and directory creation.
 
-See `templates/debug-session-template.md` for full structure.
+**Note:** After initial creation, the debug file is a **living document** — update it directly via Edit throughout the debugging process. The `docs-writer` agent is only used for initial creation.
+
+See `templates/debug-session-template.md` for full structure and mutation rules.
 
 ### Step 2: Gather Symptoms
 

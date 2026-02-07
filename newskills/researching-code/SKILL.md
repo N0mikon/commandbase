@@ -101,10 +101,47 @@ After ALL sub-agents complete:
 
 ### Step 5: Write Research Document
 
-Write findings to `.docs/research/MM-DD-YYYY-description.md`
-- Create `.docs/research/` directory if it doesn't exist
+Spawn a `docs-writer` agent via the Task tool to create the research file:
 
-See ./templates/research-document-template.md for the full template and section guidelines.
+```
+Task prompt:
+  doc_type: "research"
+  topic: "<research topic from user query>"
+  tags: [<relevant component/area tags>]
+  references: [<key files discovered during research>]
+  content: |
+    <compiled findings using the body sections below>
+```
+
+The agent handles frontmatter, file naming, and directory creation.
+
+**Body sections to include in `content`** (see ./templates/research-document-template.md for section guidelines):
+
+```markdown
+# [Topic]
+
+**Date**: [Current date]
+**Branch**: [Current git branch]
+
+## Research Question
+[Original user query]
+
+## Summary
+[High-level documentation answering the user's question]
+
+## Detailed Findings
+### [Component/Area 1]
+- Description of what exists ([file.ext:line](path))
+
+## Code References
+- `path/to/file.py:123` - Description
+
+## Architecture Notes
+[Patterns, conventions, and design implementations found]
+
+## Open Questions
+[Any areas that need further investigation]
+```
 
 ### Step 6: Present Findings
 

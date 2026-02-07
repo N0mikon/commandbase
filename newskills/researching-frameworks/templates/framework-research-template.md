@@ -4,14 +4,9 @@ Use this template when writing `.docs/references/framework-docs-snapshot.md` and
 
 ## Framework Docs Snapshot Template
 
-```markdown
----
-date_researched: YYYY-MM-DD
-sources: [context7, web-search]
-primary_framework: "[framework name and version]"
-status: current
----
+Frontmatter is handled by the `docs-writer` agent. Provide these body sections as the `content` field:
 
+```markdown
 # Framework Documentation Snapshot
 
 Research date: [YYYY-MM-DD]
@@ -85,12 +80,9 @@ Shelf life: Review after [30/60/90] days (based on framework release cadence)
 
 ## Dependency Compatibility Template
 
-```markdown
----
-date_researched: YYYY-MM-DD
-status: current
----
+Frontmatter is handled by the `docs-writer` agent. Provide these body sections as the `content` field:
 
+```markdown
 # Dependency Compatibility Matrix
 
 ## Version Matrix

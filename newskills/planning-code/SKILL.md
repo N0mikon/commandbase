@@ -146,11 +146,21 @@ Once aligned on approach:
 
 After structure approval:
 
-1. **Write the plan** to `.docs/plans/MM-DD-YYYY-description.md`
-   - Create `.docs/plans/` directory if it doesn't exist
-   - Format: `MM-DD-YYYY-description.md`
+1. **Spawn a `docs-writer` agent** via the Task tool to create the plan file:
 
-2. **Use the template** at ./templates/plan-template.md
+   ```
+   Task prompt:
+     doc_type: "plan"
+     topic: "<feature/task name>"
+     tags: [implementation, <relevant component tags>]
+     references: [<key files this plan will modify>]
+     content: |
+       <compiled plan using the body sections from ./templates/plan-template.md>
+   ```
+
+   The agent handles frontmatter, file naming, and directory creation.
+
+2. **Body sections** — use the template at ./templates/plan-template.md
 
 3. **Reference common patterns** at ./reference/common-patterns.md
 

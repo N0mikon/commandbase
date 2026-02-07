@@ -2,18 +2,9 @@
 
 Use this template when writing plans to `.docs/plans/MM-DD-YYYY-description.md`.
 
-```markdown
----
-git_commit: [current HEAD commit hash]
-last_updated: [YYYY-MM-DD]
-last_updated_by: [user or agent name]
-topic: "[Feature/Task Name]"
-tags: [plan, implementation, relevant-component-names]
-status: draft
-references:
-  - [list of key files this plan will modify]
----
+Frontmatter is handled by the `docs-writer` agent. Provide these body sections as the `content` field:
 
+```markdown
 # [Feature/Task Name] Implementation Plan
 
 ## Overview
@@ -95,8 +86,7 @@ references:
 
 ## Template Usage Notes
 
-- **Naming**: `MM-DD-YYYY-description.md` (e.g., `01-27-2026-user-authentication.md`)
-- **Location**: Always write to `.docs/plans/`
-- **git_commit**: Run `git rev-parse --short HEAD` to get current commit
-- **status**: Start with `draft`, update to `approved` after user review
-- **references**: List files that will be modified - helps track plan scope
+- **File creation**: Delegate to `docs-writer` agent with `doc_type: "plan"`
+- **Naming and location**: Handled by the `docs-writer` agent
+- **Frontmatter**: Handled by the `docs-writer` agent (date, status, topic, tags, git_commit, references)
+- **Status**: docs-writer defaults to `draft`; update to `approved` after user review via Edit

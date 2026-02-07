@@ -14,21 +14,12 @@ Use this template when writing research findings to `.docs/research/`.
 - `01-27-2026-api-endpoint-structure.md`
 - `01-28-2026-database-schema.md`
 
-## Template
+## Body Sections Template
+
+Frontmatter is handled by the `docs-writer` agent. Provide these body sections as the `content` field:
 
 ```markdown
----
-git_commit: [current HEAD commit hash]
-last_updated: [YYYY-MM-DD]
-last_updated_by: [user or agent name]
-topic: "[Research Topic]"
-tags: [research, relevant-component-names]
-status: complete
-references:
-  - [list of key files this research covers]
----
-
-# Research: [Topic]
+# [Topic]
 
 **Date**: [Current date]
 **Branch**: [Current git branch]

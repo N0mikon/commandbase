@@ -14,32 +14,12 @@ Use this template when writing web research findings to `.docs/research/`.
 - `02-05-2026-bun-vs-deno-comparison.md`
 - `02-05-2026-react-server-components-best-practices.md`
 
-## Template
+## Body Sections Template
+
+Frontmatter is handled by the `docs-writer` agent. Provide these body sections as the `content` field:
 
 ```markdown
 # [Research Topic]
-
-## Metadata
-
-```yaml
-date_searched: MM-DD-YYYY
-topic: "[Research Topic]"
-tags: [web-research, relevant-topic-tags]
-status: complete
-query_decomposition:
-  - "[Search angle 1 description]"
-  - "[Search angle 2 description]"
-  - "[Search angle 3 description]"
-sources:
-  - url: "[URL]"
-    title: "[Page title]"
-    date: "[Publication date if known]"
-    authority: "[official/expert/community/individual]"
-  - url: "[URL]"
-    title: "[Page title]"
-    date: "[Publication date if known]"
-    authority: "[official/expert/community/individual]"
-```
 
 ## Research Question
 
