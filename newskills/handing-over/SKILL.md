@@ -45,6 +45,19 @@ BEFORE writing the handover document:
 Skip learnings = useless handover
 ```
 
+## Session Awareness
+
+Before creating the handover document, check for an active session:
+
+1. Check if `.claude/sessions/_current` exists
+2. If YES: Read session name, include in handoff metadata and title
+3. If NO: Proceed without session context (default behavior)
+
+When session-scoped:
+- Handoff topic is prefixed: `{session-name} - <brief description>`
+- Session checkpoints and errors are included in the body
+- The handover becomes a session artifact, not just a date-stamped document
+
 ## Process
 
 ### Step 1: Analyze Current Session
@@ -64,7 +77,7 @@ Spawn a `docs-writer` agent via the Task tool to create the handover file:
 ```
 Task prompt:
   doc_type: "handoff"
-  topic: "<brief description of work>"
+  topic: "<session-name> - <brief description of work>"  # session prefix when available, omit prefix when no session
   tags: [<relevant component names>]
   references: [<key files worked on>]
   content: |
@@ -112,6 +125,14 @@ The agent handles frontmatter, file naming (`MM-DD-YYYY-description.md`), and di
 - [What's working]
 - [What's partially done]
 - [What's blocked or needs attention]
+
+## Session Context
+
+[Include ONLY when `.claude/sessions/_current` exists — omit entire section otherwise]
+- **Session name**: [name from `_current`]
+- **Checkpoints**: [list from `.claude/sessions/{name}/checkpoints.log`, or "None"]
+- **Errors**: [count from `.claude/sessions/{name}/errors.log`, or "None"]
+- **Session meta**: `.claude/sessions/{name}/meta.json`
 
 ## Next Steps
 

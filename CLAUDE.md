@@ -28,7 +28,7 @@ cp newagents/agent.md ~/.claude/agents/
 cp ~/.claude/skills/skillname/SKILL.md newskills/skillname/SKILL.md
 ```
 
-**Important:** When editing skills via `/updating-skills` or directly in `~/.claude/skills/`, always copy changes back to `newskills/` before committing. The global config is live but this repo tracks history.
+**Important:** When editing skills via `/auditing-skills` or directly in `~/.claude/skills/`, always copy changes back to `newskills/` before committing. The global config is live but this repo tracks history.
 
 ### Hooks Deployment
 

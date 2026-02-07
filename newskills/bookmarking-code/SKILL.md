@@ -22,17 +22,33 @@ Before creating or verifying checkpoints, confirm git state is clean or intentio
 - Don't verify against non-existent checkpoints
 - Don't assume checkpoint exists - check the log first
 
+## Session Awareness
+
+Before creating or verifying checkpoints, check for an active session:
+
+1. Check if `.claude/sessions/_current` exists
+2. If YES: Read session name, use `.claude/sessions/{name}/checkpoints.log`
+3. If NO: Use `.claude/checkpoints.log` (default behavior)
+
+When session-scoped:
+- Checkpoint names are automatically prefixed: `{session-name}:{checkpoint-name}`
+- The prefix is for display/search only — storage uses the session folder for isolation
+- Verification commands search the session-scoped log first
+
 ## The Gate Function
 
 ```
 BEFORE any checkpoint operation:
 
 1. IDENTIFY: Which operation? (create/verify/list/clear)
-2. CHECK: Does .claude/checkpoints.log exist? Create if needed.
-3. VERIFY: For create - is git state acceptable?
+2. SESSION: Check .claude/sessions/_current for active session
+3. CHECK: Does checkpoint log exist? Create if needed.
+   - Session active: .claude/sessions/{name}/checkpoints.log
+   - No session: .claude/checkpoints.log
+4. VERIFY: For create - is git state acceptable?
           For verify - does checkpoint name exist?
-4. EXECUTE: Perform the operation
-5. REPORT: Show clear output with evidence
+5. EXECUTE: Perform the operation
+6. REPORT: Show clear output with evidence
 
 Skip verification = unreliable checkpoints
 ```
@@ -47,7 +63,10 @@ Creates a named checkpoint at current git state.
 1. Check git status for uncommitted changes
 2. If dirty, ask user to confirm or commit first
 3. Get current git SHA: `git rev-parse --short HEAD`
-4. Append to `.claude/checkpoints.log`:
+4. Determine checkpoint log location:
+   - If `.claude/sessions/_current` exists: use `.claude/sessions/{name}/checkpoints.log`
+   - Otherwise: use `.claude/checkpoints.log`
+5. Append to the checkpoint log:
    ```
    YYYY-MM-DD-HH:MM | checkpoint-name | abc1234
    ```
@@ -81,9 +100,11 @@ Which would you prefer?
 Compares current state to a named checkpoint.
 
 **Process:**
-1. Read `.claude/checkpoints.log`
+1. Determine checkpoint log location:
+   - If `.claude/sessions/_current` exists: search `.claude/sessions/{name}/checkpoints.log` first
+   - If not found in session log (or no session): fall back to `.claude/checkpoints.log`
 2. Find checkpoint by name (use most recent if duplicates)
-3. If not found, list available checkpoints
+3. If not found in either log, list available checkpoints
 4. Run comparison:
    ```bash
    git diff --stat <checkpoint-sha>..HEAD
@@ -201,6 +222,10 @@ Suggested checkpoint names:
 - `pre-refactor` - Before major refactoring
 - `feature-complete` - Before validation/PR
 
+When a session is active, checkpoints display with session prefix:
+- `auth-mvp:phase-2-done` (session-scoped)
+- `auth-mvp:pre-refactor` (session-scoped)
+
 ## Red Flags - STOP and Verify
 
 If you notice any of these, pause:
@@ -220,7 +245,7 @@ If you notice any of these, pause:
 
 ## Workflow Integration
 
-Checkpoints integrate with the RPI workflow:
+Checkpoints integrate with the RPI workflow. When a session is named via `/naming-session`, all checkpoints are automatically scoped to the session folder.
 
 ```
 /planning-code → Plan approved → /bookmarking-code create "plan-approved"

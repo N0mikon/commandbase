@@ -82,9 +82,10 @@ For each phase:
 3. **Fix any failures** - do not proceed until verification passes
 4. **Show evidence** - state what commands you ran and their output
 5. **Update checkboxes** in the plan file using Edit
-6. **Move to the next phase** - only after evidence is shown
+6. **Create checkpoint** - `/bookmarking-code create "phase-N-done"` (session-aware when available)
+7. **Move to the next phase** - only after evidence is shown and checkpoint created
 
-**Remember:** Step 4 (show evidence) is not optional. No evidence = no completion.
+**Remember:** Steps 4 and 6 are not optional. No evidence = no completion. No checkpoint = no proceeding.
 
 Do NOT pause between phases. Execute all phases continuously until complete or blocked.
 
@@ -165,7 +166,13 @@ If you notice any of these, pause:
 
 ### Checkpoint Integration
 
-After completing each phase with evidence, suggest a checkpoint:
+After completing each phase with verified evidence, create a checkpoint:
+
+1. Check if `.claude/sessions/_current` exists
+2. If session exists: `/bookmarking-code create "phase-N-done"` (writes to session folder)
+3. If no session: `/bookmarking-code create "phase-N-done"` (writes to global log)
+
+This is NOT optional. Every verified phase gets a checkpoint before proceeding.
 
 ```
 Phase [N] complete.
@@ -173,9 +180,18 @@ Phase [N] complete.
 Verification:
 - [test results]
 
-Create checkpoint before next phase?
-/bookmarking-code create "phase-N-done"
+Checkpoint created: phase-N-done
 ```
+
+### Documentation Freshness
+
+At the start of implementation and after completing the final phase:
+
+1. Identify `.docs/` files referenced in the plan
+2. Spawn docs-updater agent for each to check staleness
+3. Report any stale documents to user before proceeding
+
+This catches plans referencing outdated research or handoffs.
 
 ### Full Workflow
 

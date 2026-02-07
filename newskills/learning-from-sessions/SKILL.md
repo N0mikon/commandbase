@@ -1,45 +1,72 @@
 ---
 name: learning-from-sessions
-description: "Use this skill to extract reusable knowledge from work sessions. This includes reviewing what was learned during debugging, saving non-obvious discoveries or workarounds as skill files, running /learn to capture session learnings, responding to 'save this as a skill' or 'what did we learn', and extracting knowledge after trial-and-error investigation that produced a solution."
+description: "Use this skill to extract reusable knowledge from work sessions. This includes reviewing what was learned during debugging, capturing session learnings to .docs/learnings/ for deferred action, running /learn to capture session learnings, responding to 'what did we learn' or 'capture learnings', and extracting knowledge after trial-and-error investigation that produced a solution."
 ---
 
 # Learning from Sessions
 
-You are extracting reusable knowledge from work sessions and saving it as skill files or CLAUDE.md entries. This skill activates when a session produces non-obvious discoveries, debugging breakthroughs, workarounds, or configuration insights worth preserving for future sessions.
+You are extracting reusable knowledge from work sessions and capturing it to `.docs/learnings/` for deferred action. This skill activates when a session produces non-obvious discoveries, debugging breakthroughs, workarounds, or configuration insights worth preserving. Rather than immediately creating skills or CLAUDE.md entries, learnings are documented with a Deferred Actions checklist for a future session to act on.
 
 **Violating the letter of these rules is violating the spirit of these rules.**
 
 ## The Iron Law
 
 ```
-NO EXTRACTION WITHOUT VERIFICATION AND USER APPROVAL
+NO LEARNINGS DOCUMENT WITHOUT VERIFIED DISCOVERIES AND USER APPROVAL
 ```
 
-Never save a skill that wasn't verified during the session. Never save without explicit user confirmation. Unverified knowledge is worse than no knowledge -- it misleads future sessions.
+Never document a learning that wasn't verified during the session. Never save without explicit user confirmation. Unverified knowledge is worse than no knowledge -- it misleads future sessions.
 
 **No exceptions:**
-- Don't extract "should work" solutions that weren't tested
+- Don't document "should work" solutions that weren't tested
 - Don't save without showing the user the draft first
-- Don't extract every fix -- most aren't worth saving
+- Don't document every fix -- most aren't worth capturing
 - Don't skip the dedup check because "this is definitely new"
 
 ## The Gate Function
 
 ```
-BEFORE extracting knowledge:
+BEFORE capturing learnings:
 
-1. DETECT: Recognize that extractable knowledge exists (trigger conditions or user request)
-2. DEDUP: Search existing skills before creating (rg across skill directories)
-3. ANALYZE: Run 4 identification questions + worth assessment
-4. COMPLEXITY: Simple → proceed. Complex → suggest /rcode first.
-5. RESEARCH: Web search for technology-specific topics (skip for project-internal)
-6. DRAFT: Structure using the extracted-skill-template
-7. VALIDATE: Run quality gates checklist
-8. CONFIRM: Present to user for approval
-9. ONLY THEN: Save to the appropriate location
+1. SESSION: Check .claude/sessions/_current for active session context
+2. DETECT: Recognize that extractable knowledge exists (trigger conditions or user request)
+3. ERRORS: Read session errors.log if available (pull error context)
+4. DEBUG: Scan .docs/debug/ for recent debug files from this session
+5. DEDUP: Search existing .docs/learnings/ and skills before creating
+6. ANALYZE: Run 4 identification questions + worth assessment
+7. DRAFT: Structure using the learnings output format
+8. VALIDATE: Run quality gates checklist
+9. CONFIRM: Present to user for approval
+10. ONLY THEN: Write to .docs/learnings/ via docs-writer
 
 Skip any step = risk saving bad knowledge
 ```
+
+## Session Awareness
+
+Before capturing learnings, check for an active session:
+
+1. Check if `.claude/sessions/_current` exists
+2. If YES: Read session name, use it in learnings title and metadata
+3. If NO: Use current date instead of session name (default behavior)
+
+When session-scoped:
+- Read `.claude/sessions/{name}/errors.log` if it exists — incorporate error context into learnings
+- Title format: `Session Learnings: {session-name}`
+- Tags include the session name
+
+When no session:
+- Skip error log reading
+- Title format: `Session Learnings: {YYYY-MM-DD}`
+- Everything else works identically
+
+## Debug File Integration
+
+Before drafting learnings, scan `.docs/debug/` for recent debug files:
+
+1. Check if `.docs/debug/` exists and has files from the current session timeframe
+2. If YES: Reference the debug file in learnings (don't duplicate its content)
+3. Extract the key learning from the debug file — the root cause and resolution
 
 ## When to Activate
 
@@ -53,17 +80,17 @@ Watch for these signals during sessions:
 - **Configuration insight**: Setup differed from documented patterns, or undocumented options were required
 - **Trial-and-error success**: Multiple approaches were tried before finding one that worked
 
-When you recognize these signals, suggest extraction:
+When you recognize these signals, suggest capture:
 ```
 This session produced a non-obvious discovery: [brief description].
-This could be worth saving as a reusable skill. Want me to extract it?
+This could be worth capturing to .docs/learnings/. Want me to document it?
 ```
 
 ### Explicit Invocation
 
-When the user says `/learn`, "save this as a skill", "what did we learn", or similar:
+When the user says `/learn`, "what did we learn", "capture learnings", or similar:
 - Switch to Retrospective Mode (see below)
-- Review the full session for extraction candidates
+- Review the full session for learning candidates
 
 ## Self-Reflection Prompts
 
@@ -77,15 +104,15 @@ After completing a significant task, run these questions internally:
 
 If any question produces a substantive answer, suggest extraction to the user.
 
-## Extraction Workflow
+## Capture Workflow
 
 ### Step 1: Dedup Check
 
-Search existing skills BEFORE doing anything else.
+Search existing learnings and skills BEFORE doing anything else.
 
 ```sh
-# Search skill directories for related content
-rg --files -g 'SKILL.md' .claude/skills ~/.claude/skills 2>/dev/null
+# Search for existing learnings and skills
+rg -i "keyword1|keyword2" .docs/learnings 2>/dev/null
 rg -i "keyword1|keyword2" .claude/skills ~/.claude/skills 2>/dev/null
 ```
 
@@ -94,10 +121,9 @@ rg -i "keyword1|keyword2" .claude/skills ~/.claude/skills 2>/dev/null
 | What You Find | Action |
 |---------------|--------|
 | Nothing related | Proceed to Step 2 |
-| Same trigger, same fix | Update existing skill instead of creating new |
-| Same trigger, different cause | Create new + cross-link to existing |
-| Partial overlap | Add variant to existing skill |
-| Stale or incorrect | Archive old, create replacement |
+| Existing learning with same discovery | Reference it, add new context if any |
+| Existing skill covers this | Note in learnings as "already captured" |
+| Partial overlap with existing learning | Supplement the existing document |
 
 See ./reference/extraction-workflow.md for the full dedup process.
 
@@ -112,156 +138,133 @@ Answer these four questions:
 
 If answers are thin ("it was just a typo"), the discovery fails the worth assessment. See ./reference/quality-gates.md for the full criteria.
 
-### Step 2.5: Complexity Check
+### Step 3: Gather Error Context
 
-After identifying the knowledge, assess whether it needs deeper research before structuring.
+When a session is active (`.claude/sessions/_current` exists):
 
-**Simple -- proceed directly to Step 3:**
-- Known technology with a straightforward fix
-- Single-step solution verified in this session
-- Would produce a flat SKILL.md with no reference files
+1. Read `.claude/sessions/{name}/errors.log` if it exists
+2. For each error: extract tool name, input summary, and error summary
+3. Correlate errors with discoveries — which errors led to which learnings?
 
-**Complex -- suggest `/researching-code` first:**
-- Involves unfamiliar technology, APIs, or protocols
-- Would benefit from seeing how others solved this problem
-- Would produce a skill needing `reference/` subdirectory
-- Cross-cutting concern spanning multiple tools or systems
-- User expresses uncertainty about how to structure the knowledge
+When no session is active, skip this step.
 
-When suggesting research:
-> This discovery is complex enough to benefit from upfront research. Consider running `/researching-code` to analyze similar patterns and existing solutions, then return here to extract the skill with those findings as context.
+### Step 4: Draft and Write
 
-When the user returns from `/researching-code`, check `.docs/research/` for new findings and incorporate them into the extraction.
-
-### Step 3: Research Best Practices
-
-Web search when the discovery involves specific technology:
+Spawn a `docs-writer` agent via the Task tool to create the learnings document:
 
 ```
-"[technology] [problem] best practices 2026"
-"[technology] [exact error message]"
+Task prompt:
+  doc_type: "research"
+  topic: "Session Learnings: <session-name or YYYY-MM-DD>"
+  tags: [learnings, <session-name if available>, <categories found>]
+  references: [<files involved in learnings>]
+  content: |
+    # Session Learnings: <session-name or YYYY-MM-DD>
+
+    ## Error Summary
+    [From session errors.log — omit section if no session or no errors]
+    - [error 1]: [context, what was tried, resolution]
+    - [error 2]: [context, what was tried, resolution]
+
+    ## Discoveries
+    - **[finding 1]**: [context, why it matters, where it applies]
+    - **[finding 2]**: [context, why it matters, where it applies]
+
+    ## Debug References
+    [From .docs/debug/ — omit section if no debug files found]
+    - `.docs/debug/[filename]` — [key learning extracted]
+
+    ## Deferred Actions
+    - [ ] Consider creating skill for: [pattern]
+    - [ ] Consider adding to CLAUDE.md: [rule]
+    - [ ] Consider updating skill [name]: [what to add]
 ```
-
-**Skip when:**
-- Project-internal patterns (custom architecture, team conventions)
-- Context-specific solutions (this exact codebase only)
-- Well-documented behavior (link to docs instead of duplicating)
-
-**Act on results:**
-- Confirmed solution: add References section with URLs
-- Better approach found: update solution, note the improvement
-- Version-specific: add version constraints to trigger conditions
-- Contradicted: investigate before saving
-
-### Step 4: Structure and Write
-
-Use the template at ./templates/extracted-skill-template.md for the output format:
-
-**Sections:** Problem, Context/Trigger Conditions, Solution (numbered steps with code), Verification, Example (before/after), Notes, References.
-
-**Key decisions:**
-
-*Description:* Write the description FIRST, before the body. Embed exact error messages, framework names, and action verbs. See ./reference/description-optimization.md for the retrieval key formula.
-
-*Scope:*
-- **Project-level** (`.claude/skills/`): Problem is specific to this codebase or team
-- **User-level** (`~/.claude/skills/`): Problem applies across multiple projects
-
-*Naming:* Kebab-case, descriptive of the problem domain. Examples: `prisma-connection-pool-serverless`, `typescript-circular-import-undefined`, `nextjs-server-error-wrong-location`.
-
-*Validation:* The generated skill must pass the official spec: name `^[a-z0-9-]+$` (max 64 chars), description under 1024 chars (no angle brackets), only allowed frontmatter keys (`name`, `description`, `license`, `allowed-tools`, `metadata`).
 
 ### Step 5: Quality Gates
 
 Run every item before saving. See ./reference/quality-gates.md for the full checklist.
 
 **Critical checks:**
-- [ ] Description contains specific trigger conditions
-- [ ] Solution was verified during this session
+- [ ] Each discovery was verified during this session
 - [ ] Content is specific enough to be actionable
-- [ ] Content is general enough to be reusable
 - [ ] No sensitive information (credentials, internal URLs, API keys)
-- [ ] Doesn't duplicate existing skills or official docs
-- [ ] Web research conducted when appropriate
-- [ ] Frontmatter passes official validation rules
-- [ ] Each solution step is independently verifiable
+- [ ] Doesn't duplicate existing learnings or skills
+- [ ] Deferred Actions are concrete and actionable
+- [ ] Error context is included when session errors exist
 
 ### Step 6: Present and Save
 
 Show the complete draft to the user:
 
 ```
-I've extracted a skill from this session:
+I've captured learnings from this session:
 
----
-[Full skill content]
----
+Discoveries: [count]
+Deferred actions: [count]
+Error context: [included/not available]
 
-Save to: [path]
-Trigger: [first line of description]
-Quality gates: All passed
+Save to: .docs/learnings/MM-DD-YYYY-session-learnings.md
 
-Save this skill?
+Save these learnings?
 ```
 
-After user approves, write the file and confirm:
+After user approves, the docs-writer agent writes the file. Confirm:
 
 ```
-Skill extracted: [name]
-Location: [path]
-Files: 1 (SKILL.md)
-This skill will activate in future sessions when similar problems arise.
+Learnings captured: [topic]
+Location: .docs/learnings/[filename]
+Deferred actions: [count] items for future sessions to review
 ```
 
 ## Retrospective Mode
 
 When explicitly invoked (`/learn` or "what did we learn"):
 
-1. **Review**: Scan the session conversation for extraction candidates. Look for debugging sequences, error resolutions, workarounds, corrections, and non-obvious discoveries.
+1. **Review**: Scan the session conversation for learning candidates. Look for debugging sequences, error resolutions, workarounds, corrections, and non-obvious discoveries.
 
-2. **Identify**: List candidates with brief justifications:
+2. **Gather context**: Read session errors.log and .docs/debug/ files if available.
+
+3. **Identify**: List candidates with brief justifications:
    ```
    Session learning candidates:
-   1. [Discovery] -- Worth saving because [reason]
-   2. [Discovery] -- Worth saving because [reason]
-   3. [Discovery] -- Not worth saving: [why it fails the worth assessment]
+   1. [Discovery] -- Worth capturing because [reason]
+   2. [Discovery] -- Worth capturing because [reason]
+   3. [Discovery] -- Not worth capturing: [why it fails the worth assessment]
    ```
 
-3. **Prioritize**: Rank by reuse value. Prefer knowledge that applies across projects, saves significant time, and involves non-obvious solutions.
+4. **Prioritize**: Rank by reuse value. Prefer knowledge that applies across projects, saves significant time, and involves non-obvious solutions.
 
-4. **Extract**: Process the top 1-3 candidates through the full extraction workflow (Steps 1-6). Don't extract more than 3 per session -- quality over quantity.
+5. **Capture**: Process all worthy candidates into a single learnings document via the Capture Workflow (Steps 1-6). Consolidate into one `.docs/learnings/` file, not one per discovery.
 
-5. **Summarize**:
+6. **Summarize**:
    ```
    Session learning summary:
-   - Extracted: [count] skill(s)
-     - [name] at [path] -- [one-line description]
+   - Captured: [count] discovery/discoveries
+   - Deferred actions: [count] items
+   - Location: .docs/learnings/[filename]
    - Skipped: [count] candidate(s)
      - [reason for each skip]
    ```
 
 ## Output Routing
 
-Not everything belongs in a skill file. Use this decision flow:
+All learnings go to `.docs/learnings/` as deferred-action documents. The Deferred Actions checklist tells future sessions what to do with each learning:
 
-**New skill file** when:
+**Deferred: Create skill** when:
 - Reusable across projects
 - Multi-step solution with clear trigger conditions
 - Involves debugging, workarounds, or non-obvious fixes
-- Has specific error messages or framework-version triggers
 
-**CLAUDE.md entry** when:
+**Deferred: Add to CLAUDE.md** when:
 - Project-specific preference or convention
 - Simple behavioral correction ("always use X not Y")
 - Coding style rule for this project
-- One-line guidance that doesn't need a full skill structure
 
-**Handover document** when:
-- Session-specific context for continuity
-- One-time setup state
-- In-progress work state
+**Deferred: Update existing skill** when:
+- Discovery adds to an existing skill's knowledge
+- New edge case or variant for a known pattern
 
-**Nothing** when:
+**Not worth capturing** when:
 - Simple typo or syntax error
 - One-time issue that won't recur
 - Knowledge already well-documented in official docs
@@ -271,28 +274,29 @@ Not everything belongs in a skill file. Use this decision flow:
 If you notice any of these, pause:
 
 - About to save without user confirmation
-- Solution wasn't verified during this session
-- Description is vague ("helps with React problems")
-- Extracting more than 3 skills from one session
+- Discovery wasn't verified during this session
+- Immediately creating a skill instead of writing to .docs/learnings/
+- Skipping session error context when errors.log exists
 - Skipping the dedup check
 - The discovery is a simple typo or syntax fix
 - Content restates official documentation without adding non-obvious insight
+- Deferred Actions are vague ("maybe create a skill")
 
 ## Rationalization Prevention
 
 | Excuse | Reality |
 |--------|---------|
 | "User will want this saved" | Ask. Never assume. Confirmation is mandatory. |
-| "It's obviously worth saving" | Run the worth assessment. Obvious to you isn't obvious to the skill library. |
-| "No need to dedup, this is definitely new" | Search anyway. You might find a related skill to update instead. |
-| "Web search would slow things down" | If it's technology-specific, search. A few seconds prevents stale knowledge. |
-| "The description is good enough" | Test it with 3 scenarios. Every word is a retrieval key. |
+| "This should be a skill right now" | Defer it. Write to .docs/learnings/ with a deferred action. |
+| "No need to dedup, this is definitely new" | Search anyway. You might find an existing learning to supplement. |
+| "No errors.log, so skip error context" | Correct — but only skip if _current doesn't exist or errors.log is empty. |
 | "I'll skip quality gates, the content is solid" | Run the checklist. Every item. Every time. |
+| "Deferred actions can be vague" | Each action must name the specific skill, CLAUDE.md section, or pattern. |
 
 ## The Bottom Line
 
-**No extraction without verification and user approval.**
+**No learnings without verification and user approval.**
 
-Detect the signal. Dedup first. Analyze thoroughly. Research when needed. Structure cleanly. Validate rigorously. Confirm with the user. Then save.
+Detect the signal. Gather session context. Dedup first. Analyze thoroughly. Write to .docs/learnings/. Validate rigorously. Confirm with the user. Then save.
 
-This is non-negotiable. Every extraction. Every time.
+This is non-negotiable. Every capture. Every time.

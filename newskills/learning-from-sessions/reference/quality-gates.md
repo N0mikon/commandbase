@@ -1,6 +1,6 @@
 # Quality Gates
 
-Every extracted skill must pass these gates before being saved. These prevent skill sprawl, vague knowledge, and unverified solutions.
+Every learnings document must pass these gates before being saved. These prevent learnings sprawl, vague knowledge, and unverified discoveries.
 
 ## Worth Assessment
 
@@ -11,45 +11,41 @@ Before extracting, confirm the discovery passes at least 3 of these 4 criteria:
 3. **Transferability**: Does the knowledge apply beyond this exact situation?
 4. **Time savings**: Would having this skill save meaningful time in a future session?
 
-**Not worth extracting:**
+**Not worth capturing:**
 - Simple typos or syntax errors
 - One-time issues (specific outage, corrupted file)
-- Project-specific configuration better suited for CLAUDE.md or handover docs
 - Trivial fixes found within seconds
 - Knowledge that's clearly documented in official docs (link to docs instead)
 
 When a discovery fails the worth assessment:
 ```
-I reviewed the session discovery but it doesn't meet the extraction threshold:
+I reviewed the session discovery but it doesn't meet the capture threshold:
 - [Which criteria it failed and why]
 
-This is better captured as: [alternative -- CLAUDE.md entry, handover note, or nothing]
+Not worth documenting in .docs/learnings/.
 ```
 
 ## Pre-Save Checklist
 
-Run every item before writing the skill file:
+Run every item before writing the learnings document:
 
 ### Content Quality
-- [ ] Description contains specific trigger conditions (error messages, framework names, situations)
-- [ ] Solution has been verified to work in this session
+- [ ] Each discovery was verified during this session
 - [ ] Content is specific enough to be actionable (not "check the configuration")
-- [ ] Content is general enough to be reusable (not tied to one filename or path)
 - [ ] No sensitive information (credentials, internal URLs, API keys, private paths)
-- [ ] Doesn't duplicate an existing skill or official documentation
-- [ ] Web research conducted when the topic involves specific technology
+- [ ] Doesn't duplicate existing learnings or skills
+- [ ] Session error context included when errors.log exists
 
 ### Structure
-- [ ] Frontmatter has `name` and `description` fields
-- [ ] Name matches `^[a-z0-9-]+$`, no leading/trailing/consecutive hyphens, max 64 chars
-- [ ] Description is under 1024 characters, no angle brackets
-- [ ] Uses the extracted-skill-template.md format
-- [ ] Each solution step is independently verifiable
+- [ ] Uses the learnings template format (Error Summary, Discoveries, Debug References, Deferred Actions)
+- [ ] Error Summary omitted when no session or no errors (not left empty)
+- [ ] Debug References omitted when no debug files found (not left empty)
+- [ ] Each deferred action names a specific skill, CLAUDE.md section, or pattern
 
-### Scope
-- [ ] Saved to correct location (project vs user-level)
-- [ ] Cross-linked with related skills if applicable
-- [ ] Version and date included
+### Deferred Actions
+- [ ] Every deferred action is concrete (names the skill/entry to create)
+- [ ] Actions are categorized: create skill, add to CLAUDE.md, or update existing skill
+- [ ] No vague actions like "maybe create a skill" or "consider updating something"
 
 ## Anti-Patterns
 
@@ -80,29 +76,16 @@ These are the most common mistakes when extracting skills. Watch for them.
 **Why it's bad**: Solutions for v2.x may break on v3.x. Users hit confusing failures.
 **Fix**: Include version constraints in trigger conditions. Add a date stamp. Note when behavior is version-dependent.
 
-## When NOT to Extract
+## Deferred Action Decision Flow
 
-Some valuable session knowledge doesn't belong in a skill file:
-
-| Knowledge Type | Better Home |
-|---------------|-------------|
-| Project coding conventions | CLAUDE.md (project root) |
-| Team workflow preferences | CLAUDE.md (project root) |
-| One-time setup instructions | Handover document |
-| Session-specific context | Handover document |
-| Correction to Claude behavior | CLAUDE.md entry |
-| Simple preference ("always use X not Y") | CLAUDE.md entry |
-
-## Output Decision Flow
+All learnings go to `.docs/learnings/`. The Deferred Actions checklist tells future sessions what to do:
 
 ```
-Is the knowledge reusable across projects?
+Is the discovery reusable across projects?
 ├── YES: Is it multi-step with clear trigger conditions?
-│   ├── YES → New skill file (~/.claude/skills/)
-│   └── NO → CLAUDE.md entry (~/.claude/CLAUDE.md)
+│   ├── YES → Deferred: Create skill (~/.claude/skills/)
+│   └── NO → Deferred: Add to ~/.claude/CLAUDE.md
 └── NO: Is it specific to this project?
-    ├── YES: Is it a behavioral correction?
-    │   ├── YES → CLAUDE.md entry (./CLAUDE.md)
-    │   └── NO → Handover document or project CLAUDE.md
-    └── NO → Probably not worth saving
+    ├── YES → Deferred: Add to ./CLAUDE.md or update existing skill
+    └── NO → Probably not worth capturing
 ```

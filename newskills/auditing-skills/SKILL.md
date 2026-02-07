@@ -1,9 +1,9 @@
 ---
-name: updating-skills
+name: auditing-skills
 description: "Use this skill when auditing existing skills for validation issues, updating skills to fix compliance problems, or checking skill health after pattern changes. This includes running validation checks against all skills, fixing frontmatter issues, correcting name format violations, rewriting descriptions to follow the WHEN formula, and adding missing enforcement pattern sections."
 ---
 
-# Updating Skills
+# Auditing Skills
 
 You are systematically auditing and updating existing skills to ensure they follow validation rules and enforcement patterns. This skill activates when checking skill health or fixing compliance issues and produces audit reports or updated skill files.
 
@@ -45,10 +45,10 @@ Parse the user's request to determine mode:
 
 | Input | Mode | Target |
 |-------|------|--------|
-| `/updating-skills audit skill-name` | Audit | Single skill |
-| `/updating-skills audit all` | Audit | All skills |
-| `/updating-skills update skill-name` | Update | Single skill |
-| `/updating-skills skill-name` | Audit | Single skill (default) |
+| `/auditing-skills audit skill-name` | Audit | Single skill |
+| `/auditing-skills audit all` | Audit | All skills |
+| `/auditing-skills update skill-name` | Update | Single skill |
+| `/auditing-skills skill-name` | Audit | Single skill (default) |
 
 **No batch update mode.** To update multiple skills, run update on each individually.
 
@@ -78,7 +78,7 @@ SKILL AUDIT SUMMARY
 | ...                    | ...    |
 
 Total: X skills, Y with issues
-Run `/updating-skills update [skill-name]` to fix specific skills.
+Run `/auditing-skills update [skill-name]` to fix specific skills.
 ```
 
 ## Mode B: Update

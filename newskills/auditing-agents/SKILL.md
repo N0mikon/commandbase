@@ -1,9 +1,9 @@
 ---
-name: updating-agents
+name: auditing-agents
 description: "Use this skill when auditing existing agents for validation issues, updating agents to fix compliance problems, or checking agent health after specification changes. This includes running validation checks against all agents, fixing frontmatter issues, correcting noun-form naming violations, rewriting descriptions to follow the delegation trigger formula, validating tool sets and model selections, and checking system prompt Contract Format compliance."
 ---
 
-# Updating Agents
+# Auditing Agents
 
 You are systematically auditing and updating existing agents to ensure they follow the agent specification and Contract Format conventions. This skill activates when checking agent health or fixing compliance issues and produces audit reports or updated agent files.
 
@@ -45,10 +45,10 @@ Parse the user's request to determine mode:
 
 | Input | Mode | Target |
 |-------|------|--------|
-| `/updating-agents audit agent-name` | Audit | Single agent |
-| `/updating-agents audit all` | Audit | All agents |
-| `/updating-agents update agent-name` | Update | Single agent |
-| `/updating-agents agent-name` | Audit | Single agent (default) |
+| `/auditing-agents audit agent-name` | Audit | Single agent |
+| `/auditing-agents audit all` | Audit | All agents |
+| `/auditing-agents update agent-name` | Update | Single agent |
+| `/auditing-agents agent-name` | Audit | Single agent (default) |
 
 **No batch update mode.** To update multiple agents, run update on each individually.
 
@@ -78,7 +78,7 @@ AGENT AUDIT SUMMARY
 | ...                      | ...    |
 
 Total: X agents, Y with issues
-Run `/updating-agents update [agent-name]` to fix specific agents.
+Run `/auditing-agents update [agent-name]` to fix specific agents.
 ```
 
 ## Mode B: Update
@@ -218,11 +218,11 @@ See `./reference/common-fixes.md` for detailed fix patterns. Key fixes:
 | Over 300 lines | Identify content to condense; agents cannot use reference files |
 | Missing role statement | Add "You are..." opening paragraph |
 
-## Sibling Skill: /updating-skills
+## Sibling Skill: /auditing-skills
 
-`/updating-agents` and `/updating-skills` are siblings for different targets:
+`/auditing-agents` and `/auditing-skills` are siblings for different targets:
 
-| Aspect | /updating-agents (this skill) | /updating-skills |
+| Aspect | /auditing-agents (this skill) | /auditing-skills |
 |--------|-------------------------------|-----------------|
 | Target | `~/.claude/agents/*.md` | `~/.claude/skills/*/SKILL.md` |
 | Naming convention | Noun/role form | Gerund form |
@@ -230,7 +230,7 @@ See `./reference/common-fixes.md` for detailed fix patterns. Key fixes:
 | Structure checks | Single file, under 300 lines | Directory with SKILL.md, under 500 lines |
 | Unique checks | Tool set, model, permission, Contract Format | Directory structure, reference nesting, pattern compliance |
 
-If the user wants to audit **skills**, redirect to `/updating-skills`.
+If the user wants to audit **skills**, redirect to `/auditing-skills`.
 
 ## Red Flags - STOP and Verify
 
