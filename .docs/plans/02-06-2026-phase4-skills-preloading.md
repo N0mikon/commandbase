@@ -4,7 +4,7 @@ last_updated: 2026-02-06
 last_updated_by: planning-code
 topic: "Add skills Preloading to Skill Frontmatter"
 tags: [plan, implementation, skills, preloading, frontmatter]
-status: draft
+status: deferred
 references:
   - newskills/starting-projects/SKILL.md
   - newskills/implementing-plans/SKILL.md
@@ -131,16 +131,32 @@ This research is **mandatory** before implementation due to the spec discrepancy
 - Re-query Context7 MCP for the exact SKILL.md frontmatter specification
 - Verify whether the `skills` field was documented accurately or was a conflation with agent frontmatter
 
+## Research Result (2026-02-06)
+
+**GATE FAILED.** The `skills` field does NOT work in SKILL.md frontmatter.
+
+### Evidence
+
+- **Official SKILL.md frontmatter reference** (`code.claude.com/docs/en/skills`): Lists 10 valid fields: `name`, `description`, `argument-hint`, `disable-model-invocation`, `user-invocable`, `allowed-tools`, `model`, `context`, `agent`, `hooks`. No `skills` field.
+- **Official subagent frontmatter reference** (`code.claude.com/docs/en/sub-agents`): Lists `skills` as an agent-only field: "Skills to load into the subagent's context at startup."
+- **Framework-docs-snapshot.md was incorrect**: Context7 MCP conflated agent and skill frontmatter when it listed `skills` as valid SKILL.md frontmatter. This has been corrected.
+
+### Decision: Defer (Option C)
+
+Deferred until Claude Code adds `skills` support to SKILL.md frontmatter. Current state (skills reference each other via `/skill-name` in body text) works fine.
+
+**Revisit when:** Claude Code changelog mentions `skills` in SKILL.md frontmatter, or a new framework-docs research reveals the feature has been added.
+
 ## Success Criteria
 
-- [ ] `/researching-web` confirms `skills` works in SKILL.md frontmatter (GATE)
-- [ ] All 3 SKILL.md files have valid `skills` frontmatter
-- [ ] Skill invocation still works: test `/starting-projects`, `/implementing-plans`, `/committing-changes`
-- [ ] Dependent skills are available during parent skill execution
-- [ ] No regressions in skill behavior
-- [ ] All edited skills deployed to `~/.claude/skills/`
+- [x] `/researching-web` confirms `skills` works in SKILL.md frontmatter (GATE) — **FAILED, phase deferred**
+- [ ] ~~All 3 SKILL.md files have valid `skills` frontmatter~~ (N/A - deferred)
+- [ ] ~~Skill invocation still works~~ (N/A - deferred)
+- [ ] ~~Dependent skills are available during parent skill execution~~ (N/A - deferred)
+- [ ] ~~No regressions in skill behavior~~ (N/A - deferred)
+- [ ] ~~All edited skills deployed to `~/.claude/skills/`~~ (N/A - deferred)
 
 ## Dependencies
 
-- **Blocked by:** Nothing (independent of Phases 1-3)
+- **Blocked by:** Framework support for `skills` in SKILL.md frontmatter (not yet available)
 - **Blocks:** Nothing

@@ -21,12 +21,13 @@ Shelf life: Review after 60 days (Claude Code updates frequently)
 - File: `SKILL.md` in skill directory
 - Location: `~/.claude/skills/<skill-name>/SKILL.md` (global) or `.claude/skills/<skill-name>/SKILL.md` (project)
 - Required frontmatter: `name` (kebab-case), `description` (invocation-focused)
-- Optional frontmatter: `context: fork`, `agent: Explore`, `disable-model-invocation: true`, `allowed-tools`, `hooks`, `skills`
+- Optional frontmatter: `context: fork`, `agent: Explore`, `disable-model-invocation: true`, `user-invocable`, `allowed-tools`, `model`, `argument-hint`, `hooks`
+- **NOTE (2026-02-06 correction):** `skills` is NOT valid SKILL.md frontmatter — it only works in agent `.md` files. Original Context7 research incorrectly conflated agent and skill frontmatter.
 
 ### Key Features
 - **`$ARGUMENTS`**: Substituted with user-provided arguments after skill invocation
 - **`context: fork`**: Runs skill in isolated context (subagent), preventing context pollution
-- **`skills` preloading**: Load other skills as dependencies in skill frontmatter
+- **`skills` preloading**: Load other skills as dependencies — **agent frontmatter only** (not valid in SKILL.md)
 - **`hooks` in frontmatter**: Attach hooks that only activate when the skill is running
 - **`allowed-tools`**: Restrict which tools the skill can use
 - **`disable-model-invocation: true`**: Prevent the skill from being auto-invoked by the model
