@@ -23,7 +23,7 @@ Apply findings from the framework spec vs implementation audit to adopt high-val
 | Phase | Plan File | Summary | Status |
 |-------|-----------|---------|--------|
 | 1 | [Docs Frontmatter Standard](02-06-2026-phase1-docs-frontmatter-standard.md) | Define shared `.docs/` frontmatter standard | implemented |
-| 2 | [Docs Writer Agent](02-06-2026-phase2-docs-writer-agent.md) | Create `docs-writer` agent to enforce the standard | draft |
+| 2 | [Docs Writer Agent](02-06-2026-phase2-docs-writer-agent.md) | Create `docs-writer` agent to enforce the standard | implemented |
 | 3 | [Skills Use Docs Writer](02-06-2026-phase3-skills-use-docs-writer.md) | Update 6 skills to delegate file creation to `docs-writer` | draft |
 | 4 | [Skills Preloading](02-06-2026-phase4-skills-preloading.md) | Add `skills` preloading to skill frontmatter | draft |
 | 5 | [Allowed Tools](02-06-2026-phase5-allowed-tools.md) | Add `allowed-tools` to `reviewing-security` | draft |

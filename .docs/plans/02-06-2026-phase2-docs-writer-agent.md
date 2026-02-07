@@ -4,7 +4,7 @@ last_updated: 2026-02-06
 last_updated_by: planning-code
 topic: "Create docs-writer Agent"
 tags: [plan, implementation, agent, docs-writer]
-status: draft
+status: implemented
 references:
   - newagents/docs-writer.md
   - .docs/plans/02-06-2026-phase1-docs-frontmatter-standard.md
@@ -118,13 +118,13 @@ Before creating the agent, verify current patterns:
 
 ## Success Criteria
 
-- [ ] `newagents/docs-writer.md` exists with valid frontmatter and system prompt
-- [ ] Agent can be spawned via Task tool with `subagent_type: docs-writer`
-- [ ] Agent accepts `doc_type`, `topic`, `tags`, `content` input
-- [ ] Output files have correct frontmatter matching Phase 1 standard
-- [ ] Output files are written to correct `.docs/` subdirectory
-- [ ] Filename follows `MM-DD-YYYY-<topic-slug>.md` pattern
-- [ ] Deployed to `~/.claude/agents/docs-writer.md`
+- [x] `newagents/docs-writer.md` exists with valid frontmatter and system prompt
+- [x] Agent can be spawned via Task tool with `subagent_type: docs-writer`
+- [x] Agent accepts `doc_type`, `topic`, `tags`, `content` input
+- [x] Output files have correct frontmatter matching Phase 1 standard
+- [x] Output files are written to correct `.docs/` subdirectory
+- [x] Filename follows `MM-DD-YYYY-<topic-slug>.md` pattern
+- [x] Deployed to `~/.claude/agents/docs-writer.md`
 
 ## Dependencies
 
