@@ -1,10 +1,10 @@
 ---
-git_commit: 6227f53
-last_updated: 2026-02-06
-last_updated_by: planning-code
+git_commit: a9e7ea3
+last_updated: 2026-02-08
+last_updated_by: docs-updater
 topic: "Adopt Framework Features from Spec Audit"
 tags: [plan, index, framework-adoption, skills, agents, hooks]
-status: draft
+status: complete
 references:
   - .docs/research/02-06-2026-framework-spec-vs-implementation-audit.md
   - .docs/references/framework-docs-snapshot.md

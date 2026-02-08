@@ -1,9 +1,9 @@
 ---
 date: 2026-02-07
-status: active
+status: complete
 topic: "Future Skills Implementation Roadmap"
 tags: [plan, brdspi, skills, roadmap, infrastructure]
-git_commit: 31aa0ef
+git_commit: aef1ce5
 last_updated: 2026-02-08
 last_updated_by: docs-updater
 last_updated_note: "Phase 7 (Services BRDSPI) COMPLETE. All 5 services skills deployed (/researching-services, /designing-services, /structuring-services, /planning-services, /implementing-services). All 7 phases of the BRDSPI expansion roadmap are now complete. 33 new skills deployed across code (5), vault (7), and services (5) domains, plus 10 brainstorming/research/content skills."
