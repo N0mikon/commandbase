@@ -75,8 +75,21 @@ I'll analyze the research, identify design decisions, and work with you to make 
 ### Step 1: Locate and Read Research Artifacts
 
 - Check for research files mentioned by user or recently created in `.docs/research/`
+- **Staleness auto-update**: For each research or brainstorm artifact found, check its freshness before reading:
+  ```bash
+  f="<artifact-path>"
+  commit=$(head -10 "$f" | grep "^git_commit:" | awk '{print $2}')
+  if [ -n "$commit" ] && [ "$commit" != "n/a" ]; then
+    git rev-parse "$commit" >/dev/null 2>&1 && \
+    behind=$(git rev-list "$commit"..HEAD --count 2>/dev/null)
+    [ -n "$behind" ] && [ "$behind" -gt 3 ] && echo "$behind"
+  fi
+  ```
+  - If >3 commits behind: spawn docs-updater agent to refresh it before reading
+  - If docs-updater archives it: skip this artifact and note it was obsolete
+  - If current or no git_commit: proceed normally
 - Read ALL relevant research artifacts FULLY — no limit/offset, no skimming
-- Also check `.docs/brainstorm/` for brainstorming artifacts — read Direction, Decisions, and Claude's Discretion sections to inform design decisions
+- Also check `.docs/brainstorm/` for brainstorming artifacts — apply the same staleness check, then read Direction, Decisions, and Claude's Discretion sections to inform design decisions
   - If brainstorm artifact exists: respect directional preferences as constraints (e.g., "REST not GraphQL"), note Claude's Discretion areas where design has freedom
   - If no brainstorm artifact: proceed normally (brainstorming is optional in BRDSPI)
 - If no research artifacts exist, STOP and redirect to research first

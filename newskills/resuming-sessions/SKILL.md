@@ -109,6 +109,19 @@ Read from `.claude/sessions/{name}/`:
 
 1. Check `.docs/handoffs/` for documents mentioning the session name
 2. Check `.docs/learnings/` for session-specific learnings
+3. **Staleness auto-update**: For each handoff or learning document found, check its freshness before presenting to user:
+   ```bash
+   f="<doc-path>"
+   commit=$(head -10 "$f" | grep "^git_commit:" | awk '{print $2}')
+   if [ -n "$commit" ] && [ "$commit" != "n/a" ]; then
+     git rev-parse "$commit" >/dev/null 2>&1 && \
+     behind=$(git rev-list "$commit"..HEAD --count 2>/dev/null)
+     [ -n "$behind" ] && [ "$behind" -gt 3 ] && echo "$behind"
+   fi
+   ```
+   - If >3 commits behind: spawn docs-updater agent to refresh it before presenting to user
+   - If docs-updater archives it: omit from session context (note it was archived)
+   - If current or no git_commit: include normally
 
 ### Step 5: Verify Git State
 

@@ -89,6 +89,20 @@ When invoked, check for upstream BRDSPI artifacts:
 2. If a `.docs/design/` file is provided but no structure → suggest running `/structuring-code` first, but proceed if user prefers
 3. If neither → **Standalone mode**: works as before (full research + architecture + planning)
 
+**Staleness auto-update**: When a `.docs/structure/` or `.docs/design/` file is detected as input, check its freshness before using it:
+```bash
+f="<artifact-path>"
+commit=$(head -10 "$f" | grep "^git_commit:" | awk '{print $2}')
+if [ -n "$commit" ] && [ "$commit" != "n/a" ]; then
+  git rev-parse "$commit" >/dev/null 2>&1 && \
+  behind=$(git rev-list "$commit"..HEAD --count 2>/dev/null)
+  [ -n "$behind" ] && [ "$behind" -gt 3 ] && echo "$behind"
+fi
+```
+- If >3 commits behind: spawn docs-updater agent to refresh it before using it as plan input
+- If docs-updater archives it: warn user that the upstream artifact is obsolete — suggest re-running the upstream skill (e.g., `/structuring-code` or `/designing-code`)
+- If current or no git_commit: proceed normally
+
 **If no parameters provided:**
 ```
 I'll help you create a detailed implementation plan. Let me start by understanding what we're building.

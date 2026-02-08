@@ -1,0 +1,7 @@
+{
+  "sessionId": "current",
+  "name": "stale-document-skill",
+  "created": "2026-02-08T00:00:00.000Z",
+  "gitBranch": "master",
+  "summary": "Stale document detection skill development"
+}

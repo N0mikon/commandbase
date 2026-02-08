@@ -54,6 +54,7 @@ All commits must go through `/committing-changes`. Enforced by:
 
 - `.docs/handoffs/` - Latest session context
 - `.docs/research/` - Pattern analysis from other repos
+- `/auditing-docs` - Standalone skill to audit `.docs/` staleness; 4 upstream-reading skills (taking-over, planning-code, designing-code, resuming-sessions) auto-refresh stale docs via docs-updater before reading
 
 ## Automatic Behaviors
 

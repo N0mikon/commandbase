@@ -47,7 +47,21 @@ Skip verification = working blind
 
 **If a file path was provided:**
 - Read the handover document FULLY (no limit/offset)
+- **Staleness auto-update**: Before proceeding, check the handoff document's freshness:
+  ```bash
+  f="<handoff-path>"
+  commit=$(head -10 "$f" | grep "^git_commit:" | awk '{print $2}')
+  if [ -n "$commit" ] && [ "$commit" != "n/a" ]; then
+    git rev-parse "$commit" >/dev/null 2>&1 && \
+    behind=$(git rev-list "$commit"..HEAD --count 2>/dev/null)
+    [ -n "$behind" ] && [ "$behind" -gt 3 ] && echo "$behind"
+  fi
+  ```
+  - If >3 commits behind: spawn docs-updater agent to refresh it, then re-read the updated version
+  - If docs-updater archives it (all references deleted): warn the user that the handoff may be obsolete and ask whether to proceed
+  - If current or no git_commit: proceed normally
 - Read any linked plans or research documents mentioned
+- Apply the same staleness check to each linked document before reading it
 - Begin analysis
 
 **If no path provided:**
