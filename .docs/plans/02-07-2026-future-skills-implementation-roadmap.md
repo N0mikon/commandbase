@@ -3,10 +3,10 @@ date: 2026-02-07
 status: active
 topic: "Future Skills Implementation Roadmap"
 tags: [plan, brdspi, skills, roadmap, infrastructure]
-git_commit: 3c993c9
+git_commit: 0c8fd24
 last_updated: 2026-02-07
 last_updated_by: docs-updater
-last_updated_note: "Phase 3 complete: /researching-repo skill fully implemented (4 files) and deployed to ~/.claude/skills/researching-repo/. Research stack now complete."
+last_updated_note: "Phase 4 + Phase 5 complete. Phase 4: 3 brainstorming skills deployed, /discussing-features retired. Phase 5: /creating-posts deployed with generate + critique modes. 5 of 7 phases done."
 ---
 
 # Future Skills Implementation Roadmap
@@ -290,12 +290,15 @@ The centerpiece: expand RPI to BRDSPI by adding Design and Structure phases.
 
 ---
 
-## Phase 4: Brainstorming Entry Points + `/discussing-features` Retirement
-**Effort:** Medium | **Duration:** 1-2 sessions | **Depends on:** Phase 2 (BRDSPI Core)
+## Phase 4: Brainstorming Entry Points + `/discussing-features` Retirement — COMPLETE
+**Effort:** Medium | **Duration:** 1 session | **Depends on:** Phase 2 (BRDSPI Core)
+
+**Implementation plan:** `.docs/plans/02-07-2026-phase-4-brainstorming-skills-implementation.md`
+**Research:** `.docs/research/02-07-2026-phase-4-brainstorming-skills-pre-planning-research.md`
 
 Domain-specific brainstorming as pre-BRDSPI exploratory phase. Absorbs `/discussing-features`' domain detection and preference question templates.
 
-### 4a. `/brainstorming-code`
+### 4a. `/brainstorming-code` — DONE
 **Complexity:** Low-Medium | **Depends on:** BRDSPI core exists to flow into
 
 - Pre-BRDSPI exploration: patterns, APIs, data models, existing codebase conventions
@@ -304,7 +307,14 @@ Domain-specific brainstorming as pre-BRDSPI exploratory phase. Absorbs `/discuss
 - **Produces `.docs/brainstorm/` artifact** capturing direction + preferences for downstream phases
 - Flows into `/starting-projects` or `/starting-refactors` → R → D → S → P → I
 
-### 4b. `/brainstorming-vault`
+**Files created:**
+- `newskills/brainstorming-code/SKILL.md` — Main skill (5-layer structure)
+- `newskills/brainstorming-code/reference/question-domains.md` — Domain-specific question templates
+- `newskills/brainstorming-code/templates/brainstorm-template.md` — Output format for docs-writer
+
+**Deployed to:** `~/.claude/skills/brainstorming-code/`
+
+### 4b. `/brainstorming-vault` — DONE
 **Complexity:** Low-Medium | **Depends on:** Nothing directly (more useful after Phase 6)
 
 - Vault-specific exploration: structure, MOCs, tags, linking strategies
@@ -312,7 +322,14 @@ Domain-specific brainstorming as pre-BRDSPI exploratory phase. Absorbs `/discuss
 - **Produces `.docs/brainstorm/` artifact**
 - Flows into Vault BRDSPI when built
 
-### 4c. `/brainstorming-services`
+**Files created:**
+- `newskills/brainstorming-vault/SKILL.md` — Main skill
+- `newskills/brainstorming-vault/reference/vault-question-domains.md` — Vault domain questions
+- `newskills/brainstorming-vault/templates/brainstorm-template.md` — Output format
+
+**Deployed to:** `~/.claude/skills/brainstorming-vault/`
+
+### 4c. `/brainstorming-services` — DONE
 **Complexity:** Low-Medium | **Depends on:** Nothing directly (more useful after Phase 7)
 
 - Infrastructure exploration: Docker, networking, reverse proxy, backup, dependencies
@@ -320,27 +337,38 @@ Domain-specific brainstorming as pre-BRDSPI exploratory phase. Absorbs `/discuss
 - **Produces `.docs/brainstorm/` artifact**
 - Flows into Services BRDSPI when built
 
-### 4d. Retire `/discussing-features`
+**Files created:**
+- `newskills/brainstorming-services/SKILL.md` — Main skill
+- `newskills/brainstorming-services/reference/services-question-domains.md` — Services domain questions
+- `newskills/brainstorming-services/templates/brainstorm-template.md` — Output format
+
+**Deployed to:** `~/.claude/skills/brainstorming-services/`
+
+### 4d. Retire `/discussing-features` — DONE
 **Complexity:** Low | **Depends on:** 4a deployed
 
 - Archive `/discussing-features` — its content has been absorbed:
   - Domain detection + preference questions → `/brainstorming-code`
   - Research-informed technical choices → `/designing-code`
 - Remove from deployed skills, keep in `newskills/` archive for reference
+- `/designing-code` updated to read `.docs/brainstorm/` artifacts when available
 
 ### Success Criteria
-- [ ] `/brainstorming-code` deployed — produces `.docs/brainstorm/` artifacts with direction + preferences
-- [ ] `/brainstorming-vault` deployed and tested
-- [ ] `/brainstorming-services` deployed and tested
-- [ ] `/discussing-features` archived
-- [ ] Each brainstorming skill flows naturally into its domain's BRDSPI chain
+- [x] `/brainstorming-code` deployed — produces `.docs/brainstorm/` artifacts with direction + preferences
+- [x] `/brainstorming-vault` deployed and tested
+- [x] `/brainstorming-services` deployed and tested
+- [x] `/discussing-features` archived
+- [x] Each brainstorming skill flows naturally into its domain's BRDSPI chain
 
 ---
 
-## Phase 5: Content & Communication
+## Phase 5: Content & Communication — COMPLETE
 **Effort:** Low-Medium | **Duration:** 1 session | **Depends on:** Phase 1b (voice/tone reference)
 
-### `/creating-posts`
+**Implementation plan:** `.docs/plans/02-07-2026-phase-5-creating-posts-skill-implementation.md`
+**Research:** `.docs/research/02-07-2026-phase-5-creating-posts-skill-pre-planning-research.md`
+
+### `/creating-posts` — DONE
 **Complexity:** Medium | **Depends on:** Voice/tone reference exists
 
 - Draft social media posts that sound human-written
@@ -349,11 +377,18 @@ Domain-specific brainstorming as pre-BRDSPI exploratory phase. Absorbs `/discuss
 - Anti-AI-voice enforcement using voice/tone reference
 - **Auto-reads project files** (README, CLAUDE.md, package.json) for context, asks user clarifying questions when needed
 
+**Files created:**
+- `newskills/creating-posts/SKILL.md` — Main skill (5-layer structure, generate + critique modes)
+- `newskills/creating-posts/reference/platform-guides.md` — Per-platform voice, format, constraints, examples
+- `newskills/creating-posts/templates/post-output-template.md` — Output format for variants and critique results
+
+**Deployed to:** `~/.claude/skills/creating-posts/`
+
 ### Success Criteria
-- [ ] `/creating-posts` deployed and tested
-- [ ] Produces natural-sounding posts for at least 2 platforms
-- [ ] Critique mode successfully identifies and rewrites AI-sounding language
-- [ ] Auto-reads project context without requiring user to describe the project
+- [x] `/creating-posts` deployed and tested
+- [x] Produces natural-sounding posts for at least 2 platforms
+- [x] Critique mode successfully identifies and rewrites AI-sounding language
+- [x] Auto-reads project context without requiring user to describe the project
 
 ---
 
@@ -464,8 +499,8 @@ Apply the BRDSPI pattern to homelab/infrastructure service management. Uses `ver
 | 1 Session 3 (hooks: 1i, 1j) | 1a | Phase 3 | DONE |
 | 2: BRDSPI Core | Phase 0 | Phase 3, Phase 5 | DONE |
 | 3: /researching-repo | Nothing | Any phase | DONE |
-| 4: Brainstorming | Phase 2 | Phase 5 | Not started |
-| 5: /creating-posts | Phase 1b | Phase 2, Phase 4 | Not started |
+| 4: Brainstorming | Phase 2 | Phase 5 | DONE |
+| 5: /creating-posts | Phase 1b | Phase 2, Phase 4 | DONE |
 | 6: Vault BRDSPI | Phase 2 + pre-work research | Phase 7 | Not started |
 | 7: Services BRDSPI | Phase 2 | Phase 6 | Not started |
 
@@ -477,8 +512,8 @@ Apply the BRDSPI pattern to homelab/infrastructure service management. Uses `ver
 | 1: Foundations | 1 new skill, 1 reference, 2 renames, 1 rework, 3 updates, 2 hooks | Med | 3 | DONE |
 | 2: BRDSPI Core | 3 new + 1 modified + 1 agent | High | 1 | DONE |
 | 3: Research | 1 skill | Medium | 1 | DONE |
-| 4: Brainstorming | 3 new + 1 retirement | Medium | 1-2 | Not started |
-| 5: Content | 1 skill | Low-Med | 1 | Not started |
+| 4: Brainstorming | 3 new + 1 retirement | Medium | 1 | DONE |
+| 5: Content | 1 skill | Low-Med | 1 | DONE |
 | 6: Vault | 7 skills + pre-work research | High | 3-4 | Not started |
 | 7: Services | 5 skills | High | 2-3 | Not started |
 | **Total** | **~22 new + 7 modified/renamed + 2 hooks** | | **~14-19 sessions** |
@@ -497,20 +532,20 @@ Session 4:  Phase 2 — BRDSPI Core (/designing-code, /structuring-code,     ✓
                modified /planning-code, /starting-refactors, docs-writer ext)
 
 Session 5:  Phase 3 — /researching-repo (parallel, independent)             ✓ DONE
-            Phase 5 — /creating-posts (needs 1b only, quick win)            ← NEXT
+Session 6:  Phase 5 — /creating-posts (needs 1b only, quick win)           ✓ DONE
 
-Sessions 8-9:  Phase 4 — Brainstorming skills + retire /discussing-features
+Session 7:  Phase 4 — Brainstorming skills + retire /discussing-features    ✓ DONE
 
 Sessions 10-13: Phase 6 — Vault BRDSPI (pre-work research + 7 skills)
 
 Sessions 14-16: Phase 7 — Services BRDSPI (5 skills)
 ```
 
-**Critical path:** ~~Phase 1~~ (done) → ~~Phase 2~~ (done) → Phase 6/7
+**Critical path:** ~~Phase 1~~ (done) → ~~Phase 2~~ (done) → ~~Phase 4~~ (done) → ~~Phase 5~~ (done) → Phase 6/7
 
-**Immediate next:** Phase 5 (`/creating-posts`) is a quick win with no remaining blockers. Phase 4 (Brainstorming) is unblocked by Phase 2 completion.
+**Immediate next:** Phase 6 (Vault BRDSPI) and Phase 7 (Services BRDSPI) are the remaining heavy lifts. Both are unblocked.
 
-**Quick wins (no dependencies, can parallel):** ~~`/researching-repo` (Phase 3)~~ (done), `/creating-posts` (Phase 5)
+**Quick wins (no dependencies, can parallel):** ~~`/researching-repo` (Phase 3)~~ (done), ~~`/creating-posts` (Phase 5)~~ (done)
 
 **Incremental additions (as skills are built):**
 - `docs-updater` trigger expansion: `/implementing-plans` (Phase 1d) done, future skills as they're built
