@@ -44,7 +44,7 @@ When this skill is invoked:
 
 ### If research artifacts are provided or referenced:
 - Read ALL relevant research artifacts FULLY
-- Also check `.docs/context/` for any feature context from `/discussing-features`
+- Also check `.docs/brainstorm/` for direction and preferences from `/brainstorming-code`
 - Proceed to Step 2
 
 ### If no research artifacts exist:
@@ -76,7 +76,9 @@ I'll analyze the research, identify design decisions, and work with you to make 
 
 - Check for research files mentioned by user or recently created in `.docs/research/`
 - Read ALL relevant research artifacts FULLY — no limit/offset, no skimming
-- Also check `.docs/context/` for feature context documents
+- Also check `.docs/brainstorm/` for brainstorming artifacts — read Direction, Decisions, and Claude's Discretion sections to inform design decisions
+  - If brainstorm artifact exists: respect directional preferences as constraints (e.g., "REST not GraphQL"), note Claude's Discretion areas where design has freedom
+  - If no brainstorm artifact: proceed normally (brainstorming is optional in BRDSPI)
 - If no research artifacts exist, STOP and redirect to research first
 - Note key findings, constraints, and options discovered during research
 
