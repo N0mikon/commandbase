@@ -11,7 +11,7 @@ Ideas for skills to build. Each file captures one concept with its motivation, d
 | [naming-session.md](naming-session.md) | `/naming-session` | Implemented |
 | [vault-rdspi.md](vault-rdspi.md) | `/vault-research`, `/vault-design`, `/vault-structure`, `/vault-plan`, `/vault-implement`, `/vault-import` | Concept |
 | [services-rdspi.md](services-rdspi.md) | `/services-research`, `/services-design`, `/services-structure`, `/services-plan`, `/services-implement` | Concept |
-| [researching-repo.md](researching-repo.md) | `/researching-repo` | Concept |
+| [researching-repo.md](researching-repo.md) | `/researching-repo` | Implemented |
 | [creating-posts.md](creating-posts.md) | `/creating-posts` | Concept |
 | ~~re-evaluate-existing.md~~ | `/auditing-skills`, `/auditing-agents`, `/bookmarking-code`, `/learning-from-sessions`, `docs-updater`, `/validating-code` vs `/reviewing-changes` | Archived (decisions captured in roadmap, executed in Phases 0-2) |
 

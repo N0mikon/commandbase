@@ -3,10 +3,10 @@ date: 2026-02-07
 status: active
 topic: "Future Skills Implementation Roadmap"
 tags: [plan, brdspi, skills, roadmap, infrastructure]
-git_commit: 3d737ac
+git_commit: 3c993c9
 last_updated: 2026-02-07
 last_updated_by: docs-updater
-last_updated_note: "Phase 1 complete: all 10 phases done, hooks deployed, end-to-end integration test passed. Updated roadmap status throughout."
+last_updated_note: "Phase 3 complete: /researching-repo skill fully implemented (4 files) and deployed to ~/.claude/skills/researching-repo/. Research stack now complete."
 ---
 
 # Future Skills Implementation Roadmap
@@ -251,30 +251,42 @@ The centerpiece: expand RPI to BRDSPI by adding Design and Structure phases.
 
 ---
 
-## Phase 3: Research Stack Completion
-**Effort:** Medium | **Duration:** 1 session | **Independent — can parallel with any phase**
+## Phase 3: Research Stack Completion — COMPLETE
+**Effort:** Medium | **Duration:** 1 session | **Status:** All 4 phases done
 
-### `/researching-repo` skill
+**Implementation plan:** `.docs/plans/02-07-2026-phase-3-researching-repo-skill-implementation.md`
+**Research:** `.docs/research/02-07-2026-phase-3-researching-repo-skill-pre-planning-research.md`
+
+### `/researching-repo` skill — DONE
 **Complexity:** Medium | **Depends on:** Nothing
 
-- Clone any git repo (shallow clone to **system temp dir**), analyze structure/patterns/conventions
+- Clone any git repo (blobless clone to **system temp dir** with CVE-2024-32002 hardening), analyze structure/patterns/conventions
 - **Before cleanup, offer:** "Keep this clone somewhere? (provide path or skip to delete)"
-- Produce `.docs/research/` artifact
-- **Supports any git remote:** GitHub, GitLab, Bitbucket, LinuxServer, local paths
+- Produce `.docs/research/` artifact via docs-writer agent
+- **Supports any git remote:** GitHub, GitLab, Bitbucket, LinuxServer, local paths (with depth=1 fallback)
+- **GitHub shorthand:** Expands `user/repo` to `https://github.com/user/repo.git`
 - **Detects CLAUDE.md/AGENTS.md** if present — summarize with context awareness (in a skills repo they're the product; in an app repo they're just dev tooling)
-- Analysis: directory layout, architecture patterns, naming conventions, key implementations
+- Analysis: directory layout, architecture patterns, naming conventions, key implementations via parallel agents
 - Completes research stack:
   - `/researching-web` — community knowledge
   - `/researching-frameworks` — official API docs (Context7)
   - `/researching-code` — our code
   - `/researching-repo` — their code
 
+**Files created:**
+- `newskills/researching-repo/SKILL.md` — Main skill (10-section research skill template)
+- `newskills/researching-repo/reference/clone-management.md` — Secure clone commands, temp dirs, cleanup
+- `newskills/researching-repo/reference/analysis-strategies.md` — Agent decomposition, CLAUDE.md detection
+- `newskills/researching-repo/templates/repo-research-template.md` — Output format for docs-writer
+
+**Deployed to:** `~/.claude/skills/researching-repo/`
+
 ### Success Criteria
-- [ ] `/researching-repo` deployed and tested on a real third-party repo
-- [ ] Supports GitHub + non-GitHub git URLs + local paths
-- [ ] Offers to keep clone before cleanup
-- [ ] Produces useful `.docs/research/` artifact
-- [ ] Context-aware CLAUDE.md/AGENTS.md detection
+- [x] `/researching-repo` deployed and tested on a real third-party repo
+- [x] Supports GitHub + non-GitHub git URLs + local paths
+- [x] Offers to keep clone before cleanup
+- [x] Produces useful `.docs/research/` artifact
+- [x] Context-aware CLAUDE.md/AGENTS.md detection
 
 ---
 
@@ -451,7 +463,7 @@ Apply the BRDSPI pattern to homelab/infrastructure service management. Uses `ver
 | 1 Session 2 (1c, 1d, 1e, 1h) | 1a | Phase 3 | DONE |
 | 1 Session 3 (hooks: 1i, 1j) | 1a | Phase 3 | DONE |
 | 2: BRDSPI Core | Phase 0 | Phase 3, Phase 5 | DONE |
-| 3: /researching-repo | Nothing | Any phase | Not started |
+| 3: /researching-repo | Nothing | Any phase | DONE |
 | 4: Brainstorming | Phase 2 | Phase 5 | Not started |
 | 5: /creating-posts | Phase 1b | Phase 2, Phase 4 | Not started |
 | 6: Vault BRDSPI | Phase 2 + pre-work research | Phase 7 | Not started |
@@ -464,7 +476,7 @@ Apply the BRDSPI pattern to homelab/infrastructure service management. Uses `ver
 | 0: Triage | 6 reviews (decisions) | Low | 1 | DONE |
 | 1: Foundations | 1 new skill, 1 reference, 2 renames, 1 rework, 3 updates, 2 hooks | Med | 3 | DONE |
 | 2: BRDSPI Core | 3 new + 1 modified + 1 agent | High | 1 | DONE |
-| 3: Research | 1 skill | Medium | 1 | Not started |
+| 3: Research | 1 skill | Medium | 1 | DONE |
 | 4: Brainstorming | 3 new + 1 retirement | Medium | 1-2 | Not started |
 | 5: Content | 1 skill | Low-Med | 1 | Not started |
 | 6: Vault | 7 skills + pre-work research | High | 3-4 | Not started |
@@ -484,8 +496,8 @@ Session 3:  Phase 1 Session 3 — track-errors + trigger-learning hooks        �
 Session 4:  Phase 2 — BRDSPI Core (/designing-code, /structuring-code,     ✓ DONE
                modified /planning-code, /starting-refactors, docs-writer ext)
 
-Session 5:  Phase 5 — /creating-posts (needs 1b only, quick win)            ← NEXT
-            Phase 3 — /researching-repo (parallel, independent)
+Session 5:  Phase 3 — /researching-repo (parallel, independent)             ✓ DONE
+            Phase 5 — /creating-posts (needs 1b only, quick win)            ← NEXT
 
 Sessions 8-9:  Phase 4 — Brainstorming skills + retire /discussing-features
 
@@ -496,9 +508,9 @@ Sessions 14-16: Phase 7 — Services BRDSPI (5 skills)
 
 **Critical path:** ~~Phase 1~~ (done) → ~~Phase 2~~ (done) → Phase 6/7
 
-**Immediate next:** Phase 3 (`/researching-repo`) and Phase 5 (`/creating-posts`) are quick wins with no remaining blockers. Phase 4 (Brainstorming) is now unblocked by Phase 2 completion.
+**Immediate next:** Phase 5 (`/creating-posts`) is a quick win with no remaining blockers. Phase 4 (Brainstorming) is unblocked by Phase 2 completion.
 
-**Quick wins (no dependencies, can parallel):** `/researching-repo` (Phase 3), `/creating-posts` (Phase 5)
+**Quick wins (no dependencies, can parallel):** ~~`/researching-repo` (Phase 3)~~ (done), `/creating-posts` (Phase 5)
 
 **Incremental additions (as skills are built):**
 - `docs-updater` trigger expansion: `/implementing-plans` (Phase 1d) done, future skills as they're built

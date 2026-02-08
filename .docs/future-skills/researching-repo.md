@@ -1,3 +1,9 @@
+---
+status: implemented
+implemented_in: newskills/researching-repo/
+implemented_date: 2026-02-07
+---
+
 # Repository Analysis (`/researching-repo`)
 
 ## Problem
@@ -62,3 +68,22 @@ During RDSPI Research phase, all four can run together:
 - How to handle large repos — sparse checkout for targeted analysis?
 - Should it detect and summarize the repo's own CLAUDE.md / AGENTS.md if present?
 - Could it produce a reusable "patterns" artifact that `/designing-code` or `/structuring-code` can reference?
+
+## Implementation Status
+
+**Implemented on 2026-02-07** in `newskills/researching-repo/` and deployed to `~/.claude/skills/researching-repo/`.
+
+All concepts from this document were realized in the implementation:
+- Clone strategy evolved from shallow clone to blobless clone (`--filter=blob:none --no-checkout`) for remote repos, with selective checkout via `git show HEAD:path` -- more efficient than the original concept
+- Temp directory uses system temp via `mktemp -d` (resolving the "where to clone?" question)
+- Non-GitHub repos fully supported: git URLs, local paths, and GitHub shorthand expansion
+- Large repos handled via blobless clone with on-demand blob fetching
+- CLAUDE.md/AGENTS.md detection explicitly included in the analysis workflow
+- Research artifact written via docs-writer agent delegation
+- Security hardening added beyond original concept: `core.symlinks=false`, `core.hooksPath=/dev/null`, `--no-recurse-submodules`, post-clone hooks verification
+
+Implementation files:
+- `newskills/researching-repo/SKILL.md` -- Full skill definition with 7-step process
+- `newskills/researching-repo/reference/clone-management.md` -- Clone security and strategy patterns
+- `newskills/researching-repo/reference/analysis-strategies.md` -- Agent decomposition patterns
+- `newskills/researching-repo/templates/repo-research-template.md` -- Output template for research artifacts
