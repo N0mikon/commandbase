@@ -13,6 +13,14 @@ Detailed process for researching the codebase before writing implementation plan
    - **CRITICAL**: DO NOT spawn sub-tasks before reading these files yourself in the main context
    - **NEVER** read files partially - if a file is mentioned, read it completely
 
+### Upstream BRDSPI Artifacts
+
+If structural map or design doc is provided as input:
+- Read the structural map FULLY — this replaces architecture research
+- Read the referenced design doc FULLY — this provides decision context
+- Research scope narrows to: verifying integration points, confirming test patterns, checking for breaking changes
+- Do NOT re-research topics already covered in design/structure docs
+
 2. **Spawn initial research tasks to gather context**:
    Before asking the user any questions, use specialized agents to research in parallel:
 

@@ -6,14 +6,14 @@ Ideas for skills to build. Each file captures one concept with its motivation, d
 
 | File | Skill(s) | Status |
 |---|---|---|
-| [rdspi-workflow.md](rdspi-workflow.md) | `/designing-code`, `/structuring-code`, `/starting-refactors` | Concept |
+| ~~rdspi-workflow.md~~ | `/designing-code`, `/structuring-code`, `/starting-refactors` | Archived (fully implemented as Phase 2 BRDSPI Core) |
 | [brainstorming.md](brainstorming.md) | `/brainstorming-code`, `/brainstorming-vault`, `/brainstorming-services` | Concept |
 | [naming-session.md](naming-session.md) | `/naming-session` | Implemented |
 | [vault-rdspi.md](vault-rdspi.md) | `/vault-research`, `/vault-design`, `/vault-structure`, `/vault-plan`, `/vault-implement`, `/vault-import` | Concept |
 | [services-rdspi.md](services-rdspi.md) | `/services-research`, `/services-design`, `/services-structure`, `/services-plan`, `/services-implement` | Concept |
 | [researching-repo.md](researching-repo.md) | `/researching-repo` | Concept |
 | [creating-posts.md](creating-posts.md) | `/creating-posts` | Concept |
-| [re-evaluate-existing.md](re-evaluate-existing.md) | `/auditing-skills`, `/auditing-agents`, `/bookmarking-code`, `/learning-from-sessions`, `docs-updater`, `/validating-code` vs `/reviewing-changes` | Review |
+| ~~re-evaluate-existing.md~~ | `/auditing-skills`, `/auditing-agents`, `/bookmarking-code`, `/learning-from-sessions`, `docs-updater`, `/validating-code` vs `/reviewing-changes` | Archived (decisions captured in roadmap, executed in Phases 0-2) |
 
 ## How These Connect
 

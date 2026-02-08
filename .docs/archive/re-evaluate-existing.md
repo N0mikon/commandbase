@@ -1,3 +1,9 @@
+---
+archived: 2026-02-07
+archive_reason: "Triage/decision document whose decisions have all been captured in the implementation roadmap (Phase 0 Decisions) and executed through Phase 1 (Foundations) and Phase 2 (BRDSPI Core). Remaining open items tracked in roadmap Phases 4, 6/7, and incremental additions."
+original_location: ".docs/future-skills/re-evaluate-existing.md"
+---
+
 # Re-evaluate Existing Skills
 
 Status notes updated 2026-02-07 after Phase 1 Foundations implementation (Phases 1-8 of 10 complete).

@@ -79,7 +79,15 @@ When this command is invoked, determine the mode:
 **If a task description or requirements file is provided:**
 - Skip the default message
 - Read any provided files FULLY
+- Detect upstream BRDSPI artifacts (see Input Detection below)
 - Begin the research process
+
+### Input Detection
+
+When invoked, check for upstream BRDSPI artifacts:
+1. If a `.docs/structure/` file is provided or referenced → **Structured mode**: use structural map as skeleton for plan phases
+2. If a `.docs/design/` file is provided but no structure → suggest running `/structuring-code` first, but proceed if user prefers
+3. If neither → **Standalone mode**: works as before (full research + architecture + planning)
 
 **If no parameters provided:**
 ```
@@ -141,6 +149,23 @@ Once aligned on approach:
    ```
 
 2. **Get feedback on structure** before writing details
+
+**If structural map is available (Structured mode):**
+- Derive phase boundaries from the structural map's file groups or migration steps
+- Each structural group/migration step becomes a candidate implementation phase
+- Focus on: task breakdown, success criteria, verification commands
+- Do NOT re-decide architecture — honor the design doc decisions
+
+**In Structured mode, /planning-code does NOT:**
+- Re-debate architectural decisions (those are in the design doc)
+- Re-organize file placement (that's in the structural map)
+- Spawn architecture research agents (structure already provides this)
+
+It DOES still:
+- Spawn code-analyzer agents to verify integration points mentioned in the structural map
+- Break structural map into atomic, testable implementation phases
+- Define success criteria for each phase
+- Identify risks and dependencies between phases
 
 ### Step 4: Detailed Plan Writing
 

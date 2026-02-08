@@ -1,3 +1,11 @@
+---
+status: archived
+archived: 2026-02-07
+archive_reason: "Concept fully implemented as /naming-session skill. The skill is deployed at ~/.claude/skills/naming-session/ with source at newskills/naming-session/SKILL.md. All open questions resolved during Phase 1 Foundations implementation (commits ae98216, 3d737ac)."
+references:
+  - newskills/naming-session/SKILL.md
+---
+
 # Session Naming (`/naming-session`)
 
 ## Problem

@@ -29,7 +29,7 @@ You will receive structured input with these fields:
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `doc_type` | Yes | One of: `research`, `plan`, `handoff`, `reference`, `debug` |
+| `doc_type` | Yes | One of: `research`, `plan`, `handoff`, `reference`, `debug`, `design`, `structure`, `refactor` |
 | `topic` | Yes | Human-readable topic description (used in frontmatter and filename) |
 | `tags` | Yes | Array of topic tags (doc type tag is added automatically as first element) |
 | `content` | Yes | Markdown body text (everything below the frontmatter) |
@@ -41,7 +41,7 @@ You will receive structured input with these fields:
 ### Step 1: Validate Input
 
 Confirm all required fields are present:
-- `doc_type` must be one of the 5 valid types
+- `doc_type` must be one of the 8 valid types
 - `topic` must be non-empty
 - `tags` must be a non-empty array
 - `content` must be non-empty
@@ -67,6 +67,9 @@ Map `doc_type` to subdirectory and default status:
 | `handoff` | `.docs/handoffs/` | `active` |
 | `reference` | `.docs/references/` | `current` |
 | `debug` | `.docs/debug/` | `gathering` |
+| `design` | `.docs/design/` | `draft` |
+| `structure` | `.docs/structure/` | `draft` |
+| `refactor` | `.docs/refactors/` | `active` |
 
 If a `status` override was provided, use that instead of the default.
 

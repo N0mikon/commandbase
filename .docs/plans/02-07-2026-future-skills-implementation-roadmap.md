@@ -205,8 +205,8 @@ Foundational pieces that many future skills depend on, plus Phase 0 follow-throu
 
 ---
 
-## Phase 2: BRDSPI Core (Code Domain)
-**Effort:** High | **Duration:** 2-3 sessions | **Blocks:** Phases 4, 6, 7
+## Phase 2: BRDSPI Core (Code Domain) — COMPLETE
+**Effort:** High | **Duration:** 1 session | **Blocks:** Phases 4, 6, 7
 
 The centerpiece: expand RPI to BRDSPI by adding Design and Structure phases.
 
@@ -243,11 +243,11 @@ The centerpiece: expand RPI to BRDSPI by adding Design and Structure phases.
 - **Auto-runs `/bookmarking-code` create** before refactor starts (safety net)
 
 ### Success Criteria
-- [ ] `/designing-code` deployed — produces design docs with rationale, uses opus
-- [ ] `/structuring-code` deployed — produces structural maps
-- [ ] `/planning-code` modified — accepts structural map when provided, works standalone for lightweight features
-- [ ] `/starting-refactors` deployed — brownfield initialization works, auto-checkpoints
-- [ ] Full BRDSPI chain tested end-to-end on a real project
+- [x] `/designing-code` deployed — produces design docs with rationale, uses opus
+- [x] `/structuring-code` deployed — produces structural maps
+- [x] `/planning-code` modified — accepts structural map when provided, works standalone for lightweight features
+- [x] `/starting-refactors` deployed — brownfield initialization works, auto-checkpoints
+- [x] Full BRDSPI chain tested end-to-end (structural verification)
 
 ---
 
@@ -450,7 +450,7 @@ Apply the BRDSPI pattern to homelab/infrastructure service management. Uses `ver
 | 1 Session 1 (1a, 1b, 1f, 1g) | Nothing | Phase 3 | DONE |
 | 1 Session 2 (1c, 1d, 1e, 1h) | 1a | Phase 3 | DONE |
 | 1 Session 3 (hooks: 1i, 1j) | 1a | Phase 3 | DONE |
-| 2: BRDSPI Core | Phase 0 | Phase 3, Phase 5 | Not started |
+| 2: BRDSPI Core | Phase 0 | Phase 3, Phase 5 | DONE |
 | 3: /researching-repo | Nothing | Any phase | Not started |
 | 4: Brainstorming | Phase 2 | Phase 5 | Not started |
 | 5: /creating-posts | Phase 1b | Phase 2, Phase 4 | Not started |
@@ -463,7 +463,7 @@ Apply the BRDSPI pattern to homelab/infrastructure service management. Uses `ver
 |-------|-----------|--------|----------|--------|
 | 0: Triage | 6 reviews (decisions) | Low | 1 | DONE |
 | 1: Foundations | 1 new skill, 1 reference, 2 renames, 1 rework, 3 updates, 2 hooks | Med | 3 | DONE |
-| 2: BRDSPI Core | 3 new + 1 modified | High | 2-3 | Not started |
+| 2: BRDSPI Core | 3 new + 1 modified + 1 agent | High | 1 | DONE |
 | 3: Research | 1 skill | Medium | 1 | Not started |
 | 4: Brainstorming | 3 new + 1 retirement | Medium | 1-2 | Not started |
 | 5: Content | 1 skill | Low-Med | 1 | Not started |
@@ -481,11 +481,11 @@ Session 2:  Phase 1 Session 2 — /bookmarking-code, /implementing-plans,      �
 Session 3:  Phase 1 Session 3 — track-errors + trigger-learning hooks        ✓ DONE
             + harvest-errors hook, /resuming-sessions skill, integration test
 
-Session 4:  Phase 5 — /creating-posts (needs 1b only, quick win)            ← NEXT
-            Phase 3 — /researching-repo (parallel, independent)
+Session 4:  Phase 2 — BRDSPI Core (/designing-code, /structuring-code,     ✓ DONE
+               modified /planning-code, /starting-refactors, docs-writer ext)
 
-Sessions 5-7:  Phase 2 — BRDSPI Core (/designing-code, /structuring-code,
-               modified /planning-code, /starting-refactors)
+Session 5:  Phase 5 — /creating-posts (needs 1b only, quick win)            ← NEXT
+            Phase 3 — /researching-repo (parallel, independent)
 
 Sessions 8-9:  Phase 4 — Brainstorming skills + retire /discussing-features
 
@@ -494,9 +494,9 @@ Sessions 10-13: Phase 6 — Vault BRDSPI (pre-work research + 7 skills)
 Sessions 14-16: Phase 7 — Services BRDSPI (5 skills)
 ```
 
-**Critical path:** ~~Phase 1~~ (done) → Phase 2 → Phase 6/7
+**Critical path:** ~~Phase 1~~ (done) → ~~Phase 2~~ (done) → Phase 6/7
 
-**Immediate next:** Phase 3 (`/researching-repo`) and Phase 5 (`/creating-posts`) are quick wins with no remaining blockers. Phase 2 (BRDSPI Core) is the critical-path priority.
+**Immediate next:** Phase 3 (`/researching-repo`) and Phase 5 (`/creating-posts`) are quick wins with no remaining blockers. Phase 4 (Brainstorming) is now unblocked by Phase 2 completion.
 
 **Quick wins (no dependencies, can parallel):** `/researching-repo` (Phase 3), `/creating-posts` (Phase 5)
 

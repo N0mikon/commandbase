@@ -1,3 +1,15 @@
+---
+archived: 2026-02-07
+archive_reason: "Concept fully implemented as Phase 2 BRDSPI Core. All proposed skills deployed: /designing-code (192 lines), /structuring-code (195 lines), /starting-refactors (179 lines), /planning-code modified (299 lines), docs-writer extended with 3 new doc_types. Superseded by actual skill files and implementation plan."
+original_location: .docs/future-skills/rdspi-workflow.md
+superseded_by:
+  - newskills/designing-code/SKILL.md
+  - newskills/structuring-code/SKILL.md
+  - newskills/starting-refactors/SKILL.md
+  - newskills/planning-code/SKILL.md
+  - .docs/plans/02-07-2026-phase-2-brdspi-core-implementation.md
+---
+
 # RDSPI Workflow Evolution
 
 ## Problem
