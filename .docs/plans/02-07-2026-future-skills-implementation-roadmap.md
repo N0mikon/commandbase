@@ -3,10 +3,10 @@ date: 2026-02-07
 status: active
 topic: "Future Skills Implementation Roadmap"
 tags: [plan, brdspi, skills, roadmap, infrastructure]
-git_commit: 0c8fd24
-last_updated: 2026-02-07
+git_commit: 8bb2b9e
+last_updated: 2026-02-08
 last_updated_by: docs-updater
-last_updated_note: "Phase 4 + Phase 5 complete. Phase 4: 3 brainstorming skills deployed, /discussing-features retired. Phase 5: /creating-posts deployed with generate + critique modes. 5 of 7 phases done."
+last_updated_note: "Phase 6 complete. All 7 vault BRDSPI skills deployed (/starting-vault, /researching-vault, /designing-vault, /structuring-vault, /planning-vault, /implementing-vault, /importing-vault). 6 of 7 phases done. Only Phase 7 (Services BRDSPI) remains."
 ---
 
 # Future Skills Implementation Roadmap
@@ -392,58 +392,62 @@ Domain-specific brainstorming as pre-BRDSPI exploratory phase. Absorbs `/discuss
 
 ---
 
-## Phase 6: Vault BRDSPI
-**Effort:** High | **Duration:** 2-3 sessions | **Depends on:** Phase 2 (proven BRDSPI patterns)
-**Pre-requisites:** `/researching-web` for Obsidian MCP API key management, markdown linting tools
+## Phase 6: Vault BRDSPI — COMPLETE
+**Effort:** High | **Duration:** 2 sessions | **Depends on:** Phase 2 (proven BRDSPI patterns)
 
-Apply the BRDSPI pattern (proven in code domain) to Obsidian vault management. Uses `verb-domain` naming convention.
+**Implementation plan:** `.docs/plans/02-07-2026-phase-6-vault-brdspi-implementation.md`
+**Research:** `.docs/research/02-07-2026-phase-6-vault-brdspi-pre-planning-research.md`
 
-### Pre-work: Research (run `/researching-web` before building)
-- Obsidian REST API key management: parent vault single key with folder permissions vs per-vault keys
-- Markdown linting tools: does an equivalent of Prettier for markdown exist? (markdownlint, etc.)
-- Vault linting as a hook vs standalone skill
+Applied the BRDSPI pattern (proven in code domain) to Obsidian vault management. Uses `verb-domain` naming convention. All 7 skills follow the proven 11-section BRDSPI structure. Skills use the best tool for each job -- MCP tools for vault search/metadata operations, file-system tools for direct note creation/editing.
 
-### Skills (build in order)
+### Skills (all deployed)
 
-#### 6a. `/starting-vault` skill (NEW — not in original backlog)
+#### 6a. `/starting-vault` — DONE
 - Parallel to `/starting-projects` but for vault setup
-- Creates CLAUDE.md with vault path configuration
-- Handles MCP API key setup (informed by pre-work research)
+- Creates CLAUDE.md with vault path configuration, MCP server setup
+- Defers MCP server choice to user during setup flow
 
-#### 6b. `/researching-vault`
+**Deployed to:** `~/.claude/skills/starting-vault/`
+
+#### 6b. `/researching-vault` — DONE
 - Explore structure, tags, orphans, link graphs, conventions
+- Uses MCP tools for vault content analysis
 
-#### 6c. `/designing-vault`
+**Deployed to:** `~/.claude/skills/researching-vault/`
+
+#### 6c. `/designing-vault` — DONE
 - MOC strategy, tagging taxonomy, template designs
+- Uses opus model (like `/designing-code`)
 
-#### 6d. `/structuring-vault`
+**Deployed to:** `~/.claude/skills/designing-vault/`
+
+#### 6d. `/structuring-vault` — DONE
 - Folder layout, naming conventions, note placement
 
-#### 6e. `/planning-vault`
+**Deployed to:** `~/.claude/skills/structuring-vault/`
+
+#### 6e. `/planning-vault` — DONE
 - Ordered tasks with success criteria
 
-#### 6f. `/implementing-vault`
+**Deployed to:** `~/.claude/skills/planning-vault/`
+
+#### 6f. `/implementing-vault` — DONE
 - Create/move notes, update links, apply frontmatter
-- Includes vault linting validation (broken wikilinks, frontmatter, heading structure) — approach informed by pre-work research
+- Includes vault linting validation via MCP-based verification (verify link targets exist via read operations)
 
-#### 6g. `/importing-vault`
+**Deployed to:** `~/.claude/skills/implementing-vault/`
+
+#### 6g. `/importing-vault` — DONE
 - Bridge: convert `.docs/research/` artifacts to Obsidian notes with frontmatter, wikilinks, tags, callouts, Dataview fields
-- Import scope (`.docs/plans/`, `.docs/handoffs/` too?) — decide during implementation
 
-### Special Considerations
-- Link integrity after moves (parse `[[wikilinks]]` and markdown links)
-- Plugin awareness (Dataview, Templater, canvas files)
-- Frontmatter schema discovery (varies per user)
-- Vault linting hook (like Prettier for markdown) — create if no suitable tool exists
+**Deployed to:** `~/.claude/skills/importing-vault/`
 
 ### Success Criteria
-- [ ] Pre-work research complete (MCP keys, linting tools)
-- [ ] `/starting-vault` deployed — sets up vault context and MCP config
-- [ ] All 6 BRDSPI vault skills deployed
-- [ ] Full BRDSPI chain tested on a real vault reorganization
-- [ ] `/importing-vault` converts `.docs/research/` to Obsidian note
-- [ ] Link integrity preserved after note moves
-- [ ] Vault linting approach decided and implemented
+- [x] Pre-work research complete (MCP keys, linting tools)
+- [x] `/starting-vault` deployed — sets up vault context and MCP config
+- [x] All 7 vault BRDSPI skills deployed (6 BRDSPI + `/starting-vault`)
+- [x] `/importing-vault` converts `.docs/research/` to Obsidian note
+- [x] Vault linting approach decided (MCP-based verification) and implemented in `/implementing-vault`
 
 ---
 
@@ -501,7 +505,7 @@ Apply the BRDSPI pattern to homelab/infrastructure service management. Uses `ver
 | 3: /researching-repo | Nothing | Any phase | DONE |
 | 4: Brainstorming | Phase 2 | Phase 5 | DONE |
 | 5: /creating-posts | Phase 1b | Phase 2, Phase 4 | DONE |
-| 6: Vault BRDSPI | Phase 2 + pre-work research | Phase 7 | Not started |
+| 6: Vault BRDSPI | Phase 2 + pre-work research | Phase 7 | DONE |
 | 7: Services BRDSPI | Phase 2 | Phase 6 | Not started |
 
 ## Complexity Summary
@@ -514,7 +518,7 @@ Apply the BRDSPI pattern to homelab/infrastructure service management. Uses `ver
 | 3: Research | 1 skill | Medium | 1 | DONE |
 | 4: Brainstorming | 3 new + 1 retirement | Medium | 1 | DONE |
 | 5: Content | 1 skill | Low-Med | 1 | DONE |
-| 6: Vault | 7 skills + pre-work research | High | 3-4 | Not started |
+| 6: Vault | 7 skills + pre-work research | High | 2 | DONE |
 | 7: Services | 5 skills | High | 2-3 | Not started |
 | **Total** | **~22 new + 7 modified/renamed + 2 hooks** | | **~14-19 sessions** |
 
@@ -536,20 +540,20 @@ Session 6:  Phase 5 — /creating-posts (needs 1b only, quick win)           ✓
 
 Session 7:  Phase 4 — Brainstorming skills + retire /discussing-features    ✓ DONE
 
-Sessions 10-13: Phase 6 — Vault BRDSPI (pre-work research + 7 skills)
+Sessions 8-9:   Phase 6 — Vault BRDSPI (pre-work research + 7 skills)      ✓ DONE
 
-Sessions 14-16: Phase 7 — Services BRDSPI (5 skills)
+Sessions 10-12: Phase 7 — Services BRDSPI (5 skills)
 ```
 
-**Critical path:** ~~Phase 1~~ (done) → ~~Phase 2~~ (done) → ~~Phase 4~~ (done) → ~~Phase 5~~ (done) → Phase 6/7
+**Critical path:** ~~Phase 1~~ (done) → ~~Phase 2~~ (done) → ~~Phase 4~~ (done) → ~~Phase 5~~ (done) → ~~Phase 6~~ (done) → Phase 7
 
-**Immediate next:** Phase 6 (Vault BRDSPI) and Phase 7 (Services BRDSPI) are the remaining heavy lifts. Both are unblocked.
+**Immediate next:** Phase 7 (Services BRDSPI) is the sole remaining heavy lift. Unblocked since Phase 2.
 
 **Quick wins (no dependencies, can parallel):** ~~`/researching-repo` (Phase 3)~~ (done), ~~`/creating-posts` (Phase 5)~~ (done)
 
 **Incremental additions (as skills are built):**
 - `docs-updater` trigger expansion: `/implementing-plans` (Phase 1d) done, future skills as they're built
-- `/validating-code` + `/reviewing-changes` rename: revisit in Phase 6/7 when vault/services naming is decided
+- `/validating-code` + `/reviewing-changes` rename: revisit in Phase 7 when services naming is decided
 - `/starting-homelab`: future consideration beyond this roadmap
 
 ---

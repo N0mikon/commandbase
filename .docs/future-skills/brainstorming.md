@@ -1,5 +1,7 @@
 # Domain-Specific Brainstorming Skills
 
+> **Status: IMPLEMENTED** -- Deployed in Phase 4 (2026-02-07). All 3 brainstorming skills live at `newskills/` and `~/.claude/skills/`: `/brainstorming-code`, `/brainstorming-vault`, `/brainstorming-services`. `/discussing-features` retired (absorbed into brainstorming + `/designing-code`). See `.docs/plans/02-07-2026-phase-4-brainstorming-skills-implementation.md` for full details.
+
 ## Problem
 
 `/discussing-features` is generic. Brainstorming a vault reorganization is fundamentally different from brainstorming an API endpoint — a generic skill can't ask the right questions or go deep enough in any domain.
@@ -31,8 +33,8 @@ Brainstorming is always the first step, before any initializer or RDSPI phase:
   R -> D -> S -> P -> I
 ```
 
-## Open Questions
+## Open Questions (All Resolved)
 
-- Does `/discussing-features` survive as a cross-domain brainstorming fallback, or is it fully replaced?
-- Should brainstorming skills produce an artifact (`.docs/` file) or just be conversational?
-- How much should brainstorming skills know about the current codebase/vault/infra state vs being purely exploratory?
+- ~~Does `/discussing-features` survive as a cross-domain brainstorming fallback, or is it fully replaced?~~ **Resolved: fully replaced and retired. Domain detection absorbed into `/brainstorming-code`, technical choices into `/designing-code`.**
+- ~~Should brainstorming skills produce an artifact (`.docs/` file) or just be conversational?~~ **Resolved: yes, all produce `.docs/brainstorm/` artifacts via docs-writer agent. Artifacts are programmatically consumed by `/designing-code` (not human-mediated).**
+- ~~How much should brainstorming skills know about the current codebase/vault/infra state vs being purely exploratory?~~ **Resolved: each skill has domain-specific awareness. Code reads codebase conventions, vault reads vault structure, services reads compose/infrastructure state.**

@@ -4,8 +4,10 @@ last_updated: 2026-02-05
 last_updated_by: docs-updater
 last_updated_note: "Updated after 2 commits - corrected skill count to 19, noted skill drift sync completed"
 topic: "Created reviewing-changes and updating-skills skills"
-tags: [handover, skills, reviewing-changes, updating-skills]
-status: active
+tags: [handover, skills, reviewing-changes, updating-skills, archived]
+status: archived
+archived: 2026-02-08
+archive_reason: "All work completed and committed. /reviewing-changes and /updating-skills (now /auditing-skills) deployed. Handoff is 6 days old with no pending next steps. References stale skill name (updating-skills → auditing-skills)."
 references:
   - newskills/reviewing-changes/SKILL.md
   - newskills/validating-code/SKILL.md

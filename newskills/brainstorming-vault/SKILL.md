@@ -176,9 +176,9 @@ Philosophy settled:
 Deferred ideas: [count or "None"]
 
 Next steps:
-- When Vault BRDSPI is available: /starting-vault to initialize workspace
-- For now: Use these decisions to guide vault setup manually
-- Reference this brainstorm when making vault structure decisions
+- /starting-vault to initialize vault workspace and configure MCP connectivity
+- /researching-vault to analyze current vault structure
+- Reference this brainstorm when making vault design decisions
 ```
 
 ## Error Recovery

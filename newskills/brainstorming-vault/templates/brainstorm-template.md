@@ -38,8 +38,9 @@ Use this template when creating vault brainstorm artifacts via `docs-writer` wit
 [Or: "None."]
 
 ## Suggested Next Steps
-- When Vault BRDSPI is available: `/starting-vault` to initialize workspace, then research → design → structure → plan → implement
-- For now: Use these decisions to guide vault setup manually. Reference this brainstorm when making vault structure decisions.
+- `/starting-vault` to initialize vault workspace and configure MCP connectivity
+- Then: `/researching-vault` → `/designing-vault` → `/structuring-vault` → `/planning-vault` → `/implementing-vault`
+- Reference this brainstorm when making vault design decisions
 ```
 
 ## Frontmatter

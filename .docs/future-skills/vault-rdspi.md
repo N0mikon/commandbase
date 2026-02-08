@@ -1,5 +1,7 @@
 # Obsidian Vault RDSPI Workflow
 
+> **Status: IMPLEMENTED** -- Deployed in Phase 6 (2026-02-08). All 7 vault BRDSPI skills live at `newskills/` and `~/.claude/skills/`: `/starting-vault`, `/researching-vault`, `/designing-vault`, `/structuring-vault`, `/planning-vault`, `/implementing-vault`, `/importing-vault`. Naming evolved from `verb-noun` (`/vault-research`) to `verb-domain` (`/researching-vault`) to match the code domain convention. See `.docs/plans/02-07-2026-phase-6-vault-brdspi-implementation.md` for full details.
+
 ## Problem
 
 Knowledge management in Obsidian vaults has the same needs as code — understanding what exists, designing improvements, planning changes, and executing them — with none of the tooling. Reorganizing a vault, building a new topic area, or connecting scattered notes is done ad-hoc.
@@ -76,10 +78,10 @@ All vault skills produce or modify markdown files. A linter (skill or script) co
 
 Could be a standalone `/vault-lint` skill, a validation step baked into `/vault-implement`, or a hook that runs after any vault skill writes files. Lightest option: a script that `/vault-implement` calls as a post-step.
 
-## Open Questions
+## Open Questions (All Resolved)
 
-- How to locate the vault? Env var, config in CLAUDE.md, or ask on first use?
-- Could a single `/vault` skill with subcommands work better than separate skills per phase?
-- How heavy does Design need to be for vaults vs code? Vault "architecture" is simpler
-- Should vault skills be aware of community plugins (Dataview, Templater) and their syntax?
-- Vault linting — standalone skill, built into `/vault-implement`, or post-write hook?
+- ~~How to locate the vault? Env var, config in CLAUDE.md, or ask on first use?~~ **Resolved: `/starting-vault` sets up CLAUDE.md with vault path configuration during setup flow**
+- ~~Could a single `/vault` skill with subcommands work better than separate skills per phase?~~ **Resolved: separate skills per phase (matches code domain pattern, proven BRDSPI architecture)**
+- ~~How heavy does Design need to be for vaults vs code? Vault "architecture" is simpler~~ **Resolved: `/designing-vault` uses opus model (like `/designing-code`), adapted for vault-specific decisions (MOC strategy, tagging taxonomy, template designs)**
+- ~~Should vault skills be aware of community plugins (Dataview, Templater) and their syntax?~~ **Resolved: plugin awareness built into skills, especially `/researching-vault` and `/implementing-vault`**
+- ~~Vault linting — standalone skill, built into `/vault-implement`, or post-write hook?~~ **Resolved: built into `/implementing-vault` as MCP-based validation (verify link targets exist via read operations)**
