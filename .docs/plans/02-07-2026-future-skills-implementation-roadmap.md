@@ -3,10 +3,10 @@ date: 2026-02-07
 status: active
 topic: "Future Skills Implementation Roadmap"
 tags: [plan, brdspi, skills, roadmap, infrastructure]
-git_commit: 5beb0c1
+git_commit: 3d737ac
 last_updated: 2026-02-07
 last_updated_by: docs-updater
-last_updated_note: "Phase 1 progress update: 8 of 10 phases complete. Skills renamed, modified, and reworked. Phases 9-10 (hooks) remaining."
+last_updated_note: "Phase 1 complete: all 10 phases done, hooks deployed, end-to-end integration test passed. Updated roadmap status throughout."
 ---
 
 # Future Skills Implementation Roadmap
@@ -89,13 +89,13 @@ Renames (/auditing-*) ─── independent                 |
 
 ---
 
-## Phase 1: Foundations & Modifications — 80% COMPLETE
-**Effort:** Medium | **Duration:** 2-3 sessions | **Status:** Phases 1-8 of 10 done, Phases 9-10 (hooks) remaining
+## Phase 1: Foundations & Modifications — COMPLETE
+**Effort:** Medium | **Duration:** 3 sessions | **Status:** All 10 phases done
 
 Foundational pieces that many future skills depend on, plus Phase 0 follow-through.
 
 **Implementation plan:** `.docs/plans/02-07-2026-phase-1-foundations-and-modifications-implementation.md`
-**Handoffs:** `.docs/handoffs/02-07-2026-phase-1-foundations-implementation-phases-1-5-of-10.md`, `.docs/handoffs/02-07-2026-phase-1-foundations-implementation-phases-6-8-of-10.md`
+**Handoffs:** `.docs/handoffs/02-07-2026-phase-1-foundations-implementation-phases-1-5-of-10.md`, `.docs/handoffs/02-07-2026-phase-1-foundations-implementation-phases-6-8-of-10.md`, `.docs/handoffs/02-07-2026-integration-test-end-to-end-session-workflow-test.md`
 
 ### Session 1 — Independent items — COMPLETE
 
@@ -172,17 +172,23 @@ Foundational pieces that many future skills depend on, plus Phase 0 follow-throu
 - Created new `templates/learnings-template.md` (old `extracted-skill-template.md` kept for other uses)
 - Deployed all files to `~/.claude/skills/learning-from-sessions/`
 
-### Session 3 — Hooks — NOT STARTED
+### Session 3 — Hooks — COMPLETE
 
-#### 1i. Create `track-errors` hook (Phase 9)
+#### 1i. Create `track-errors` hook (Phase 9) — DONE
+**Complexity:** Medium | **Depends on:** 1a
+
 - PostToolUseFailure hook that logs tool failures to session error log
-- See implementation plan Phase 9 for details
+- Deployed to `newhooks/track-errors/` with `settings-snippet.json`
+- Also created `harvest-errors` companion hook for backfilling errors from conversation history
+- Created `/resuming-sessions` skill for session continuity
 
-#### 1j. Create `trigger-learning` hook (Phase 10)
+#### 1j. Create `trigger-learning` hook (Phase 10) — DONE
+**Complexity:** Medium | **Depends on:** 1i
+
 - PreCompact hook that nudges `/learning-from-sessions` when errors exist
 - Also adds Learning Check section to `/handing-over`
+- Deployed to `newhooks/trigger-learning/` with `settings-snippet.json`
 - Requires Claude Code restart after settings.json merge
-- See implementation plan Phase 10 for details
 
 ### Success Criteria
 - [x] `/naming-session` skill deployed and tested
@@ -193,9 +199,9 @@ Foundational pieces that many future skills depend on, plus Phase 0 follow-throu
 - [x] `/implementing-plans` updated with mandatory checkpoints + docs-updater trigger
 - [x] `/handing-over` updated to use session name in handoff title
 - [x] `/learning-from-sessions` reworked to automatic capture + deferred action
-- [ ] `track-errors` hook created and deployed (Phase 9)
-- [ ] `trigger-learning` hook created and deployed (Phase 10)
-- [ ] End-to-end integration test passed
+- [x] `track-errors` hook created and deployed (Phase 9)
+- [x] `trigger-learning` hook created and deployed (Phase 10)
+- [x] End-to-end integration test passed
 
 ---
 
@@ -443,7 +449,7 @@ Apply the BRDSPI pattern to homelab/infrastructure service management. Uses `ver
 |-------|-----------|-------------------|--------|
 | 1 Session 1 (1a, 1b, 1f, 1g) | Nothing | Phase 3 | DONE |
 | 1 Session 2 (1c, 1d, 1e, 1h) | 1a | Phase 3 | DONE |
-| 1 Session 3 (hooks: 1i, 1j) | 1a | Phase 3 | Not started |
+| 1 Session 3 (hooks: 1i, 1j) | 1a | Phase 3 | DONE |
 | 2: BRDSPI Core | Phase 0 | Phase 3, Phase 5 | Not started |
 | 3: /researching-repo | Nothing | Any phase | Not started |
 | 4: Brainstorming | Phase 2 | Phase 5 | Not started |
@@ -456,7 +462,7 @@ Apply the BRDSPI pattern to homelab/infrastructure service management. Uses `ver
 | Phase | Work Items | Effort | Sessions | Status |
 |-------|-----------|--------|----------|--------|
 | 0: Triage | 6 reviews (decisions) | Low | 1 | DONE |
-| 1: Foundations | 1 new skill, 1 reference, 2 renames, 1 rework, 3 updates, 2 hooks | Med | 3 | 80% (8/10 phases) |
+| 1: Foundations | 1 new skill, 1 reference, 2 renames, 1 rework, 3 updates, 2 hooks | Med | 3 | DONE |
 | 2: BRDSPI Core | 3 new + 1 modified | High | 2-3 | Not started |
 | 3: Research | 1 skill | Medium | 1 | Not started |
 | 4: Brainstorming | 3 new + 1 retirement | Medium | 1-2 | Not started |
@@ -472,10 +478,10 @@ Session 1:  Phase 1 Session 1 — /naming-session, voice/tone ref, renames     �
 Session 2:  Phase 1 Session 2 — /bookmarking-code, /implementing-plans,      ✓ DONE
             /handing-over, /learning-from-sessions updates
 
-Session 3:  Phase 1 Session 3 — track-errors + trigger-learning hooks        ← NEXT
-            (requires Claude Code restart after settings.json merge)
+Session 3:  Phase 1 Session 3 — track-errors + trigger-learning hooks        ✓ DONE
+            + harvest-errors hook, /resuming-sessions skill, integration test
 
-Session 4:  Phase 5 — /creating-posts (needs 1b only, quick win)
+Session 4:  Phase 5 — /creating-posts (needs 1b only, quick win)            ← NEXT
             Phase 3 — /researching-repo (parallel, independent)
 
 Sessions 5-7:  Phase 2 — BRDSPI Core (/designing-code, /structuring-code,
@@ -488,9 +494,9 @@ Sessions 10-13: Phase 6 — Vault BRDSPI (pre-work research + 7 skills)
 Sessions 14-16: Phase 7 — Services BRDSPI (5 skills)
 ```
 
-**Critical path:** ~~Phase 1a~~ (done) → Phase 2 → Phase 6/7
+**Critical path:** ~~Phase 1~~ (done) → Phase 2 → Phase 6/7
 
-**Immediate next:** Phase 1 Session 3 (hooks) to close out Phase 1 completely
+**Immediate next:** Phase 3 (`/researching-repo`) and Phase 5 (`/creating-posts`) are quick wins with no remaining blockers. Phase 2 (BRDSPI Core) is the critical-path priority.
 
 **Quick wins (no dependencies, can parallel):** `/researching-repo` (Phase 3), `/creating-posts` (Phase 5)
 
