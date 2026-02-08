@@ -168,6 +168,14 @@ To resume this work in a new session:
 /taking-over .docs/handoffs/MM-DD-YYYY-description.md
 ```
 
+### Learning Check
+
+After creating the handover document, check for session errors:
+
+1. If `.claude/sessions/_current` exists AND `.claude/sessions/{name}/errors.log` has entries:
+   - Remind user: "This session had N error(s). Consider running /learning-from-sessions before ending."
+2. If no session or no errors: skip this step
+
 ## Red Flags - STOP and Extract Learnings
 
 If you notice any of these, STOP immediately:

@@ -10,6 +10,7 @@ commandbase/
 ├── newagents/       # Agents in development (→ ~/.claude/agents/)
 ├── newhooks/        # Hooks in development (→ ~/.claude/hooks/)
 │   └── nudge-commit-skill/  # PostToolUse hook enforcing /committing-changes
+├── scripts/         # Utility scripts
 └── .docs/           # Research, plans, and handoff documents
 ```
 

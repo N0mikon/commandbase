@@ -60,6 +60,13 @@ When no session:
 - Title format: `Session Learnings: {YYYY-MM-DD}`
 - Everything else works identically
 
+**Timing note:** errors.log is populated by two hooks:
+- `track-errors` (PostToolUseFailure) — real-time, subagent errors only
+- `harvest-errors` (Stop) — end-of-session, catches ALL errors from transcript
+
+Mid-session invocations only see real-time subagent errors. For complete
+error coverage, run at the start of the next session after harvest has run.
+
 ## Debug File Integration
 
 Before drafting learnings, scan `.docs/debug/` for recent debug files:

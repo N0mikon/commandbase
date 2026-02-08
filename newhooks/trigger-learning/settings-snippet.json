@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PreCompact": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'python3 ~/.claude/hooks/trigger-learning.py'"
+          }
+        ]
+      }
+    ]
+  }
+}

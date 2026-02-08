@@ -619,14 +619,14 @@ if __name__ == "__main__":
 - Merge settings snippet into `~/.claude/settings.json`
 
 ### Success Criteria:
-- [ ] `newhooks/track-errors/track-errors.py` created and functional
-- [ ] `newhooks/track-errors/settings-snippet.json` created
-- [ ] Hook silently exits when no session is active (exit 0)
-- [ ] Hook appends JSON entries to `.claude/sessions/{name}/errors.log` on tool failure
-- [ ] Log entries contain timestamp, tool, input summary, and error summary
-- [ ] Deployed to `~/.claude/hooks/track-errors.py`
-- [ ] Settings merged into `~/.claude/settings.json`
-- [ ] Hook verified in live session (trigger a deliberate bash failure, check log)
+- [x] `newhooks/track-errors/track-errors.py` created and functional
+- [x] `newhooks/track-errors/settings-snippet.json` created
+- [x] Hook silently exits when no session is active (exit 0)
+- [x] Hook appends JSON entries to `.claude/sessions/{name}/errors.log` on tool failure
+- [x] Log entries contain timestamp, tool, input summary, and error summary
+- [x] Deployed to `~/.claude/hooks/track-errors.py`
+- [x] Settings merged into `~/.claude/settings.json`
+- [x] Hook verified in live session (trigger a deliberate bash failure, check log)
 
 ---
 
@@ -742,15 +742,15 @@ After creating the handover document, check for session errors:
 - Redeploy handing-over: `cp newskills/handing-over/SKILL.md ~/.claude/skills/handing-over/SKILL.md`
 
 ### Success Criteria:
-- [ ] `newhooks/trigger-learning/trigger-learning.py` created and functional
-- [ ] `newhooks/trigger-learning/settings-snippet.json` created
-- [ ] Hook silently exits when no session or no errors (exit 0)
-- [ ] Hook sends stderr nudge when errors exist (exit 2)
-- [ ] Nudge message includes error count and skill invocation suggestion
-- [ ] `/handing-over` includes Learning Check section
-- [ ] Deployed to `~/.claude/hooks/trigger-learning.py`
-- [ ] Settings merged into `~/.claude/settings.json`
-- [ ] Verified: trigger compaction with errors logged → nudge appears
+- [x] `newhooks/trigger-learning/trigger-learning.py` created and functional
+- [x] `newhooks/trigger-learning/settings-snippet.json` created
+- [x] Hook silently exits when no session or no errors (exit 0)
+- [x] Hook sends stderr nudge when errors exist (exit 2)
+- [x] Nudge message includes error count and skill invocation suggestion
+- [x] `/handing-over` includes Learning Check section
+- [x] Deployed to `~/.claude/hooks/trigger-learning.py`
+- [x] Settings merged into `~/.claude/settings.json`
+- [x] Verified: trigger compaction with errors logged → nudge appears
 
 ---
 

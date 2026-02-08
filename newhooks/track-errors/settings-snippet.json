@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUseFailure": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'python3 ~/.claude/hooks/track-errors.py'"
+          }
+        ]
+      }
+    ]
+  }
+}

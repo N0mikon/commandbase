@@ -61,9 +61,12 @@ Enter a session name (kebab-case, 3-40 chars):
 
 ### Step 2: Check for Existing Session
 
-Check if `.claude/sessions/_current` exists in the project root:
+Check for existing sessions in two places:
 
-- **If `_current` exists**: Read the current session name and warn:
+1. Read `.claude/sessions/session-map.json` — list any existing named sessions
+2. Check if `.claude/sessions/_current` exists as a fallback
+
+- **If sessions exist** (in session-map.json or `_current`): Warn:
   ```
   An active session already exists: "{current-name}"
 
@@ -74,7 +77,7 @@ Check if `.claude/sessions/_current` exists in the project root:
 
   Which would you prefer?
   ```
-- **If `_current` does not exist**: Proceed to Step 3
+- **If no existing sessions**: Proceed to Step 3
 
 ### Step 3: Suggest and Confirm Name
 
@@ -125,6 +128,13 @@ Once the name is confirmed and validated:
    }
    ```
 3. Write `.claude/sessions/_current` with just the session name string (no newline, no JSON)
+4. Update `.claude/sessions/session-map.json` — add/update the mapping from session_id to session name:
+   ```json
+   {
+     "<session_id>": {"name": "<confirmed name>", "created": "<ISO 8601 timestamp>"}
+   }
+   ```
+   If the file already exists, merge the new entry (read, parse, add key, write back). If it doesn't exist, create it with just this entry. Use atomic write (write to temp file, then rename) to avoid corruption from concurrent terminals.
 
 ### Step 6: Confirm Creation
 
@@ -134,11 +144,13 @@ Session named: "{name}"
 Created:
   .claude/sessions/{name}/meta.json
   .claude/sessions/_current
+  .claude/sessions/session-map.json (updated)
 
 Session-aware skills will now use this session:
   /bookmarking-code  - checkpoints written to session folder
   /handing-over      - handoffs include session context
   /implementing-plans - mandatory checkpoints are session-scoped
+  /resuming-sessions - session can be resumed after exit
 
 To end this session's tracking, delete .claude/sessions/_current
 ```
@@ -155,9 +167,10 @@ Session ID: {uuid}
 Branch: {branch}
 Folder: .claude/sessions/{name}/
 
-Files created:
+Files created/updated:
 - .claude/sessions/{name}/meta.json
 - .claude/sessions/_current
+- .claude/sessions/session-map.json
 ```
 
 ## Error Recovery
