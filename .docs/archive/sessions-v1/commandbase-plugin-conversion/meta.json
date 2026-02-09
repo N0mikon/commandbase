@@ -1,0 +1,7 @@
+{
+  "sessionId": "commandbase-plugin-conversion",
+  "name": "commandbase-plugin-conversion",
+  "created": "2026-02-08T16:49:00.000Z",
+  "gitBranch": "master",
+  "summary": "Restructure commandbase repo from flat layout into 8 domain-based Claude Code plugins"
+}
