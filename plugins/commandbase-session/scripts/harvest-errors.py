@@ -14,10 +14,12 @@ Always exits 0 — never exit 2 (which would restart the conversation).
 """
 import json
 import re
-import subprocess
 import sys
 import os
 from datetime import datetime, timezone
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from session_utils import normalize_path, resolve_session, get_session_dir, summarize_input, atomic_write_json
 
 
 EXIT_CODE_RE = re.compile(r"Exit code: (\d+)")
@@ -25,31 +27,6 @@ SKIP_ERRORS = frozenset([
     "Sibling tool call errored",
     "The user doesn't want to proceed with this tool use.",
 ])
-
-
-def normalize_path(path):
-    """Convert MINGW paths (/c/...) to Windows paths (C:\\...) on win32."""
-    if sys.platform != "win32" or not path.startswith("/"):
-        return path
-    try:
-        result = subprocess.run(
-            ["cygpath", "-w", path], capture_output=True, text=True, timeout=2
-        )
-        if result.returncode == 0:
-            return result.stdout.strip()
-    except (FileNotFoundError, subprocess.TimeoutExpired, subprocess.SubprocessError):
-        pass
-    return path
-
-
-def _summarize_input(tool_input):
-    """Extract the most relevant part of tool input for logging."""
-    if isinstance(tool_input, dict):
-        for key in ("command", "file_path", "pattern", "query"):
-            if key in tool_input:
-                return str(tool_input[key])[:200]
-        return str(tool_input)[:200]
-    return str(tool_input)[:200]
 
 
 def _extract_error_text(content):
@@ -131,32 +108,22 @@ def _load_existing_entries(log_path):
     return entries, key_to_index
 
 
-def _resolve_session(cwd, session_id):
-    """Resolve session name from session-map.json, fall back to _current."""
-    sessions_dir = os.path.join(cwd, ".claude", "sessions")
-
-    # Try session-map.json first (concurrent-safe)
-    map_path = os.path.join(sessions_dir, "session-map.json")
-    if session_id and os.path.exists(map_path):
+def _atomic_write_jsonl(path, entries):
+    """Atomic JSONL rewrite via temp file + os.replace()."""
+    tmp_path = path + ".tmp"
+    try:
+        with open(tmp_path, "w", encoding="utf-8") as f:
+            for entry in entries:
+                f.write(json.dumps(entry) + "\n")
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(tmp_path, path)
+    except Exception:
         try:
-            with open(map_path, "r", encoding="utf-8") as f:
-                session_map = json.load(f)
-            entry = session_map.get(session_id)
-            if entry:
-                return entry.get("name", "")
-        except (json.JSONDecodeError, IOError, OSError):
+            os.remove(tmp_path)
+        except OSError:
             pass
-
-    # Fall back to _current (backward compat)
-    current_file = os.path.join(sessions_dir, "_current")
-    if os.path.exists(current_file):
-        try:
-            with open(current_file, "r") as f:
-                return f.read().strip()
-        except (IOError, OSError):
-            pass
-
-    return ""
+        raise
 
 
 def main():
@@ -178,14 +145,13 @@ def main():
 
     # Check for active session
     session_id = input_data.get("session_id", "")
-    session_name = _resolve_session(cwd, session_id)
+    session_name = resolve_session(cwd, session_id)
 
     if not session_name:
         sys.exit(0)
 
     # Prepare output path
-    session_dir = os.path.join(cwd, ".claude", "sessions", session_name)
-    os.makedirs(session_dir, exist_ok=True)
+    session_dir = get_session_dir(cwd, session_name)
     log_path = os.path.join(session_dir, "errors.log")
 
     # Load existing entries for deduplication and backfill
@@ -256,7 +222,7 @@ def main():
                         tool_use_id = block.get("tool_use_id", "")
                         tool_info = tool_index.get(tool_use_id, {})
                         tool_name = tool_info.get("name", "unknown")
-                        tool_input = _summarize_input(tool_info.get("input", {}))
+                        tool_input = summarize_input(tool_info.get("input", {}))
 
                         # Deduplicate against existing entries
                         dedup_key = (tool_name, tool_input)
@@ -284,12 +250,10 @@ def main():
 
     # Write results
     if backfilled:
-        # Rewrite entire file (existing entries updated + new errors)
+        # Atomic rewrite: existing entries (updated) + new errors
         try:
             all_entries = existing_entries + new_errors
-            with open(log_path, "w", encoding="utf-8") as f:
-                for entry in all_entries:
-                    f.write(json.dumps(entry) + "\n")
+            _atomic_write_jsonl(log_path, all_entries)
         except (IOError, OSError):
             pass
     elif new_errors:

@@ -270,6 +270,31 @@ To set up manually:
 3. Run: /committing-changes again
 ```
 
+## Squash Merge Context
+
+When invoked by `/ending-session` after `git merge --squash`, the workflow adapts. Detect this state:
+
+```bash
+# Squash merge leaves files pre-staged and creates MERGE_MSG
+git_dir=$(git rev-parse --git-dir)
+cached=$(git diff --cached --stat)
+merge_msg="$git_dir/MERGE_MSG"
+```
+
+If `$cached` has content AND `$merge_msg` exists: squash merge context is active.
+
+**Adapted steps:**
+
+1. **Skip Step 2** (stale docs check) -- the session's docs are the new content being committed; staleness doesn't apply.
+2. **Step 3** (analyze changes): Use `git diff --cached` instead of `git diff`. Report: "Squash merge detected. Files are pre-staged. Reviewing staged changes."
+3. **Skip Step 4 staging** -- files are pre-staged by `git merge --squash`. Do NOT re-stage or unstage files. Proceed directly to commit message.
+4. **Step 5** (sensitive file verification): Still applies -- scan staged files for .env, credentials, keys.
+5. **Step 5 security** (public repos): Still applies -- run `/reviewing-security` on staged files.
+6. **Commit message**: Summarize the session's work (e.g., "Add JWT authentication with login/logout endpoints"). `/ending-session` provides the session summary context. Read `MERGE_MSG` for additional context.
+7. **Step 7** (push): Still applies -- push to remote, handle divergence.
+
+**Iron Law still holds**: Review `git diff --cached` before committing. The diff shows the session's entire body of work.
+
 ## The Bottom Line
 
 **No shortcuts for committing.**

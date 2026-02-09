@@ -28,7 +28,7 @@ Never document a learning that wasn't verified during the session. Never save wi
 ```
 BEFORE capturing learnings:
 
-1. SESSION: Check .claude/sessions/_current for active session context
+1. SESSION: Detect repo layout, find session for current worktree via session-map.json. Fall back to _current.
 2. DETECT: Recognize that extractable knowledge exists (trigger conditions or user request)
 3. ERRORS: Read session errors.log if available (pull error context)
 4. DEBUG: Scan .docs/debug/ for recent debug files from this session
@@ -44,11 +44,16 @@ Skip any step = risk saving bad knowledge
 
 ## Session Awareness
 
-Before capturing learnings, check for an active session:
+Before capturing learnings, detect the active session:
 
-1. Check if `.claude/sessions/_current` exists
-2. If YES: Read session name, use it in learnings title and metadata
-3. If NO: Use current date instead of session name (default behavior)
+1. Detect repo layout:
+   ```bash
+   git_common=$(git rev-parse --git-common-dir 2>/dev/null)
+   git_dir=$(git rev-parse --git-dir 2>/dev/null)
+   ```
+2. If bare-worktree layout (paths differ): read container-level `session-map.json`, find entry whose `worktree` matches current cwd. Read session name.
+3. Fallback: check `.claude/sessions/_current` for legacy sessions.
+4. If no session found: Use current date instead of session name (default behavior).
 
 When session-scoped:
 - Read `.claude/sessions/{name}/errors.log` if it exists — incorporate error context into learnings
@@ -147,7 +152,7 @@ If answers are thin ("it was just a typo"), the discovery fails the worth assess
 
 ### Step 3: Gather Error Context
 
-When a session is active (`.claude/sessions/_current` exists):
+When a session is active (detected via session-map.json worktree match or `_current` fallback):
 
 1. Read `.claude/sessions/{name}/errors.log` if it exists
 2. For each error: extract tool name, input summary, and error summary

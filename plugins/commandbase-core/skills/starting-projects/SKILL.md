@@ -142,8 +142,8 @@ Your project is initialized!
 - `/validating-code` - Validate implementation against plan
 - `/committing-changes` - Commit and push changes
 - `/creating-prs` - Create pull requests
-- `/handing-over` - Save context when ending a session
-- `/taking-over` - Resume from a handover document
+- `/ending-session` - End a session (merge, handoff, or discard)
+- `/resuming-session` - Resume a session or pick up from a handover
 ```
 
 ## Red Flags - STOP and Verify

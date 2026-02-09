@@ -24,11 +24,16 @@ Before creating or verifying checkpoints, confirm git state is clean or intentio
 
 ## Session Awareness
 
-Before creating or verifying checkpoints, check for an active session:
+Before creating or verifying checkpoints, detect the active session:
 
-1. Check if `.claude/sessions/_current` exists
-2. If YES: Read session name, use `.claude/sessions/{name}/checkpoints.log`
-3. If NO: Use `.claude/checkpoints.log` (default behavior)
+1. Detect repo layout:
+   ```bash
+   git_common=$(git rev-parse --git-common-dir 2>/dev/null)
+   git_dir=$(git rev-parse --git-dir 2>/dev/null)
+   ```
+2. If bare-worktree layout (paths differ): read container-level `session-map.json`, find entry whose `worktree` matches current cwd. Use `.claude/sessions/{name}/checkpoints.log` in the worktree.
+3. Fallback: check `.claude/sessions/_current` for legacy sessions.
+4. If no session found: Use `.claude/checkpoints.log` (default behavior).
 
 When session-scoped:
 - Checkpoint names are automatically prefixed: `{session-name}:{checkpoint-name}`
@@ -41,9 +46,9 @@ When session-scoped:
 BEFORE any checkpoint operation:
 
 1. IDENTIFY: Which operation? (create/verify/list/clear)
-2. SESSION: Check .claude/sessions/_current for active session
+2. SESSION: Detect repo layout, find session for current worktree via session-map.json. Fall back to _current.
 3. CHECK: Does checkpoint log exist? Create if needed.
-   - Session active: .claude/sessions/{name}/checkpoints.log
+   - Session active: .claude/sessions/{name}/checkpoints.log (in worktree root)
    - No session: .claude/checkpoints.log
 4. VERIFY: For create - is git state acceptable?
           For verify - does checkpoint name exist?
@@ -63,8 +68,8 @@ Creates a named checkpoint at current git state.
 1. Check git status for uncommitted changes
 2. If dirty, ask user to confirm or commit first
 3. Get current git SHA: `git rev-parse --short HEAD`
-4. Determine checkpoint log location:
-   - If `.claude/sessions/_current` exists: use `.claude/sessions/{name}/checkpoints.log`
+4. Determine checkpoint log location (using session detection from Gate Function step 2):
+   - If session found: use `.claude/sessions/{name}/checkpoints.log`
    - Otherwise: use `.claude/checkpoints.log`
 5. Append to the checkpoint log:
    ```
@@ -100,8 +105,8 @@ Which would you prefer?
 Compares current state to a named checkpoint.
 
 **Process:**
-1. Determine checkpoint log location:
-   - If `.claude/sessions/_current` exists: search `.claude/sessions/{name}/checkpoints.log` first
+1. Determine checkpoint log location (using session detection from Gate Function step 2):
+   - If session found: search `.claude/sessions/{name}/checkpoints.log` first
    - If not found in session log (or no session): fall back to `.claude/checkpoints.log`
 2. Find checkpoint by name (use most recent if duplicates)
 3. If not found in either log, list available checkpoints
@@ -245,7 +250,7 @@ If you notice any of these, pause:
 
 ## Workflow Integration
 
-Checkpoints integrate with the RPI workflow. When a session is named via `/naming-session`, all checkpoints are automatically scoped to the session folder.
+Checkpoints integrate with the RPI workflow. When a session is created via `/starting-session`, all checkpoints are automatically scoped to the session's worktree folder.
 
 ```
 /planning-code → Plan approved → /bookmarking-code create "plan-approved"

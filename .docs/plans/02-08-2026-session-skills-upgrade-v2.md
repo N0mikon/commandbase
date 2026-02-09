@@ -227,13 +227,16 @@ ls -la
 ### Verification Checklist
 
 After running the commands, verify before opening Claude Code:
-- [ ] `/c/code/commandbase/.bare/` exists and contains git internals
-- [ ] `/c/code/commandbase/main/` exists with all project files
-- [ ] `/c/code/commandbase/session-map.json` exists (contains `{}`)
-- [ ] `git status` from `commandbase/main/` works correctly
-- [ ] `git log` shows the expected commit history
-- [ ] `.claude/sessions/` listed in `.gitignore`
-- [ ] CLAUDE.md, plugins/, .docs/ all present in `main/`
+- [x] `/c/code/commandbase/.bare/` exists and contains git internals (`core.bare = true`)
+- [x] `/c/code/commandbase/main/` exists with all project files
+- [x] `/c/code/commandbase/session-map.json` exists (contains `{}`)
+- [x] `git status` from `commandbase/main/` works correctly (clean tree)
+- [x] `git log` shows the expected commit history (HEAD at `e388b0e`)
+- [x] `.claude/sessions/` already in `.gitignore` (from pre-migration commit)
+- [x] CLAUDE.md, plugins/, .docs/ all present in `main/`
+- [x] No nested duplicate directories (`.claude/.claude/`, `.docs/.docs/` cleaned up -- caused by `cp -r` copying into directories git already checked out)
+
+**Note**: The migration `cp -r` command can create nested duplicates when copying directories that `git worktree add` already checked out. The corrected copy should target only truly untracked directories, or check for duplicates after copying. The Phase 3 SKILL.md should warn about this.
 
 ### After Migration
 
@@ -316,15 +319,15 @@ Open Claude Code in `/c/code/commandbase/main/` (not `/c/code/commandbase/`). Th
 Note: Functions 12-14 are reference implementations. Skills will execute these git commands directly via Bash tool, but the functions document the exact commands and error handling.
 
 ### Success Criteria
-- [ ] `session_utils.py` exists at `plugins/commandbase-session/scripts/session_utils.py`
-- [ ] All 14 functions are implemented
-- [ ] `detect_repo_layout` correctly distinguishes worktree vs regular repo
-- [ ] `get_container_dir` finds container for both layouts
-- [ ] `get_session_map_path` returns correct path for both layouts
-- [ ] `resolve_session` resolves by worktree path match first, then session_id, then `_current` fallback
-- [ ] `atomic_write_json` uses `os.replace()` pattern (not direct `open("w")`)
-- [ ] Module imports successfully: `python3 -c "from session_utils import resolve_session"`
-- [ ] No external dependencies (stdlib only: `json`, `os`, `sys`, `subprocess`, `tempfile`, `datetime`)
+- [x] `session_utils.py` exists at `plugins/commandbase-session/scripts/session_utils.py`
+- [x] All 14 functions are implemented
+- [x] `detect_repo_layout` correctly distinguishes worktree vs regular repo
+- [x] `get_container_dir` finds container for both layouts
+- [x] `get_session_map_path` returns correct path for both layouts
+- [x] `resolve_session` resolves by worktree path match first, then session_id, then `_current` fallback
+- [x] `atomic_write_json` uses `os.replace()` pattern (not direct `open("w")`)
+- [x] Module imports successfully: `python3 -c "from session_utils import resolve_session"`
+- [x] No external dependencies (stdlib only: `json`, `os`, `sys`, `subprocess`, `tempfile`, `datetime`)
 
 ## Phase 2: Add `detect-session.py` SessionStart Hook
 
@@ -390,12 +393,12 @@ Before completing this phase, verify:
 If SessionStart + exit 2 does NOT work as expected, fallback approach: the `/starting-session` skill itself prints the session_id at the end of its output, and `/resuming-session` reads it from session-map.json. The hook becomes informational only (exit 0).
 
 ### Success Criteria
-- [ ] `detect-session.py` exists and imports from `session_utils`
-- [ ] Correctly detects bare-worktree vs regular repo layout
-- [ ] Reports session name + branch + worktree path when mapped
-- [ ] Reports "main branch" context when in main worktree
-- [ ] Reports "regular repo" context when not migrated
-- [ ] `hooks.json` has SessionStart entry
+- [x] `detect-session.py` exists and imports from `session_utils`
+- [x] Correctly detects bare-worktree vs regular repo layout
+- [x] Reports session name + branch + worktree path when mapped
+- [x] Reports "main branch" context when in main worktree
+- [x] Reports "regular repo" context when not migrated
+- [x] `hooks.json` has SessionStart entry
 - [ ] Hook fires on Claude Code session start (manual test)
 - [ ] Session info appears in Claude's conversation context (manual test)
 
@@ -469,9 +472,14 @@ Triggered when `detect_repo_layout(cwd)` returns `"regular"`. One-time per proje
    # (this checks out all tracked files into main/ automatically)
    git -C commandbase/.bare worktree add ../main master  # or 'main' if default branch
 
-   # Copy only untracked/ignored files that worktree add didn't check out
-   cp -r commandbase-migrating/.claude commandbase/main/.claude 2>/dev/null
-   cp -r commandbase-migrating/.docs commandbase/main/.docs 2>/dev/null
+   # Copy only untracked/ignored files that worktree add didn't check out.
+   # WARNING: If .claude/ or .docs/ are tracked by git, they already exist in main/.
+   # Use cp with individual files or merge carefully to avoid nested duplicates
+   # (e.g., .claude/.claude/ from copying .claude/ into an existing .claude/).
+   # Only copy the CONTENTS of untracked subdirectories:
+   cp -rn commandbase-migrating/.claude/* commandbase/main/.claude/ 2>/dev/null
+   cp -rn commandbase-migrating/.docs/* commandbase/main/.docs/ 2>/dev/null
+   # -n = no-clobber (don't overwrite files git already checked out)
    # Add any other untracked directories your project uses
 
    # Clean up the old directory
@@ -587,18 +595,18 @@ Skip confirmation = session without consent
 ```
 
 ### Success Criteria
-- [ ] `starting-session/SKILL.md` exists with valid frontmatter (name matches directory)
-- [ ] Description follows formula: "Use this skill when..."
-- [ ] Uses gerund-form name: `starting-session`
-- [ ] SKILL.md under 500 lines
-- [ ] Mode A: bare repo migration documented with exact commands
-- [ ] Mode A: migration adds `.claude/sessions/` to `.gitignore`
-- [ ] Mode A: warns user their daily path will change
-- [ ] Mode B: creates git branch with type prefix
-- [ ] Mode B: creates worktree in container directory
-- [ ] Mode B: writes meta.json to worktree's `.claude/sessions/`
-- [ ] Mode B: updates container-level session-map.json with branch + worktree fields
-- [ ] Mode B: instructs user to `cd` to new worktree
+- [x] `starting-session/SKILL.md` exists with valid frontmatter (name matches directory)
+- [x] Description follows formula: "Use this skill when..."
+- [x] Uses gerund-form name: `starting-session`
+- [x] SKILL.md under 500 lines
+- [x] Mode A: bare repo migration documented with exact commands
+- [x] Mode A: migration adds `.claude/sessions/` to `.gitignore`
+- [x] Mode A: warns user their daily path will change
+- [x] Mode B: creates git branch with type prefix
+- [x] Mode B: creates worktree in container directory
+- [x] Mode B: writes meta.json to worktree's `.claude/sessions/`
+- [x] Mode B: updates container-level session-map.json with branch + worktree fields
+- [x] Mode B: instructs user to `cd` to new worktree
 
 ## Phase 4: Create `/ending-session` Skill
 
@@ -799,18 +807,18 @@ Skip conflict check = surprise merge failures
 ```
 
 ### Success Criteria
-- [ ] `ending-session/SKILL.md` exists with valid frontmatter
-- [ ] Description follows formula, includes merge + handoff trigger phrases
-- [ ] Mode A: dry-run conflict check before squash merge
-- [ ] Mode A: CLAUDE.md diff review before commit (keep or discard session-only changes)
-- [ ] Mode A: squash merge + commit + push via `/committing-changes`
-- [ ] Mode A: removes worktree + deletes branch after merge
-- [ ] Mode B: creates handoff doc, keeps branch + worktree open
-- [ ] Mode B: sets status "handed-off" (not "ended")
-- [ ] Mode C: requires explicit confirmation before discarding
-- [ ] Learning check fires in all modes (before worktree removal)
-- [ ] Updates session-map.json status in all modes
-- [ ] SKILL.md under 500 lines
+- [x] `ending-session/SKILL.md` exists with valid frontmatter
+- [x] Description follows formula, includes merge + handoff trigger phrases
+- [x] Mode A: dry-run conflict check before squash merge
+- [x] Mode A: CLAUDE.md diff review before commit (keep or discard session-only changes)
+- [x] Mode A: squash merge + commit + push via `/committing-changes`
+- [x] Mode A: removes worktree + deletes branch after merge
+- [x] Mode B: creates handoff doc, keeps branch + worktree open
+- [x] Mode B: sets status "handed-off" (not "ended")
+- [x] Mode C: requires explicit confirmation before discarding
+- [x] Learning check fires in all modes (before worktree removal)
+- [x] Updates session-map.json status in all modes
+- [x] SKILL.md under 500 lines
 
 ## Phase 5: Create `/resuming-session` Skill
 
@@ -935,15 +943,15 @@ Skip reading = guessing instead of knowing
 ```
 
 ### Success Criteria
-- [ ] `resuming-session/SKILL.md` exists with valid frontmatter
-- [ ] Description covers resume, takeover, and switch-to-session trigger phrases
-- [ ] Auto-detection logic documented in Gate Function
-- [ ] Mode A: reads worktree state files, directs user to worktree directory
-- [ ] Mode B: reads handoff doc, checks worktree existence, offers recovery
-- [ ] Mode C: unified picker for multiple candidates
-- [ ] Staleness detection is a single shared section, not duplicated
-- [ ] Session status awareness: "active" vs "handed-off" affects mode selection
-- [ ] SKILL.md under 500 lines (use reference files if needed)
+- [x] `resuming-session/SKILL.md` exists with valid frontmatter
+- [x] Description covers resume, takeover, and switch-to-session trigger phrases
+- [x] Auto-detection logic documented in Gate Function
+- [x] Mode A: reads worktree state files, directs user to worktree directory
+- [x] Mode B: reads handoff doc, checks worktree existence, offers recovery
+- [x] Mode C: unified picker for multiple candidates
+- [x] Staleness detection is a single shared section, not duplicated
+- [x] Session status awareness: "active" vs "handed-off" affects mode selection
+- [x] SKILL.md under 500 lines (use reference files if needed)
 
 ## Phase 6: Refactor Hook Scripts to Use `session_utils.py`
 
@@ -995,15 +1003,15 @@ mv plugins/commandbase-session/hooks/hooks.json.bak plugins/commandbase-session/
 Hooks resume firing with the refactored scripts. If a script fails after re-enabling, the hook exits non-zero and Claude Code shows the error -- fix immediately or re-disable.
 
 ### Success Criteria
-- [ ] Hooks disabled before any script modifications
-- [ ] All 3 scripts import from `session_utils` instead of inline functions
-- [ ] No duplicate `normalize_path()` in any script
-- [ ] No duplicate `_resolve_session()` (now `resolve_session()`) in any script
-- [ ] `resolve_session` uses worktree-aware resolution from session_utils
-- [ ] `harvest-errors.py` backfill uses atomic write pattern
-- [ ] All 3 scripts still function correctly (manual test: run each with sample stdin JSON)
-- [ ] `detect-session.py` (from Phase 2) also imports from `session_utils`
-- [ ] Hooks re-enabled after verification
+- [x] Hooks disabled before any script modifications
+- [x] All 3 scripts import from `session_utils` instead of inline functions
+- [x] No duplicate `normalize_path()` in any script
+- [x] No duplicate `_resolve_session()` (now `resolve_session()`) in any script
+- [x] `resolve_session` uses worktree-aware resolution from session_utils
+- [x] `harvest-errors.py` backfill uses atomic write pattern
+- [x] All 3 scripts still function correctly (manual test: run each with sample stdin JSON)
+- [x] `detect-session.py` (from Phase 2) also imports from `session_utils`
+- [x] Hooks re-enabled after verification
 
 ## Phase 7: Update `/bookmarking-code`
 
@@ -1031,13 +1039,13 @@ Hooks resume firing with the refactored scripts. If a script fails after re-enab
 6. **No structural changes** to the checkpoint format, operations, or storage. This is a surgical edit to session discovery only.
 
 ### Success Criteria
-- [ ] Session discovery uses worktree-aware detection, `_current` as fallback
-- [ ] All references to `/naming-session` updated to `/starting-session`
-- [ ] Gate Function updated
-- [ ] Session Awareness section updated
-- [ ] Checkpoint operations unchanged (create, verify, list, clear)
-- [ ] Works in both bare-worktree and regular repo layouts
-- [ ] SKILL.md under 500 lines
+- [x] Session discovery uses worktree-aware detection, `_current` as fallback
+- [x] All references to `/naming-session` updated to `/starting-session`
+- [x] Gate Function updated
+- [x] Session Awareness section updated
+- [x] Checkpoint operations unchanged (create, verify, list, clear)
+- [x] Works in both bare-worktree and regular repo layouts
+- [x] SKILL.md under 500 lines
 
 ## Phase 8: Update Plugin Manifests, Hooks, CLAUDE.md, and `/committing-changes`
 
@@ -1082,13 +1090,13 @@ Add a "Squash Merge Context" section (after Edge Case Handling) that adapts the 
 Detection: the skill can recognize the squash merge context when `git diff --cached` has content and `MERGE_MSG` exists in `.git/` (git creates this file during `--squash`).
 
 ### Success Criteria
-- [ ] plugin.json version bumped to 2.0.0
-- [ ] plugin.json description mentions git branching and worktrees
-- [ ] hooks.json has all 4 hook entries (PostToolUseFailure, Stop, PreCompact, SessionStart)
-- [ ] CLAUDE.md references updated -- no old skill names remain
-- [ ] CLAUDE.md documents bare repo container layout
-- [ ] `/committing-changes` handles squash merge context (skip staging, skip stale docs, review cached diff)
-- [ ] `/committing-changes` detects pre-staged state via `git diff --cached` + `MERGE_MSG` presence
+- [x] plugin.json version bumped to 2.0.0
+- [x] plugin.json description mentions git branching and worktrees
+- [x] hooks.json has all 4 hook entries (PostToolUseFailure, Stop, PreCompact, SessionStart)
+- [x] CLAUDE.md references updated -- no old skill names remain
+- [x] CLAUDE.md documents bare repo container layout
+- [x] `/committing-changes` handles squash merge context (skip staging, skip stale docs, review cached diff)
+- [x] `/committing-changes` detects pre-staged state via `git diff --cached` + `MERGE_MSG` presence
 
 ## Phase 9: Remove Old Skills
 
@@ -1120,13 +1128,13 @@ Update session discovery in `/learning-from-sessions` to use worktree-aware dete
 - Projects not yet migrated to bare repo pattern continue working with regular repo layout until first `/starting-session`
 
 ### Success Criteria
-- [ ] `naming-session/` directory deleted
-- [ ] `handing-over/` directory deleted
-- [ ] `taking-over/` directory deleted
-- [ ] `resuming-sessions/` directory deleted
-- [ ] `learning-from-sessions/` directory STILL EXISTS (not deleted)
-- [ ] `learning-from-sessions` session discovery updated to worktree-aware
-- [ ] No broken references to deleted skills in remaining files
+- [x] `naming-session/` directory deleted
+- [x] `handing-over/` directory deleted
+- [x] `taking-over/` directory deleted
+- [x] `resuming-sessions/` directory deleted
+- [x] `learning-from-sessions/` directory STILL EXISTS (not deleted)
+- [x] `learning-from-sessions` session discovery updated to worktree-aware
+- [x] No broken references to deleted skills in remaining files
 
 ## Risk Assessment
 

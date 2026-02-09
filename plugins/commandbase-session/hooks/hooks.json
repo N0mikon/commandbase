@@ -30,6 +30,16 @@
           }
         ]
       }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'python3 ${CLAUDE_PLUGIN_ROOT}/scripts/detect-session.py'"
+          }
+        ]
+      }
     ]
   }
 }

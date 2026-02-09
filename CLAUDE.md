@@ -15,7 +15,7 @@ commandbase/
 │   ├── commandbase-services/ # 6 skills
 │   ├── commandbase-research/ # 4 skills + 1 agent
 │   ├── commandbase-git-workflow/ # 5 skills + 1 hook
-│   ├── commandbase-session/  # 5 skills + 3 hooks
+│   ├── commandbase-session/  # 3 skills + 4 hooks (v2: git branching + worktrees)
 │   └── commandbase-meta/     # 6 skills
 ├── scripts/                  # Utility scripts
 └── .docs/                    # Research, plans, and handoff documents
@@ -43,11 +43,15 @@ Skills are now at `plugins/<plugin>/skills/<skill>/SKILL.md` instead of `newskil
 2. **PostToolUse nudge hook** — bundled in commandbase-git-workflow plugin
 3. **Deny rules** — manually configured in `~/.claude/settings.json` (see `plugins/commandbase-git-workflow/SETUP.md`)
 
+## Bare Repo Layout
+
+This repo uses the bare repo + worktrees pattern. Container at `/c/code/commandbase/`, main worktree at `/c/code/commandbase/main/`. Session worktrees are created as peers (e.g., `feature/auth-mvp/`). `session-map.json` lives at the container level.
+
 ## Additional Context
 
 - `.docs/handoffs/` - Latest session context
 - `.docs/research/` - Pattern analysis from other repos
-- `/auditing-docs` - Standalone skill to audit `.docs/` staleness; 4 upstream-reading skills (taking-over, planning-code, designing-code, resuming-sessions) auto-refresh stale docs via docs-updater before reading
+- `/auditing-docs` - Standalone skill to audit `.docs/` staleness; 4 upstream-reading skills (resuming-session, planning-code, designing-code) auto-refresh stale docs via docs-updater before reading
 
 ## Automatic Behaviors
 

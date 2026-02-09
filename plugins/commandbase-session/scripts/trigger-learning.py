@@ -1,52 +1,11 @@
 #!/usr/bin/env python3
 """PreCompact hook: nudges /learning-from-sessions when errors exist."""
 import json
-import subprocess
 import sys
 import os
 
-
-def normalize_path(path):
-    """Convert MINGW paths (/c/...) to Windows paths (C:\\...) on win32."""
-    if sys.platform != "win32" or not path.startswith("/"):
-        return path
-    try:
-        result = subprocess.run(
-            ["cygpath", "-w", path], capture_output=True, text=True, timeout=2
-        )
-        if result.returncode == 0:
-            return result.stdout.strip()
-    except (FileNotFoundError, subprocess.TimeoutExpired, subprocess.SubprocessError):
-        pass
-    return path
-
-
-def _resolve_session(cwd, session_id):
-    """Resolve session name from session-map.json, fall back to _current."""
-    sessions_dir = os.path.join(cwd, ".claude", "sessions")
-
-    # Try session-map.json first (concurrent-safe)
-    map_path = os.path.join(sessions_dir, "session-map.json")
-    if session_id and os.path.exists(map_path):
-        try:
-            with open(map_path, "r", encoding="utf-8") as f:
-                session_map = json.load(f)
-            entry = session_map.get(session_id)
-            if entry:
-                return entry.get("name", "")
-        except (json.JSONDecodeError, IOError, OSError):
-            pass
-
-    # Fall back to _current (backward compat)
-    current_file = os.path.join(sessions_dir, "_current")
-    if os.path.exists(current_file):
-        try:
-            with open(current_file, "r") as f:
-                return f.read().strip()
-        except (IOError, OSError):
-            pass
-
-    return ""
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from session_utils import normalize_path, resolve_session, get_session_dir
 
 
 def main():
@@ -58,13 +17,14 @@ def main():
     # Check for active session
     cwd = normalize_path(input_data.get("cwd", "."))
     session_id = input_data.get("session_id", "")
-    session_name = _resolve_session(cwd, session_id)
+    session_name = resolve_session(cwd, session_id)
 
     if not session_name:
         sys.exit(0)  # No session, no nudge
 
     # Check if errors exist
-    errors_path = os.path.join(cwd, ".claude", "sessions", session_name, "errors.log")
+    session_dir = get_session_dir(cwd, session_name)
+    errors_path = os.path.join(session_dir, "errors.log")
 
     if not os.path.exists(errors_path):
         sys.exit(0)  # No errors, no nudge
