@@ -1,3 +1,4 @@
+# Session skills v2 validated
 #!/usr/bin/env python3
 """SessionStart hook: bridges native session_id into conversation context.
 
