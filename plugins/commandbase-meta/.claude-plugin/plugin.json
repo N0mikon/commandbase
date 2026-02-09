@@ -1,0 +1,5 @@
+{
+  "name": "commandbase-meta",
+  "version": "1.0.0",
+  "description": "Skill, agent, and hook authoring tools for building Claude Code extensions."
+}

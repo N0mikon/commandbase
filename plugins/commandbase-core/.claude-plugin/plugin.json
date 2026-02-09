@@ -1,0 +1,5 @@
+{
+  "name": "commandbase-core",
+  "version": "1.0.0",
+  "description": "Shared documentation agents and standalone utility skills. Install this first — other commandbase plugins depend on its agents (docs-writer, docs-updater, docs-locator, docs-analyzer)."
+}

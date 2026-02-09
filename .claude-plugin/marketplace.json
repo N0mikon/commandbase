@@ -1,0 +1,59 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "commandbase",
+  "version": "1.0.0",
+  "description": "Personal Claude Code workflow tools — skills, agents, and hooks for the RPI workflow",
+  "owner": {
+    "name": "N0mikon"
+  },
+  "plugins": [
+    {
+      "name": "commandbase-core",
+      "description": "Shared documentation agents and standalone utility skills. Install this first — other commandbase plugins depend on its agents.",
+      "source": "./plugins/commandbase-core",
+      "category": "productivity"
+    },
+    {
+      "name": "commandbase-code",
+      "description": "Code BRDSPI workflow — brainstorm, research, design, structure, plan, implement for software projects. Requires commandbase-core.",
+      "source": "./plugins/commandbase-code",
+      "category": "development"
+    },
+    {
+      "name": "commandbase-vault",
+      "description": "Vault BRDSPI workflow for Obsidian vault management. Requires commandbase-core.",
+      "source": "./plugins/commandbase-vault",
+      "category": "productivity"
+    },
+    {
+      "name": "commandbase-services",
+      "description": "Services BRDSPI workflow for homelab Docker infrastructure. Requires commandbase-core.",
+      "source": "./plugins/commandbase-services",
+      "category": "development"
+    },
+    {
+      "name": "commandbase-research",
+      "description": "Web and framework research with sourced documentation output. Requires commandbase-core.",
+      "source": "./plugins/commandbase-research",
+      "category": "productivity"
+    },
+    {
+      "name": "commandbase-git-workflow",
+      "description": "Opinionated git commit workflow with security review and docs staleness detection. Requires commandbase-core.",
+      "source": "./plugins/commandbase-git-workflow",
+      "category": "development"
+    },
+    {
+      "name": "commandbase-session",
+      "description": "Session continuity — naming, handover, takeover, error tracking, and learning extraction. Requires commandbase-core.",
+      "source": "./plugins/commandbase-session",
+      "category": "productivity"
+    },
+    {
+      "name": "commandbase-meta",
+      "description": "Skill, agent, and hook authoring tools for building Claude Code extensions.",
+      "source": "./plugins/commandbase-meta",
+      "category": "development"
+    }
+  ]
+}

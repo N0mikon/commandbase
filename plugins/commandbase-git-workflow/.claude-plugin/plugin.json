@@ -1,0 +1,5 @@
+{
+  "name": "commandbase-git-workflow",
+  "version": "1.0.0",
+  "description": "Opinionated git commit workflow with security review and docs staleness detection. Requires commandbase-core for docs agents. NOTE: For full commit enforcement, manually add deny rules from SETUP.md to your ~/.claude/settings.json."
+}

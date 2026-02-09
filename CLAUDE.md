@@ -6,49 +6,42 @@ Personal Claude Code workflow tools - skills, agents, and hooks for the RPI work
 
 ```
 commandbase/
-├── newskills/       # Skills in development (→ ~/.claude/skills/)
-├── newagents/       # Agents in development (→ ~/.claude/agents/)
-├── newhooks/        # Hooks in development (→ ~/.claude/hooks/)
-│   └── nudge-commit-skill/  # PostToolUse hook enforcing /committing-changes
-├── scripts/         # Utility scripts
-└── .docs/           # Research, plans, and handoff documents
+├── .claude-plugin/
+│   └── marketplace.json      # Marketplace manifest (8 plugins)
+├── plugins/
+│   ├── commandbase-core/     # 5 skills + 4 agents (install first)
+│   ├── commandbase-code/     # 8 skills + 3 agents
+│   ├── commandbase-vault/    # 8 skills
+│   ├── commandbase-services/ # 6 skills
+│   ├── commandbase-research/ # 3 skills + 1 agent
+│   ├── commandbase-git-workflow/ # 5 skills + 1 hook
+│   ├── commandbase-session/  # 5 skills + 3 hooks
+│   └── commandbase-meta/     # 6 skills
+├── scripts/                  # Utility scripts
+└── .docs/                    # Research, plans, and handoff documents
 ```
 
-## Development
+## Development & Deployment
 
-### Workflow: This Repo ↔ Global Config
-
-**This repo is the source of truth.** Skills are developed here and deployed to global.
-
+### Install from Local Marketplace
 ```bash
-# Deploy to global (after development)
-cp -r newskills/skillname ~/.claude/skills/
-cp newagents/agent.md ~/.claude/agents/
+# Add this repo as a marketplace source
+/plugin marketplace add /c/code/commandbase
 
-# Sync back to repo (after editing deployed skills)
-cp ~/.claude/skills/skillname/SKILL.md newskills/skillname/SKILL.md
+# Install plugins (core first, then domains)
+/plugin install commandbase-core
+/plugin install commandbase-code
+/plugin install commandbase-vault
+# ... etc
 ```
 
-**Important:** When editing skills via `/auditing-skills` or directly in `~/.claude/skills/`, always copy changes back to `newskills/` before committing. The global config is live but this repo tracks history.
-
-### Hooks Deployment
-
-Hooks are developed in `newhooks/` and deployed to `~/.claude/hooks/`. Each hook directory includes:
-- The hook script (`.py`)
-- A `settings-snippet.json` showing the required `~/.claude/settings.json` config
-
-```bash
-# Deploy hook
-cp newhooks/hookname/hookname.py ~/.claude/hooks/
-# Then merge settings-snippet.json into ~/.claude/settings.json
-```
+### Editing Skills in Plugins
+Skills are now at `plugins/<plugin>/skills/<skill>/SKILL.md` instead of `newskills/<skill>/SKILL.md`. Edit directly in the plugin directory.
 
 ### Commit Enforcement (3 layers)
-
-All commits must go through `/committing-changes`. Enforced by:
 1. **CLAUDE.md rule** — `~/.claude/CLAUDE.md` Git Workflow section
-2. **PostToolUse nudge hook** — `~/.claude/hooks/nudge-commit-skill.py` sends feedback if direct `git commit`/`push` detected
-3. **Deny rules** — `~/.claude/settings.json` hard-blocks patterns the skill never uses (`git add -A`, `--no-verify`, `--force`, `reset --hard`, etc.)
+2. **PostToolUse nudge hook** — bundled in commandbase-git-workflow plugin
+3. **Deny rules** — manually configured in `~/.claude/settings.json` (see `plugins/commandbase-git-workflow/SETUP.md`)
 
 ## Additional Context
 

@@ -1,17 +1,11 @@
+# commandbase-git-workflow Setup
+
+## Required: Deny Rules
+
+Plugins cannot inject deny rules into `~/.claude/settings.json`. For full commit enforcement, manually add these deny rules:
+
+```json
 {
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash -c 'python3 ~/.claude/hooks/nudge-commit-skill.py'"
-          }
-        ]
-      }
-    ]
-  },
   "permissions": {
     "deny": [
       "Bash(git add -A*)",
@@ -28,3 +22,6 @@
     ]
   }
 }
+```
+
+These rules block destructive git operations that bypass the `/committing-changes` skill workflow.

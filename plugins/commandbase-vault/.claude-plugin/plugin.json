@@ -1,0 +1,5 @@
+{
+  "name": "commandbase-vault",
+  "version": "1.0.0",
+  "description": "Vault BRDSPI workflow for Obsidian vault management — brainstorm, research, design, structure, plan, implement chain. Requires commandbase-core for docs agents."
+}

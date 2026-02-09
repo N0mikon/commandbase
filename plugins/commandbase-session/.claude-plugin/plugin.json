@@ -1,0 +1,5 @@
+{
+  "name": "commandbase-session",
+  "version": "1.0.0",
+  "description": "Session continuity — naming, handover, takeover, resume, error tracking, and learning extraction. Requires commandbase-core for docs agents."
+}

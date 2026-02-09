@@ -1,0 +1,35 @@
+{
+  "hooks": {
+    "PostToolUseFailure": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'python3 ${CLAUDE_PLUGIN_ROOT}/scripts/track-errors.py'"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'python3 ${CLAUDE_PLUGIN_ROOT}/scripts/harvest-errors.py'"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'python3 ${CLAUDE_PLUGIN_ROOT}/scripts/trigger-learning.py'"
+          }
+        ]
+      }
+    ]
+  }
+}

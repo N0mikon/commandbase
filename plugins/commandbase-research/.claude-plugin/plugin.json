@@ -1,0 +1,5 @@
+{
+  "name": "commandbase-research",
+  "version": "1.0.0",
+  "description": "Web and framework research with sourced documentation output. Requires commandbase-core for docs agents."
+}
