@@ -33,7 +33,7 @@
     },
     {
       "name": "commandbase-research",
-      "description": "Web and framework research with sourced documentation output. Requires commandbase-core.",
+      "description": "Web, framework, and repo research with sourced documentation output, plus cross-document analysis. Requires commandbase-core.",
       "source": "./plugins/commandbase-research",
       "category": "productivity"
     },

@@ -13,7 +13,7 @@ commandbase/
 │   ├── commandbase-code/     # 8 skills + 3 agents
 │   ├── commandbase-vault/    # 8 skills
 │   ├── commandbase-services/ # 6 skills
-│   ├── commandbase-research/ # 3 skills + 1 agent
+│   ├── commandbase-research/ # 4 skills + 1 agent
 │   ├── commandbase-git-workflow/ # 5 skills + 1 hook
 │   ├── commandbase-session/  # 5 skills + 3 hooks
 │   └── commandbase-meta/     # 6 skills
