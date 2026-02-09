@@ -161,7 +161,7 @@ Spawn a `docs-writer` agent via the Task tool to create the learnings document:
 
 ```
 Task prompt:
-  doc_type: "research"
+  doc_type: "learnings"
   topic: "Session Learnings: <session-name or YYYY-MM-DD>"
   tags: [learnings, <session-name if available>, <categories found>]
   references: [<files involved in learnings>]

@@ -107,6 +107,7 @@ For each logical group of changes:
    ```bash
    git add path/to/file1 path/to/file2
    ```
+   **Note:** Files removed via `git rm` earlier in the session are already staged for deletion. Do not re-add them — `git add` will fail with `fatal: pathspec did not match any files`.
 
 2. Commit with a clear message:
    ```bash
