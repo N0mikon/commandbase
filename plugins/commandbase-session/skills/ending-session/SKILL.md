@@ -49,12 +49,28 @@ First, confirm we're in a session worktree:
 # Get current worktree path
 worktree_path=$(git rev-parse --show-toplevel)
 
-# Get container
+# Get container and bare repo
 container=$(dirname "$(git rev-parse --git-common-dir)")
+bare="$container/.bare"
 
 # Get current branch
 branch=$(git rev-parse --abbrev-ref HEAD)
+
+# Check if running from main worktree
+main_worktree="$container/main"
 ```
+
+If `worktree_path` != `main_worktree`:
+```
+You're running /ending-session from inside the session worktree.
+Worktree cleanup requires running from main to avoid directory lock issues.
+
+Please switch to main first:
+cd {container}/main
+
+Then run /ending-session again.
+```
+**Stop execution — do not proceed with merge, handoff, or discard.**
 
 Read container-level `session-map.json` and find the entry matching this worktree.
 
@@ -165,9 +181,22 @@ Wait for user response before proceeding.
 ### Step 6: Remove worktree + branch
 
 ```bash
-cd {container}
-git worktree remove {type}/{session-name}
-git branch -d {type}/{session-name}
+git -C "$bare" worktree remove "$container/{type}/{session-name}"
+git -C "$bare" branch -d {type}/{session-name}
+git -C "$bare" push origin --delete {type}/{session-name} 2>/dev/null || true
+```
+
+**Why `-C "$bare"`**: The container directory is not a git repo — `.bare/` is. Running git commands from the container fails with `fatal: not a git repository`.
+
+**Why `|| true` on remote delete**: Remote branch may not exist for local-only sessions.
+
+After removal, verify the worktree directory is actually gone:
+```bash
+# Verify removal succeeded
+if [ -d "$container/{type}/{session-name}" ]; then
+  echo "Worktree directory persists (ghost state). Manual cleanup needed:"
+  echo "rm -rf $container/{type}/{session-name}"
+fi
 ```
 
 ### Step 7: Update session-map.json
@@ -183,6 +212,7 @@ Name: {session-name}
 Branch: {type}/{session-name} (merged + deleted)
 Squash commit: {sha} on main
 Worktree: removed
+Branch: deleted (local + remote)
 
 Work merged to main. You're now in: {container}/main/
 ```
@@ -231,9 +261,18 @@ Permanently abandons the session's work.
 
 2. Remove worktree + branch:
    ```bash
-   cd {container}
-   git worktree remove --force {type}/{session-name}
-   git branch -D {type}/{session-name}
+   git -C "$bare" worktree remove --force "$container/{type}/{session-name}"
+   git -C "$bare" branch -D {type}/{session-name}
+   git -C "$bare" push origin --delete {type}/{session-name} 2>/dev/null || true
+   ```
+
+   After removal, verify the worktree directory is actually gone:
+   ```bash
+   # Verify removal succeeded
+   if [ -d "$container/{type}/{session-name}" ]; then
+     echo "Worktree directory persists (ghost state). Manual cleanup needed:"
+     echo "rm -rf $container/{type}/{session-name}"
+   fi
    ```
 
 3. Update session-map.json: Set `status: "ended"`.

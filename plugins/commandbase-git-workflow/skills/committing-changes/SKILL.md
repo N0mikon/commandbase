@@ -109,9 +109,9 @@ For each logical group of changes:
    ```
    **Note:** Files removed via `git rm` earlier in the session are already staged for deletion. Do not re-add them — `git add` will fail with `fatal: pathspec did not match any files`.
 
-2. Commit with a clear message:
+2. Commit with a clear message. Append the `# via-committing-changes` marker to suppress the nudge hook:
    ```bash
-   git commit -m "Clear description of what changed and why"
+   git commit -m "Clear description of what changed and why" # via-committing-changes
    ```
 
 **Commit message guidelines:**
@@ -171,9 +171,9 @@ git remote -v
 
 ### Step 7: Push Changes
 
-Push to remote:
+Push to remote. Append the `# via-committing-changes` marker to suppress the nudge hook:
 ```bash
-git push -u origin HEAD
+git push -u origin HEAD # via-committing-changes
 ```
 
 If the branch doesn't exist on remote yet, this creates it.

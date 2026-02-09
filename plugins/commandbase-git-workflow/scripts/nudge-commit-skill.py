@@ -18,6 +18,10 @@ def main():
 
     # Detect direct git commit or git push
     if re.search(r"\bgit\s+(commit|push)\b", command):
+        # Suppress nudge when invoked from /committing-changes skill
+        if "# via-committing-changes" in command:
+            sys.exit(0)
+
         print(
             "NOTICE: A direct git commit/push was detected. "
             "Per project rules, all commits should go through the "

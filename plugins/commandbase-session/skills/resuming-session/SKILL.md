@@ -85,7 +85,9 @@ For sessions with status `"active"` and an existing worktree. The user restarted
 
 From the selected session's worktree, read `.claude/sessions/{name}/`:
 
-1. **meta.json** (required): sessionId, name, branch, worktree, created, gitBranch, summary
+1. **meta.json** (required): sessionId, claudeSessionIds, name, branch, worktree, created, gitBranch, summary
+   - Read `claudeSessionIds` array if present (new schema)
+   - Fall back to `sessionId` if `claudeSessionIds` is missing (old schema)
    - If missing: warn and offer to run `/starting-session` instead
 2. **errors.log** (optional): count total errors, extract most recent 3
 3. **checkpoints.log** (optional): list all checkpoint names and timestamps
@@ -117,6 +119,7 @@ Worktree: {worktree_path}
 Created: {created}
 Summary: {summary}
 
+Transcripts: {count} Claude sessions recorded
 Errors: {error_count} logged
 {if errors > 0:}
   Recent errors:

@@ -146,6 +146,24 @@ def update_session_map(cwd, session_id, entry):
     atomic_write_json(map_path, session_map)
 
 
+def update_meta_json(session_dir, claude_session_id):
+    """Append a Claude session UUID to meta.json's claudeSessionIds array."""
+    meta_path = os.path.join(session_dir, "meta.json")
+    meta = {}
+    if os.path.exists(meta_path):
+        try:
+            with open(meta_path, "r") as f:
+                meta = json.load(f)
+        except (json.JSONDecodeError, OSError):
+            return  # Don't corrupt existing meta.json
+
+    ids = meta.get("claudeSessionIds", [])
+    if claude_session_id and claude_session_id not in ids:
+        ids.append(claude_session_id)
+        meta["claudeSessionIds"] = ids
+        atomic_write_json(meta_path, meta)
+
+
 def resolve_session(cwd, session_id=""):
     """Resolve the session name for the given cwd and/or session_id.
 

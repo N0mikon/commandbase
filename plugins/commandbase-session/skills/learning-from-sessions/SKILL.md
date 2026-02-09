@@ -28,7 +28,7 @@ Never document a learning that wasn't verified during the session. Never save wi
 ```
 BEFORE capturing learnings:
 
-1. SESSION: Detect repo layout, find session for current worktree via session-map.json. Fall back to _current.
+1. SESSION: Detect repo layout, find session for current worktree via session-map.json. Fall back to _current. If post-session: read claudeSessionIds from meta.json.
 2. DETECT: Recognize that extractable knowledge exists (trigger conditions or user request)
 3. ERRORS: Read session errors.log if available (pull error context)
 4. DEBUG: Scan .docs/debug/ for recent debug files from this session
@@ -52,8 +52,10 @@ Before capturing learnings, detect the active session:
    git_dir=$(git rev-parse --git-dir 2>/dev/null)
    ```
 2. If bare-worktree layout (paths differ): read container-level `session-map.json`, find entry whose `worktree` matches current cwd. Read session name.
-3. Fallback: check `.claude/sessions/_current` for legacy sessions.
-4. If no session found: Use current date instead of session name (default behavior).
+3. If session-map entry has `claudeSessionIds` array: note these for transcript access.
+4. If session status is `"ended"` and a session name argument was provided: use Post-Session Mode (see below).
+5. Fallback: check `.claude/sessions/_current` for legacy sessions.
+6. If no session found: Use current date instead of session name (default behavior).
 
 When session-scoped:
 - Read `.claude/sessions/{name}/errors.log` if it exists — incorporate error context into learnings
@@ -257,6 +259,28 @@ When explicitly invoked (`/learn` or "what did we learn"):
    - Skipped: [count] candidate(s)
      - [reason for each skip]
    ```
+
+## Post-Session Mode
+
+When invoked with a session name argument after the session has ended
+(e.g., `/learning-from-sessions auth-mvp`):
+
+1. **Locate session**: Look up session name in container-level `session-map.json`
+2. **Read meta.json**: Get `claudeSessionIds` array from the session's state directory
+   - Fall back to `sessionId` if `claudeSessionIds` is missing (old schema)
+3. **Find transcripts**: For each UUID, locate transcript at:
+   `~/.claude/projects/{path-encoded-worktree}/{uuid}.jsonl`
+   Path encoding: replace path separators with `--`
+   (e.g., `/c/code/project/feature/auth` -> `C--code-project-feature-auth`)
+4. **Parse transcripts**: Stream JSONL, extract:
+   - Tool failures (`is_error: true` in tool_result)
+   - Debugging sequences (multiple tool attempts on same problem)
+   - Error -> resolution pairs (error followed by successful fix)
+   - Thinking blocks discussing root causes
+5. **Correlate with errors.log**: Match transcript errors against errors.log entries
+6. **Proceed to Capture Workflow** (Steps 1-6) with extracted candidates
+
+**Transcript parsing guidance**: Reuse the JSONL streaming pattern from `harvest-errors.py` — stream line by line, filter by entry type, index tool_use blocks, and extract error sequences. See `.docs/research/02-08-2026-session-v2-1-deferred-actions-research.md` Section 4 for transcript format details.
 
 ## Output Routing
 

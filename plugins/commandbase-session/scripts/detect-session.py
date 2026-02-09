@@ -15,6 +15,8 @@ from session_utils import (
     detect_repo_layout,
     read_session_map,
     get_container_dir,
+    get_session_dir,
+    update_meta_json,
 )
 
 
@@ -56,6 +58,15 @@ def main():
         branch = matched_entry.get("branch", "unknown")
         status = matched_entry.get("status", "active")
         worktree = matched_entry.get("worktree", cwd)
+
+        # Persist Claude session UUID to meta.json
+        if session_id and name:
+            try:
+                session_dir = get_session_dir(cwd, name)
+                update_meta_json(session_dir, session_id)
+            except Exception:
+                pass  # Don't crash the hook on meta.json write failure
+
         print(
             f'SESSION DETECTED: "{name}" on branch {branch} (status: {status}).\n'
             f"Worktree: {worktree}\n"

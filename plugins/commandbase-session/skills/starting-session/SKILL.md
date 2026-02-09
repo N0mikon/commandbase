@@ -173,16 +173,18 @@ Full branch name: `{type}/{session-name}` (e.g., `feature/auth-mvp`)
 
 ### Step 4: Create branch + worktree
 
-Determine container directory:
+Determine container and bare repo directories:
 ```bash
 container=$(git rev-parse --git-common-dir | xargs dirname)
+bare="$container/.bare"
 ```
 
-Create the worktree:
+Create the worktree using the bare repo and an absolute worktree path:
 ```bash
-cd $container
-git worktree add {type}/{session-name} -b {type}/{session-name}
+git -C "$bare" worktree add "$container/{type}/{session-name}" -b {type}/{session-name}
 ```
+
+**Why `-C "$bare"`**: The container directory itself is not a git repo — `.bare/` is. Running `git worktree add` from the container (or without `-C`) fails with `fatal: not a git repository`. Always target the bare repo explicitly.
 
 ### Step 5: Create session state directory
 
@@ -198,7 +200,8 @@ Write to `{worktree}/.claude/sessions/{session-name}/meta.json`:
 
 ```json
 {
-  "sessionId": "<session_id from hook or generated>",
+  "sessionId": "<session-name>",
+  "claudeSessionIds": [],
   "name": "<session-name>",
   "branch": "<type/session-name>",
   "worktree": "/c/code/{project}/{type}/{session-name}",
@@ -206,6 +209,9 @@ Write to `{worktree}/.claude/sessions/{session-name}/meta.json`:
   "gitBranch": "<type/session-name>"
 }
 ```
+
+- `sessionId` stays as session name for backward compatibility
+- `claudeSessionIds` starts empty — the SessionStart hook appends Claude UUIDs on each fire (including after `/clear`)
 
 ### Step 7: Update session-map.json
 
