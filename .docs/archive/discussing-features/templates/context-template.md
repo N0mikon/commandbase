@@ -1,3 +1,11 @@
+---
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+archived: 2026-02-08
+archive_reason: "Parent skill discussing-features was absorbed by /brainstorming-code and /designing-code in Phase 4 (2026-02-07). Template no longer referenced by any active skill."
+---
+
 # Context Document Template
 
 Use this template when writing context documents to `.docs/context/{feature-name}.md`.

@@ -5,13 +5,16 @@ archived: 2026-02-08
 archive_reason: "Phase 1 Foundations fully complete and committed (aabffde). All 10 phases done, integration test passed. All next steps from this handoff were completed in subsequent sessions."
 topic: "Phase 1 Foundations Implementation - Phases 6-8 of 10"
 tags: [handoff, phase-1, handing-over, implementing-plans, learning-from-sessions, session-awareness, creating-skills, archived]
-git_commit: 5beb0c1
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Verified archive at 31 commits behind. All original references moved or archived during plugin conversion (87a19a3). Updated references to current locations."
 references:
-  - .docs/plans/02-07-2026-phase-1-foundations-and-modifications-implementation.md
-  - newskills/handing-over/SKILL.md
-  - newskills/implementing-plans/SKILL.md
-  - newskills/learning-from-sessions/SKILL.md
-  - .docs/handoffs/02-07-2026-phase-1-foundations-implementation-phases-1-5-of-10.md
+  - .docs/archive/02-07-2026-phase-1-foundations-and-modifications-implementation.md  # was .docs/plans/; archived
+  - plugins/commandbase-session/skills/ending-session/SKILL.md  # was newskills/handing-over/; renamed + moved
+  - plugins/commandbase-code/skills/implementing-plans/SKILL.md  # was newskills/implementing-plans/; moved
+  - plugins/commandbase-session/skills/learning-from-sessions/SKILL.md  # was newskills/learning-from-sessions/; moved
+  - .docs/archive/02-07-2026-phase-1-foundations-implementation-phases-1-5-of-10.md  # was .docs/handoffs/; archived
 ---
 
 # Handover: Phase 1 Foundations Implementation (Phases 6-8 of 10)

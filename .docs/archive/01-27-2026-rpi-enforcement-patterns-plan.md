@@ -1,23 +1,23 @@
 ---
-git_commit: b23869dc6f346484f97da036e060cebbb50b809b
-last_updated: 2026-02-02
+git_commit: 8e92bba
+last_updated: 2026-02-09
 last_updated_by: docs-updater
-last_updated_note: "Archived - completed implementation plan, all phases executed"
+last_updated_note: "Refreshed frontmatter after 54 commits - updated references from newskills/ to plugins/ paths; handing-over/taking-over replaced by session plugin skills"
 topic: "RPI Skill Enforcement Patterns (All Skills)"
 tags: [plan, implementation, researching-code, implementing-plans, planning-code, validating-code, committing-changes, creating-prs, handing-over, taking-over, starting-projects, enforcement, superpowers-patterns]
 status: historical
 archived: 2026-02-02
-archive_reason: "Completed implementation plan - all 17 phases executed, skills restructured and renamed to gerund form. See the skills themselves in newskills/*/SKILL.md for current enforcement patterns."
+archive_reason: "Completed implementation plan - all 17 phases executed, skills restructured and renamed to gerund form. Skills later migrated from newskills/ to plugins/ structure. handing-over and taking-over replaced by ending-session and resuming-session in commandbase-session plugin."
 references:
-  - newskills/researching-code/SKILL.md
-  - newskills/implementing-plans/SKILL.md
-  - newskills/planning-code/SKILL.md
-  - newskills/validating-code/SKILL.md
-  - newskills/committing-changes/SKILL.md
-  - newskills/creating-prs/SKILL.md
-  - newskills/handing-over/SKILL.md
-  - newskills/taking-over/SKILL.md
-  - newskills/starting-projects/SKILL.md
+  - plugins/commandbase-code/skills/researching-code/SKILL.md
+  - plugins/commandbase-code/skills/implementing-plans/SKILL.md
+  - plugins/commandbase-code/skills/planning-code/SKILL.md
+  - plugins/commandbase-core/skills/validating-code/SKILL.md
+  - plugins/commandbase-git-workflow/skills/committing-changes/SKILL.md
+  - plugins/commandbase-git-workflow/skills/creating-prs/SKILL.md
+  - plugins/commandbase-session/skills/ending-session/SKILL.md
+  - plugins/commandbase-session/skills/resuming-session/SKILL.md
+  - plugins/commandbase-core/skills/starting-projects/SKILL.md
   - .docs/research/01-27-2026-superpowers-patterns-for-rpi-workflow.md
   - C:/code/superpowers/skills/verification-before-completion/SKILL.md
   - C:/code/superpowers/skills/executing-plans/SKILL.md
@@ -37,6 +37,11 @@ references:
 > - `takeover` -> `taking-over`
 > - `new_project` -> `starting-projects`
 > See `.docs/plans/02-01-2026-skill-structure-updates.md` for the rename plan.
+>
+> **Historical Note (2026-02-09)**:
+> Skills have since migrated from `newskills/` to `plugins/` structure. All `newskills/` paths
+> in this document are obsolete. `handing-over` and `taking-over` were replaced by
+> `ending-session` and `resuming-session` in the `commandbase-session` plugin.
 
 ## Overview
 

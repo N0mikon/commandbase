@@ -1,3 +1,19 @@
+---
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Added archive frontmatter - discussing-features skill retired in Phase 4 (2026-02-07), absorbed by brainstorming-code"
+topic: "Question Domains Reference for /discussing-features Skill"
+tags: [reference, skill, discussing-features, question-templates, domain-detection]
+status: archived
+archived: 2026-02-09
+archive_reason: "Part of retired /discussing-features skill. Content evolved and lives actively at plugins/commandbase-code/skills/brainstorming-code/reference/question-domains.md"
+superseded_by: plugins/commandbase-code/skills/brainstorming-code/reference/question-domains.md
+references:
+  - .docs/archive/discussing-features/SKILL.md
+  - plugins/commandbase-code/skills/brainstorming-code/reference/question-domains.md
+---
+
 # Question Domains Reference
 
 This reference provides domain-specific question templates. Use these as starting points - adapt questions to the specific feature being discussed.

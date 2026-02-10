@@ -3,7 +3,10 @@ date: 2026-02-08
 status: complete
 topic: "Plugin Marketplace Repo Best Practices for Claude"
 tags: [research, claude-code, plugin-marketplace, skills-sharing, mcp, open-source]
-git_commit: e4648b4
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Updated after 10 commits - refreshed git_commit, added implementation note in Section 8"
 ---
 
 # Plugin Marketplace Repo Best Practices for Claude
@@ -150,6 +153,8 @@ my-claude-marketplace/
 ├── CHANGELOG.md
 └── README.md
 ```
+
+> **Implementation note (2026-02-09):** This recommended structure was implemented in the commandbase repo itself via commit `87a19a3` (2026-02-08). The repo now uses an 8-plugin marketplace with domain-based grouping under `plugins/`, each containing `.claude-plugin/plugin.json`, `skills/`, and optional `agents/`, `hooks/`, and `scripts/` directories. The top-level `.claude-plugin/marketplace.json` registers all 8 plugins. This validates the pattern above, with the addition that `agents/`, `hooks/`, and `scripts/` directories are useful alongside `skills/` and `commands/`.
 
 ## Source Conflicts
 

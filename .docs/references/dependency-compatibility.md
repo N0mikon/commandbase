@@ -1,6 +1,15 @@
 ---
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Added git_commit frontmatter, updated hook event count from 7 to 14, updated paths to reflect plugin-based architecture, removed stale verification commands pointing to pre-plugin directories"
 date_researched: 2026-02-06
 status: current
+references:
+  - plugins/commandbase-git-workflow/hooks/hooks.json
+  - plugins/commandbase-session/hooks/hooks.json
+  - plugins/commandbase-meta/skills/creating-hooks/SKILL.md
+  - .claude-plugin/marketplace.json
 ---
 
 # Dependency Compatibility Matrix
@@ -11,27 +20,50 @@ status: current
 |-----------|---------|-----------------|-------|
 | Claude Code CLI | Latest | - | Primary platform |
 | Skills Spec | Current (SKILL.md) | Claude Code CLI | Stable format |
-| Hooks API | Current (7 events) | Claude Code CLI | Stable, expanding |
+| Hooks API | Current (14 events) | Claude Code CLI | Stable, expanding |
 | Agents Spec | Current (.md format) | Claude Code CLI | Stable format |
-| claude-code-hook-sdk | npm latest | Claude Code Hooks API | TypeScript, optional |
-| Python 3.x | 3.8+ | Claude Code Hooks API | Current hook runtime |
-| Node.js / tsx | 18+ | claude-code-hook-sdk | Required if using SDK |
+| Plugin Spec | Current (marketplace.json) | Claude Code CLI | Plugin marketplace format |
+| Python 3.x | 3.8+ | Claude Code Hooks API | Current hook runtime (all hooks are Python) |
+| Node.js / tsx | 18+ | Claude Code CLI | Required for Claude Code itself |
 
 ## Known Conflicts
 
-- **Python hooks vs TypeScript hooks**: No conflict — hooks are independent executables. A project can mix Python and TypeScript hooks. Each hook entry in `settings.json` specifies its own command.
-
 - **Skill `hooks` frontmatter vs global hooks**: Skill-scoped hooks (defined in SKILL.md frontmatter) only run while the skill is active. They do NOT conflict with global hooks in `settings.json`. Both can coexist.
 
-- **Hook self-block deadlock**: If a hook triggers the same tool it's attached to (e.g., a PostToolUse hook for `Bash` that runs a bash command), it can cause infinite recursion. The SDK and Claude Code have guards, but it's a known pitfall. Mitigation: use `matcher` patterns to scope hooks narrowly.
+- **Plugin hooks vs user hooks**: Plugin hooks (defined in `plugins/<plugin>/hooks/hooks.json`) are merged with user-level hooks (`~/.claude/settings.json`). Both fire independently. Plugin hooks may require manual installation when skills are copied without the plugin install process (see learnings from end-to-end test session).
+
+- **Hook self-block deadlock**: If a hook triggers the same tool it's attached to (e.g., a PostToolUse hook for `Bash` that runs a bash command), it can cause infinite recursion. Claude Code has guards, but it's a known pitfall. Mitigation: use `matcher` patterns to scope hooks narrowly.
+
+- **Nudge hook false positives inside skills**: The `nudge-commit-skill.py` PostToolUse hook detects `git commit` and `git push` and warns the user, but fires even when `/committing-changes` itself runs these commands. The hook needs skill-awareness to suppress the nudge when the commit originates from within the skill flow.
+
+## Hook Events (14 Total)
+
+| Event | Can Block? | Notes |
+|-------|------------|-------|
+| `SessionStart` | No | stdout added as Claude context |
+| `UserPromptSubmit` | Yes | Blocks prompt, erases it |
+| `PreToolUse` | Yes | Blocks the tool call |
+| `PermissionRequest` | Yes | Denies permission |
+| `PostToolUse` | No | stderr shown to Claude as feedback |
+| `PostToolUseFailure` | No | stderr shown to Claude |
+| `Notification` | No | stderr shown to user only |
+| `SubagentStart` | No | stderr shown to user only |
+| `SubagentStop` | Yes | Prevents subagent stopping |
+| `Stop` | Yes | Prevents stopping, continues |
+| `TeammateIdle` | Yes | Agent teams only |
+| `TaskCompleted` | Yes | Prevents task completion |
+| `PreCompact` | No | stderr shown to user only |
+| `SessionEnd` | No | stderr shown to user only |
+
+Events used in this project: `PostToolUse` (git-workflow), `PostToolUseFailure`, `Stop`, `PreCompact`, `SessionStart` (session).
 
 ## Minimum Requirements
 
 - Claude Code CLI: Latest version
-- Package manager: npm (for hook SDK) or pip (for Python hooks)
+- Package manager: npm (for Claude Code)
 - OS: Windows (MINGW64), macOS, Linux all supported
-- Python: 3.8+ (for existing Python hooks)
-- Node.js: 18+ (only if adopting TypeScript hook SDK)
+- Python: 3.8+ (for all existing hooks)
+- Node.js: 18+ (required for Claude Code CLI)
 
 ## Setup Verification Commands
 
@@ -39,37 +71,18 @@ status: current
 # Verify Claude Code is installed
 claude --version
 
-# Verify skills are loaded
-ls ~/.claude/skills/
+# Verify plugins are installed
+ls ~/.claude/plugins/
 
-# Verify agents are loaded
-ls ~/.claude/agents/
-
-# Verify hooks are configured
+# Verify marketplace source is configured
 cat ~/.claude/settings.json | python -m json.tool
 
-# Verify hook SDK (if installed)
-npx tsx --version
-
-# Test a hook manually (Python)
-echo '{"session_id":"test","transcript_path":"/tmp/t","hook_event_name":"PreToolUse","tool_name":"Bash","tool_input":{"command":"echo test"}}' | python ~/.claude/hooks/nudge-commit-skill.py
+# Test a hook manually (Python, from plugin directory)
+echo '{"session_id":"test","transcript_path":"/tmp/t","hook_event_name":"PreToolUse","tool_name":"Bash","tool_input":{"command":"echo test"}}' | python3 plugins/commandbase-git-workflow/scripts/nudge-commit-skill.py
 ```
-
-## Migration Path: Python Hooks to TypeScript SDK
-
-If we decide to migrate existing Python hooks to the TypeScript SDK:
-
-1. Install SDK: `npm install -D @mizunashi_mana/claude-code-hook-sdk tsx`
-2. Rewrite hook using `runHook()` with typed handlers
-3. Update `settings.json` command from `python script.py` to `npx tsx script.ts`
-4. Use `preToolRejectHook` for command-blocking hooks (replaces manual JSON parsing)
-5. Use `runHookCaller` for unit testing
-
-**Trade-off:** Adds Node.js as a dependency for hooks. Current Python hooks work fine but lack type safety and utility functions.
 
 ## Sources
 
 - Context7: `/llmstxt/code_claude_llms_txt` - Claude Code specification
-- Context7: `/mizunashi-mana/claude-code-hook-sdk` - Hook SDK docs
-- Context7: `/davepoon/claude-code-subagents-collection` - Agent format reference
-- Context7: `/davila7/claude-code-templates` - Community patterns
+- `plugins/commandbase-meta/skills/creating-hooks/SKILL.md` - Comprehensive hook reference (14 events, patterns, pitfalls)
+- `.docs/learnings/02-08-2026-end-to-end-test-session-learnings.md` - Hook deployment learnings

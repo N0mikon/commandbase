@@ -3,16 +3,19 @@ date: 2026-02-08
 status: complete
 topic: "session-management-solutions-claude-code"
 tags: [research, session-management, claude-code, MCP, community-tools, competitor-analysis, context-persistence]
-git_commit: 7f0eb8e
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Updated after 8 commits - refreshed commandbase skill names to v2 (starting-session, ending-session, resuming-session), updated overlap analysis and improvement ideas to reflect v2/v2.1 implementation status"
 ---
 
 # Session Management Solutions in Claude Code
 
 ## Research Question
-What session management solutions exist — native, community-built, and from competing tools — that could improve the commandbase session skills (naming-session, resuming-sessions, handing-over, taking-over, learning-from-sessions, bookmarking-code)?
+What session management solutions exist — native, community-built, and from competing tools — that could improve the commandbase session skills (starting-session, ending-session, resuming-session, learning-from-sessions, bookmarking-code)?
 
 ## Summary
-Claude Code's native session management has matured significantly by February 2026 with built-in features like `--resume`, `/rename`, session forking, and automatic Session Memory (v2.1.30+). The community has responded to remaining gaps with a rich ecosystem of MCP servers (Session Buddy, Claude Memory MCP, MCP Memory Service), checkpoint trackers (CCheckpoints, Claude Code UI), context persistence kits (Super Claude Kit), and handoff protocols (Mother CLAUDE). Competing tools like Windsurf offer zero-cost auto-generated memories, Cline provides structured Memory Banks via MCP, and GitHub Copilot CLI enables remote session loading and true infinite sessions via background compaction. The commandbase session skills overlap with some native features but provide unique value through structured error tracking, learning extraction, and the handover/takeover workflow pattern.
+Claude Code's native session management has matured significantly by February 2026 with built-in features like `--resume`, `/rename`, session forking, and automatic Session Memory (v2.1.30+). The community has responded to remaining gaps with a rich ecosystem of MCP servers (Session Buddy, Claude Memory MCP, MCP Memory Service), checkpoint trackers (CCheckpoints, Claude Code UI), context persistence kits (Super Claude Kit), and handoff protocols (Mother CLAUDE). Competing tools like Windsurf offer zero-cost auto-generated memories, Cline provides structured Memory Banks via MCP, and GitHub Copilot CLI enables remote session loading and true infinite sessions via background compaction. The commandbase session skills (v2, implemented February 2026) overlap with some native features but provide unique value through git branch + worktree isolation per session, structured error tracking, learning extraction, and the handoff/resume workflow pattern.
 
 ## Detailed Findings
 
@@ -66,11 +69,14 @@ Claude Code's native session management has matured significantly by February 20
 - Lossy — technical details often lost
 - Known bug: CLAUDE.md sometimes ignored after compaction (Issue #19471)
 
-#### Overlap with commandbase session skills
-- **`/rename` overlaps with `/naming-session`**: Native `/rename` is simpler but lacks session folder creation, `session-map.json`, `meta.json`, or `_current` pointer. `/naming-session` provides richer structured state.
-- **`--resume` overlaps with `/resuming-sessions`**: Native resume reloads conversation history. `/resuming-sessions` reconstructs from structured state files (errors, checkpoints, meta) and scans `.docs/` for related documents — different data, complementary.
-- **Auto Session Memory overlaps with `/learning-from-sessions`**: Auto memory captures work summaries continuously. `/learning-from-sessions` extracts *reusable knowledge* with deferred action routing — different purpose.
-- **Checkpointing overlaps with `/bookmarking-code`**: Native checkpoints are automatic file-edit snapshots. `/bookmarking-code` creates named git-state snapshots with user-chosen labels — different granularity and intent.
+#### Overlap with commandbase session skills (v2)
+
+*Note: Session skills were consolidated in v2 (February 2026). `/naming-session` became `/starting-session`, `/handing-over` and `/taking-over` merged into `/ending-session` and `/resuming-session` respectively, and `/resuming-sessions` became `/resuming-session`.*
+
+- **`/rename` overlaps with `/starting-session`**: Native `/rename` is simpler but lacks git branch + worktree creation, `session-map.json` registration, or `meta.json`. `/starting-session` creates an isolated workspace (branch + worktree) per session and migrates projects to bare repo layout on first use. The overlap is minimal -- they solve different problems.
+- **`--resume` overlaps with `/resuming-session`**: Native resume reloads conversation history. `/resuming-session` auto-detects whether to use worktree state files or handoff documents, reconstructs from structured state (errors, checkpoints, meta), scans `.docs/` for related documents, and includes a staleness check on all found docs. Different data, complementary.
+- **Auto Session Memory overlaps with `/learning-from-sessions`**: Auto memory captures work summaries continuously. `/learning-from-sessions` extracts *reusable knowledge* with deferred action routing and now supports post-session transcript parsing via `claudeSessionIds` — different purpose.
+- **Checkpointing overlaps with `/bookmarking-code`**: Native checkpoints are automatic file-edit snapshots. `/bookmarking-code` creates named git-state snapshots with user-chosen labels — different granularity and intent. Updated in v2 to use worktree-aware session detection.
 
 ### 2. Community Session Management Tools
 
@@ -151,36 +157,39 @@ Claude Code's native session management has matured significantly by February 20
 
 #### Feature Comparison Matrix
 
-| Feature | Claude Code Native | commandbase | Windsurf | Cline | Copilot CLI | Cursor |
-|---------|-------------------|-------------|----------|-------|-------------|--------|
-| Session naming | `/rename` | `/naming-session` (richer state) | N/A | N/A | N/A | N/A |
-| Session resume | `--resume` | `/resuming-sessions` (state files) | Auto via memories | Via Memory Bank | `--resume` + remote | New session recommended |
-| Checkpoints | Auto file-edit | Named git snapshots | N/A | N/A | Incremental | Ephemeral per-request |
-| Error tracking | None | Hooks + errors.log | N/A | N/A | N/A | N/A |
-| Learning extraction | None | `/learning-from-sessions` | Auto memories | Memory Bank updates | Auto pattern memory | Notepads (manual) |
-| Handoff/takeover | None | `/handing-over` + `/taking-over` | N/A | N/A | Remote sessions | N/A |
+| Feature | Claude Code Native | commandbase (v2) | Windsurf | Cline | Copilot CLI | Cursor |
+|---------|-------------------|-------------------|----------|-------|-------------|--------|
+| Session creation | N/A | `/starting-session` (branch + worktree + bare repo migration) | N/A | N/A | N/A | N/A |
+| Session naming | `/rename` | `/starting-session` (name = branch = worktree) | N/A | N/A | N/A | N/A |
+| Session resume | `--resume` | `/resuming-session` (auto-detect worktree/handoff) | Auto via memories | Via Memory Bank | `--resume` + remote | New session recommended |
+| Session end | Close terminal | `/ending-session` (squash merge / handoff / discard) | N/A | N/A | N/A | N/A |
+| Workspace isolation | N/A | Git worktrees (one directory per session) | Workspace boundaries | N/A | N/A | N/A |
+| Checkpoints | Auto file-edit | Named git snapshots (`/bookmarking-code`) | N/A | N/A | Incremental | Ephemeral per-request |
+| Error tracking | None | Hooks + errors.log (incremental + end-of-session) | N/A | N/A | N/A | N/A |
+| Learning extraction | None | `/learning-from-sessions` (+ post-session transcript parsing) | Auto memories | Memory Bank updates | Auto pattern memory | Notepads (manual) |
+| Handoff/takeover | None | `/ending-session` (Mode B) + `/resuming-session` (Mode B) | N/A | N/A | Remote sessions | N/A |
 | Cross-session memory | Auto Session Memory (v2.1.30) | .docs/ ecosystem | Auto memories | Memory Bank MCP | Memory storage tool | Notepads |
 | Compaction handling | Auto at 95% | PreCompact learning nudge | Flows | Dynamic adaptation | Background at 95% | Manual /summarize |
 
 ### 4. Ideas for commandbase Improvement
 
-Based on cross-referencing all three research angles:
+Based on cross-referencing all three research angles. Updated with v2/v2.1 implementation status (February 2026).
 
 #### High-Value Ideas
-1. **Auto-learning hook (inspired by Windsurf)**: A PostToolUse or periodic hook that captures insights without requiring explicit `/learning-from-sessions` invocation. Low-friction, zero-cost knowledge capture.
-2. **Incremental state persistence (inspired by Copilot CLI)**: Instead of end-of-session state writes, save session state incrementally after each significant action. This reduces data loss from crashes or unexpected exits.
-3. **Structured context files (inspired by Cline Memory Bank)**: Add domain-specific context files beyond meta.json — like `decisions.md` (architecture decisions made), `patterns.md` (patterns discovered), `blockers.md` (current blockers).
-4. **Session search integration**: Leverage `claude --resume <name>` to bridge commandbase's `/naming-session` with native resume. Currently they're independent systems.
+1. **Auto-learning hook (inspired by Windsurf)**: A PostToolUse or periodic hook that captures insights without requiring explicit `/learning-from-sessions` invocation. Low-friction, zero-cost knowledge capture. *Status: Explicitly deferred in v2 plan (Out of Scope) -- "current explicit extraction is preferred." Still a viable future idea.*
+2. **Incremental state persistence (inspired by Copilot CLI)**: Instead of end-of-session state writes, save session state incrementally after each significant action. *Status: Partially addressed in v2. The `track-errors` hook (PostToolUseFailure) captures errors incrementally in real-time, and `harvest-errors` (Stop) does end-of-session backfill. `meta.json` is written once at session start. Further incremental persistence for other state remains a future opportunity.*
+3. **Structured context files (inspired by Cline Memory Bank)**: Add domain-specific context files beyond meta.json — like `decisions.md` (architecture decisions made), `patterns.md` (patterns discovered), `blockers.md` (current blockers). *Status: Not addressed in v2. Still a viable future idea. The `.docs/` ecosystem (plans, research, learnings, handoffs) serves a similar purpose at the project level but is not session-scoped.*
+4. **Session search integration**: Leverage `claude --resume <name>` to bridge commandbase's session naming with native resume. *Status: Partially addressed. v2 uses session-map.json with worktree paths for session discovery, and `/resuming-session` includes a session picker. Native `--resume` and commandbase remain independent systems, but both are accessible.*
 
 #### Medium-Value Ideas
-5. **Native `/rename` bridge**: When `/naming-session` creates a session, also call Claude Code's native `/rename` to sync the name into the native session picker.
-6. **Compaction-aware handoff**: Auto-generate a lightweight handoff on PreCompact (like trigger-learning already nudges for learnings). Mother CLAUDE pattern.
-7. **Cross-session error search**: Semantic search across historical errors.log files to detect recurring patterns (inspired by Session Buddy's cross-project intelligence).
+5. **Native `/rename` bridge**: When creating a session, also call Claude Code's native `/rename` to sync the name into the native session picker. *Status: Explicitly deferred in v2 plan (Out of Scope) -- "wait for native maturity." Still a viable future idea.*
+6. **Compaction-aware handoff**: Auto-generate a lightweight handoff on PreCompact (like trigger-learning already nudges for learnings). Mother CLAUDE pattern. *Status: Not addressed in v2. The PreCompact hook still only triggers learning nudges. Still a viable future idea.*
+7. **Cross-session error search**: Semantic search across historical errors.log files to detect recurring patterns (inspired by Session Buddy's cross-project intelligence). *Status: Not addressed. v2 archives session state to `.docs/archive/sessions-v1/` on migration, preserving historical error data. Search infrastructure remains a future opportunity.*
 
 #### Lower-Value / Future Ideas
-8. **Remote session handoff**: Enable handoff documents to work across machines (GitHub-backed, inspired by Copilot CLI remote sessions).
-9. **MCP memory server**: Wrap session state as an MCP server for richer tool integration.
-10. **Dashboard UI**: Web UI for session state visualization (inspired by CCheckpoints and Claude Code UI).
+8. **Remote session handoff**: Enable handoff documents to work across machines (GitHub-backed, inspired by Copilot CLI remote sessions). *Status: Not addressed. Handoff documents are in `.docs/handoffs/` which is tracked in git, so they naturally sync across machines via git push/pull -- partial solution already exists.*
+9. **MCP memory server**: Wrap session state as an MCP server for richer tool integration. *Status: Explicitly deferred in v2 plan (Out of Scope) -- "no evidence it's needed."*
+10. **Dashboard UI**: Web UI for session state visualization (inspired by CCheckpoints and Claude Code UI). *Status: Not addressed. Still a future idea.*
 
 ## Source Conflicts
 
@@ -194,8 +203,8 @@ Based on cross-referencing all three research angles:
 - Confidence in currency: high for Claude Code native features, medium for community tools (ecosystem changing rapidly)
 
 ## Open Questions
-- How does Claude Code's Auto Session Memory interact with custom session files like commandbase's meta.json? Could there be conflicts or redundancy?
-- Would a Session Buddy-style MCP server be more effective than the current hooks-based approach for error tracking?
-- Is the native `/rename` command stable enough to bridge with `/naming-session`, or would it create fragile coupling?
-- How do the 30-day checkpoint retention limits affect long-running project sessions?
-- Could commandbase leverage Claude's native `sessions-index.json` more deeply beyond what `/naming-session` already reads?
+- How does Claude Code's Auto Session Memory interact with custom session files like commandbase's meta.json? Could there be conflicts or redundancy? *(Still open -- v2 did not integrate with Auto Session Memory, deferring it as "native handles this.")*
+- Would a Session Buddy-style MCP server be more effective than the current hooks-based approach for error tracking? *(Still open -- v2 plan explicitly deferred MCP approach as "no evidence it's needed.")*
+- ~~Is the native `/rename` command stable enough to bridge with `/naming-session`, or would it create fragile coupling?~~ *(Resolved -- v2 deferred the bridge, and `/naming-session` was replaced by `/starting-session` which creates branches/worktrees instead of relying on native naming.)*
+- How do the 30-day checkpoint retention limits affect long-running project sessions? *(Still open.)*
+- ~~Could commandbase leverage Claude's native `sessions-index.json` more deeply beyond what `/naming-session` already reads?~~ *(Partially resolved -- v2's `detect-session.py` SessionStart hook bridges the native session_id into conversation context. The `claudeSessionIds` array in meta.json stores native UUIDs for transcript access.)*

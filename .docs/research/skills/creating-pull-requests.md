@@ -1,8 +1,17 @@
+---
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Added frontmatter, updated file path from ~/.claude/skills/ to plugin location, synced content with current SKILL.md (draft handling, red flags section, bottom line section)"
+references:
+  - plugins/commandbase-git-workflow/skills/creating-prs/SKILL.md
+---
+
 # Research: creating-prs Skill
 
 ## Overview
 
-The `creating-prs` skill (`~/.claude/skills/creating-prs/SKILL.md`) orchestrates the complete workflow for creating GitHub pull requests via the `gh` CLI. It enforces mandatory analysis of ALL commits on a branch before drafting PR descriptions, requiring user confirmation before execution.
+The `creating-prs` skill (`plugins/commandbase-git-workflow/skills/creating-prs/SKILL.md`) orchestrates the complete workflow for creating GitHub pull requests via the `gh` CLI. It enforces mandatory analysis of ALL commits on a branch before drafting PR descriptions, requiring user confirmation before execution.
 
 **Trigger phrases**: `/pr`, `create a PR`, `make a pull request`, `open a pull request`, `submit for review`
 
@@ -34,10 +43,20 @@ NO PR WITHOUT FULL BRANCH ANALYSIS
 
 ### Step 1: Gather Context
 ```bash
+# Current branch and status
 git branch --show-current
 git status
+
+# What's different from main/master
 git log main..HEAD --oneline 2>/dev/null || git log master..HEAD --oneline
+
+# Full diff of changes
 git diff main..HEAD 2>/dev/null || git diff master..HEAD
+```
+
+Also check if branch is pushed:
+```bash
+git status -sb
 ```
 
 ### Step 2: Analyze All Commits
@@ -67,8 +86,13 @@ git diff main..HEAD 2>/dev/null || git diff master..HEAD
 ```
 
 **Rules:**
-- NEVER include "Generated with Claude" or similar
-- NEVER include Co-Authored-By lines
+- **NEVER** include "Generated with Claude" or similar
+- **NEVER** include Co-Authored-By lines
+- Write as if the user wrote it
+- Summary: 1-3 bullet points
+- Changes: 2-5 sentences max
+- Testing: 1-3 bullet points
+- Notes: Only if genuinely needed (breaking changes, migration steps). Omit if empty.
 - Focus on the "why" not just the "what"
 
 ### Step 4: Present for Confirmation
@@ -84,6 +108,15 @@ Ready to create this PR? (yes/no/edit/draft)
 ```
 
 **Wait for user confirmation before proceeding.**
+
+If user says "draft":
+- Create as draft PR using `gh pr create --draft`
+- Note in output that it's a draft
+
+If user says "edit" or provides feedback:
+- Incorporate their changes
+- Present the updated version
+- Ask for confirmation again
 
 ### Step 5: Push Branch (if needed)
 ```bash
@@ -118,6 +151,22 @@ URL: [pr url]
 - **No remote configured**: Direct to `/committing-changes` for repo creation
 - **gh CLI not authenticated**: Instruct user to run `gh auth login`
 
+## Red Flags - STOP and Analyze
+
+If you notice any of these, STOP immediately:
+
+- About to describe only the latest commit
+- Creating PR without showing draft to user
+- Including "Generated with Claude" or similar
+- Branch not pushed to remote
+- Skipping the full diff review
+
+**When you hit a red flag:**
+1. Stop and run full branch analysis
+2. Review ALL commits, not just recent
+3. Draft description and get confirmation
+4. Only then create PR
+
 ## Rationalization Prevention
 
 | Excuse | Reality |
@@ -135,6 +184,14 @@ URL: [pr url]
 - **NEVER** include AI attribution in PR description
 - **NEVER** create PR without showing the description first
 
+## The Bottom Line
+
+**No shortcuts for PRs.**
+
+Analyze all commits. Review full diff. Draft description. Get confirmation. THEN create.
+
+This is non-negotiable. Every PR. Every time.
+
 ## File Reference
 
-- Main: `~/.claude/skills/creating-prs/SKILL.md`
+- Main: `plugins/commandbase-git-workflow/skills/creating-prs/SKILL.md`

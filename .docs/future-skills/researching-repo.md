@@ -1,7 +1,16 @@
 ---
 status: implemented
-implemented_in: newskills/researching-repo/
+implemented_in: plugins/commandbase-research/skills/researching-repo/
 implemented_date: 2026-02-07
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Added git_commit frontmatter, corrected implemented_in path from newskills/ to plugins/commandbase-research/skills/, updated Implementation Status section paths"
+references:
+  - plugins/commandbase-research/skills/researching-repo/SKILL.md
+  - plugins/commandbase-research/skills/researching-repo/reference/clone-management.md
+  - plugins/commandbase-research/skills/researching-repo/reference/analysis-strategies.md
+  - plugins/commandbase-research/skills/researching-repo/templates/repo-research-template.md
 ---
 
 # Repository Analysis (`/researching-repo`)
@@ -71,7 +80,7 @@ During RDSPI Research phase, all four can run together:
 
 ## Implementation Status
 
-**Implemented on 2026-02-07** in `newskills/researching-repo/` and deployed to `~/.claude/skills/researching-repo/`.
+**Implemented on 2026-02-07** in `plugins/commandbase-research/skills/researching-repo/` (originally at `newskills/researching-repo/`, moved during plugin marketplace conversion).
 
 All concepts from this document were realized in the implementation:
 - Clone strategy evolved from shallow clone to blobless clone (`--filter=blob:none --no-checkout`) for remote repos, with selective checkout via `git show HEAD:path` -- more efficient than the original concept
@@ -83,7 +92,7 @@ All concepts from this document were realized in the implementation:
 - Security hardening added beyond original concept: `core.symlinks=false`, `core.hooksPath=/dev/null`, `--no-recurse-submodules`, post-clone hooks verification
 
 Implementation files:
-- `newskills/researching-repo/SKILL.md` -- Full skill definition with 7-step process
-- `newskills/researching-repo/reference/clone-management.md` -- Clone security and strategy patterns
-- `newskills/researching-repo/reference/analysis-strategies.md` -- Agent decomposition patterns
-- `newskills/researching-repo/templates/repo-research-template.md` -- Output template for research artifacts
+- `plugins/commandbase-research/skills/researching-repo/SKILL.md` -- Full skill definition with 7-step process
+- `plugins/commandbase-research/skills/researching-repo/reference/clone-management.md` -- Clone security and strategy patterns
+- `plugins/commandbase-research/skills/researching-repo/reference/analysis-strategies.md` -- Agent decomposition patterns
+- `plugins/commandbase-research/skills/researching-repo/templates/repo-research-template.md` -- Output template for research artifacts

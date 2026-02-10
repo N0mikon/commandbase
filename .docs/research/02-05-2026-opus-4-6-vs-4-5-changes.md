@@ -1,3 +1,14 @@
+---
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Added frontmatter (was missing entirely). Document was 51 commits behind HEAD. Content verified as accurate and still relevant -- Opus 4.6 is the current model in use. No codebase file references to validate. Referenced by archived skill audit (.docs/archive/02-05-2026-opus-4-6-skill-audit.md)."
+topic: "Claude Opus 4.6 vs 4.5 Model Comparison"
+tags: [research, opus-4-6, opus-4-5, model-comparison, benchmarks, api-changes]
+status: current
+references: []
+---
+
 # Claude Opus 4.6 vs Opus 4.5: Changes and Improvements
 
 **Date**: February 5, 2026

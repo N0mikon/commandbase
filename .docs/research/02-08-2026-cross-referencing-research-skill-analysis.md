@@ -3,7 +3,10 @@ date: 2026-02-08
 status: complete
 topic: "cross-referencing-research-skill-analysis"
 tags: [research, skills, cross-referencing, synthesis, meta-analysis]
-git_commit: 7f0eb8e
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Updated after 8 commits - skill was implemented as /analyzing-research in d8efed8; resolved open questions, added implementation outcome"
 references:
   - plugins/commandbase-code/skills/researching-code/SKILL.md
   - plugins/commandbase-research/skills/researching-web/SKILL.md
@@ -28,6 +31,8 @@ How do existing research skills work, and what would a new skill that cross-refe
 
 ## Summary
 The commandbase system has 6 research skills across 4 plugins, each producing standalone `.docs/research/MM-DD-YYYY-description.md` files. All follow the Iron Law (no synthesis without parallel research) and mandatory file output. However, no existing skill reads ACROSS previously-written research files to find patterns, contradictions, or emergent insights. The gap is clear: individual research creates files, but nothing connects them after the fact.
+
+**Implementation Outcome**: This research directly led to the `/analyzing-research` skill, implemented in commit `d8efed8` and placed in `commandbase-research` (matching this document's recommendation). The skill was named `analyzing-research` (one of the naming options explored below) and follows the proposed architecture: docs-locator for discovery, parallel docs-analyzer agents for extraction, main-context synthesis, and docs-writer for output. All 5 input modes (topic, explicit files, tag, temporal, full sweep) were implemented. A template was created at `plugins/commandbase-research/skills/analyzing-research/templates/analysis-document-template.md`.
 
 ## Detailed Findings
 
@@ -166,10 +171,12 @@ It consumes what they produce. It does NOT replace any existing skill — it add
 
 The `/auditing-docs` skill already sweeps across `.docs/` directories, checks staleness, and spawns `docs-updater` per document. The cross-referencing skill would follow a similar sweep-and-analyze pattern but with synthesis instead of update.
 
-## Open Questions
+## Open Questions (Resolved)
 
-1. **Scope**: Should the skill only read `.docs/research/` files, or also `.docs/plans/`, `.docs/learnings/`, `.docs/handoffs/`?
-2. **Interactivity**: Should it present intermediate findings and ask the user which threads to pull, or run fully autonomously?
-3. **Citation format**: How should cross-reference documents cite their source documents? Relative paths? Wikilinks?
-4. **Incremental mode**: Should it support "add this new research to the existing cross-reference" or always create fresh?
-5. **Minimum documents**: What's the minimum number of source documents for cross-referencing to be valuable? (Likely 3+)
+All open questions from the original research were resolved during implementation in `/analyzing-research`:
+
+1. **Scope**: Resolved -- defaults to `.docs/research/` but expands to `.docs/plans/`, `.docs/learnings/`, `.docs/handoffs/` when the user's query implies broader scope (per the "Scope expansion" rule in the skill's Input Detection section).
+2. **Interactivity**: Resolved -- runs autonomously by default but presents document set after discovery and pauses if fewer than 3 documents are found. Final output is presented as a summary with follow-up options.
+3. **Citation format**: Resolved -- uses `(source: [filename], [filename])` inline attribution format. Source documents table in the template uses relative markdown links.
+4. **Incremental mode**: Resolved -- always creates fresh. Each analysis produces a new `MM-DD-YYYY-analysis-<topic>.md` file. No incremental append mode was implemented.
+5. **Minimum documents**: Resolved -- minimum 3 documents required. The skill explicitly states "Two is comparison, not cross-referencing" in its Rationalization Prevention table and stops with a message if fewer than 3 are found.

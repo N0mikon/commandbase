@@ -3,11 +3,20 @@ date: 2026-02-08
 status: complete
 topic: "Plugin Conversion Analysis - Skills, Agents, and Hooks to Marketplace Plugins"
 tags: [research, plugin-marketplace, skills, agents, hooks, packaging, dependencies]
-git_commit: e4648b4
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Updated after 10 commits - conversion complete, refreshed plugin structures to match actual implementation, resolved open questions, updated session plugin for v2 rearchitecture"
 references:
-  - newskills/*/SKILL.md
-  - newagents/*.md
-  - newhooks/*/
+  - plugins/commandbase-core/
+  - plugins/commandbase-code/
+  - plugins/commandbase-vault/
+  - plugins/commandbase-services/
+  - plugins/commandbase-research/
+  - plugins/commandbase-git-workflow/
+  - plugins/commandbase-session/
+  - plugins/commandbase-meta/
+  - .claude-plugin/marketplace.json
   - .docs/research/02-08-2026-plugin-marketplace-repo-best-practices-for-claude.md
 ---
 
@@ -29,7 +38,7 @@ The commandbase repo contains 47 skills across 3 domain-specific BRDSPI chains (
 - **Services BRDSPI** (6): brainstorming-services, researching-services, designing-services, structuring-services, planning-services, implementing-services
 - **Research** (5): researching-code, researching-web, researching-frameworks, researching-repo, researching-vault (some shared with BRDSPI chains)
 - **Git Workflow** (3): committing-changes, reviewing-changes, reviewing-security
-- **Session Management** (4): naming-session, handing-over, taking-over, resuming-sessions
+- **Session Management** (4): starting-session, resuming-session, ending-session, learning-from-sessions (v2: git branching + worktrees)
 - **Meta/Audit** (5): creating-skills, creating-agents, auditing-skills, auditing-agents, auditing-docs
 - **Debugging/Security** (3): debugging-code, reviewing-security, creating-hooks
 - **Utility** (6): bookmarking-code, creating-posts, creating-prs, debating-options, validating-code, starting-projects, learning-from-sessions, updating-claude-md
@@ -40,8 +49,9 @@ The commandbase repo contains 47 skills across 3 domain-specific BRDSPI chains (
 - **Write**: docs-updater, docs-writer
 - **External**: web-researcher
 
-**4 Hooks** (all personal workflow):
+**5 Hooks** (all personal workflow):
 - nudge-commit-skill (PostToolUse — enforces /committing-changes)
+- detect-session (SessionStart — auto-detects session context from worktree)
 - track-errors (PostToolUseFailure — real-time error logging)
 - harvest-errors (Stop — backfills error log from transcript)
 - trigger-learning (PreCompact — nudges /learning-from-sessions)
@@ -85,7 +95,7 @@ commandbase-core/
 │   ├── debating-options/
 │   ├── validating-code/
 │   └── starting-projects/
-└── agents/              (if plugins can bundle agents)
+└── agents/
     ├── docs-writer.md
     ├── docs-updater.md
     ├── docs-locator.md
@@ -161,14 +171,15 @@ commandbase-services/
 commandbase-research/
 ├── .claude-plugin/plugin.json
 ├── skills/
+│   ├── analyzing-research/
 │   ├── researching-web/
 │   ├── researching-frameworks/
 │   └── researching-repo/
 └── agents/
     └── web-researcher.md
 ```
-**4 components**: 3 skills + 1 agent
-**Audience**: Anyone who wants structured, sourced web research with documentation output
+**5 components**: 4 skills + 1 agent
+**Audience**: Anyone who wants structured, sourced web research with documentation output and cross-document analysis
 
 ---
 
@@ -176,37 +187,45 @@ commandbase-research/
 ```
 commandbase-git-workflow/
 ├── .claude-plugin/plugin.json
+├── SETUP.md
 ├── skills/
 │   ├── committing-changes/
 │   ├── reviewing-changes/
 │   ├── reviewing-security/
 │   ├── creating-prs/
 │   └── auditing-docs/
-└── hooks/               (if plugins can bundle hooks)
+├── hooks/
+│   └── hooks.json
+└── scripts/
     └── nudge-commit-skill.py
 ```
-**6 components**: 5 skills + 1 hook
+**6 components**: 5 skills + 1 hook (PostToolUse on Bash)
 **Audience**: Anyone who wants opinionated git commit workflow enforcement
+**Note**: Hooks are bundled via `hooks.json` with scripts in `scripts/`. SETUP.md documents manual deny-rule configuration for settings.json.
 
 ---
 
-**Plugin 7: `commandbase-session`** (Session Management)
+**Plugin 7: `commandbase-session`** (Session Management — v2: Git Branching + Worktrees)
 ```
 commandbase-session/
 ├── .claude-plugin/plugin.json
 ├── skills/
-│   ├── naming-session/
-│   ├── handing-over/
-│   ├── taking-over/
-│   ├── resuming-sessions/
+│   ├── starting-session/
+│   ├── resuming-session/
+│   ├── ending-session/
 │   └── learning-from-sessions/
-└── hooks/
+├── hooks/
+│   └── hooks.json
+└── scripts/
+    ├── detect-session.py
+    ├── session_utils.py
     ├── track-errors.py
     ├── harvest-errors.py
     └── trigger-learning.py
 ```
-**8 components**: 5 skills + 3 hooks
-**Audience**: Users who want session continuity and error-driven learning
+**8 components**: 4 skills + 4 hooks (SessionStart, PostToolUseFailure, Stop, PreCompact)
+**Audience**: Users who want session continuity with git worktree isolation and error-driven learning
+**Note**: v2 rearchitected sessions around git branching/worktrees. Skills renamed from naming-session/handing-over/taking-over/resuming-sessions to starting-session/resuming-session/ending-session. detect-session hook added for SessionStart auto-detection.
 
 ---
 
@@ -234,12 +253,12 @@ Based on the marketplace research, plugins contain:
 - `commands/` — Slash command .md files
 - `.mcp.json` — MCP server connections
 
-#### Open Questions for Plugin Conversion
-1. **Can plugins bundle agents?** The official structure shows `skills/` and `commands/` but not `agents/`. If agents can't be bundled, the foundation layer needs an alternative distribution method.
-2. **Can plugins bundle hooks?** Same question — hooks are Python scripts with settings.json configuration. No evidence of hook bundling in plugin structure.
-3. **Plugin dependencies**: Can one plugin declare a dependency on another? The marketplace system supports version tracking but dependency chains aren't documented.
-4. **Reference files**: Skills have `reference/` and `templates/` subdirectories. Do these deploy correctly within the plugin skill directory?
-5. **Settings injection**: The commit enforcement hook requires deny rules in `settings.json`. Can plugins modify settings?
+#### Resolved Questions from Plugin Conversion
+1. **Can plugins bundle agents?** YES -- agents are placed in `agents/` directories within plugins. commandbase-core ships 4 agents, commandbase-code ships 3, commandbase-research ships 1.
+2. **Can plugins bundle hooks?** YES -- hooks are defined in `hooks/hooks.json` with Python scripts in `scripts/`. Both commandbase-git-workflow and commandbase-session use this pattern.
+3. **Plugin dependencies**: Not formally declared in plugin.json, but documented in marketplace.json descriptions (e.g., "Requires commandbase-core") and in CLAUDE.md install instructions.
+4. **Reference files**: YES -- `reference/` and `templates/` subdirectories deploy correctly within plugin skill directories. All BRDSPI skills use them.
+5. **Settings injection**: NO -- plugins cannot modify settings.json. The git-workflow plugin includes a SETUP.md with manual deny-rule instructions instead.
 
 ### 5. Personal vs General Purpose Classification
 
@@ -251,28 +270,30 @@ Based on the marketplace research, plugins contain:
 - bookmarking-code, validating-code, creating-prs, debating-options, starting-projects
 
 **Personal workflow** (need generalization for marketplace):
-- committing-changes — opinionated commit workflow, but broadly useful with minor tweaks
-- naming-session — tied to `.claude/sessions/` structure
-- resuming-sessions — tied to `.claude/sessions/` structure
-- handing-over — useful generally, slightly personalized
-- learning-from-sessions — depends on session error tracking hooks
-- All 4 hooks — tied to personal enforcement patterns
+- committing-changes -- opinionated commit workflow, but broadly useful with minor tweaks
+- starting-session -- creates git branch/worktree for session isolation (v2)
+- resuming-session -- resumes session from worktree context (v2)
+- ending-session -- merges session branch and cleans up worktree (v2)
+- learning-from-sessions -- depends on session error tracking hooks
+- All 5 hooks -- tied to personal enforcement patterns
 
 **Archived** (skip):
-- discussing-features — absorbed by brainstorming-code + designing-code
+- discussing-features -- absorbed by brainstorming-code + designing-code (moved to `.docs/archive/`)
 
-### 6. Conversion Effort Estimate per Plugin
+### 6. Conversion Status (Completed)
 
-| Plugin | Skills | Agents | Hooks | Effort | Notes |
+All 8 plugins were converted in commit `87a19a3`, with the session plugin further rearchitected in v2 (commits `92113aa`-`aefcf6f`).
+
+| Plugin | Skills | Agents | Hooks | Status | Notes |
 |--------|--------|--------|-------|--------|-------|
-| commandbase-core | 5 | 4 | 0 | Medium | Agent bundling question must be answered first |
-| commandbase-code | 8 | 3 | 0 | Medium | Largest skill count, many reference files |
-| commandbase-vault | 8 | 0 | 0 | Low | All skills, no unique agents |
-| commandbase-services | 6 | 0 | 0 | Low | All skills, no unique agents |
-| commandbase-research | 3 | 1 | 0 | Low | Clean separation, few dependencies |
-| commandbase-git-workflow | 5 | 0 | 1 | Medium | Hook bundling question, settings injection |
-| commandbase-session | 5 | 0 | 3 | High | Most personal, hook bundling, session structure |
-| commandbase-meta | 6 | 0 | 0 | Low | Standalone, no dependencies |
+| commandbase-core | 5 | 4 | 0 | Done | Agent bundling works as designed |
+| commandbase-code | 8 | 3 | 0 | Done | All reference files deployed correctly |
+| commandbase-vault | 8 | 0 | 0 | Done | Clean conversion |
+| commandbase-services | 6 | 0 | 0 | Done | Clean conversion |
+| commandbase-research | 4 | 1 | 0 | Done | Added analyzing-research post-conversion |
+| commandbase-git-workflow | 5 | 0 | 1 | Done | hooks.json pattern, SETUP.md for deny rules |
+| commandbase-session | 4 | 0 | 4 | Done (v2) | Rearchitected: git branching + worktrees, new skill names, detect-session hook added |
+| commandbase-meta | 6 | 0 | 0 | Done | Clean conversion |
 
 ## Architecture Notes
 
@@ -283,22 +304,20 @@ Every skill follows the same enforcement structure: Iron Law (NO X WITHOUT Y), G
 The Brainstorm→Research→Design→Structure→Plan→Implement chain is the core innovation. Each step reads upstream `.docs/` artifacts and writes downstream ones. This artifact-chaining pattern is what makes the domain-based plugin split natural — each domain has its own artifact chain but shares the docs infrastructure.
 
 ### Staleness Auto-Update
-4 skills (taking-over, planning-code, designing-code, resuming-sessions) check `git_commit` frontmatter and spawn `docs-updater` if documents are >3 commits behind HEAD. This is a cross-cutting concern that lives in commandbase-core via the docs-updater agent.
+4 upstream-reading skills (resuming-session, planning-code, designing-code, and auditing-docs) check `git_commit` frontmatter and spawn `docs-updater` if documents are >3 commits behind HEAD. This is a cross-cutting concern that lives in commandbase-core via the docs-updater agent.
 
 ## Code References
-- Skills: `C:/code/commandbase/newskills/*/SKILL.md` (47 files)
-- Agents: `C:/code/commandbase/newagents/*.md` (8 files)
-- Hooks: `C:/code/commandbase/newhooks/*/` (4 directories)
-- Deployed skills: `C:/Users/Jason/.claude/skills/` (mirrors newskills/)
-- Deployed agents: `C:/Users/Jason/.claude/agents/` (mirrors newagents/)
-- Deployed hooks: `C:/Users/Jason/.claude/hooks/` (mirrors newhooks/)
+- Plugins: `plugins/commandbase-*/` (8 plugin directories)
+- Marketplace manifest: `.claude-plugin/marketplace.json`
 - Prior research: `.docs/research/02-08-2026-plugin-marketplace-repo-best-practices-for-claude.md`
 
-## Open Questions
-1. **Agent bundling**: Can plugins include agent .md files? This is the #1 blocker — if not, commandbase-core and commandbase-code need restructuring.
-2. **Hook bundling**: Can plugins include hook scripts and settings.json modifications? Affects commandbase-git-workflow and commandbase-session.
-3. **Plugin dependencies**: Can `commandbase-code` declare a dependency on `commandbase-core`? If not, shared agents may need to be duplicated across plugins.
-4. **Reference file deployment**: Do `reference/` and `templates/` subdirectories within skills deploy correctly in plugins?
-5. **Marketplace scope**: Single marketplace repo containing all 8 plugins, or separate repos per plugin?
-6. **Cross-platform portability**: Should skills be adapted for the Agent Skills open standard (agentskills.io) to target OpenAI Codex too?
-7. **Personal vs public**: Should personal workflow plugins (session, git-workflow) be published as-is, generalized, or kept private?
+**Note**: The legacy `newskills/`, `newagents/`, and `newhooks/` directories were the source of truth at research time. These were restructured into the `plugins/` directory in commit `87a19a3`. The legacy session skills (`newskills/handing-over/`, etc.) were further modified during v2 but are superseded by the plugin versions.
+
+## Remaining Open Questions
+1. ~~**Agent bundling**~~: RESOLVED -- yes, plugins support `agents/` directories.
+2. ~~**Hook bundling**~~: RESOLVED -- yes, via `hooks/hooks.json` + `scripts/`.
+3. ~~**Plugin dependencies**~~: PARTIALLY RESOLVED -- not formally declared, documented in descriptions instead.
+4. ~~**Reference file deployment**~~: RESOLVED -- yes, deploys correctly.
+5. ~~**Marketplace scope**~~: RESOLVED -- single marketplace repo with 8 plugins.
+6. **Cross-platform portability**: Still open. Agent Skills open standard (agentskills.io) compatibility not yet explored.
+7. **Personal vs public**: Still open. Session and git-workflow plugins remain personal but functional for others.

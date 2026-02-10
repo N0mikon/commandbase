@@ -1,9 +1,13 @@
 ---
 status: archived
 archived: 2026-02-07
-archive_reason: "Concept fully implemented as /naming-session skill. The skill is deployed at ~/.claude/skills/naming-session/ with source at newskills/naming-session/SKILL.md. All open questions resolved during Phase 1 Foundations implementation (commits ae98216, 3d737ac)."
+archive_reason: "Concept fully implemented and superseded by /starting-session skill in commandbase-session plugin. The original newskills/naming-session/ path no longer exists; session naming is now handled as Step 3 of plugins/commandbase-session/skills/starting-session/SKILL.md. All open questions resolved during Phase 1 Foundations implementation (commits ae98216, 3d737ac)."
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Added git_commit frontmatter, corrected archive_reason to reflect current plugin path (plugins/commandbase-session/skills/starting-session/SKILL.md)"
 references:
-  - newskills/naming-session/SKILL.md
+  - plugins/commandbase-session/skills/starting-session/SKILL.md
 ---
 
 # Session Naming (`/naming-session`)

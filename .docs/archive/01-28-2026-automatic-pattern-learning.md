@@ -1,28 +1,28 @@
 ---
-git_commit: 22359f4
-last_updated: 2026-02-01
+git_commit: 8e92bba
+last_updated: 2026-02-09
 last_updated_by: docs-updater
-last_updated_note: "Updated references - skills renamed, newreference/ superseded by skill-local reference/ dirs"
+last_updated_note: "Staleness review at 64 commits behind - corrected references after plugin restructure; newskills/ removed, skills migrated to plugins/, /handing-over skill retired"
 topic: "Automatic Pattern Learning with /learn Skill"
 tags: [plan, learn, patterns, CLAUDE.md, reference]
 status: historical
 archived: 2026-02-01
 archive_reason: "Plan fully implemented - /learning-from-sessions skill operational with reference files, automatic behaviors in CLAUDE.md, all success criteria met"
 references:
-  - C:/code/commandbase/.docs/research/01-28-2026-learn-command-pattern.md
+  - .docs/archive/01-28-2026-learn-command-pattern.md
   - C:/Users/Jason/.claude/reference/Writing a good CLAUDE.md
-  - C:/code/commandbase/newskills/starting-projects/SKILL.md
-  - C:/code/commandbase/newskills/handing-over/SKILL.md
+  - plugins/commandbase-core/skills/starting-projects/SKILL.md
+  - plugins/commandbase-session/skills/learning-from-sessions/SKILL.md
 ---
 
 # Automatic Pattern Learning Implementation Plan
 
-> **Historical Note (2026-02-01)**:
+> **Historical Note (2026-02-01, updated 2026-02-09)**:
 > - The `newreference/` approach in this plan was superseded by skill-local `reference/` subdirectories
-> - `/learn` is now implemented as `/learning-from-sessions`
-> - `/new_project` is now `/starting-projects`
-> - `/handover` is now `/handing-over`
-> See current skills in `newskills/` for the updated structure.
+> - `/learn` is now implemented as `/learning-from-sessions` (in `plugins/commandbase-session/`)
+> - `/new_project` is now `/starting-projects` (in `plugins/commandbase-core/`)
+> - `/handover` / `/handing-over` was retired during the plugin restructure
+> - The `newskills/` directory was removed; all skills now live under `plugins/<plugin>/skills/`
 
 ## Overview
 

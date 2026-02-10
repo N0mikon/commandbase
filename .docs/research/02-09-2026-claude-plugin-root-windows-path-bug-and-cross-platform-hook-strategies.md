@@ -3,7 +3,7 @@ date: 2026-02-09
 status: complete
 topic: "CLAUDE_PLUGIN_ROOT Windows Path Bug and Cross-Platform Hook Strategies"
 tags: [research, hooks, plugins, windows, mingw, CLAUDE_PLUGIN_ROOT, cross-platform]
-git_commit: 373b5d2
+git_commit: 8e92bba
 ---
 
 # CLAUDE_PLUGIN_ROOT Windows Path Bug and Cross-Platform Hook Strategies

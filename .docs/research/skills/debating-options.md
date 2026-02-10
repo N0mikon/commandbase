@@ -1,8 +1,17 @@
+---
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Added frontmatter, updated file reference from legacy ~/.claude/skills path to plugin path, noted expanded enforcement sections in SKILL.md"
+references:
+  - plugins/commandbase-core/skills/debating-options/SKILL.md
+---
+
 # Research: debating-options Skill
 
 ## Overview
 
-The `debating-options` skill (`~/.claude/skills/debating-options/SKILL.md`) launches parallel research agents to investigate multiple options, then synthesizes findings into a structured decision matrix with recommendation. It operates in two modes: Objective (default) and Advocate.
+The `debating-options` skill (`plugins/commandbase-core/skills/debating-options/SKILL.md`) launches parallel research agents to investigate multiple options, then synthesizes findings into a structured decision matrix with recommendation. It operates in two modes: Objective (default) and Advocate.
 
 **Trigger phrases**: `/debating-options`, `debate these options`, `compare these choices`, `which should I choose`
 
@@ -15,7 +24,7 @@ The `debating-options` skill (`~/.claude/skills/debating-options/SKILL.md`) laun
 
 ## Objective Mode Process (Default)
 
-### 5-Step Workflow (SKILL.md:26-51)
+### 5-Step Workflow (SKILL.md Gate Function + Process sections)
 
 1. **IDENTIFY OPTIONS**: Extract 2-4 distinct options from context
 2. **LAUNCH RESEARCHERS** (parallel): One background agent per option, reports facts without advocacy
@@ -92,7 +101,7 @@ Use ratings: Strong, Moderate, Weak
 
 ## Parallel Agent Spawning Pattern
 
-### Implementation Configuration (SKILL.md:176-182)
+### Implementation Configuration (SKILL.md Implementation Notes section)
 
 - **Agent type**: `subagent_type: general-purpose` for all agents
 - **Researchers/Advocates**: `model: haiku` (fast, parallel)
@@ -135,4 +144,4 @@ Response: Launches advocates who argue for each option, judge decides.
 
 ## File Reference
 
-- Main: `~/.claude/skills/debating-options/SKILL.md`
+- Main: `plugins/commandbase-core/skills/debating-options/SKILL.md`

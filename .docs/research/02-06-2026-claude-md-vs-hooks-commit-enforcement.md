@@ -1,3 +1,15 @@
+---
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Added frontmatter, updated hook path to reflect plugin conversion (50 commits behind, was bc5390d)"
+references:
+  - plugins/commandbase-git-workflow/skills/committing-changes/SKILL.md
+  - plugins/commandbase-git-workflow/scripts/nudge-commit-skill.py
+  - plugins/commandbase-git-workflow/hooks/hooks.json
+  - plugins/commandbase-git-workflow/SETUP.md
+---
+
 # CLAUDE.md Rules vs Hooks for Commit Skill Enforcement
 
 **Date:** 02-06-2026
@@ -106,7 +118,7 @@ A hook that detects when `git commit` was run directly and injects a reminder. T
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'python3 ~/.claude/hooks/nudge-commit-skill.py'"
+            "command": "bash -c 'python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/nudge-commit-skill.py\"'"
           }
         ]
       }
@@ -114,6 +126,8 @@ A hook that detects when `git commit` was run directly and injects a reminder. T
   }
 }
 ```
+
+> **Note:** This hook is bundled in the `commandbase-git-workflow` plugin at `plugins/commandbase-git-workflow/hooks/hooks.json`. The `${CLAUDE_PLUGIN_ROOT}` variable resolves to the plugin's install directory at runtime. The skill appends `# via-committing-changes` to its own `git commit` and `git push` commands so the hook can distinguish skill-originated commits from direct ones.
 
 #### Layer 3: Deny Rules (hard-block patterns the skill never uses)
 

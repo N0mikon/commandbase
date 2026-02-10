@@ -1,8 +1,20 @@
 ---
 date_researched: 2026-02-06
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Added git_commit frontmatter and references; fixed internal inconsistency (7 events -> 14 events in Hook SDK section)"
+git_commit: 8e92bba
 sources: [context7]
 primary_framework: "Claude Code CLI (skills, agents, hooks)"
 status: current
+references:
+  - plugins/commandbase-core/skills/
+  - plugins/commandbase-core/agents/
+  - plugins/commandbase-git-workflow/hooks/hooks.json
+  - plugins/commandbase-session/hooks/hooks.json
+  - plugins/commandbase-meta/skills/creating-skills/SKILL.md
+  - plugins/commandbase-meta/skills/creating-agents/SKILL.md
+  - plugins/commandbase-meta/skills/creating-hooks/SKILL.md
 ---
 
 # Framework Documentation Snapshot
@@ -200,7 +212,7 @@ npm install -D @mizunashi_mana/claude-code-hook-sdk tsx
 ```
 
 ### Key Advantage Over Raw Python
-- Full TypeScript types for all 7 event inputs/outputs
+- Full TypeScript types for all 14 event inputs/outputs
 - Zod runtime validation catches malformed input
 - `preToolRejectHook` eliminates boilerplate for command blocking
 - `postToolUpdateFileHook` extracts file paths, added/deleted lines automatically

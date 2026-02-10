@@ -1,65 +1,91 @@
+---
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Added frontmatter, updated file path from ~/.claude/agents/ to plugin location, corrected tools list, refreshed output format and integration points to match current agent definition"
+references:
+  - plugins/commandbase-research/agents/web-researcher.md
+  - plugins/commandbase-research/skills/researching-web/SKILL.md
+---
+
 # Research: web-researcher Agent
 
 ## Overview
 
-The `web-researcher` agent (`~/.claude/agents/web-researcher.md`) researches information from the web when you need modern, up-to-date information that may not be in training data.
+The `web-researcher` agent (`plugins/commandbase-research/agents/web-researcher.md`) searches the web and fetches page content to find current, sourced information. It is used when up-to-date information beyond training data is needed -- API docs, best practices, library comparisons, error solutions, or any question where recency matters.
 
-**When to Use**: For API docs, best practices, library usage, and technical solutions that require current information.
+**When to Use**: For API docs, best practices, library usage, technical solutions, comparisons, and any topic where current information is required.
 
 ## Capabilities
 
 - Web search with WebSearch tool
-- Fetch web pages with WebFetch tool
-- Read files with Read tool
-- Search code with Grep tool
-- Find files with Glob tool
-- List directories with LS tool
+- Fetch and analyze web page content with WebFetch tool
 
-**Tools Available**: WebSearch, WebFetch, Read, Grep, Glob, LS
+**Tools Available**: WebSearch, WebFetch
+
+**Model**: sonnet
+
+## Core Responsibilities
+
+1. **Source Every Claim** -- Every finding must have a URL attribution
+2. **Include Direct Quotes** -- Key findings backed by exact quotes from sources
+3. **Assess Source Authority** -- Rank: official docs > recognized experts > community consensus > individual blogs
+4. **Note Publication Dates** -- Flag time-sensitive information with dates
+5. **Highlight Conflicts** -- When sources disagree, present both sides with attribution
 
 ## Invocation Pattern
 
-Called from skills via Task tool:
+Called from skills (primarily `/researching-web`) via Task tool:
 ```
 subagent_type: "web-researcher"
-prompt: "Research [topic] - focus on [specific aspect]"
+prompt: "Research [topic] - focus on [specific aspect]. Include source URLs and publication dates."
 ```
 
-## Use Cases
+The `/researching-web` skill decomposes questions into 2-4 search angles and spawns multiple `web-researcher` agents in parallel, each handling a different angle.
 
-1. **API Documentation**: Find current API docs
-2. **Best Practices**: Research current recommendations
-3. **Library Usage**: Find how to use specific libraries
-4. **Technical Solutions**: Research solutions to problems
+## Search Strategies
+
+- **API/Library Documentation**: Official docs first, changelogs, code examples
+- **Best Practices**: Recent articles, recognized experts, cross-referenced consensus, anti-patterns
+- **Technical Solutions**: Specific error messages, Stack Overflow, GitHub issues
+- **Comparisons**: "X vs Y" articles, benchmarks, migration guides, evaluation criteria
+
+## Search Efficiency
+
+- Start with 2-3 well-crafted searches before fetching content
+- Fetch only the most promising 3-5 pages initially
+- Use search operators: quotes for exact phrases, `-` for exclusions, `site:` for specific domains
 
 ## Output Format
 
 ```markdown
-## Research: [Topic]
-
 ### Summary
-[High-level findings]
+[Brief overview of key findings]
 
-### Key Findings
-1. [Finding 1] - Source: [link]
-2. [Finding 2] - Source: [link]
+### Detailed Findings
 
-### Recommendations
-Based on research:
-- [Recommendation 1]
-- [Recommendation 2]
+#### [Topic/Source 1]
+**Source**: [Name](URL) (date, authority tier)
+**Key Information**:
+- Direct quote or finding
+- Additional relevant details
 
-### Sources
-- [Title 1](url)
-- [Title 2](url)
+#### [Topic/Source 2]
+[Continue pattern...]
+
+### Gaps
+[Information that couldn't be found or needs further investigation]
 ```
 
 ## Integration Points
 
-- Supports `/planning-code` for technology research
-- Helps `/starting-projects` with best practices
-- Assists `/researching-code` for external context
+- Primary caller: `/researching-web` (spawns parallel web-researcher agents)
+- Also used by: `/researching-frameworks` for framework evaluation
+- Indirectly supports `/planning-code`, `/starting-projects`, and `/researching-code` when those skills need external context
 
 ## File Reference
 
-- Agent: `~/.claude/agents/web-researcher.md`
+- Agent: `plugins/commandbase-research/agents/web-researcher.md`
+- Primary skill: `plugins/commandbase-research/skills/researching-web/SKILL.md`
+- Search strategies reference: `plugins/commandbase-research/skills/researching-web/reference/search-strategies.md`
+- Evidence requirements: `plugins/commandbase-research/skills/researching-web/reference/evidence-requirements.md`

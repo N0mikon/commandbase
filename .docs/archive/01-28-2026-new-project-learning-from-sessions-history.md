@@ -1,7 +1,8 @@
 ---
-git_commit: 22359f4
-last_updated: 2026-01-28
-last_updated_by: learning-from-sessions
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Reviewed at 64 commits behind - confirmed accurate as historical record. Skills migrated from newskills/ to plugins/ structure; newreferences/ removed entirely. No content changes needed."
 topic: "History of /new_project and /learning-from-sessions Creation"
 tags: [research, starting-projects, learning-from-sessions, learn, newreferences, pattern-learning]
 status: resolved

@@ -1,13 +1,17 @@
 ---
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Added git_commit frontmatter; updated superseded_by paths from newskills/ to plugins/commandbase-code/skills/ and plan to archive location"
 archived: 2026-02-07
 archive_reason: "Concept fully implemented as Phase 2 BRDSPI Core. All proposed skills deployed: /designing-code (192 lines), /structuring-code (195 lines), /starting-refactors (179 lines), /planning-code modified (299 lines), docs-writer extended with 3 new doc_types. Superseded by actual skill files and implementation plan."
 original_location: .docs/future-skills/rdspi-workflow.md
 superseded_by:
-  - newskills/designing-code/SKILL.md
-  - newskills/structuring-code/SKILL.md
-  - newskills/starting-refactors/SKILL.md
-  - newskills/planning-code/SKILL.md
-  - .docs/plans/02-07-2026-phase-2-brdspi-core-implementation.md
+  - plugins/commandbase-code/skills/designing-code/SKILL.md
+  - plugins/commandbase-code/skills/structuring-code/SKILL.md
+  - plugins/commandbase-code/skills/starting-refactors/SKILL.md
+  - plugins/commandbase-code/skills/planning-code/SKILL.md
+  - .docs/archive/02-07-2026-phase-2-brdspi-core-implementation.md
 ---
 
 # RDSPI Workflow Evolution

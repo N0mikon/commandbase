@@ -1,13 +1,16 @@
 ---
 date: 2026-02-08
-status: active
+status: resolved
 topic: "Session Learnings: end-to-end-test"
 tags: [learnings, end-to-end-test, bare-repo, worktrees, hooks, mingw]
-git_commit: 373b5d2
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Updated after 5 commits - all 10 deferred actions resolved by v2.1 implementation (aefcf6f). Fixed stale reference path. Status changed to resolved."
 references:
   - plugins/commandbase-session/skills/starting-session/SKILL.md
   - plugins/commandbase-session/skills/ending-session/SKILL.md
-  - plugins/commandbase-git-workflow/hooks/nudge-commit-skill.py
+  - plugins/commandbase-git-workflow/scripts/nudge-commit-skill.py
 ---
 
 # Session Learnings: end-to-end-test
@@ -32,13 +35,15 @@ references:
 
 ## Deferred Actions
 
-- [ ] Update `/ending-session` SKILL.md: add `git -C "$bare"` pattern for worktree removal (same fix as `/starting-session`)
-- [ ] Update `/ending-session` SKILL.md: add workaround for cwd-lock — either instruct user to run from main worktree, or document manual cleanup step after session ends
-- [ ] Update `/ending-session` SKILL.md: handle ghost worktree state (directory exists but git doesn't track it)
-- [ ] Create hook setup documentation or script for manual (non-plugin) skill installations
-- [ ] Update `nudge-commit-skill.py`: add skill-awareness to suppress false positives when running inside `/committing-changes`
-- [ ] Update `meta.json` schema: replace `sessionId` (string) with `claudeSessionIds` (array of UUIDs) to track multiple transcripts per session
-- [ ] Update `SessionStart` hook (`detect-session.py`): append current Claude UUID to `meta.json.claudeSessionIds` on every session start (including after `/clear`)
-- [ ] Update `/starting-session` SKILL.md: write `claudeSessionIds: []` in meta.json instead of `sessionId`
-- [ ] Update `/learning-from-sessions` SKILL.md: add post-session mode that reads transcript `.jsonl` files from `~/.claude/projects/{path}/{uuid}.jsonl` using `claudeSessionIds` from meta.json
-- [ ] Update `/resuming-session` SKILL.md: adapt session detection to use `claudeSessionIds` array
+All resolved in session skills v2.1 (commit aefcf6f, 2026-02-09).
+
+- [x] Update `/ending-session` SKILL.md: add `git -C "$bare"` pattern for worktree removal -- Fixed in ending-session SKILL.md Step 6 (lines 183-189)
+- [x] Update `/ending-session` SKILL.md: add workaround for cwd-lock -- Fixed in ending-session Session Verification (lines 60-73): detects running from session worktree, instructs user to switch to main
+- [x] Update `/ending-session` SKILL.md: handle ghost worktree state -- Fixed in ending-session Step 6 and Discard Mode (lines 193-199, 269-276): verification check after removal with manual cleanup instructions
+- [x] Create hook setup documentation or script for manual (non-plugin) skill installations -- Addressed by plugin hooks.json pattern; hooks point to plugin script paths via `${CLAUDE_PLUGIN_ROOT}`. Manual install documented in v2.1 plan Phase 0
+- [x] Update `nudge-commit-skill.py`: add skill-awareness to suppress false positives -- Fixed in scripts/nudge-commit-skill.py (lines 21-23): checks for `# via-committing-changes` comment marker
+- [x] Update `meta.json` schema: `claudeSessionIds` array added -- Fixed in starting-session SKILL.md Step 6 (lines 200-214): both `sessionId` (backward compat) and `claudeSessionIds: []` present
+- [x] Update `SessionStart` hook (`detect-session.py`): append UUID on every fire -- Fixed in detect-session.py (lines 62-68): calls `update_meta_json(session_dir, session_id)` after session match
+- [x] Update `/starting-session` SKILL.md: write `claudeSessionIds: []` -- Fixed in starting-session SKILL.md Step 6 (line 201)
+- [x] Update `/learning-from-sessions` SKILL.md: add post-session mode -- Fixed in learning-from-sessions SKILL.md Post-Session Mode section (lines 263-283): full transcript reading instructions
+- [x] Update `/resuming-session` SKILL.md: adapt to `claudeSessionIds` array -- Fixed in resuming-session SKILL.md Mode A Step 1 (lines 88-90): reads `claudeSessionIds` with fallback to `sessionId`

@@ -1,100 +1,257 @@
 ---
-git_commit: 2d50723
-last_updated: 2026-02-05
+git_commit: 8e92bba
+last_updated: 2026-02-09
 last_updated_by: docs-updater
-last_updated_note: "Updated after 2 commits - corrected skill count to 19, noted skill drift sync completed"
-topic: "Created reviewing-changes and updating-skills skills"
-tags: [handover, skills, reviewing-changes, updating-skills, archived]
-status: archived
-archived: 2026-02-08
-archive_reason: "All work completed and committed. /reviewing-changes and /updating-skills (now /auditing-skills) deployed. Handoff is 6 days old with no pending next steps. References stale skill name (updating-skills → auditing-skills)."
+archived: 2026-02-09
+archive_reason: "Completed plan - all 5 phases done, skill fully implemented at plugins/commandbase-git-workflow/skills/reviewing-changes/SKILL.md. Path reference updated from old newskills/ structure."
 references:
-  - newskills/reviewing-changes/SKILL.md
-  - newskills/validating-code/SKILL.md
-  - newskills/updating-skills/SKILL.md
-  - .docs/plans/02-02-2026-updating-skills-skill.md
+  - plugins/commandbase-git-workflow/skills/reviewing-changes/SKILL.md
+  - plugins/commandbase-git-workflow/skills/reviewing-changes/templates/review-report.md
+  - .docs/research/02-02-2026-reviewing-and-updating-skills-research.md
 ---
 
-# Handover: reviewing-changes Skill & Skills Ecosystem Review
+# Plan: reviewing-changes Skill
 
-**Date**: 2026-02-02
-**Branch**: master
+## Overview
 
-## What I Was Working On
+Create a pre-commit quality gate skill that reviews code changes between `/validating-code` and `/committing-changes`. Uses PASS/WARN verdicts (no auto-blocking) to surface quality issues while letting the user decide whether to proceed.
 
-1. Comprehensive skills ecosystem review - **completed**
-2. Create `reviewing-changes` skill - **completed**
-3. Create `updating-skills` skill - **completed**
+## Context
 
-## What I Accomplished
+**Research:** `.docs/research/02-02-2026-reviewing-and-updating-skills-research.md`
 
-- Ran 5 parallel research agents to analyze all skills (18 at the time, now 19 with debating-options added separately)
-- Identified workflow gaps (pre-PR quality gate, cold-start orientation, auto-debug)
-- Created `reviewing-changes` skill with 5 check categories and PASS/WARN verdicts
-- Updated `/validating-code` to include option 4 for `/reviewing-changes`
-- Wrote plan for `updating-skills` skill (ready for implementation)
-- Created research docs documenting skills ecosystem analysis
+**The Gap:**
+- `/validating-code` confirms code matches plan and tests pass
+- `/committing-changes` checks git status, security (public repos only)
+- Between them: no check for code quality, commit structure, or message quality
 
-## Key Learnings
+**Integration Points:**
+- Input: Validation complete, changed files ready
+- Output: Quality report with suggested commit messages
+- Next: `/committing-changes` uses the suggestions
 
-1. **Use /creating-skills when making skills** - I wrote reviewing-changes directly from the plan without invoking the skill. It passed validation, but the skill exists for a reason. Use it.
+## What We're NOT Doing
 
-2. **Skill validation rules are strict** (`~/.claude/skills/creating-skills/reference/validation-rules.md:27-37`):
-   - Description must be <1024 chars, no angle brackets, third person
-   - Must start with "Use this skill when..."
-   - Angle brackets allowed in body, just not description
+- No auto-BLOCK verdicts (user always decides)
+- No security checks (that's `/reviewing-security`)
+- No spec compliance (that's `/validating-code`)
+- No enforcement of commit message format (suggest, don't require)
 
-3. **Severity ranking matters** - Added priority ordering to check categories (SKILL.md:44-49):
-   - Code Cleanliness > Diff Coherence > Commit Atomicity > Doc Sync > Message Quality
-   - Debug code in production is more embarrassing than a mediocre commit message
+---
 
-4. **Skills ecosystem has clear gaps**:
-   - No pre-PR validation (reviewing-changes fills this)
-   - No cold-start orientation (rejected - /researching-code covers it)
-   - No auto-debug on failure (not a pain point currently)
+## Phase 1: Define Check Categories
 
-5. **Workflow documentation is an integration point** - When adding a new skill to the workflow, update the skills that come before/after to reference it (validating-code:160-165)
+### Goal
+Establish what "quality" means for this skill.
 
-## Files Changed
+### Tasks
+- [x] Define 5 check categories with specific criteria
+- [x] Define what triggers WARN for each category
+- [x] Create severity guidance (which WARNs matter most) - Added ranking in SKILL.md
 
-- `newskills/reviewing-changes/SKILL.md` - New skill (277 lines)
-- `newskills/reviewing-changes/templates/review-report.md` - Output template with PASS/WARN examples
-- `newskills/validating-code/SKILL.md:160-165` - Added option 4 for /reviewing-changes
-- `.docs/research/02-02-2026-skills-ecosystem-review.md` - Full ecosystem analysis
-- `.docs/research/02-02-2026-reviewing-and-updating-skills-research.md` - Pre-planning research
-- `.docs/plans/02-02-2026-reviewing-changes-skill.md` - Completed plan (all checkboxes marked)
-- `.docs/plans/02-02-2026-updating-skills-skill.md` - Completed plan (implemented)
-- `newskills/updating-skills/SKILL.md` - New skill (218 lines)
-- `newskills/updating-skills/reference/audit-checklist.md` - Audit mode checklist
-- `newskills/updating-skills/reference/common-fixes.md` - Common fix patterns
+### Check Categories
 
-## Current State
+**1. Code Cleanliness**
+- Debug statements left in (console.log, print, debugger)
+- Commented-out code blocks
+- TODO/FIXME comments in new code
+- Unused imports or variables
 
-- `reviewing-changes` deployed to `~/.claude/skills/` and working
-- Skill tested via `/reviewing-changes` - produced WARN with atomicity finding
-- `/validating-code` updated to reference new skill
-- `updating-skills` implemented and deployed to `~/.claude/skills/`
-  - Two modes: Audit (read-only) and Update (interactive fixes)
-  - No batch operations per user preference
+**2. Commit Atomicity**
+- Changes span unrelated concerns
+- Multiple logical changes in one diff
+- Suggest split if changes are separable
 
-## Next Steps
+**3. Commit Message Quality**
+- Draft message based on diff analysis
+- Flag if changes are hard to summarize (sign of poor atomicity)
 
-1. **Test reviewing-changes in real workflow** - Use it before next few commits to validate the check categories are useful
+**4. Diff Coherence**
+- Unrelated files modified together
+- Accidental inclusions (lockfiles, generated files)
+- Whitespace-only changes mixed with real changes
 
-2. **Test updating-skills on real skills** - Run audit mode to find inconsistencies
+**5. Documentation Sync**
+- README mentions changed functionality
+- CLAUDE.md references modified patterns
+- API docs for changed endpoints
 
-3. **Consider debating-options improvements** - The skill worked well for mode selection debate earlier in session
+### Success Criteria
+- [x] Check categories documented in SKILL.md
+- [x] Each category has clear WARN triggers
+- [x] Categories are actionable (can be fixed)
 
-## Context & References
+---
 
-- Plan: `.docs/plans/02-02-2026-updating-skills-skill.md` (completed)
-- Research: `.docs/research/02-02-2026-skills-ecosystem-review.md` (full analysis)
-- Validation rules: `~/.claude/skills/creating-skills/reference/validation-rules.md`
-- Deployed skills: `~/.claude/skills/reviewing-changes/`, `~/.claude/skills/updating-skills/`
+## Phase 2: Create Verdict Logic
 
-## Notes
+### Goal
+Define how checks combine into PASS/WARN verdicts.
 
-- User explicitly rejected batch operations for updating-skills - single skill at a time only
-- User chose WARN-only verdicts for reviewing-changes - no auto-blocking
-- The "orienting-codebases" skill was rejected as redundant with /researching-code
-- "recovering-failures" (auto-debug) not a current pain point - deferred
+### Tasks
+- [x] Define PASS criteria (no issues found)
+- [x] Define WARN criteria (issues found, user decides)
+- [x] Create report format showing findings
+
+### Verdict Rules
+
+**PASS** - All checks clear
+- No debug statements
+- Single logical change OR user confirms intentional grouping
+- Documentation appears synced
+- Commit message draft provided
+
+**WARN** - Issues found, user decides
+- List all findings by category
+- Suggest fixes for each
+- Ask: "Proceed anyway?" or "Fix first?"
+
+### Report Format
+
+```markdown
+## Review: [PASS|WARN]
+
+### Findings
+
+**Code Cleanliness**
+- ⚠️ Found `console.log` at src/utils.ts:47
+- ✓ No commented-out code
+
+**Commit Atomicity**
+- ⚠️ Changes span 3 unrelated areas (suggest splitting)
+  - Auth changes: src/auth/*.ts
+  - UI changes: src/components/*.tsx
+  - Config changes: config/*.json
+
+**Documentation**
+- ⚠️ README mentions "login flow" but auth files changed
+
+### Suggested Commit Message
+[Draft based on diff analysis]
+
+### Recommendation
+[Proceed with warnings | Fix issues first]
+```
+
+### Success Criteria
+- [x] Verdict logic documented
+- [x] Report format specified
+- [x] User decision point clear
+
+---
+
+## Phase 3: Write SKILL.md
+
+### Goal
+Create the main skill file following enforcement patterns.
+
+### Tasks
+- [x] Write frontmatter (name, description)
+- [x] Write Iron Law
+- [x] Write Gate Function
+- [x] Write review process
+- [x] Write Red Flags and Rationalization Prevention
+
+### Structure
+
+```
+plugins/commandbase-git-workflow/skills/reviewing-changes/
+├── SKILL.md              # Main skill (~200 lines)
+└── templates/
+    └── review-report.md  # Output template
+```
+
+### Key Sections
+
+**Iron Law:** `NO COMMIT WITHOUT REVIEWING CHANGES FIRST`
+
+**Gate Function:**
+1. Get list of changed files (git status)
+2. Get full diff (git diff)
+3. Run 5 check categories
+4. Compile findings into report
+5. Present verdict and suggestions
+6. ONLY THEN: User decides to proceed or fix
+
+**Integration with workflow:**
+- Triggered after `/validating-code` says "Continue to commit?"
+- Produces report that `/committing-changes` can use
+- Suggested commit message passed forward
+
+### Success Criteria
+- [x] SKILL.md follows enforcement pattern
+- [x] Under 300 lines (simple skill) - 270 lines
+- [x] Description uses WHEN formula
+- [x] Passes validation checklist
+
+---
+
+## Phase 4: Add Templates
+
+### Goal
+Create output template for consistent reports.
+
+### Tasks
+- [x] Create review-report.md template
+- [x] Include all check categories
+- [x] Include commit message draft section
+
+### Template Content
+
+Located at `templates/review-report.md`:
+- Header with verdict
+- Findings by category (with ✓/⚠️ markers)
+- Suggested commit message
+- Recommendation (proceed/fix)
+- User decision prompt
+
+### Success Criteria
+- [x] Template covers all check categories
+- [x] Template is actionable (shows what to fix)
+- [x] Commit message section included
+
+---
+
+## Phase 5: Integration and Testing
+
+### Goal
+Connect skill to workflow and validate it works.
+
+### Tasks
+- [x] Deploy to ~/.claude/skills/
+- [x] Test on real changes
+- [x] Verify report format works
+- [x] Update workflow documentation - Added option 4 to /validating-code
+
+### Integration Points
+
+**After validation:**
+```
+/validating-code
+   ↓ "Continue to commit/PR?"
+   ↓
+/reviewing-changes  <-- invoke here
+   ↓ [PASS: proceed | WARN: decide]
+   ↓
+/committing-changes
+```
+
+**Workflow suggestion:** Add to `/validating-code` next-action prompt:
+- Option 5: "Review changes before committing"
+
+### Success Criteria
+- [x] Skill deployed and invocable
+- [x] Works on test changes
+- [x] Report is readable and actionable
+- [x] Integrates smoothly with commit workflow
+
+---
+
+## Verification
+
+After all phases complete:
+- [x] `/reviewing-changes` invocable
+- [x] Runs 5 check categories
+- [x] Produces PASS/WARN verdict
+- [x] Includes suggested commit message
+- [x] User decides whether to proceed

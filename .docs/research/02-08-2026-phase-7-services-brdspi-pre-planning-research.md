@@ -3,34 +3,35 @@ date: 2026-02-08
 status: complete
 topic: "Phase 7 Services BRDSPI Pre-Planning Research"
 tags: [research, services, brdspi, phase-7, infrastructure, homelab]
-git_commit: 31aa0ef
-implementation_status: "All 5 skills deployed and operational (31aa0ef)"
-last_updated: 2026-02-08
-last_updated_note: "Phase 7 implementation complete - all open questions resolved and built into deployed skills"
+git_commit: 8e92bba
+implementation_status: "All 5 skills deployed and operational (31aa0ef), restructured into plugin (87a19a3)"
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Updated after 13 commits - refreshed all skill paths from ~/.claude/skills/ and newskills/ to plugins/commandbase-*/skills/ after plugin marketplace restructure (87a19a3)"
 references:
   - .docs/plans/02-07-2026-future-skills-implementation-roadmap.md
   - .docs/plans/02-08-2026-phase-7-services-brdspi-skills.md
   - .docs/future-skills/services-rdspi.md
-  - ~/.claude/skills/brainstorming-services/SKILL.md
-  - ~/.claude/skills/researching-services/SKILL.md
-  - ~/.claude/skills/designing-services/SKILL.md
-  - ~/.claude/skills/structuring-services/SKILL.md
-  - ~/.claude/skills/planning-services/SKILL.md
-  - ~/.claude/skills/implementing-services/SKILL.md
-  - ~/.claude/skills/researching-vault/SKILL.md
-  - ~/.claude/skills/designing-vault/SKILL.md
-  - ~/.claude/skills/structuring-vault/SKILL.md
-  - ~/.claude/skills/planning-vault/SKILL.md
-  - ~/.claude/skills/implementing-vault/SKILL.md
-  - ~/.claude/skills/designing-code/SKILL.md
-  - ~/.claude/skills/implementing-plans/SKILL.md
+  - plugins/commandbase-services/skills/brainstorming-services/SKILL.md
+  - plugins/commandbase-services/skills/researching-services/SKILL.md
+  - plugins/commandbase-services/skills/designing-services/SKILL.md
+  - plugins/commandbase-services/skills/structuring-services/SKILL.md
+  - plugins/commandbase-services/skills/planning-services/SKILL.md
+  - plugins/commandbase-services/skills/implementing-services/SKILL.md
+  - plugins/commandbase-vault/skills/researching-vault/SKILL.md
+  - plugins/commandbase-vault/skills/designing-vault/SKILL.md
+  - plugins/commandbase-vault/skills/structuring-vault/SKILL.md
+  - plugins/commandbase-vault/skills/planning-vault/SKILL.md
+  - plugins/commandbase-vault/skills/implementing-vault/SKILL.md
+  - plugins/commandbase-code/skills/designing-code/SKILL.md
+  - plugins/commandbase-code/skills/implementing-plans/SKILL.md
 ---
 
 # Phase 7 Services BRDSPI Pre-Planning Research
 
 **Date**: 2026-02-08
 **Branch**: master
-**Status**: Complete and Implemented (All 5 skills deployed to ~/.claude/skills/ as of 31aa0ef)
+**Status**: Complete and Implemented (All 5 skills deployed as of 31aa0ef, restructured into plugins/commandbase-services/ as of 87a19a3)
 
 ## Research Question
 What patterns, structures, and domain-specific adaptations are needed to build 5 Services BRDSPI skills (/researching-services, /designing-services, /structuring-services, /planning-services, /implementing-services) based on proven code and vault BRDSPI patterns?
@@ -191,33 +192,35 @@ The concept doc uses `/services-research`, `/services-design`, etc. The roadmap 
 Based on vault and code precedent, each services skill should have:
 
 ```
-newskills/researching-services/
+plugins/commandbase-services/skills/researching-services/
 ├── SKILL.md                                    (~200-250 lines)
 ├── reference/services-research-aspects.md       (research dimensions)
 └── templates/services-research-template.md      (docs-writer output format)
 
-newskills/designing-services/
+plugins/commandbase-services/skills/designing-services/
 ├── SKILL.md                                    (~195-210 lines)
 ├── reference/services-design-domains.md         (decision domains + questions)
 └── templates/services-design-template.md        (design doc format)
 
-newskills/structuring-services/
+plugins/commandbase-services/skills/structuring-services/
 ├── SKILL.md                                    (~200-220 lines)
 ├── reference/services-structure-aspects.md      (structural dimensions)
 └── templates/services-structural-map-template.md (structural map format)
 
-newskills/planning-services/
+plugins/commandbase-services/skills/planning-services/
 ├── SKILL.md                                    (~250-300 lines)
 ├── reference/services-research-workflow.md      (pre-plan research process)
 └── templates/services-plan-template.md          (plan body sections)
 
-newskills/implementing-services/
+plugins/commandbase-services/skills/implementing-services/
 ├── SKILL.md                                    (~200-230 lines)
 ├── reference/services-operations.md             (operation types + command patterns)
 └── templates/services-command-template.md       (command output format)
 ```
 
 **Total: 15 files (5 SKILL.md + 5 reference + 5 templates)**
+
+> **Note (2026-02-09):** Skills were originally at `newskills/` and deployed to `~/.claude/skills/`. As of commit 87a19a3, all skills moved into `plugins/commandbase-services/skills/` as part of the 8-plugin marketplace restructure. Skills are now installed via `/plugin install commandbase-services`.
 
 ### 7. Model Usage
 
@@ -364,16 +367,16 @@ The roadmap specifies "build in order": 7a → 7b → 7c → 7d → 7e.
 
 - `.docs/plans/02-07-2026-future-skills-implementation-roadmap.md:454-494` — Phase 7 specification
 - `.docs/future-skills/services-rdspi.md:1-33` — Original concept with open questions
-- `~/.claude/skills/brainstorming-services/SKILL.md:1-242` — Already deployed entry point
-- `~/.claude/skills/brainstorming-services/reference/services-question-domains.md:1-196` — 5 service domains
-- `~/.claude/skills/researching-vault/SKILL.md` — Vault research pattern (203 lines)
-- `~/.claude/skills/designing-vault/SKILL.md` — Vault design pattern, opus usage (194 lines)
-- `~/.claude/skills/structuring-vault/SKILL.md` — Convention deference + migration sequencing (212 lines)
-- `~/.claude/skills/planning-vault/SKILL.md` — Mode detection (structured vs standalone) (264 lines)
-- `~/.claude/skills/implementing-vault/SKILL.md` — Vault linting + checkpoint pattern (191 lines)
-- `~/.claude/skills/designing-code/SKILL.md:34,110` — Opus model usage pattern
-- `~/.claude/skills/implementing-plans/SKILL.md:17-24` — Verification workflow reference
-- `~/.claude/skills/implementing-plans/reference/verification-workflow.md:7-19` — Strictest verification pattern
+- `plugins/commandbase-services/skills/brainstorming-services/SKILL.md` — Entry point skill
+- `plugins/commandbase-services/skills/brainstorming-services/reference/services-question-domains.md` — 5 service domains
+- `plugins/commandbase-vault/skills/researching-vault/SKILL.md` — Vault research pattern
+- `plugins/commandbase-vault/skills/designing-vault/SKILL.md` — Vault design pattern, opus usage
+- `plugins/commandbase-vault/skills/structuring-vault/SKILL.md` — Convention deference + migration sequencing
+- `plugins/commandbase-vault/skills/planning-vault/SKILL.md` — Mode detection (structured vs standalone)
+- `plugins/commandbase-vault/skills/implementing-vault/SKILL.md` — Vault linting + checkpoint pattern
+- `plugins/commandbase-code/skills/designing-code/SKILL.md` — Opus model usage pattern
+- `plugins/commandbase-code/skills/implementing-plans/SKILL.md` — Verification workflow reference
+- `plugins/commandbase-code/skills/implementing-plans/reference/verification-workflow.md` — Strictest verification pattern
 
 ## Architecture Notes
 
@@ -413,7 +416,7 @@ These questions were answered during implementation (see `.docs/plans/02-08-2026
 - When enabled: read-only docker commands (`ps`, `logs`, `network ls`, `stats`) auto-execute for verification
 - When disabled (default): all commands generated but never auto-executed
 - Write commands (`up`, `down`, `pull`, `restart`) NEVER auto-execute in any mode
-- See `~/.claude/skills/implementing-services/SKILL.md` lines 26, 34, 38, 48, 99-128, 238-244 for implementation
+- See `plugins/commandbase-services/skills/implementing-services/SKILL.md` for implementation
 
 ### Question 2: Monitoring Integration
 **Original**: Should monitoring integration (Uptime Kuma, Prometheus) be a reference file or deferred to a future /monitoring-services skill?
@@ -444,16 +447,16 @@ These questions were answered during implementation (see `.docs/plans/02-08-2026
 
 ## Phase 7 Implementation Summary
 
-All findings from this research document were implemented as 5 complete BRDSPI skills (15 files: 5 SKILL.md + 5 reference + 5 templates) deployed to `~/.claude/skills/` and tracked in `newskills/`:
+All findings from this research document were implemented as 5 complete BRDSPI skills (15 files: 5 SKILL.md + 5 reference + 5 templates), now located in `plugins/commandbase-services/skills/`:
 
 ### Skills Deployed
 | Skill | Location | Size | Status |
 |-------|----------|------|--------|
-| /researching-services | `~/.claude/skills/researching-services/` | 9.3 KB | Deployed |
-| /designing-services | `~/.claude/skills/designing-services/` | 8.9 KB | Deployed |
-| /structuring-services | `~/.claude/skills/structuring-services/` | (verified to exist) | Deployed |
-| /planning-services | `~/.claude/skills/planning-services/` | (verified to exist) | Deployed |
-| /implementing-services | `~/.claude/skills/implementing-services/` | 10.2 KB | Deployed |
+| /researching-services | `plugins/commandbase-services/skills/researching-services/` | 9.3 KB | Active |
+| /designing-services | `plugins/commandbase-services/skills/designing-services/` | 8.9 KB | Active |
+| /structuring-services | `plugins/commandbase-services/skills/structuring-services/` | (verified to exist) | Active |
+| /planning-services | `plugins/commandbase-services/skills/planning-services/` | (verified to exist) | Active |
+| /implementing-services | `plugins/commandbase-services/skills/implementing-services/` | 10.2 KB | Active |
 
 ### Key Implementations
 - ✓ All 5 skills follow the 11-section SKILL.md structure proven by vault BRDSPI

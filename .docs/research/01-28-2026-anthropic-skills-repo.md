@@ -1,5 +1,5 @@
 ---
-git_commit: 69c0b1a0674149f27b61b2635f935524b6add202
+git_commit: 8e92bba
 last_updated: 2026-01-28
 last_updated_by: rcode agent
 topic: "Anthropic Skills Repository - Official Skill Creator & Reference Skills"

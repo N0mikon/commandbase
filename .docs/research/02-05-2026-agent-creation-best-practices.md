@@ -1,3 +1,13 @@
+---
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Added missing frontmatter (was 61 commits behind with no git_commit). Content verified accurate against 8 live agent files in plugins/. No content changes needed."
+type: research
+category: web-research
+references: []
+---
+
 # Agent Creation Skills for Claude & Best Practices
 
 **Date**: 2026-02-05

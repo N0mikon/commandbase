@@ -1,21 +1,22 @@
 ---
-git_commit: 068c070
-last_updated: 2026-02-05
-last_updated_by: claude
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Updated after 38 commits - refreshed references to plugin directory structure after marketplace restructure (commit 87a19a3)"
 topic: "Agent audit, compliance fixes, and fleet rename"
 tags: [handover, agents, naming, audit, archived]
 status: archived
 archived: 2026-02-08
 archive_reason: "All work completed. Agent audit, compliance fixes, fleet rename, and stale reference cleanup all done. Sync to repo and commit completed in subsequent sessions. No pending next steps."
 references:
-  - ~/.claude/agents/code-analyzer.md
-  - ~/.claude/agents/code-locator.md
-  - ~/.claude/agents/code-librarian.md
-  - ~/.claude/agents/docs-analyzer.md
-  - ~/.claude/agents/docs-locator.md
-  - ~/.claude/agents/docs-updater.md
-  - ~/.claude/agents/web-researcher.md
-  - ~/.claude/skills/creating-agents/reference/naming-conventions.md
+  - plugins/commandbase-code/agents/code-analyzer.md
+  - plugins/commandbase-code/agents/code-locator.md
+  - plugins/commandbase-code/agents/code-librarian.md
+  - plugins/commandbase-core/agents/docs-analyzer.md
+  - plugins/commandbase-core/agents/docs-locator.md
+  - plugins/commandbase-core/agents/docs-updater.md
+  - plugins/commandbase-research/agents/web-researcher.md
+  - plugins/commandbase-meta/skills/creating-agents/reference/naming-conventions.md
 ---
 
 # Handover: Agent Audit, Compliance Fixes, and Fleet Rename
@@ -108,3 +109,10 @@ references:
 - The user drove the naming discussion — `code-` prefix was their insight, `librarian` was a collaborative choice
 - All renames were approved individually per /updating-agents protocol (diff shown, approval requested, re-validated after each fix)
 - The 16 skills that had no stale references were verified via recursive grep across the entire `~/.claude/skills/` directory
+
+## Post-Archive Note (2026-02-09)
+
+The file paths throughout this document (e.g., `~/.claude/agents/`, `~/.claude/skills/`, `newagents/`, `newskills/`) reflect the directory structure at the time of this work. A subsequent plugin marketplace restructure (commit `87a19a3`) moved all agents and skills into domain-based plugins under `plugins/`. The current locations are:
+
+- Agents: `plugins/commandbase-code/agents/` (code-analyzer, code-locator, code-librarian), `plugins/commandbase-core/agents/` (docs-analyzer, docs-locator, docs-updater), `plugins/commandbase-research/agents/` (web-researcher)
+- Naming conventions: `plugins/commandbase-meta/skills/creating-agents/reference/naming-conventions.md`

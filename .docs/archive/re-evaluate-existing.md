@@ -1,4 +1,8 @@
 ---
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Added missing git_commit and last_updated frontmatter to existing archive entry"
 archived: 2026-02-07
 archive_reason: "Triage/decision document whose decisions have all been captured in the implementation roadmap (Phase 0 Decisions) and executed through Phase 1 (Foundations) and Phase 2 (BRDSPI Core). Remaining open items tracked in roadmap Phases 4, 6/7, and incremental additions."
 original_location: ".docs/future-skills/re-evaluate-existing.md"

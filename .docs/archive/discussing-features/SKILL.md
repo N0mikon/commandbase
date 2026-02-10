@@ -1,8 +1,17 @@
-<!-- ARCHIVED: Phase 4 (2026-02-07). Absorbed by /brainstorming-code (domain detection,
-preferences) and /designing-code (technical choices). Kept as reference. -->
 ---
 name: discussing-features
 description: "Use this skill when capturing user intent before planning a feature. This includes discussing layout preferences, API design choices, UX decisions, error handling behavior, and content organization. Activate when the user says 'let's discuss this feature', 'how should this work', 'design decisions for', or before invoking /planning-code on a new feature."
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+archived: 2026-02-07
+archive_reason: "Absorbed by /brainstorming-code (domain detection, preferences) and /designing-code (technical choices) in Phase 4 implementation (commit 0c8fd24)"
+superseded_by:
+  - plugins/commandbase-code/skills/brainstorming-code/SKILL.md
+  - plugins/commandbase-code/skills/designing-code/SKILL.md
+references:
+  - .docs/archive/discussing-features/reference/question-domains.md
+  - .docs/archive/discussing-features/templates/context-template.md
 ---
 
 # Feature Discussion

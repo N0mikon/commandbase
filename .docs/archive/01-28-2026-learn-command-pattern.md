@@ -1,0 +1,119 @@
+---
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Updated after 61 commits - fixed stale newskills/ paths in body, updated blueprint consumed_by to archive location"
+topic: "/learn Command - Mid-Session Pattern Extraction"
+tags: [research, learn, patterns, skills]
+status: archived
+archived: 2026-02-09
+archive_reason: "Fully consumed to build learning-from-sessions skill (now at plugins/commandbase-session/skills/learning-from-sessions/SKILL.md). Original consumed_by path newskills/ no longer exists. All references are external."
+consumed_by:
+  - plugins/commandbase-session/skills/learning-from-sessions/SKILL.md
+  - .docs/archive/01-28-2026-learning-from-sessions-blueprint.md
+references:
+  - C:/code/everything-claude-code/commands/learn.md
+  - C:/code/everything-claude-code/skills/continuous-learning/SKILL.md
+  - C:/code/everything-claude-code/skills/continuous-learning-v2/SKILL.md
+---
+
+# Research: /learn Command Pattern
+
+**Date**: 2026-01-28
+**Source**: everything-claude-code
+
+## Summary
+
+The `/learn` command captures reusable patterns mid-session when a non-trivial problem is solved. It's documentation-only (no executable script) - Claude interprets and follows instructions to extract patterns and save them as skill files.
+
+## How It Works
+
+### Trigger
+User manually runs `/learn` during a session after solving a non-trivial problem (`commands/learn.md:7`).
+
+### What Gets Extracted (`commands/learn.md:11-32`)
+
+| Pattern Type | Examples |
+|--------------|----------|
+| **Error Resolution** | Root cause, what fixed it, reusable for similar errors |
+| **Debugging Techniques** | Non-obvious steps, tool combinations |
+| **Workarounds** | Library quirks, API limitations, version-specific fixes |
+| **Project-Specific** | Codebase conventions, architecture decisions |
+
+### What Gets Excluded (`commands/learn.md:66-70`)
+- Trivial fixes (typos, simple syntax errors)
+- One-time issues (specific API outages)
+
+### Output Format (`commands/learn.md:36-55`)
+
+Saves to `~/.claude/skills/learned/[pattern-name].md`:
+
+```markdown
+# [Descriptive Pattern Name]
+
+**Extracted:** [Date]
+**Context:** [Brief description of when this applies]
+
+## Problem
+[What problem this solves - be specific]
+
+## Solution
+[The pattern/technique/workaround]
+
+## Example
+[Code example if applicable]
+
+## When to Use
+[Trigger conditions - what should activate this skill]
+```
+
+### Process Flow (`commands/learn.md:58-64`)
+
+1. Claude reviews session for extractable patterns
+2. Identifies most valuable/reusable insight
+3. Drafts skill file
+4. Asks user to confirm before saving
+5. Saves to `~/.claude/skills/learned/`
+
+## Comparison: /learn vs /handover
+
+| Aspect | /learn | /handover |
+|--------|--------|-----------|
+| **Timing** | Mid-session | End of session |
+| **Focus** | Reusable patterns | Session context |
+| **Output** | Skill files | Handoff documents |
+| **Scope** | Atomic (one pattern) | Comprehensive (full state) |
+| **Reuse** | Auto-loaded in future sessions | Manual /takeover |
+
+## Adaptation for Commandbase
+
+> **Status**: This research was consumed to build `plugins/commandbase-session/skills/learning-from-sessions/SKILL.md`.
+> See `.docs/archive/01-28-2026-learning-from-sessions-blueprint.md` for the comprehensive blueprint that synthesized this research with Claudeception and Claude-Reflect patterns.
+
+The original adaptation options were:
+
+### Option A: Separate /learn Command
+Create a learn skill that saves to `.docs/learnings/MM-DD-YYYY-pattern-name.md`
+
+### Option B: Enhance /handover
+Add "Key Learnings" section to handover that extracts patterns in skill format
+
+### Option C: Both (IMPLEMENTED)
+- `/learn` for immediate pattern capture (saves globally)
+- `/handover` includes learnings in handoff doc (project-specific)
+
+**Implementation**: The `learning-from-sessions` skill at `plugins/commandbase-session/skills/learning-from-sessions/SKILL.md` implements Option C with significant enhancements: dedup-first workflow, web research step, quality gates, self-reflection prompts, and description optimization for semantic retrieval.
+
+## Key Implementation Details
+
+- No executable script - Claude interprets markdown instructions
+- User confirmation required before saving
+- One pattern per skill file (focused)
+- Storage: `~/.claude/skills/learned/` (auto-loaded by Claude Code)
+
+## Code References
+
+- Command definition: `C:/code/everything-claude-code/commands/learn.md:1-71`
+- Output format: `commands/learn.md:36-55`
+- Process flow: `commands/learn.md:58-64`
+- Filtering rules: `commands/learn.md:66-70`

@@ -1,3 +1,22 @@
+---
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Added frontmatter, updated file paths from newskills/newagents to plugins/ structure, updated agent count from 7 to 8, noted that the agent naming gap has been filled"
+references:
+  - plugins/commandbase-meta/skills/creating-skills/reference/naming-conventions.md
+  - plugins/commandbase-meta/skills/creating-skills/reference/converting-subagents.md
+  - plugins/commandbase-meta/skills/creating-agents/reference/naming-conventions.md
+  - plugins/commandbase-code/agents/code-analyzer.md
+  - plugins/commandbase-code/agents/code-librarian.md
+  - plugins/commandbase-code/agents/code-locator.md
+  - plugins/commandbase-core/agents/docs-analyzer.md
+  - plugins/commandbase-core/agents/docs-locator.md
+  - plugins/commandbase-core/agents/docs-updater.md
+  - plugins/commandbase-core/agents/docs-writer.md
+  - plugins/commandbase-research/agents/web-researcher.md
+---
+
 # Gerund Naming Convention: Skills vs Agents
 
 **Date**: 02-05-2026
@@ -14,7 +33,7 @@ Skills and agents deliberately use **different naming conventions** because they
 
 ## Why Skills Use Gerund Form
 
-**Source**: `newskills/creating-skills/reference/naming-conventions.md:5-21`
+**Source**: `plugins/commandbase-meta/skills/creating-skills/reference/naming-conventions.md:5-21`
 
 Skills activate when Claude recognizes the user is **performing an action**. Gerund names align with that mental model:
 
@@ -24,7 +43,7 @@ Skills activate when Claude recognizes the user is **performing an action**. Ger
 
 Noun names (e.g., `skill-creator`) describe a tool that exists. Gerund names describe an action being performed. Skills are triggered by intent matching against descriptions, so the name reinforces the activation-oriented framing.
 
-**Source**: `newskills/creating-skills/reference/naming-conventions.md:15-18`
+**Source**: `plugins/commandbase-meta/skills/creating-skills/reference/naming-conventions.md:15-18`
 
 The naming conventions doc explicitly calls out noun-form names as "agent-style naming, not skill-style":
 - `lambda-deployer` - "agent-style naming, not skill-style"
@@ -32,7 +51,7 @@ The naming conventions doc explicitly calls out noun-form names as "agent-style 
 
 ## Why Agents Use Noun/Role Form
 
-**Source**: `newskills/creating-skills/reference/converting-subagents.md:5-12`
+**Source**: `plugins/commandbase-meta/skills/creating-skills/reference/converting-subagents.md:5-12`
 
 The distinction is explicit:
 - **Sub-agents explain WHAT they are** (identity/noun form)
@@ -47,23 +66,24 @@ Agents are invoked explicitly via the Task tool or `@mention`. They don't need i
 - `docs-locator` - a specialist that locates documents
 - `web-researcher` - a specialist that researches via web search
 
-## Current Agent Names (All 7)
+## Current Agent Names (All 8)
 
-**Source**: `~/.claude/agents/` and `newagents/`
+**Source**: `plugins/commandbase-code/agents/`, `plugins/commandbase-core/agents/`, `plugins/commandbase-research/agents/`
 
-| Agent Name | Pattern |
-|-----------|---------|
-| `code-analyzer` | {subject}-{role} |
-| `code-locator` | {subject}-{role} |
-| `code-librarian` | {subject}-{role} |
-| `docs-analyzer` | {subject}-{role} |
-| `docs-locator` | {subject}-{role} |
-| `docs-updater` | {subject}-{role} |
-| `web-researcher` | {domain}-{role} |
+| Agent Name | Plugin | Pattern |
+|-----------|--------|---------|
+| `code-analyzer` | commandbase-code | {subject}-{role} |
+| `code-locator` | commandbase-code | {subject}-{role} |
+| `code-librarian` | commandbase-code | {subject}-{role} |
+| `docs-analyzer` | commandbase-core | {subject}-{role} |
+| `docs-locator` | commandbase-core | {subject}-{role} |
+| `docs-updater` | commandbase-core | {subject}-{role} |
+| `docs-writer` | commandbase-core | {subject}-{role} |
+| `web-researcher` | commandbase-research | {domain}-{role} |
 
 ## Conversion Table (Agent <-> Skill)
 
-**Source**: `newskills/creating-skills/reference/converting-subagents.md:31-37`
+**Source**: `plugins/commandbase-meta/skills/creating-skills/reference/converting-subagents.md:31-37`
 
 | Agent Name (Noun) | Skill Name (Gerund) |
 |-------------------|-------------------|
@@ -73,13 +93,15 @@ Agents are invoked explicitly via the Task tool or `@mention`. They don't need i
 | `bug-triager` | `triaging-bugs` |
 | `deploy-manager` | `managing-deployments` |
 
-## The Reasoning Gap
+## The Reasoning Gap (Resolved)
 
-There is **no formal agent naming convention document** equivalent to the skill naming conventions doc at `newskills/creating-skills/reference/naming-conventions.md`. Agent naming is inferred from existing examples rather than formally specified.
+~~There is **no formal agent naming convention document** equivalent to the skill naming conventions doc.~~
 
-The closest documentation is:
-- `converting-subagents.md` which contrasts the two conventions
-- `.docs/research/02-05-2026-agent-creation-best-practices.md` which covers agent frontmatter but doesn't prescribe a naming pattern
+**Update (2026-02-09):** This gap has been filled. A formal agent naming conventions document now exists at `plugins/commandbase-meta/skills/creating-agents/reference/naming-conventions.md`. It covers the noun rule, `{domain}-{role}` patterns, format rules, role suffixes, agent families, and agent-to-skill name conversion -- providing the same level of formal specification that skills already had.
+
+Related documentation:
+- `plugins/commandbase-meta/skills/creating-skills/reference/converting-subagents.md` which contrasts the two conventions
+- `.docs/research/02-05-2026-agent-creation-best-practices.md` which covers agent frontmatter
 
 ## Summary
 
@@ -90,4 +112,4 @@ The closest documentation is:
 
 The naming convention difference reinforces the different mental models for how each component is discovered and invoked. Applying gerund naming to agents would blur this useful distinction.
 
-However, there is no formal agent naming guide - only the implicit convention from existing agents. A formal document parallel to the skill naming conventions could be valuable.
+A formal agent naming guide now exists at `plugins/commandbase-meta/skills/creating-agents/reference/naming-conventions.md`, providing parity with the skill naming conventions.

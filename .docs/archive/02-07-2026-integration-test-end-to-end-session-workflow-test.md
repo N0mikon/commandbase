@@ -1,19 +1,19 @@
 ---
 date: 2026-02-07
 status: archived
-last_updated: 2026-02-08
+last_updated: 2026-02-09
 last_updated_by: docs-updater
+last_updated_note: "Updated after 20 commits - refreshed references to reflect plugin restructure and session archive migration"
 archived: 2026-02-08
 archive_reason: "Integration test completed during Phase 1 Session 3 of the BRDSPI roadmap; handoff is no longer active"
 topic: "integration-test - End-to-end session workflow test"
 tags: [handoff, integration-test, session, hooks, naming-session, bookmarking-code, implementing-plans, handing-over]
-git_commit: ae98216
+git_commit: 8e92bba
 references:
-  - .docs/plans/02-07-2026-session-status-script-integration-test.md
   - scripts/session-status.sh
-  - newhooks/track-errors/track-errors.py
-  - newhooks/trigger-learning/
-  - .claude/sessions/integration-test/
+  - plugins/commandbase-session/scripts/track-errors.py
+  - plugins/commandbase-session/scripts/trigger-learning.py
+  - .docs/archive/sessions-v1/integration-test/
 ---
 
 # Handover: Integration Test — Session Workflow End-to-End

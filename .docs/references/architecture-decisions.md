@@ -1,6 +1,15 @@
 ---
 date_created: 2026-02-06
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Added git_commit frontmatter; updated ADR-003 to reflect plugin marketplace structure (newskills/ -> plugins/)"
+git_commit: 8e92bba
 status: current
+references:
+  - plugins/commandbase-core/skills/
+  - plugins/commandbase-git-workflow/scripts/nudge-commit-skill.py
+  - plugins/commandbase-git-workflow/skills/committing-changes/SKILL.md
+  - .claude-plugin/marketplace.json
 ---
 
 # Architecture Decisions
@@ -54,22 +63,24 @@ Technology choices for the commandbase project, recorded with rationale so futur
 
 ## ADR-003: Commandbase Repo as Source of Truth
 
-**Status:** Accepted
+**Status:** Accepted (updated 2026-02-09)
 **Date:** 2026-02-06
-**Context:** Skills are developed in `commandbase/newskills/` and deployed to `~/.claude/skills/`. We need clarity on which location is authoritative.
+**Context:** Skills are developed in the commandbase repo and installed via the plugin marketplace. We need clarity on which location is authoritative.
 
-**Decision:** The commandbase repo (`newskills/`, `newagents/`, `newhooks/`) is the source of truth. `~/.claude/` is the deployment target.
+**Decision:** The commandbase repo (`plugins/<plugin>/skills/`, `plugins/<plugin>/agents/`, `plugins/<plugin>/hooks/`) is the source of truth. The plugin marketplace (`/plugin install`) handles deployment to `~/.claude/`.
 
 **Alternatives Considered:**
 - `~/.claude/` as source: No version control, no PR review, easy to lose changes
 - Symlinks from `~/.claude/` to repo: Fragile on Windows, confusing paths
+- ~~Flat `newskills/`/`newagents/`/`newhooks/` directories: Original layout, replaced by plugin structure in Feb 2026~~
 
 **Consequences:**
-- All changes must be copied back to the repo before committing
-- Deployment is a manual `cp -r` step (documented in CLAUDE.md)
+- All changes are made directly in `plugins/<plugin>/` directories
+- Deployment uses `marketplace.json` and `/plugin install` instead of manual copying
 - Git history tracks all skill evolution
+- 8 plugins organize skills by domain (core, code, vault, services, research, git-workflow, session, meta)
 
-**Sources:** Project CLAUDE.md
+**Sources:** Project CLAUDE.md, `.claude-plugin/marketplace.json`
 
 ---
 

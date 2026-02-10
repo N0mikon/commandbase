@@ -1,6 +1,17 @@
+---
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Added frontmatter, corrected skill location from newskills/ to plugins/commandbase-meta/, updated plan reference to archive location"
+references:
+  - plugins/commandbase-meta/skills/creating-posts/SKILL.md
+  - plugins/commandbase-meta/skills/creating-posts/reference/platform-guides.md
+  - plugins/commandbase-meta/skills/creating-posts/templates/post-output-template.md
+---
+
 # Social Media Posts (`/creating-posts`)
 
-> **Status: IMPLEMENTED** -- Deployed in Phase 5 (2026-02-07). Skill lives at `newskills/creating-posts/` and `~/.claude/skills/creating-posts/`. All open questions below were resolved during implementation. See `.docs/plans/02-07-2026-phase-5-creating-posts-skill-implementation.md` for full details.
+> **Status: IMPLEMENTED** -- Deployed in Phase 5 (2026-02-07). Skill lives at `plugins/commandbase-meta/skills/creating-posts/`. All open questions below were resolved during implementation. See `.docs/archive/02-07-2026-phase-5-creating-posts-skill-implementation.md` for full details.
 
 ## Problem
 

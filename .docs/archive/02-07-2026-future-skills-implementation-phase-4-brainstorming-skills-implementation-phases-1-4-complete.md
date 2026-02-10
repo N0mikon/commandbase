@@ -5,14 +5,17 @@ archived: 2026-02-07
 archive_reason: "All 6 implementation phases complete. Phases 5-6 finished after this handoff was written: /designing-code updated to read .docs/brainstorm/, /discussing-features retired. No remaining next steps."
 topic: "future-skills-implementation-phase-4 - Brainstorming Skills Implementation All 6 Phases Complete"
 tags: [handoff, brainstorming, phase-4, brdspi, discussing-features, implementation, archived]
-git_commit: 0713c81
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Refreshed after 16 commits. References updated to reflect plugin restructure (87a19a3). Research file archived. Content preserved as historical handoff record."
 references:
   - ".docs/plans/02-07-2026-phase-4-brainstorming-skills-implementation.md"
-  - ".docs/research/02-07-2026-phase-4-brainstorming-skills-pre-planning-research.md"
-  - "newskills/brainstorming-code/SKILL.md"
-  - "newskills/brainstorming-vault/SKILL.md"
-  - "newskills/brainstorming-services/SKILL.md"
-  - "newagents/docs-writer.md"
+  - ".docs/archive/02-07-2026-phase-4-brainstorming-skills-pre-planning-research.md"
+  - "plugins/commandbase-code/skills/brainstorming-code/SKILL.md"
+  - "plugins/commandbase-vault/skills/brainstorming-vault/SKILL.md"
+  - "plugins/commandbase-services/skills/brainstorming-services/SKILL.md"
+  - "plugins/commandbase-core/agents/docs-writer.md"
 ---
 
 # Handover: Phase 4 Brainstorming Skills — Phases 1-4 of 6 Complete

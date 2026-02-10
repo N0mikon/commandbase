@@ -3,7 +3,10 @@ date: 2026-02-08
 status: complete
 topic: "How Git Works: Architecture and Feature Development Compartmentalization"
 tags: [research, git, branching, version-control, feature-isolation, workflows]
-git_commit: 7f0eb8e
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Updated after 8 commits - content still accurate; added note linking to session skills v2 implementation that adopted worktree patterns from this research"
 ---
 
 # How Git Works: Architecture and Feature Development Compartmentalization
@@ -53,7 +56,7 @@ Objects are stored compressed via zlib in `.git/objects/[first 2 chars]/[remaini
 
 **Short-lived feature branches:** Merge at least once per day. One developer per branch. Branches lasting longer than 2 days risk becoming problematic. Merge conflict probability exceeds 50% after 10 days and 90% after 30 days (Microsoft Research).
 
-**Git worktrees:** Multiple working directories from a single repository, each linked to a different branch. Created with `git worktree add <path> <branch>`. Shared Git objects reduce resource consumption vs. multiple clones. Teams report completing work in hours that previously took days.
+**Git worktrees:** Multiple working directories from a single repository, each linked to a different branch. Created with `git worktree add <path> <branch>`. Shared Git objects reduce resource consumption vs. multiple clones. Teams report completing work in hours that previously took days. *This pattern was adopted by the commandbase session skills v2 implementation (see `.docs/plans/02-08-2026-session-skills-upgrade-v2.md`), where each session creates a dedicated branch and worktree under a bare repo container.*
 
 **Git stash:** Temporarily shelves uncommitted changes. Stack-based (most recent on top). Local only. Best for temporary context switches, not long-term storage.
 
@@ -129,5 +132,5 @@ Objects are stored compressed via zlib in `.git/objects/[first 2 chars]/[remaini
 - Specific adoption percentages for each branching strategy across the industry
 - Concrete case studies of major companies transitioning from Git Flow to TBD
 - Performance metrics comparing strategies (deployment frequency, failure rates)
-- How AI-assisted coding tools are changing branching patterns (early evidence with worktrees + AI agents)
+- How AI-assisted coding tools are changing branching patterns (early evidence with worktrees + AI agents) -- *Partially answered: commandbase session skills v2 pairs each Claude Code agent session with a dedicated worktree, validating the worktree + AI agent pattern in practice*
 - Security implications of submodule vs subtree approaches

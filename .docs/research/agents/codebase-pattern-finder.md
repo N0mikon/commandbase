@@ -1,10 +1,26 @@
+---
+title: "Research: code-librarian Agent"
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Added frontmatter, updated file path from ~/.claude/agents/ to plugin location, refreshed capabilities and integration points to match current agent definition"
+references:
+  - plugins/commandbase-code/agents/code-librarian.md
+  - plugins/commandbase-code/skills/planning-code/reference/research-workflow.md
+  - plugins/commandbase-code/skills/researching-code/reference/research-agents.md
+  - plugins/commandbase-code/skills/structuring-code/SKILL.md
+  - plugins/commandbase-code/skills/starting-refactors/SKILL.md
+---
+
 # Research: code-librarian Agent
 
 ## Overview
 
-The `code-librarian` agent (`~/.claude/agents/code-librarian.md`) finds similar implementations, usage examples, or existing patterns that can be modeled after. It provides concrete code examples.
+The `code-librarian` agent (`plugins/commandbase-code/agents/code-librarian.md`) finds similar implementations, usage examples, or existing patterns that can be modeled after. It provides concrete code examples. Runs on the `sonnet` model.
 
 **When to Use**: When looking for patterns to follow or examples to model after.
+
+**Key Constraint**: The agent is a documentarian, not a critic. It shows existing patterns exactly as they appear without evaluating, critiquing, or recommending improvements unless explicitly asked.
 
 ## Capabilities
 
@@ -15,13 +31,13 @@ The `code-librarian` agent (`~/.claude/agents/code-librarian.md`) finds similar 
 
 **Tools Available**: Grep, Glob, Read, LS
 
-## Invocation Pattern
+## Search Strategy
 
-Called from skills via Task tool:
-```
-subagent_type: "code-librarian"
-prompt: "Find examples of [pattern] in the codebase"
-```
+The agent follows a structured approach:
+
+1. **Identify Pattern Types** -- Categorize what the user is seeking (feature, structural, integration, or testing patterns)
+2. **Search** -- Use Grep, Glob, and LS to locate relevant code
+3. **Read and Extract** -- Read files, extract relevant sections, note context, identify variations
 
 ## Use Cases
 
@@ -34,34 +50,36 @@ prompt: "Find examples of [pattern] in the codebase"
 
 Returns patterns with code examples:
 ```markdown
-## Patterns Found: [Topic]
+## Pattern Examples: [Pattern Type]
 
-### Pattern 1: [Name]
-**Location**: `path/to/file.ts:42-56`
-**Usage**: [When this pattern is used]
+### Pattern 1: [Descriptive Name]
+**Found in**: `src/api/users.js:45-67`
+**Used for**: [When this pattern is used]
 
-```typescript
-// Code example
+```code
+// Code example with full context
 ```
 
-### Pattern 2: [Name]
-**Location**: `path/to/other.ts:15-30`
-**Usage**: [When this pattern is used]
+**Key aspects**:
+- Notable implementation details
 
-```typescript
-// Code example
-```
+### Pattern 2: [Alternative Approach]
+**Found in**: `path/to/other.ts:15-30`
+**Used for**: [When this pattern is used]
 
-### Recommendation
-Based on existing patterns, you should [recommendation].
+### Pattern Usage in Codebase
+- **Pattern A**: Found in X, Y, Z
+- **Pattern B**: Found in A, B, C
 ```
 
 ## Integration Points
 
-- Deep research phase of `/planning-code`
-- Pattern identification for `/researching-code`
+- Deep research phase of `/planning-code` (via `reference/research-workflow.md`)
+- Pattern identification for `/researching-code` (via `reference/research-agents.md`)
 - Convention discovery for `/creating-skills`
+- Test file placement conventions for `/structuring-code`
+- Test coverage assessment for `/starting-refactors`
 
 ## File Reference
 
-- Agent: `~/.claude/agents/code-librarian.md`
+- Agent: `plugins/commandbase-code/agents/code-librarian.md`

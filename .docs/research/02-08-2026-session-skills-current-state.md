@@ -2,16 +2,20 @@
 date: 2026-02-08
 status: complete
 topic: "session-skills-current-state"
-tags: [research, session-skills, naming-session, resuming-sessions, handing-over, taking-over, learning-from-sessions, bookmarking-code, hooks, infrastructure]
-git_commit: 7f0eb8e
+tags: [research, session-skills, starting-session, ending-session, resuming-session, learning-from-sessions, bookmarking-code, hooks, infrastructure, bare-repo, worktrees]
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Updated after 8 commits - session skills v2 overhaul replaced 5 skills with 3, added git branching/worktrees, shared session_utils.py, SessionStart hook, bare repo pattern"
 references:
-  - plugins/commandbase-session/skills/naming-session/SKILL.md
-  - plugins/commandbase-session/skills/resuming-sessions/SKILL.md
-  - plugins/commandbase-session/skills/handing-over/SKILL.md
-  - plugins/commandbase-session/skills/taking-over/SKILL.md
+  - plugins/commandbase-session/skills/starting-session/SKILL.md
+  - plugins/commandbase-session/skills/ending-session/SKILL.md
+  - plugins/commandbase-session/skills/resuming-session/SKILL.md
   - plugins/commandbase-session/skills/learning-from-sessions/SKILL.md
   - plugins/commandbase-core/skills/bookmarking-code/SKILL.md
   - plugins/commandbase-session/hooks/hooks.json
+  - plugins/commandbase-session/scripts/session_utils.py
+  - plugins/commandbase-session/scripts/detect-session.py
   - plugins/commandbase-session/scripts/track-errors.py
   - plugins/commandbase-session/scripts/harvest-errors.py
   - plugins/commandbase-session/scripts/trigger-learning.py
@@ -26,7 +30,7 @@ references:
 How do the current session skills work together, what is their architecture, and what are their interaction patterns?
 
 ## Summary
-The session system consists of 6 skills, 3 hooks, and 3 Python scripts organized across 2 plugins (commandbase-session and commandbase-core). The system provides session naming, error tracking, checkpoint management, handover/takeover workflows, session resumption, and learning extraction. All components coordinate through a shared file-based state layer at `.claude/sessions/`.
+The session system (v2) consists of 4 skills, 4 hooks, and 5 Python scripts organized across 2 plugins (commandbase-session and commandbase-core). The v2 overhaul consolidated 5 skills into 3 (starting-session, ending-session, resuming-session), integrated git branching and worktrees as first-class session infrastructure, extracted shared utilities into `session_utils.py`, and added a SessionStart hook for session ID bridging. Each session now creates a dedicated git branch and worktree, giving every session its own isolated workspace directory. All components coordinate through a container-level `session-map.json` and per-worktree state at `.claude/sessions/`. Projects use the "bare repo" pattern where `main/` and session branches are peer worktree directories under a shared container.
 
 ## Architecture Overview
 
@@ -34,130 +38,219 @@ The session system consists of 6 skills, 3 hooks, and 3 Python scripts organized
 
 | Plugin | Components | Role |
 |--------|-----------|------|
-| commandbase-session | 5 skills, 3 hooks, 3 scripts | Session lifecycle management |
+| commandbase-session | 3 skills, 4 hooks, 5 scripts | Session lifecycle management |
 | commandbase-core | 1 skill (bookmarking-code) | Checkpoint creation/verification |
 
-### Skill Inventory
+### Skill Inventory (v2)
 
 | Skill | Plugin | Trigger Phrases | Purpose |
 |-------|--------|----------------|---------|
-| `/naming-session` | commandbase-session | `name session`, session name arguments | Creates session identity, folder structure, and pointer files |
-| `/resuming-sessions` | commandbase-session | `resume session`, `restore session` | Reconstructs session context from state files after restart |
-| `/handing-over` | commandbase-session | `/handover`, `end session` | Creates handoff document with session context for another session |
-| `/taking-over` | commandbase-session | `/takeover`, `continue from handover` | Resumes work from a handoff document with state verification |
-| `/learning-from-sessions` | commandbase-session | `/learn`, `what did we learn` | Extracts reusable knowledge from session errors/discoveries |
-| `/bookmarking-code` | commandbase-core | `/checkpoint create`, `save a checkpoint` | Creates/verifies named git state snapshots |
+| `/starting-session` | commandbase-session | `start a session`, `new session`, `begin work on` | Creates git branch + worktree, registers session, migrates repo to bare-repo on first use (replaces `/naming-session`) |
+| `/ending-session` | commandbase-session | `end session`, `wrap up`, `merge and end`, `hand this off` | Squash merges session branch to main, removes worktree, optional handoff creation, learning check (replaces `/handing-over`) |
+| `/resuming-session` | commandbase-session | `resume session`, `continue session`, `take over`, `switch to session` | Smart auto-detect resume from worktree state or handoff documents (replaces `/resuming-sessions` + `/taking-over`) |
+| `/learning-from-sessions` | commandbase-session | `/learn`, `what did we learn` | Extracts reusable knowledge from session errors/discoveries, now with post-session transcript reading mode |
+| `/bookmarking-code` | commandbase-core | `/checkpoint create`, `save a checkpoint` | Creates/verifies named git state snapshots (updated for worktree-aware session detection) |
 
 ### Hook Inventory
 
 | Hook | Event | Script | Purpose |
 |------|-------|--------|---------|
+| detect-session | SessionStart | `detect-session.py` | Bridges native session_id into conversation context, persists Claude UUID to meta.json |
 | track-errors | PostToolUseFailure | `track-errors.py` | Real-time error logging (subagent context only) |
 | harvest-errors | Stop | `harvest-errors.py` | End-of-session transcript parsing for all errors |
 | trigger-learning | PreCompact | `trigger-learning.py` | Nudges user to run `/learning-from-sessions` when errors exist |
 
+### Shared Module: session_utils.py
+
+All hook scripts import from `plugins/commandbase-session/scripts/session_utils.py` instead of duplicating code. The module provides:
+- `normalize_path()` -- MINGW `/c/...` to `C:\...` conversion
+- `detect_repo_layout()` -- Returns `"bare-worktree"` or `"regular"`
+- `get_container_dir()` -- Finds the container directory for bare repo or repo root for regular
+- `get_session_map_path()`, `read_session_map()`, `update_session_map()` -- Session map I/O
+- `resolve_session()` -- Worktree-aware session resolution (worktree match -> session_id -> `_current` fallback)
+- `get_session_dir()` -- Returns `.claude/sessions/{name}/` path
+- `atomic_write_json()` -- Atomic JSON write via temp file + `os.replace()`
+- `update_meta_json()` -- Appends Claude UUIDs to `claudeSessionIds` array
+- `summarize_input()`, `summarize_response()` -- Log truncation utilities
+
 ## Shared State Layer
 
-All session-aware components coordinate through files in `.claude/sessions/`:
+Session state is split across two levels:
 
-### File Inventory
+### Container Level (outside any worktree, not tracked by git)
 
 | File | Format | Written By | Read By |
 |------|--------|-----------|---------|
-| `_current` | Plain text (session name, no newline) | `/naming-session` | All skills, all hooks |
-| `session-map.json` | JSON `{session_id: {name, created}}` | `/naming-session` | `/resuming-sessions`, all hooks |
-| `{name}/meta.json` | JSON `{sessionId, name, created, gitBranch, summary}` | `/naming-session` | `/resuming-sessions`, `/handing-over` |
-| `{name}/checkpoints.log` | Pipe-delimited `YYYY-MM-DD-HH:MM \| name \| sha` | `/bookmarking-code` | `/resuming-sessions`, `/handing-over`, `/bookmarking-code verify` |
-| `{name}/errors.log` | JSONL `{timestamp, session_id, tool, input, error, source}` | `track-errors.py`, `harvest-errors.py` | `/resuming-sessions`, `/handing-over`, `/learning-from-sessions`, `trigger-learning.py` |
+| `session-map.json` | JSON `{session_id: {name, branch, worktree, created, status}}` | `/starting-session`, `/ending-session`, `detect-session.py` | All skills, all hooks |
 
-### Session Resolution Pattern
+The container directory sits above all worktrees (e.g., `/c/code/commandbase/`). `session-map.json` lives here because it is a shared registry across all sessions -- putting it inside a worktree would make it invisible to other worktrees.
 
-All 3 hooks and most skills share the same session discovery logic:
+**session-map.json entry format (v2):**
+```json
+{
+  "<session_id>": {
+    "name": "auth-mvp",
+    "branch": "feature/auth-mvp",
+    "worktree": "/c/code/commandbase/feature/auth-mvp",
+    "created": "2026-02-08T12:00:00.000Z",
+    "status": "active"
+  }
+}
+```
 
-1. **Primary**: Read `session-map.json`, look up session_id key → get session name
-2. **Fallback**: Read `_current` file → get session name directly
-3. **No session**: Return empty/skip session-specific behavior
+Status values: `"active"`, `"ended"`, `"handed-off"`. Entries without `status` are treated as `"active"` (lazy migration from v1).
 
-This dual-path approach exists for concurrent terminal safety (session-map.json uses atomic writes) with backward compatibility (_current as simple fallback).
+### Per-Worktree Level (gitignored, `.claude/sessions/{name}/`)
+
+| File | Format | Written By | Read By |
+|------|--------|-----------|---------|
+| `meta.json` | JSON `{sessionId, claudeSessionIds[], name, branch, worktree, created, gitBranch, summary}` | `/starting-session`, `detect-session.py` | `/resuming-session`, `/ending-session`, `/learning-from-sessions` |
+| `checkpoints.log` | Pipe-delimited `YYYY-MM-DD-HH:MM \| name \| sha` | `/bookmarking-code` | `/resuming-session`, `/ending-session`, `/bookmarking-code verify` |
+| `errors.log` | JSONL `{timestamp, session_id, tool, input, error}` | `track-errors.py`, `harvest-errors.py` | `/resuming-session`, `/ending-session`, `/learning-from-sessions`, `trigger-learning.py` |
+
+### Legacy State (deprecated, read-only fallback)
+
+| File | Format | Written By | Read By |
+|------|--------|-----------|---------|
+| `_current` | Plain text (session name, no newline) | (no longer written) | `resolve_session()` as last-resort fallback |
+
+`_current` is preserved for backward compatibility with sessions created before the v2 upgrade but is no longer written by any skill.
+
+### Session Resolution Pattern (v2)
+
+All 4 hooks and all skills use `resolve_session()` from `session_utils.py`:
+
+1. **Primary**: For bare-worktree repos, find the session-map.json entry whose `worktree` field matches the current working directory
+2. **Fallback**: Look up by `session_id` key in session-map.json
+3. **Legacy fallback**: Read `_current` file (for non-migrated repos)
+4. **No session**: Return empty string, skip session-specific behavior
+
+This worktree-based approach eliminates the `_current` singleton problem -- each terminal works in its own worktree directory, so there is no race condition.
 
 ### External State: Claude's sessions-index.json
 
-Only `/naming-session` reads Claude's native session index at `~/.claude/projects/{encoded-path}/sessions-index.json`. This is read-only — no skill writes to it. The encoded path format is: `C:\code\commandbase` → `C--code-commandbase`.
+Only `/starting-session` reads Claude's native session index at `~/.claude/projects/{encoded-path}/sessions-index.json`. This is read-only -- no skill writes to it. The encoded path format is: `C:\code\commandbase` -> `C--code-commandbase`.
+
+### Bare Repo Container Layout
+
+After migration, a project looks like this:
+```
+/c/code/commandbase/                  <- container directory
+  .bare/                              <- git object store + refs
+  session-map.json                    <- shared session registry (outside git)
+  main/                               <- worktree: main branch
+    .gitignore                         <- includes .claude/sessions/
+    .claude/sessions/                  <- gitignored session runtime state
+    plugins/
+    CLAUDE.md
+  feature/auth-mvp/                   <- worktree: session branch
+    .claude/sessions/auth-mvp/         <- gitignored session runtime state
+      meta.json
+      errors.log
+      checkpoints.log
+  fix/login-timeout/                  <- worktree: another session
+```
 
 ## Detailed Skill Flows
 
-### 1. /naming-session — Session Creation
+### 1. /starting-session -- Session Creation (replaces /naming-session)
 
-**Process (6 steps):**
+**Two modes:**
 
-1. **Discover**: Read `~/.claude/projects/{encoded-path}/sessions-index.json`, find most recent entry by `modified` timestamp, extract sessionId/summary/gitBranch
-2. **Check existing**: Read `session-map.json` and `_current` for existing session. If found, warn user with replace/keep/cancel options
-3. **Suggest name**: Auto-generate kebab-case name from session summary, truncate to 40 chars at word boundary
-4. **Confirm**: Present suggestion, wait for user confirmation or custom name (Iron Law: no folder before confirmation)
-5. **Validate**: Name must match `^[a-z0-9-]+$`, 3-40 chars, no leading/trailing/consecutive hyphens
-6. **Create**: mkdir `.claude/sessions/{name}/`, write `meta.json`, write `_current`, update `session-map.json` (atomic write)
+**Mode A: First-Time Migration** (repo not yet bare-repo pattern)
+Triggered when `detect_repo_layout(cwd)` returns `"regular"`. One-time per project.
+1. Confirm with user that daily path will change (e.g., `/c/code/project` -> `/c/code/project/main/`)
+2. Verify clean git state
+3. Execute migration: move `.git` to `.bare/`, configure as bare, create main worktree, copy untracked files, create container-level session-map.json
+4. Direct user to open Claude Code in the new `main/` worktree
 
-**Key constraint**: User MUST confirm the name before any folder creation. Auto-suggestions are never auto-accepted.
+**Mode B: Create Session** (repo already in bare-repo pattern)
+1. **Find session ID**: Read from conversation context (injected by SessionStart hook) or sessions-index.json
+2. **Choose branch type**: Ask user for `feature/`, `fix/`, or `refactor/` prefix
+3. **Name the session**: Auto-suggest kebab-case name (3-40 chars, `^[a-z0-9-]+$`), user confirms
+4. **Create branch + worktree**: `git worktree add {type}/{session-name} -b {type}/{session-name}`
+5. **Create session state**: mkdir `.claude/sessions/{name}/`, write `meta.json` (with empty `claudeSessionIds` array)
+6. **Register in session-map.json**: Atomic write with `name`, `branch`, `worktree`, `created`, `status: "active"`
+7. **Direct user**: Instruct to `cd` to new worktree directory
 
-### 2. /bookmarking-code — Checkpoint Management
+**Iron Law**: NO SESSION WITHOUT USER CONFIRMATION OF NAME AND BRANCH TYPE
 
-**Four operations:**
+### 2. /ending-session -- Session End (replaces /handing-over)
 
-- **create "name"**: Check git status → warn if dirty → get SHA via `git rev-parse --short HEAD` → append `YYYY-MM-DD-HH:MM | name | sha` to checkpoints.log
-- **verify "name"**: Find checkpoint in log → run `git diff --stat <sha>..HEAD` and `git log --oneline <sha>..HEAD` → report changes
-- **list**: Read checkpoints.log → display table with Name/Timestamp/SHA/Status (commits behind HEAD)
-- **clear**: Count entries → confirm if >5 → keep last 5 lines
+**Three modes:**
 
-**Session awareness**: If `_current` exists, uses `.claude/sessions/{name}/checkpoints.log`. Otherwise uses `.claude/checkpoints.log`. Display uses `{session}:{checkpoint}` prefix but storage uses folder isolation.
+**Mode A: Merge End** (default -- squash merge to main)
+1. **Verify**: Confirm in a session worktree, not main. If in session worktree, remind user to `cd` to main first (avoids cwd-lock)
+2. **Check uncommitted changes**: Require commit or stash first
+3. **Conflict detection**: Dry-run merge (`git merge --no-commit --no-ff`), abort if conflicts, present to user
+4. **Squash merge**: `git merge --squash <session-branch>` from main worktree
+5. **CLAUDE.md review**: Show diff, ask if session-only CLAUDE.md changes should be kept or discarded
+6. **Commit + push**: Invoke `/committing-changes` (recognizes squash merge context: pre-staged files, skip stale docs check)
+7. **Learning check**: Read errors.log, remind if errors exist
+8. **Remove worktree + branch**: `git -C "$bare" worktree remove`, `git -C "$bare" branch -d`, push `--delete` to remote
+9. **Update session-map.json**: Set `status: "ended"`
 
-**Integration point**: `/implementing-plans` mandates `bookmarking-code create "phase-N-done"` after every verified phase. This is enforced, not optional.
+**Mode B: Handoff End** (branch stays open for another session)
+1. Verify session context
+2. Create handoff document via docs-writer agent (same rich template: tasks, accomplishments, learnings, files, state, next steps)
+3. Set `status: "handed-off"` in session-map.json
+4. Learning check
+5. Keep worktree and branch open
 
-### 3. /handing-over — Session Handoff Creation
+**Mode C: Discard End** (abandon session work)
+1. Require explicit confirmation (type session name)
+2. Force remove worktree + delete branch
+3. Set `status: "ended"`
 
-**Process:**
+**Iron Law**: NO SESSION END WITHOUT MERGE VERIFICATION OR EXPLICIT DISCARD
 
-1. **Analyze session**: Review conversation for tasks, accomplishments, learnings, files, state, next steps
-2. **Session check**: If `_current` exists, prefix topic with `{session-name} -` and include Session Context section (checkpoints, error count, meta reference)
-3. **Create document**: Spawn `docs-writer` agent with doc_type "handoff", compiled body with 10 sections
-4. **Learning check**: If session has errors.log entries, remind user to run `/learning-from-sessions`
+### 3. /resuming-session -- Smart Resume (replaces /resuming-sessions + /taking-over)
 
-**Iron Law**: NO HANDOVER WITHOUT KEY LEARNINGS. The Key Learnings section is mandatory and must contain substantive insights with file:line references, not generic summaries.
+**Auto-detection logic:**
+- If a file path argument was provided pointing to `.docs/handoffs/` -> Mode B
+- If no argument: read session-map.json, list active/handed-off sessions with existing worktrees
+- If multiple candidates -> Mode C (picker)
 
-**Output**: `.docs/handoffs/MM-DD-YYYY-description.md` with frontmatter (date, status, topic, tags, git_commit, references)
+**Mode A: Worktree Resume** (was `/resuming-sessions`)
+- Session has an existing worktree (status `"active"`)
+1. Read session-map.json, find active sessions with existing worktrees
+2. If multiple: present picker with session names, branches, last modified dates
+3. Read meta.json, errors.log, checkpoints.log from the selected session's worktree
+4. Scan `.docs/handoffs/` and `.docs/learnings/` for related context (staleness auto-update)
+5. Present session summary, direct user to worktree directory
 
-### 4. /taking-over — Handoff Consumption
+**Mode B: Handoff Resume** (was `/taking-over`)
+- Session was handed off or a handoff document was provided
+1. Read handoff document fully, staleness auto-update
+2. Absorb context (tasks, accomplishments, learnings, next steps)
+3. Check if session's worktree still exists (direct there, or offer `/starting-session`)
+4. Verify git state matches handoff, present takeover summary, get confirmation
 
-**Process (6 steps):**
+**Mode C: Session Picker** (multiple candidates)
+- Present unified picker showing active + handed-off sessions + handoff documents
+- Route to Mode A or B based on selection
 
-1. **Load**: Read handoff document fully. Run staleness check (>3 commits behind → spawn docs-updater to refresh)
-2. **Read linked docs**: Read all referenced plans/research with same staleness check
-3. **Absorb**: Internalize 5 key components (tasks, accomplishments, learnings, state, next steps). Pay special attention to Key Learnings
-4. **Verify state**: Run `git status`, `git branch --show-current`, `git log -5`. Verify files exist, changes are present, no drift
-5. **Present summary**: Show previous work, absorbed learnings, state verification result, recommended next steps. Ask for confirmation
-6. **Begin work**: Create TodoWrite task list, start with first next step, apply learnings throughout
+**Staleness detection** (shared, not duplicated per mode): Read `git_commit` from frontmatter -> count commits behind HEAD -> if >3 -> spawn docs-updater agent -> re-read updated version
 
-**Iron Law**: NO WORK WITHOUT STATE VERIFICATION. Never start before running git commands and confirming with user.
+**Iron Law**: NO RESUME WITHOUT READING SOURCE FILES
 
-**Does NOT create a session**: This skill reads handoffs but doesn't interact with session files directly. Session context comes from the handoff body.
+### 4. /bookmarking-code -- Checkpoint Management
 
-### 5. /resuming-sessions — Session State Reconstruction
+**Four operations** (unchanged from v1):
+- **create "name"**: Check git status -> warn if dirty -> get SHA -> append to checkpoints.log
+- **verify "name"**: Find checkpoint -> run `git diff --stat` and `git log --oneline` -> report changes
+- **list**: Read checkpoints.log -> display table with Name/Timestamp/SHA/Status
+- **clear**: Count entries -> confirm if >5 -> keep last 5 lines
 
-**Process:**
+**Session awareness** (updated for v2): Detects repo layout via git commands. For bare-worktree, reads container-level session-map.json, finds entry matching current worktree. Falls back to `_current` for legacy sessions. If no session, uses `.claude/checkpoints.log`.
 
-1. **Discover sessions**: Read `session-map.json`, fall back to `_current`. If neither exists, offer `/naming-session` or `/taking-over`
-2. **Select**: Single session auto-selected. Multiple sessions: present list, ask user
-3. **Load state**: Read `meta.json` (required), `errors.log` (optional, count + 3 most recent), `checkpoints.log` (optional, list all)
-4. **Scan related docs**: Check `.docs/handoffs/` and `.docs/learnings/` for session-related documents. Run staleness auto-update (>3 commits behind → spawn docs-updater)
-5. **Verify git**: Compare current branch with `meta.json.gitBranch`, warn if mismatch
-6. **Present**: Structured summary with name/ID/branch/created/summary, errors section, checkpoints section, related docs, suggested next steps
+**Integration point**: `/implementing-plans` mandates `bookmarking-code create "phase-N-done"` after every verified phase.
 
-**Key difference from /taking-over**: Reconstructs context from state files (meta.json, errors.log, checkpoints.log) rather than narrated handoff documents. Read-only — never modifies session files.
-
-### 6. /learning-from-sessions — Knowledge Extraction
+### 5. /learning-from-sessions -- Knowledge Extraction
 
 **Process (10-step gate function):**
 
-1. **Session check**: Read `_current`, set title format (`Session Learnings: {name}` or `Session Learnings: {date}`)
+1. **Session check**: Detect repo layout, find session via session-map.json worktree match. Fall back to `_current`. If post-session: read `claudeSessionIds` from meta.json.
 2. **Detect**: Recognize extractable knowledge via signals (non-obvious debugging, misleading errors, workaround discovery, configuration insights, trial-and-error)
 3. **Read errors**: If session active, read `errors.log` for error context
 4. **Scan debug**: Check `.docs/debug/` for recent debug files
@@ -168,61 +261,90 @@ Only `/naming-session` reads Claude's native session index at `~/.claude/project
 9. **Confirm**: Present draft to user, wait for approval (Iron Law: never save without confirmation)
 10. **Write**: docs-writer creates `.docs/learnings/MM-DD-YYYY-session-learnings.md`
 
+**Post-Session Mode** (new in v2.1): When invoked with a session name after the session has ended, reads `claudeSessionIds` from meta.json, locates transcripts at `~/.claude/projects/{path-encoded-worktree}/{uuid}.jsonl`, and parses them for error/resolution pairs and debugging sequences.
+
 **Deferred Actions routing**:
-- Create skill → when reusable across projects, multi-step solution
-- Add to CLAUDE.md → when project-specific preference/convention
-- Update existing skill → when new edge case for known pattern
-- Not worth capturing → simple typo, one-time issue, well-documented knowledge
+- Create skill -> when reusable across projects, multi-step solution
+- Add to CLAUDE.md -> when project-specific preference/convention
+- Update existing skill -> when new edge case for known pattern
+- Not worth capturing -> simple typo, one-time issue, well-documented knowledge
 
 **Error timing note**: Mid-session invocations only see real-time subagent errors (from track-errors hook). For complete error coverage, run at start of next session after harvest-errors has parsed the transcript.
 
 ## Hook System
 
-### 1. track-errors.py (PostToolUseFailure)
+### 1. detect-session.py (SessionStart) -- new in v2
+
+**Trigger**: Claude Code session start (including after `/clear`)
+**Process**: Read stdin JSON (session_id, cwd) -> normalize path -> detect repo layout -> read session-map.json -> find matching worktree entry -> if matched, persist Claude UUID to meta.json's `claudeSessionIds` array -> emit session context to stderr -> exit 2 (injects into conversation)
+**Three output modes**:
+- Active session matched: reports name, branch, status, worktree path
+- Main worktree (no session): suggests `/starting-session`
+- Regular repo (not migrated): suggests `/starting-session` to migrate
+
+### 2. track-errors.py (PostToolUseFailure)
 
 **Trigger**: Every tool failure in subagent contexts
-**Process**: Resolve session name → if no session, exit → build JSON entry (timestamp, session_id, tool, input[200 chars], error[500 chars]) → append to `errors.log`
+**Process**: Import from `session_utils` -> resolve session via `resolve_session(cwd, session_id)` -> if no session, exit -> build JSON entry (timestamp, session_id, tool, input, error) -> append to `errors.log`
 **Limitation**: Only fires in subagent contexts (Claude Code limitation). Main conversation errors are missed until harvest runs.
 
-### 2. harvest-errors.py (Stop)
+### 3. harvest-errors.py (Stop)
 
 **Trigger**: Session end
-**Process**: Re-entry guard → resolve session → stream JSONL transcript line-by-line (constant memory) → index tool_use blocks → match tool_result blocks → detect errors (is_error flag OR non-zero Bash exit) → deduplicate against existing errors.log → backfill empty error fields → write new entries
+**Process**: Import from `session_utils` -> resolve session -> stream JSONL transcript line-by-line (constant memory) -> index tool_use blocks -> match tool_result blocks -> detect errors (is_error flag OR non-zero Bash exit) -> deduplicate against existing errors.log -> backfill empty error fields -> write new entries using `atomic_write_json` for backfill operations
 **Skips**: "Sibling tool call errored", "user doesn't want to proceed", "progress" entries, "file-history-snapshot"
 **Always exits 0**: Never triggers conversation restart
 
-### 3. trigger-learning.py (PreCompact)
+### 4. trigger-learning.py (PreCompact)
 
 **Trigger**: Before conversation compaction
-**Process**: Resolve session → if no session, exit → read errors.log → count entries → if >0, print reminder to stderr → exit 2 (sends message to Claude as feedback)
+**Process**: Import from `session_utils` -> resolve session -> if no session, exit -> read errors.log -> count entries -> if >0, print reminder to stderr -> exit 2 (sends message to Claude as feedback)
 **Nudge message**: "SESSION LEARNING REMINDER: This session ({name}) has {count} error(s) logged..."
 
 ### Common Patterns Across Hooks
 
-All 3 scripts share:
-- **Session resolution**: session-map.json → _current → empty string
-- **MINGW path normalization**: `/c/...` → `C:\...` via `cygpath -w` on win32
+All 4 scripts share:
+- **Import from session_utils**: No duplicated utility code across scripts
+- **Worktree-aware session resolution**: `resolve_session()` matches by worktree path first, then session_id, then `_current` fallback
+- **MINGW path normalization**: Via `normalize_path()` from session_utils
 - **Fast exit on no session**: If no session name resolved, exit immediately (no tracking/nudging)
 
 ## Data Flow Diagram
 
 ```
-/naming-session
+[Claude Code starts in worktree]
     │
-    ├─> Creates: _current, session-map.json, {name}/meta.json
+    ├─> SessionStart → detect-session.py
+    │       Reads: session-map.json (worktree match)
+    │       Persists: Claude UUID to meta.json claudeSessionIds[]
+    │       Emits: session context to Claude conversation
     │
     ▼
-Work Session
+/starting-session (from main/ worktree)
+    │
+    ├─> Creates: git branch + worktree (feature/, fix/, refactor/)
+    ├─> Creates: {worktree}/.claude/sessions/{name}/meta.json
+    ├─> Updates: container-level session-map.json (atomic write)
+    ├─> Directs: user to cd to new worktree
+    │
+    ▼
+Work Session (in session worktree)
     │
     ├─> Tool Failure → PostToolUseFailure → track-errors.py → errors.log (subagent only)
-    ├─> /bookmarking-code create → checkpoints.log (session-scoped when _current exists)
+    ├─> /bookmarking-code create → checkpoints.log (worktree-scoped)
     │
     ▼
-/handing-over
+/ending-session (from main/ worktree)
     │
-    ├─> Reads: _current, checkpoints.log, errors.log
-    ├─> Creates: .docs/handoffs/MM-DD-YYYY-description.md (via docs-writer agent)
-    ├─> Reminds: run /learning-from-sessions if errors exist
+    ├─> Merge End: dry-run conflict check → squash merge → CLAUDE.md review →
+    │       /committing-changes → remove worktree + branch → status: "ended"
+    │
+    ├─> Handoff End: create handoff doc via docs-writer → status: "handed-off"
+    │       Keeps: branch + worktree open
+    │
+    ├─> Discard End: force remove worktree + branch → status: "ended"
+    │
+    ├─> Learning check: remind if errors.log has entries
     │
     ▼
 Session End
@@ -232,18 +354,12 @@ Session End
     ▼
 [Claude Code restarts]
     │
-    ├─> /resuming-sessions
-    │       Reads: session-map.json/_current → meta.json → errors.log → checkpoints.log
-    │       Scans: .docs/handoffs/, .docs/learnings/ (staleness auto-update)
-    │       Verifies: git branch match
-    │       Presents: session summary + next steps
-    │
-    └─> /taking-over .docs/handoffs/MM-DD-YYYY-description.md
-            Reads: handoff document (staleness auto-update)
-            Reads: linked plans/research (staleness auto-update)
-            Verifies: git status, file existence, state drift
-            Presents: takeover summary, waits for confirmation
-            Begins: work with TodoWrite
+    └─> /resuming-session (smart auto-detect)
+            Mode A (Worktree): Reads session-map.json → meta.json → errors.log →
+                    checkpoints.log → scans .docs/ → directs to worktree
+            Mode B (Handoff): Reads handoff doc → verifies state → checks worktree →
+                    presents takeover summary
+            Mode C (Picker): Multiple candidates → unified selection
     │
     ▼
 Conversation grows large
@@ -253,7 +369,8 @@ Conversation grows large
     ▼
 /learning-from-sessions
     │
-    ├─> Reads: _current, errors.log, .docs/debug/
+    ├─> Reads: session-map.json (worktree match), errors.log, .docs/debug/
+    ├─> Post-session: reads claudeSessionIds from meta.json, parses transcripts
     ├─> Dedup: .docs/learnings/, skill directories
     ├─> Creates: .docs/learnings/MM-DD-YYYY-session-learnings.md (via docs-writer agent)
     └─> Deferred Actions checklist for future implementation
@@ -265,40 +382,40 @@ Conversation grows large
 
 | Producer | Consumer | Shared Artifact |
 |----------|----------|----------------|
-| `/naming-session` | All session-aware skills + hooks | `_current`, `session-map.json`, `meta.json` |
-| `/bookmarking-code` | `/resuming-sessions`, `/handing-over` | `checkpoints.log` |
-| `track-errors.py` + `harvest-errors.py` | `/resuming-sessions`, `/handing-over`, `/learning-from-sessions`, `trigger-learning.py` | `errors.log` |
-| `/handing-over` | `/taking-over` | `.docs/handoffs/MM-DD-YYYY-*.md` |
+| `/starting-session` | All session-aware skills + hooks | `session-map.json` (container-level), `meta.json` (per-worktree) |
+| `detect-session.py` | `/learning-from-sessions` (post-session mode) | `meta.json` `claudeSessionIds` array |
+| `/bookmarking-code` | `/resuming-session`, `/ending-session` | `checkpoints.log` |
+| `track-errors.py` + `harvest-errors.py` | `/resuming-session`, `/ending-session`, `/learning-from-sessions`, `trigger-learning.py` | `errors.log` |
+| `/ending-session` (Handoff mode) | `/resuming-session` (Mode B) | `.docs/handoffs/MM-DD-YYYY-*.md` |
 | `/learning-from-sessions` | Future sessions (manual) | `.docs/learnings/MM-DD-YYYY-*.md` |
 
-### Two Session Resume Paths
+### Smart Resume (unified in v2)
 
-There are two distinct paths to resume a session, optimized for different scenarios:
+The two resume paths from v1 (`/resuming-sessions` and `/taking-over`) are now unified into `/resuming-session` with auto-detection:
 
-| | /resuming-sessions | /taking-over |
+| | Mode A (Worktree Resume) | Mode B (Handoff Resume) |
 |---|---|---|
 | **Input source** | Session state files (meta.json, errors.log, checkpoints.log) | Handoff document (.docs/handoffs/) |
-| **Best for** | Same person restarting Claude Code | Different person or different context picking up work |
+| **Best for** | Same person restarting Claude Code in a worktree | Different person or different context picking up work |
 | **Context type** | Reconstructed from structured data | Narrated by previous session (richer context) |
-| **Creates session?** | No (reads existing session) | No (reads handoff, no session interaction) |
-| **State verification** | Branch mismatch check only | Full git status/log verification + drift detection |
+| **Worktree** | Directs user to existing worktree | Checks if worktree exists, offers `/starting-session` if not |
+| **State verification** | Branch mismatch check | Full git status/log verification + drift detection |
 
 ### Staleness Auto-Update Pattern
 
-Three skills implement the same staleness check before reading documents:
+Skills that read `.docs/` documents implement a staleness check:
 
-- `/taking-over`: Checks handoff and linked docs
-- `/resuming-sessions`: Checks related handoffs and learnings
+- `/resuming-session`: Checks related handoffs and learnings
 - `/planning-code`, `/designing-code`: Check referenced plans/research (upstream skills, not session-specific)
 
-Pattern: Read `git_commit` from frontmatter → count commits behind HEAD → if >3 → spawn `docs-updater` agent → re-read updated version (or note if archived)
+Pattern: Read `git_commit` from frontmatter -> count commits behind HEAD -> if >3 -> spawn `docs-updater` agent -> re-read updated version (or note if archived)
 
 ## Shared Agent Dependencies
 
 | Agent | Used By | Purpose |
 |-------|---------|---------|
-| `docs-writer` (commandbase-core) | `/handing-over`, `/learning-from-sessions` | Creates .docs/ files with standardized frontmatter |
-| `docs-updater` (commandbase-core) | `/taking-over`, `/resuming-sessions` | Refreshes or archives stale .docs/ files |
+| `docs-writer` (commandbase-core) | `/ending-session` (Handoff mode), `/learning-from-sessions` | Creates .docs/ files with standardized frontmatter |
+| `docs-updater` (commandbase-core) | `/resuming-session` | Refreshes or archives stale .docs/ files |
 
 ## Iron Laws Summary
 
@@ -306,17 +423,16 @@ Each session skill enforces a non-negotiable rule:
 
 | Skill | Iron Law |
 |-------|----------|
-| `/naming-session` | No session name without user confirmation |
+| `/starting-session` | No session without user confirmation of name and branch type |
+| `/ending-session` | No session end without merge verification or explicit discard |
+| `/resuming-session` | No resume without reading source files |
 | `/bookmarking-code` | No checkpoint without git state verification |
-| `/handing-over` | No handover without Key Learnings section |
-| `/taking-over` | No work without state verification |
-| `/resuming-sessions` | No session resume without reading state files |
 | `/learning-from-sessions` | No learnings document without verified discoveries and user approval |
 
 ## Open Questions
 
-- The two resume paths (/resuming-sessions vs /taking-over) have overlapping use cases — when exactly should each be used?
-- /taking-over doesn't create a session, so checkpoints and error tracking are inactive unless /naming-session is run separately
 - The track-errors hook only fires in subagent contexts, meaning main conversation errors are invisible until session end when harvest-errors runs
-- session-map.json uses inconsistent key types (some are UUIDs, some are plain names like "current" or "skill-audit")
-- /resuming-sessions and /taking-over both implement staleness auto-update independently rather than sharing a common implementation
+- `/ending-session` requires the user to `cd` to main worktree before running -- this is a workaround for the cwd-lock issue when removing the directory you are standing in
+- Post-session transcript parsing in `/learning-from-sessions` is instruction-only; the actual parsing engine has not been built yet
+- Hook installation requires manual `~/.claude/settings.json` edits pointing to plugin paths -- no automated plugin install mechanism for hooks yet
+- SessionStart hook fires on every session start including after `/clear`, which means `claudeSessionIds` grows over the session lifetime

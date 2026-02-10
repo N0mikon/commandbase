@@ -1,8 +1,8 @@
 ---
-git_commit: 22359f413f53a227cf695a4c10141a1379ed74a0
-last_updated: 2026-02-01
+git_commit: 8e92bba
+last_updated: 2026-02-09
 last_updated_by: docs-updater
-last_updated_note: "Added historical context note - skills have been renamed since this handover"
+last_updated_note: "Frontmatter refresh after 64 commits - still valid historical archive, updated references note"
 topic: "RPI Skill Enforcement Patterns - Implementation Complete"
 tags: [handover, skills, enforcement, rpi-workflow]
 status: historical
@@ -27,7 +27,12 @@ references:
 > - `handover` -> `handing-over`
 > - `takeover` -> `taking-over`
 > - `new_project` -> `starting-projects`
-> See `.docs/plans/02-01-2026-skill-structure-updates.md` for the rename plan.
+>
+> **Historical Note (2026-02-09)**: Skills were further restructured from `newskills/` into the
+> plugin system at `plugins/*/skills/*/SKILL.md`. The `handing-over` and `taking-over` skills
+> were replaced by session skills (`starting-session`, `ending-session`, `resuming-session`,
+> `learning-from-sessions`) in the `commandbase-session` plugin. The enforcement patterns
+> (Iron Law, Gate Function, etc.) are still present in the surviving skills.
 
 ## What I Was Working On
 

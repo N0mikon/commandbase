@@ -1,5 +1,5 @@
 ---
-git_commit: bdea199cec94a1605d2a0de42309d67a14dafdf2
+git_commit: 8e92bba
 last_updated: 2026-01-27
 last_updated_by: claude
 topic: "Portable Plugin System - Agents and Commands"

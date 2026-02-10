@@ -1,17 +1,18 @@
 ---
-git_commit: fe26d61
-last_updated: 2026-02-01
-last_updated_by: claude
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Updated after 57 commits - refreshed references to reflect newskills->plugins migration and plan archival"
 topic: "Global CLAUDE.md Architecture - Research and Planning"
 tags: [handover, claude-md, security, configuration, hierarchy]
 status: archived
 archived: 2026-02-02
 archive_reason: "Work completed in commit 448f0d2. Global CLAUDE.md created, skills updated with scope detection."
 references:
-  - newskills/updating-claude-md/SKILL.md
-  - newskills/starting-projects/reference/claude-md-guidelines.md
-  - .docs/research/02-01-2026-global-claude-md-architecture.md
-  - .docs/plans/02-01-2026-global-claude-md-implementation.md
+  - plugins/commandbase-core/skills/updating-claude-md/SKILL.md
+  - plugins/commandbase-core/skills/starting-projects/reference/claude-md-guidelines.md
+  - .docs/archive/02-01-2026-global-claude-md-architecture-research.md
+  - .docs/archive/02-01-2026-global-claude-md-implementation.md
 ---
 
 # Handover: Global CLAUDE.md Architecture

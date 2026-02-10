@@ -3,7 +3,10 @@ date: 2026-02-08
 status: complete
 topic: "analysis-session-skills-upgrade-context"
 tags: [research, analysis, cross-reference, session-skills, session-management, git-workflow, trunk-based-development, upgrade-planning]
-git_commit: d8efed8
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Updated after 7 commits - added implementation status section reflecting session skills v2/v2.1 completion"
 references:
   - .docs/research/02-08-2026-session-skills-current-state.md
   - .docs/research/02-08-2026-session-learnings-commandbase-plugin-conversion.md
@@ -23,13 +26,13 @@ Cross-referencing 5 research documents spanning session skill architecture, sess
 
 ## Source Documents
 
-| # | Document | Date | Status | Commits Behind |
-|---|----------|------|--------|----------------|
-| 1 | [session-skills-current-state](.docs/research/02-08-2026-session-skills-current-state.md) | 2026-02-08 | current | 1 |
-| 2 | [session-learnings-commandbase-plugin-conversion](.docs/research/02-08-2026-session-learnings-commandbase-plugin-conversion.md) | 2026-02-08 | current | 2 |
-| 3 | [session-management-solutions-claude-code](.docs/research/02-08-2026-session-management-solutions-claude-code.md) | 2026-02-08 | current | 1 |
-| 4 | [how-git-works](.docs/research/02-08-2026-how-git-works-architecture-and-feature-development-compartmentalization.md) | 2026-02-08 | current | 1 |
-| 5 | [trunk-based-development-deep-dive](.docs/research/02-08-2026-trunk-based-development-deep-dive.md) | 2026-02-08 | current | 1 |
+| # | Document | Date | Status |
+|---|----------|------|--------|
+| 1 | [session-skills-current-state](.docs/research/02-08-2026-session-skills-current-state.md) | 2026-02-08 | pre-v2 snapshot (describes v1 architecture) |
+| 2 | [session-learnings-commandbase-plugin-conversion](.docs/research/02-08-2026-session-learnings-commandbase-plugin-conversion.md) | 2026-02-08 | current |
+| 3 | [session-management-solutions-claude-code](.docs/research/02-08-2026-session-management-solutions-claude-code.md) | 2026-02-08 | current |
+| 4 | [how-git-works](.docs/research/02-08-2026-how-git-works-architecture-and-feature-development-compartmentalization.md) | 2026-02-08 | current |
+| 5 | [trunk-based-development-deep-dive](.docs/research/02-08-2026-trunk-based-development-deep-dive.md) | 2026-02-08 | current |
 
 ## Shared Findings
 
@@ -257,22 +260,64 @@ The `session_id` in hooks is always the Claude native UUID — reliable and per-
 
 7. **Shared utility module**: Extract `_resolve_session()`, `normalize_path()`, and new atomic write functions into `session_utils.py` — eliminating the 3x duplication.
 
+## Implementation Status (as of 2026-02-09)
+
+The session skills v2 upgrade was fully implemented across commits `6d980b4` through `147ccfd` (7 commits after this document was written). The v2 plan (`.docs/plans/02-08-2026-session-skills-upgrade-v2.md`) used this analysis as its primary research source. All 9 implementation phases completed, followed by a v2.1 patch for cross-platform hook quoting.
+
+### Recommendations Implemented
+
+| Recommendation | Status | Implementation |
+|---|---|---|
+| Shared `session_utils.py` module | DONE | `plugins/commandbase-session/scripts/session_utils.py` -- 415 lines, extracts `normalize_path()`, `resolve_session()`, `atomic_write_json()`, repo layout detection, worktree ops |
+| SessionStart hook bridge (`detect-session.py`) | DONE | `plugins/commandbase-session/scripts/detect-session.py` -- injects session ID + worktree info into conversation context via stderr (exit 2) |
+| Skill consolidation (5 -> 3+1) | DONE | `/starting-session`, `/ending-session`, `/resuming-session`, `/learning-from-sessions` -- old skills (`naming-session`, `handing-over`, `taking-over`, `resuming-sessions`) deleted |
+| Merge `/resuming-sessions` + `/taking-over` | DONE | `/resuming-session` has 3 modes: worktree resume (Mode A), handoff resume (Mode B), session picker (Mode C) |
+| Atomic writes via `os.replace()` | DONE | `atomic_write_json()` in `session_utils.py` -- temp file + `os.replace()` + `os.fsync()` |
+| Deprecate `_current` file | DONE | Primary resolution is worktree path match in session-map.json, then UUID key lookup; `_current` is read-only legacy fallback only |
+| Session status field | DONE | `"active"` / `"ended"` / `"handed-off"` in session-map.json entries |
+| Session = Branch = Worktree | DONE | Every session creates a git branch + worktree; sessions are isolated workspace directories |
+| Bare repo migration | DONE | `/starting-session` Mode A handles one-time migration to bare repo + worktrees layout |
+
+### Recommendations NOT Implemented (by design)
+
+| Recommendation | Decision | Rationale |
+|---|---|---|
+| MCP-based session state server | Deferred | No evidence it is needed; file-based approach works |
+| Native `/rename` bridge | Deferred | Waiting for native maturity |
+| Auto-learning hook (Windsurf-style) | Not doing | Explicit extraction via `/learning-from-sessions` preferred |
+| File locking (`fcntl`/`msvcrt`) | Not doing | Atomic `os.replace()` is sufficient |
+| MINGW test matrix | Deferred | Important but separate effort |
+
+### Findings Validated by Implementation
+
+- **Concurrency via `_current` singleton** (Section "Concurrency Architecture"): Confirmed. The v2 design eliminates this entirely by using worktree path matching as primary session resolution.
+- **Session ID discovery gap** (Section "Session ID Discovery Gap"): Confirmed. The `detect-session.py` SessionStart hook now bridges the native `session_id` into conversation context, eliminating the fragile `sessions-index.json` heuristic.
+- **Code duplication across 3 Python scripts** (Section "Shared Code Duplication"): Confirmed. All 3 scripts now import from `session_utils.py`.
+- **Non-atomic writes** (Section "File Operation Safety Matrix"): Confirmed. `atomic_write_json()` with `os.replace()` is now used for all session-map.json and meta.json writes.
+- **session-map.json inconsistent keys** (Section "session-map.json"): Resolved. v2 uses Claude native UUIDs consistently; the mixed-key entries were from v1 and have been archived to `.docs/archive/sessions-v1/`.
+
+### Emergent Pattern Outcomes
+
+- **"Frequency Reduces Difficulty"**: The v2 design optimizes for short sessions with fast handoff/resume cycles. `/ending-session` has 3 modes (merge, handoff, discard) and `/resuming-session` auto-detects the best resume source.
+- **"Native Platform Convergence"**: The v2 design focuses on capabilities native Claude Code is NOT building (error tracking, learning extraction, structured handoffs, staleness detection) while using native session IDs for bridging.
+- **"Platform Incompatibilities"**: v2.1 (commit `aefcf6f`) specifically addressed cross-platform hook quoting issues discovered during implementation.
+
 ## Remaining Questions
 
 ### From original cross-reference analysis:
-- Should /naming-session bridge to Claude Code's native `/rename` to keep both systems in sync? (raised by session-management-solutions, partially answered but implementation unclear)
-- Would an MCP-based session state server be more resilient than the current file-based approach? (raised by session-management-solutions, no data to resolve)
-- How does Claude Code's Auto Session Memory interact with commandbase's meta.json — is there redundancy or conflict? (raised by session-management-solutions, unresolved)
-- Can error tracking be moved from PostToolUseFailure hooks to a more reliable mechanism that captures main conversation errors? (implied by session-skills-current-state gap analysis)
-- Should session skills optimize for many short sessions (TBD-inspired) rather than few long ones? (emergent from cross-referencing, no direct evidence for either approach)
-- What is the right abstraction boundary between commandbase session state and native Claude Code session state? (central upgrade question, no single document answers it)
-- How should feature flags or incremental rollout apply to session skill upgrades themselves? (inspired by TBD, not addressed by any document)
+- Should /naming-session bridge to Claude Code's native `/rename` to keep both systems in sync? -- **Deferred** (v2 decided to wait for native maturity; /naming-session was absorbed into /starting-session)
+- Would an MCP-based session state server be more resilient than the current file-based approach? -- **Deferred** (no evidence it is needed; file-based with atomic writes works)
+- How does Claude Code's Auto Session Memory interact with commandbase's meta.json — is there redundancy or conflict? -- **Still unresolved**
+- Can error tracking be moved from PostToolUseFailure hooks to a more reliable mechanism that captures main conversation errors? -- **Still unresolved** (v2 kept the existing hook architecture)
+- Should session skills optimize for many short sessions (TBD-inspired) rather than few long ones? -- **Answered: yes** (v2 design optimizes for short sessions with fast handoff/resume; /ending-session has 3 end modes including handoff)
+- What is the right abstraction boundary between commandbase session state and native Claude Code session state? -- **Answered** (v2 uses native session IDs via SessionStart hook bridge; commandbase adds error tracking, learning extraction, structured handoffs, and staleness detection on top of native)
+- How should feature flags or incremental rollout apply to session skill upgrades themselves? -- **Not applicable** (v2 was implemented as a single coordinated upgrade across 7 commits)
 
 ### From implementation exploration:
-- Does Claude Code's SessionStart hook event exist and reliably fire? (assumed but not verified — the detect-session.py bridge depends on this)
-- Does SessionStart hook stdout actually inject into Claude's conversation context? (hook semantics vary by event type — needs empirical verification)
-- Is `os.replace()` truly atomic on MINGW's emulated filesystem, or does it behave differently from native Windows NTFS? (critical for atomic write solution)
-- Why do some session-map.json keys use literal strings ("current", "skill-audit") instead of UUIDs? Is this a bug in session_id discovery or an intentional fallback? (needs investigation before assuming UUID keys are reliable)
-- Can file locking (`fcntl.flock` / `msvcrt.locking`) work reliably across Git Bash + native Windows Python? (cross-platform locking is notoriously fragile)
-- What happens to orphaned session folders when `_current` is deprecated? Sessions created before the upgrade have folders but may lack session-map.json entries. (migration concern)
-- Should `/ending-session` delete the session-map.json entry or just mark it ended? Deletion is simpler but loses history; status marking preserves it but grows the file indefinitely. (design decision needed)
+- Does Claude Code's SessionStart hook event exist and reliably fire? -- **Answered: yes** (verified during v2 end-to-end validation, commit 373b5d2)
+- Does SessionStart hook stdout actually inject into Claude's conversation context? -- **Answered: stderr with exit 2** (not stdout; detect-session.py uses `print(..., file=sys.stderr)` + `sys.exit(2)` to inject into conversation context)
+- Is `os.replace()` truly atomic on MINGW's emulated filesystem, or does it behave differently from native Windows NTFS? -- **Answered: works** (used in production via session_utils.py `atomic_write_json()` since commit 92113aa; no issues reported)
+- Why do some session-map.json keys use literal strings ("current", "skill-audit") instead of UUIDs? Is this a bug in session_id discovery or an intentional fallback? -- **Resolved** (v1 artifact from broken session_id discovery; v1 data archived to `.docs/archive/sessions-v1/`; v2 uses consistent UUID keys)
+- Can file locking (`fcntl.flock` / `msvcrt.locking`) work reliably across Git Bash + native Windows Python? -- **Moot** (v2 decided atomic `os.replace()` is sufficient; file locking not needed)
+- What happens to orphaned session folders when `_current` is deprecated? -- **Resolved** (v1 session data archived to `.docs/archive/sessions-v1/` in commit 6d980b4; `_current` kept as read-only legacy fallback)
+- Should `/ending-session` delete the session-map.json entry or just mark it ended? -- **Answered: mark ended** (status set to `"ended"` to preserve history; entries remain in session-map.json)

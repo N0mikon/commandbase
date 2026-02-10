@@ -3,17 +3,20 @@ date: 2026-02-08
 status: complete
 topic: "Document Staleness Skill and Auto-Update Integration"
 tags: [plan, implementation, auditing-docs, docs-updater, staleness, skills]
-git_commit: e35080c
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Updated after 11 commits - refreshed all file references from newskills/newagents/ to plugins/ paths after plugin marketplace restructure"
 references:
-  - newagents/docs-updater.md
-  - newskills/committing-changes/SKILL.md
-  - newskills/implementing-plans/SKILL.md
-  - newskills/auditing-skills/SKILL.md
-  - newskills/auditing-agents/SKILL.md
-  - newskills/taking-over/SKILL.md
-  - newskills/planning-code/SKILL.md
-  - newskills/designing-code/SKILL.md
-  - newskills/resuming-sessions/SKILL.md
+  - plugins/commandbase-core/agents/docs-updater.md
+  - plugins/commandbase-git-workflow/skills/committing-changes/SKILL.md
+  - plugins/commandbase-code/skills/implementing-plans/SKILL.md
+  - plugins/commandbase-meta/skills/auditing-skills/SKILL.md
+  - plugins/commandbase-meta/skills/auditing-agents/SKILL.md
+  - plugins/commandbase-git-workflow/skills/auditing-docs/SKILL.md
+  - plugins/commandbase-code/skills/planning-code/SKILL.md
+  - plugins/commandbase-code/skills/designing-code/SKILL.md
+  - plugins/commandbase-session/skills/resuming-session/SKILL.md
   - .docs/research/02-08-2026-document-staleness-detection-and-update-opportunities.md
 ---
 
@@ -49,8 +52,8 @@ Address two document freshness problems:
 
 ### Tasks
 
-- [x] Create `newskills/auditing-docs/reference/staleness-detection.md` containing:
-  - The bash script from `committing-changes/SKILL.md:67-76`
+- [x] Create `plugins/commandbase-git-workflow/skills/auditing-docs/reference/staleness-detection.md` containing:
+  - The bash script from `plugins/commandbase-git-workflow/skills/committing-changes/SKILL.md:67-76`
   - Explanation of how the script works (find → filter tracked → extract git_commit → count behind)
   - Single-file variant: a version that checks ONE specific file path (for upstream-reading skills)
   - docs-updater spawn pattern: how to invoke the agent via Task tool
@@ -75,7 +78,7 @@ Returns the number of commits behind, or nothing if current/no commit recorded.
 
 ### Success Criteria
 
-- Reference file exists at `newskills/auditing-docs/reference/staleness-detection.md`
+- Reference file exists at `plugins/commandbase-git-workflow/skills/auditing-docs/reference/staleness-detection.md`
 - Contains both full-scan and single-file variants
 - Contains docs-updater spawn pattern
 - Script logic matches the proven `/committing-changes` implementation
@@ -90,8 +93,8 @@ Returns the number of commits behind, or nothing if current/no commit recorded.
 
 - [x] Invoke `/creating-skills` with the research doc as input
 - [x] Skill name: `auditing-docs`
-- [x] Skill location: personal (`~/.claude/skills/auditing-docs/`)
-- [x] Development location: `newskills/auditing-docs/`
+- [x] Skill location: `plugins/commandbase-git-workflow/skills/auditing-docs/`
+- [x] Development location: `plugins/commandbase-git-workflow/skills/auditing-docs/`
 
 ### Skill Design Inputs for `/creating-skills`
 
@@ -238,12 +241,11 @@ Each sub-phase invokes `/creating-skills` in edit mode with a description of the
 
 ### Tasks
 
-- [x] Copy `newskills/auditing-docs/` to `~/.claude/skills/auditing-docs/`
-- [x] Copy modified skills to their deployed locations:
-  - `newskills/taking-over/SKILL.md` → `~/.claude/skills/taking-over/SKILL.md`
-  - `newskills/planning-code/SKILL.md` → `~/.claude/skills/planning-code/SKILL.md`
-  - `newskills/designing-code/SKILL.md` → `~/.claude/skills/designing-code/SKILL.md`
-  - `newskills/resuming-sessions/SKILL.md` → `~/.claude/skills/resuming-sessions/SKILL.md`
+- [x] Skills deployed to plugin directories (plugin marketplace restructure replaced manual copy to `~/.claude/skills/`):
+  - `plugins/commandbase-git-workflow/skills/auditing-docs/SKILL.md`
+  - `plugins/commandbase-code/skills/planning-code/SKILL.md`
+  - `plugins/commandbase-code/skills/designing-code/SKILL.md`
+  - `plugins/commandbase-session/skills/resuming-session/SKILL.md`
 - [x] Run `/auditing-skills audit auditing-docs` to validate the new skill
 - [x] Run `/auditing-skills audit taking-over` to check modified skill health
 - [x] Run `/auditing-skills audit planning-code` to check modified skill health
@@ -274,3 +276,9 @@ Phase 1 → Phase 2 (uses `/creating-skills`) → Phase 3 → Phase 4
 Phase 2 depends on Phase 1 (reference file must exist before skill references it).
 Phase 3 is independent of Phase 2 but shares the reference snippet concept.
 Phase 4 depends on all prior phases.
+
+---
+
+## Post-Completion Notes
+
+**2026-02-09 (docs-updater refresh)**: All file references updated from `newskills/` and `newagents/` paths to `plugins/` paths following the plugin marketplace restructure (commit `87a19a3`). The `taking-over` skill referenced in Phase 3a was deleted in commit `92113aa` (session skills v2) and superseded by `plugins/commandbase-session/skills/resuming-session/SKILL.md`. The auto-update pattern from Phase 3a was carried forward into the `resuming-session` skill. Phase 3 body text preserved as-is for historical accuracy.

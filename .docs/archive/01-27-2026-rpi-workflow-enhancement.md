@@ -1,5 +1,5 @@
 ---
-git_commit: 469a6d81ebb8b827e284d4afb090c6c622d97747
+git_commit: 8e92bba
 last_updated: 2026-02-01
 last_updated_by: docs-updater
 last_updated_note: "Marked historical - skills renamed since this handover"

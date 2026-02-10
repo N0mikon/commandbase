@@ -1,3 +1,18 @@
+---
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Added frontmatter (was missing). Content verified against 6 hook scripts across commandbase-git-workflow and commandbase-session plugins. All best practices, exit code patterns, and anti-patterns confirmed accurate against current implementation."
+references:
+  - plugins/commandbase-git-workflow/hooks/hooks.json
+  - plugins/commandbase-git-workflow/scripts/nudge-commit-skill.py
+  - plugins/commandbase-session/hooks/hooks.json
+  - plugins/commandbase-session/scripts/detect-session.py
+  - plugins/commandbase-session/scripts/track-errors.py
+  - plugins/commandbase-session/scripts/harvest-errors.py
+  - plugins/commandbase-session/scripts/trigger-learning.py
+---
+
 # Hook Best Practices, Use Cases, and Rules
 
 **Date:** 02-06-2026
@@ -111,13 +126,16 @@ fi
 - **Desktop notifications** — Notification hook → system alert when Claude needs input
 
 ### Tier 2: Workflow Enforcement
-- **Commit workflow** — PostToolUse nudge + deny rules (our 3-layer pattern)
+- **Commit workflow** — PostToolUse nudge + deny rules (our 3-layer pattern, implemented in `commandbase-git-workflow`)
 - **Test gates** — PreToolUse on Bash(git commit) → check if tests passed
 - **Branch protection** — PreToolUse on Bash → block direct commits to main
 - **Auto-stage files** — PostToolUse on Edit|Write → `git add` modified files
 
-### Tier 3: Advanced
-- **Context injection** — SessionStart → load git status, recent issues, env vars
+### Tier 3: Advanced (All Implemented in commandbase-session)
+- **Context injection** — SessionStart → detect repo layout, report session/worktree info (`detect-session.py`)
+- **Error tracking** — PostToolUseFailure → log tool errors to session `errors.log` (`track-errors.py`)
+- **Error harvesting** — Stop → parse transcript JSONL, backfill main-conversation errors missed by real-time tracker (`harvest-errors.py`)
+- **Learning nudge** — PreCompact → remind Claude to run `/learning-from-sessions` when errors exist (`trigger-learning.py`)
 - **Context preservation** — SessionStart with matcher "compact" → re-inject critical rules
 - **Audit logging** — PostToolUse → log all tool calls as JSON to `logs/` directory
 - **MCP tool hooks** — Match `mcp__<server>__<tool>` patterns for external integrations

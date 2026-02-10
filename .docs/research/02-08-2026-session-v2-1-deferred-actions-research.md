@@ -3,7 +3,7 @@ date: 2026-02-08
 status: active
 topic: "Session Skills v2.1 Deferred Actions Research"
 tags: [research, session-skills, bare-repo, worktrees, hooks, transcripts, v2.1]
-git_commit: 373b5d2
+git_commit: 8e92bba
 references:
   - plugins/commandbase-session/skills/ending-session/SKILL.md
   - plugins/commandbase-session/skills/starting-session/SKILL.md

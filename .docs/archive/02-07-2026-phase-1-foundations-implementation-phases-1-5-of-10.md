@@ -5,13 +5,16 @@ archived: 2026-02-08
 archive_reason: "Phase 1 Foundations fully complete and committed (aabffde). All 10 phases done, integration test passed. All next steps from this handoff were completed in subsequent sessions."
 topic: "Phase 1 Foundations Implementation (Phases 1-5 of 10)"
 tags: [handoff, naming-session, voice-tone, auditing-skills, auditing-agents, bookmarking-code, session-awareness, phase-1, archived]
-git_commit: 5beb0c1
+git_commit: 8e92bba
+last_updated: 2026-02-09
+last_updated_by: docs-updater
+last_updated_note: "Updated git_commit (was 21 commits behind) and references to current paths after plugin restructure and session skills v2."
 references:
-  - .docs/plans/02-07-2026-phase-1-foundations-and-modifications-implementation.md
-  - newskills/naming-session/SKILL.md
-  - newskills/auditing-skills/SKILL.md
-  - newskills/auditing-agents/SKILL.md
-  - newskills/bookmarking-code/SKILL.md
+  - .docs/archive/02-07-2026-phase-1-foundations-and-modifications-implementation.md
+  - plugins/commandbase-session/skills/starting-session/SKILL.md  # naming-session was deleted in session skills v2 (92113aa), superseded by starting-session
+  - plugins/commandbase-meta/skills/auditing-skills/SKILL.md
+  - plugins/commandbase-meta/skills/auditing-agents/SKILL.md
+  - plugins/commandbase-core/skills/bookmarking-code/SKILL.md
   - CLAUDE.md
 ---
 
