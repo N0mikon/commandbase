@@ -2,8 +2,8 @@
 #!/usr/bin/env python3
 """SessionStart hook: bridges native session_id into conversation context.
 
-Detects repo layout and reports session/worktree info to Claude via stderr
-(exit 2 injects stderr into conversation context).
+Detects repo layout and reports session/worktree info to Claude via stdout
+(exit 0 with stdout injects context into conversation for SessionStart hooks).
 """
 import json
 import sys
@@ -36,9 +36,8 @@ def main():
         print(
             f"SESSION ID: {session_id} (regular repo, no worktree layout). "
             f"Run /starting-session to migrate and create a session.",
-            file=sys.stderr,
         )
-        sys.exit(2)
+        sys.exit(0)
 
     # Read container-level session-map.json
     session_map = read_session_map(cwd)
@@ -71,7 +70,6 @@ def main():
             f'SESSION DETECTED: "{name}" on branch {branch} (status: {status}).\n'
             f"Worktree: {worktree}\n"
             f"Session ID: {session_id}",
-            file=sys.stderr,
         )
     else:
         # In bare repo but no matching session -- likely main worktree
@@ -79,10 +77,9 @@ def main():
             f"MAIN BRANCH: Working in {cwd} on main. "
             f"Run /starting-session to create a session branch.\n"
             f"Session ID: {session_id}",
-            file=sys.stderr,
         )
 
-    sys.exit(2)
+    sys.exit(0)
 
 
 if __name__ == "__main__":
