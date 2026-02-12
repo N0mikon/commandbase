@@ -28,7 +28,7 @@ Never document a learning that wasn't verified during the session. Never save wi
 ```
 BEFORE capturing learnings:
 
-1. SESSION: Detect repo layout, find session for current worktree via session-map.json. Fall back to _current. If post-session: read claudeSessionIds from meta.json.
+1. SESSION: Detect repo layout, find session for current worktree via session-map.json. If post-session: read claudeSessionIds from meta.json.
 2. DETECT: Recognize that extractable knowledge exists (trigger conditions or user request)
 3. ERRORS: Read session errors.log if available (pull error context)
 4. DEBUG: Scan .docs/debug/ for recent debug files from this session
@@ -54,8 +54,7 @@ Before capturing learnings, detect the active session:
 2. If bare-worktree layout (paths differ): read container-level `session-map.json`, find entry whose `worktree` matches current cwd. Read session name.
 3. If session-map entry has `claudeSessionIds` array: note these for transcript access.
 4. If session status is `"ended"` and a session name argument was provided: use Post-Session Mode (see below).
-5. Fallback: check `.claude/sessions/_current` for legacy sessions.
-6. If no session found: Use current date instead of session name (default behavior).
+5. If no session found: Use current date instead of session name (default behavior).
 
 When session-scoped:
 - Read `.claude/sessions/{name}/errors.log` if it exists — incorporate error context into learnings
@@ -154,7 +153,7 @@ If answers are thin ("it was just a typo"), the discovery fails the worth assess
 
 ### Step 3: Gather Error Context
 
-When a session is active (detected via session-map.json worktree match or `_current` fallback):
+When a session is active (detected via session-map.json worktree match):
 
 1. Read `.claude/sessions/{name}/errors.log` if it exists
 2. For each error: extract tool name, input summary, and error summary
@@ -325,7 +324,7 @@ If you notice any of these, pause:
 | "User will want this saved" | Ask. Never assume. Confirmation is mandatory. |
 | "This should be a skill right now" | Defer it. Write to .docs/learnings/ with a deferred action. |
 | "No need to dedup, this is definitely new" | Search anyway. You might find an existing learning to supplement. |
-| "No errors.log, so skip error context" | Correct — but only skip if _current doesn't exist or errors.log is empty. |
+| "No errors.log, so skip error context" | Correct — but only skip if no session is found or errors.log is empty. |
 | "I'll skip quality gates, the content is solid" | Run the checklist. Every item. Every time. |
 | "Deferred actions can be vague" | Each action must name the specific skill, CLAUDE.md section, or pattern. |
 

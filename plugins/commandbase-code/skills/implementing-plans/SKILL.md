@@ -168,7 +168,7 @@ If you notice any of these, pause:
 
 After completing each phase with verified evidence, create a checkpoint:
 
-1. Check if `.claude/sessions/_current` exists
+1. Detect repo layout and find active session via session-map.json (worktree match)
 2. If session exists: `/bookmarking-code create "phase-N-done"` (writes to session folder)
 3. If no session: `/bookmarking-code create "phase-N-done"` (writes to global log)
 

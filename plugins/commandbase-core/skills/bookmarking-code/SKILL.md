@@ -32,8 +32,7 @@ Before creating or verifying checkpoints, detect the active session:
    git_dir=$(git rev-parse --git-dir 2>/dev/null)
    ```
 2. If bare-worktree layout (paths differ): read container-level `session-map.json`, find entry whose `worktree` matches current cwd. Use `.claude/sessions/{name}/checkpoints.log` in the worktree.
-3. Fallback: check `.claude/sessions/_current` for legacy sessions.
-4. If no session found: Use `.claude/checkpoints.log` (default behavior).
+3. If no session found: Use `.claude/checkpoints.log` (default behavior).
 
 When session-scoped:
 - Checkpoint names are automatically prefixed: `{session-name}:{checkpoint-name}`
@@ -46,7 +45,7 @@ When session-scoped:
 BEFORE any checkpoint operation:
 
 1. IDENTIFY: Which operation? (create/verify/list/clear)
-2. SESSION: Detect repo layout, find session for current worktree via session-map.json. Fall back to _current.
+2. SESSION: Detect repo layout, find session for current worktree via session-map.json.
 3. CHECK: Does checkpoint log exist? Create if needed.
    - Session active: .claude/sessions/{name}/checkpoints.log (in worktree root)
    - No session: .claude/checkpoints.log

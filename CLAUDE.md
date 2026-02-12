@@ -15,7 +15,7 @@ commandbase/
 │   ├── commandbase-services/ # 6 skills
 │   ├── commandbase-research/ # 4 skills + 1 agent
 │   ├── commandbase-git-workflow/ # 5 skills + 1 hook
-│   ├── commandbase-session/  # 4 skills + 4 hooks (v2: git branching + worktrees)
+│   ├── commandbase-session/  # 8 skills + 4 hooks (v3: worktree/session/handoff layers)
 │   └── commandbase-meta/     # 6 skills
 ├── scripts/                  # Utility scripts
 └── .docs/                    # Research, plans, and handoff documents

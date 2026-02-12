@@ -1,52 +1,81 @@
 # Session Lifecycle
 
-Sessions provide isolated workspaces via git branching and worktrees. `/starting-session` creates the branch and worktree, `/ending-session` offers three exit paths (merge, handoff, discard), and `/resuming-session` picks up where you left off.
+The session system uses three independent layers: worktree (git isolation), session (conversation tracking), and handoff (knowledge transfer).
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Starting : /starting-session
-    Starting --> Active : branch + worktree created
+    [*] --> Worktree : /starting-worktree
+    Worktree --> Session : /starting-session
 
-    Active --> Merging : /ending-session merge
-    Active --> HandedOff : /ending-session handoff
-    Active --> Discarding : /ending-session discard
+    Session --> Active : tracking started
+    Active --> Active : work happens (hooks track UUIDs + errors)
 
-    Merging --> [*] : squash merge to main
-    Discarding --> [*] : worktree removed
+    Active --> HandedOff : /handing-over
+    HandedOff --> Active : /taking-over (new conversation)
 
-    HandedOff --> Resuming : /resuming-session
-    Resuming --> Active : context restored
+    Active --> Ended : /ending-session (summary.json)
+    Ended --> Merged : /ending-worktree merge
+    Ended --> Discarded : /ending-worktree discard
+
+    Merged --> [*]
+    Discarded --> [*]
 ```
+
+## Three Layers
+
+### Worktree Layer (git plumbing)
+
+| Skill | What it does |
+|-------|-------------|
+| /starting-worktree | Creates branch + worktree, or migrates repo to bare-repo layout |
+| /ending-worktree | Squash merges to main (Mode A) or force-discards (Mode B) |
+
+Worktrees are independent of sessions. You can have a worktree without session tracking.
+
+### Session Layer (tracking)
+
+| Skill | What it does |
+|-------|-------------|
+| /starting-session | Discovery-driven setup -- asks purpose, writes meta.json, captures UUID |
+| /ending-session | Closes tracking, produces .docs/sessions/{name}/summary.json |
+| /resuming-session | Reads session state files, verifies git state, presents context |
+| /learning-from-sessions | Extracts reusable knowledge from session errors |
+
+One worktree can have multiple sessions (many-to-one). Only one active at a time.
+
+### Handoff Layer (knowledge transfer)
+
+| Skill | What it does |
+|-------|-------------|
+| /handing-over | Creates standalone handoff document with key learnings |
+| /taking-over | Absorbs handoff document and restores context |
+
+Handoffs are independent -- they work with or without active sessions.
 
 ## Auto-detection
 
-When you restart Claude Code in an existing session worktree, the SessionStart hook auto-detects the active session and injects its context — you don't need to run `/resuming-session` for that case. The hook reads `session-map.json`, matches the current worktree to a session, and prints the session context via stderr (exit code 2).
-
-## Resume modes
-
-`/resuming-session` handles three situations:
-
-| Mode | When | What happens |
-|------|------|-------------|
-| Worktree | Active session, same worktree | Read meta.json, errors.log, checkpoints, verify git state |
-| Handoff | Handed-off session, new conversation | Read handoff doc with staleness check, absorb context |
-| Picker | Multiple candidates | Unified picker showing all active and handed-off sessions |
+When you restart Claude Code in a session worktree, the SessionStart hook auto-detects the active session and injects its context -- including session purpose. The hook reads `session-map.json`, matches the current worktree to an active session (filtering by `status: "active"`), and prints session context via stdout (exit 0).
 
 ## State files
 
-Sessions track their state across these files:
+| File | Location | Committed? | Purpose |
+|------|----------|------------|---------|
+| session-map.json | Container root | No | Session registry (many-to-one with worktrees) |
+| meta.json | `.claude/sessions/{name}/` | No | Live session metadata + UUID list |
+| errors.log | `.claude/sessions/{name}/` | No | Error tracking from hooks |
+| checkpoints.log | `.claude/sessions/{name}/` | No | Checkpoint history |
+| summary.json | `.docs/sessions/{name}/` | Yes | Permanent close-out summary |
 
-| File | Location | Contents |
-|------|----------|----------|
-| session-map.json | Container root | Registry of all sessions (name, branch, worktree path, status) |
-| meta.json | `{worktree}/.claude/sessions/{name}/` | Session metadata + Claude conversation UUIDs |
-| errors.log | `{worktree}/.claude/sessions/{name}/` | JSONL error tracking from hooks |
-| checkpoints.log | `{worktree}/.claude/sessions/{name}/` | Checkpoint history from /bookmarking-code |
+## Typical workflow
 
-## Ending modes
-
-| Mode | What it does | Reversible? |
-|------|-------------|-------------|
-| Merge | Squash merge to main, remove worktree + branch, invoke /committing-changes | No |
-| Handoff | Keep branch open, create `.docs/handoffs/` document, update status to "handed-off" | Yes — resume later |
-| Discard | Force-remove worktree + branch after confirmation | No |
+```
+/starting-worktree          # Create isolated branch + directory
+cd {worktree}
+/starting-session           # Discovery: what are you working on?
+  [work happens]
+/handing-over               # Optional: create handoff for another conversation
+  [new conversation]
+/taking-over handoff.md     # Optional: absorb the handoff
+/ending-session             # Close tracking, produce summary.json
+/ending-worktree            # Merge to main or discard (from main worktree)
+```

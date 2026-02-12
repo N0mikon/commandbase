@@ -1,0 +1,302 @@
+---
+date: 2026-02-11
+status: active
+topic: "Old /taking-over skill preserved from commit 87a19a3 (pre-v2 deletion)"
+tags: [reference, session, handoff, archived-skill]
+git_commit: caab3d0
+references:
+  - plugins/commandbase-session/skills/taking-over/SKILL.md (deleted in 92113aa)
+---
+
+# Old /taking-over Skill (Pre-v2)
+
+Preserved from commit `87a19a3` (last version before deletion in `92113aa`).
+This is the final evolved form, with staleness auto-update and archive handling.
+
+---
+
+name: taking-over
+description: "Use this skill when picking up work from a handover document, resuming a previous session, or continuing where another session left off. This includes reading handover documents from .docs/handoffs/, understanding prior context, reviewing modified files, and continuing implementation. Trigger phrases: '/takeover', 'continue from handover', 'resume previous work', 'pick up where we left off', 'read the handover'."
+
+---
+
+# Takeover
+
+You are picking up work from a handover document. Your job is to absorb the context, verify the current state, and continue the work.
+
+**Violating the letter of these rules is violating the spirit of these rules.**
+
+## The Iron Law
+
+```
+NO WORK WITHOUT STATE VERIFICATION
+```
+
+If you haven't verified the current state matches the handover, you cannot start working.
+
+**No exceptions:**
+- Don't trust the handover blindly - verify state
+- Don't skip reading linked docs
+- Don't start work before confirming approach with user
+- Don't ignore drift between handover and reality
+
+## The Gate Function
+
+```
+BEFORE starting any work from a handover:
+
+1. READ: The handover document FULLY
+2. READ: All linked plans and research docs
+3. VERIFY: Run `git status`, `git log -5`, check file existence
+4. COMPARE: Does reality match the handover?
+   - If NO: Note the differences, ask user how to proceed
+   - If YES: Continue to step 5
+5. ABSORB: Internalize the Key Learnings section
+6. CONFIRM: Present summary and get user approval
+7. ONLY THEN: Begin work
+
+Skip verification = working blind
+```
+
+## Process
+
+### Step 1: Load the Handover
+
+**If a file path was provided:**
+- Read the handover document FULLY (no limit/offset)
+- **Staleness auto-update**: Before proceeding, check the handoff document's freshness:
+  ```bash
+  f="<handoff-path>"
+  commit=$(head -10 "$f" | grep "^git_commit:" | awk '{print $2}')
+  if [ -n "$commit" ] && [ "$commit" != "n/a" ]; then
+    git rev-parse "$commit" >/dev/null 2>&1 && \
+    behind=$(git rev-list "$commit"..HEAD --count 2>/dev/null)
+    [ -n "$behind" ] && [ "$behind" -gt 3 ] && echo "$behind"
+  fi
+  ```
+  - If >3 commits behind: spawn docs-updater agent to refresh it, then re-read the updated version
+  - If docs-updater archives it (all references deleted): warn the user that the handoff may be obsolete and ask whether to proceed
+  - If current or no git_commit: proceed normally
+- Read any linked plans or research documents mentioned
+- Apply the same staleness check to each linked document before reading it
+- Begin analysis
+
+**If no path provided:**
+```
+I'll help you pick up from a handover.
+
+Available handovers in .docs/handoffs/:
+[List files if directory exists]
+
+Which handover would you like to resume from?
+
+Usage: /taking-over .docs/handoffs/MM-DD-YYYY-description.md
+```
+
+### Step 2: Absorb Context
+
+Read and internalize:
+- What was being worked on
+- What was accomplished
+- Key learnings (pay special attention here)
+- Current state
+- Next steps
+
+### Step 3: Verify Current State
+
+Check that reality matches the handover:
+
+```bash
+# Check git state
+git status
+git branch --show-current
+git log --oneline -5
+```
+
+- Verify mentioned files exist
+- Check that described changes are present
+- Look for any drift since the handover
+
+### Step 4: Present Takeover Summary
+
+```
+I've absorbed the handover from [date].
+
+**Previous Work:**
+- [What was being done]
+- [What was accomplished]
+
+**Key Learnings I'll Apply:**
+- [Critical learning 1]
+- [Critical learning 2]
+
+**Current State Verified:**
+- [Confirmation that state matches, or noting differences]
+
+**Recommended Next Steps:**
+1. [First priority from handover]
+2. [Second priority]
+3. [Any adjustments based on current state]
+
+Ready to continue with [first next step]?
+```
+
+### Step 5: Get Confirmation
+
+Wait for user to confirm the approach before starting work.
+
+If user wants adjustments:
+- Incorporate their feedback
+- Adjust the plan
+- Confirm again
+
+### Step 6: Begin Work
+
+Once confirmed:
+- Create a todo list with TodoWrite
+- Start with the first next step
+- Apply learnings throughout
+- Reference the handover when relevant
+
+## Red Flags - STOP and Verify
+
+If you notice any of these, STOP immediately:
+
+- Starting work without reading full handover
+- Skipping linked documents
+- Not running `git status` to verify state
+- State doesn't match handover but continuing anyway
+- Ignoring Key Learnings section
+- Starting work without user confirmation
+
+**When you hit a red flag:**
+1. Stop and read the handover fully
+2. Verify state with git commands
+3. Note any differences
+4. Get user confirmation before proceeding
+
+## Rationalization Prevention
+
+| Excuse | Reality |
+|--------|---------|
+| "I read the summary" | Read the full handover. Details matter. |
+| "State probably hasn't changed" | Verify anyway. Time passes. Things change. |
+| "I'll check files as I go" | Upfront verification prevents wasted work. |
+| "User is waiting" | Wrong assumptions waste more time. Verify first. |
+
+## Guidelines
+
+1. **Read Everything First**
+   - Read the full handover before acting
+   - Read linked docs (plans, research)
+   - Don't skim - absorb
+
+2. **Verify Before Trusting**
+   - State may have changed since handover
+   - Files may have been modified
+   - Check git status and recent commits
+
+3. **Apply the Learnings**
+   - The learnings section is gold
+   - Don't repeat mistakes documented there
+   - Follow patterns that were discovered
+
+4. **Ask If Unclear**
+   - If handover is ambiguous, ask
+   - If state doesn't match, clarify
+   - Better to confirm than assume
+
+5. **Maintain Continuity**
+   - You're continuing work, not starting fresh
+   - Build on what was done
+   - Keep the same conventions/patterns
+
+## Handling Edge Cases
+
+**Handover file not found:**
+```
+I couldn't find that handover document.
+
+Available handovers:
+[List .docs/handoffs/ contents]
+
+Please provide a valid path.
+```
+
+**State has diverged:**
+```
+I notice the current state differs from the handover:
+
+Handover says: [expected state]
+Current state: [actual state]
+
+This might be because:
+- Someone else made changes
+- Time has passed
+- Branch was switched
+
+How would you like to proceed?
+1. Follow the handover as written
+2. Adapt based on current state
+3. Create a fresh plan
+```
+
+**Handover is stale:**
+```
+This handover is from [date], and significant changes have occurred since:
+- [Change 1]
+- [Change 2]
+
+The next steps may need adjustment. Want me to:
+1. Follow the handover as written
+2. Adapt based on current state
+3. Create a fresh plan
+```
+
+**Linked docs missing:**
+```
+The handover references these docs that I can't find:
+- .docs/plans/missing-plan.md
+- .docs/research/missing-research.md
+
+Should I proceed without them, or can you provide updated paths?
+```
+
+## Example Interaction
+
+```
+User: /taking-over .docs/handoffs/01-27-2026-auth-implementation.md
+Assistant: I've absorbed the handover from January 27th.
+
+**Previous Work:**
+Alex was implementing JWT authentication. Completed the token generation
+and validation middleware. Login endpoint working.
+
+**Key Learnings I'll Apply:**
+- Must use RS256 not HS256 (security requirement in auth.config.ts:12)
+- Token refresh logic is tricky - see pattern in middleware/refresh.ts:34-56
+- Tests require MOCK_JWT_SECRET env var
+
+**Current State Verified:**
+- On branch: feature/auth
+- Last commit: "Add token validation middleware"
+- Files match handover description
+
+**Recommended Next Steps:**
+1. Implement logout endpoint (clear refresh tokens)
+2. Add token refresh endpoint
+3. Write integration tests
+
+Ready to continue with the logout endpoint?
+
+User: Yes, go ahead
+Assistant: [Creates todos and begins implementation]
+```
+
+## The Bottom Line
+
+**No shortcuts for takeover.**
+
+Read everything. Verify state. Apply learnings. Get confirmation. THEN work.
+
+This is non-negotiable. Every takeover. Every time.

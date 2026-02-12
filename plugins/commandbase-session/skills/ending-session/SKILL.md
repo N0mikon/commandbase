@@ -1,298 +1,216 @@
 ---
 name: ending-session
-description: "Use this skill when ending a work session, merging work back to main, switching context, creating a handoff for another session, or wrapping up current work. This includes squash merging the session branch into main, removing the worktree, optionally creating handover documents to .docs/handoffs/, checking for uncaptured learnings, and updating session status. Trigger phrases: '/ending-session', 'end session', 'wrap up', 'merge and end', 'hand this off', 'finish session'."
+description: "Use this skill when closing out a session's tracking, producing a summary of work done, or wrapping up session state before ending a worktree. This produces .docs/sessions/{name}/summary.json with full session data and marks the session as ended. Does not merge branches or remove worktrees -- use /ending-worktree for that. Trigger phrases: '/ending-session', 'end session', 'close session', 'finish session', 'wrap up session'."
 ---
 
 # Ending Session
 
-You are ending a session by merging, handing off, or discarding the session's work.
+You are closing out a session tracking unit and producing a comprehensive summary file. This skill gathers session state (meta.json, errors.log, checkpoints.log), discovers related handoffs, and writes a permanent summary to `.docs/sessions/{name}/summary.json`.
+
+This is NOT a merge tool. This is NOT a worktree tool. This is session close-out only.
 
 **Violating the letter of these rules is violating the spirit of these rules.**
 
 ## The Iron Law
 
 ```
-NO SESSION END WITHOUT MERGE VERIFICATION OR EXPLICIT DISCARD
+NO SESSION END WITHOUT SUMMARY
 ```
 
-Never merge without a dry-run conflict check. Never discard without explicit user confirmation.
+Every session close-out must produce a summary.json. The summary captures the full session lifecycle -- purpose, conversations, handoffs, errors, and checkpoints.
 
 **No exceptions:**
-- Don't merge without checking for conflicts first
-- Don't remove a worktree without confirming the mode
-- Don't skip the learning check
-- Don't skip CLAUDE.md review for merge mode
+- Don't mark a session as ended without writing summary.json
+- Don't skip reading errors.log or checkpoints.log
+- Don't produce an empty or partial summary
+- Don't merge, remove worktrees, or create handoff docs (that's other skills' jobs)
 
 ## The Gate Function
 
 ```
 BEFORE ending any session:
 
-1. VERIFY: Am I in a session worktree? (not main)
-2. CLEAN: Are there uncommitted changes?
-3. MODE: Ask user: Merge / Handoff / Discard?
-4. CONFLICTS: For merge mode, dry-run check first
-5. CLAUDE_MD: For merge mode, review CLAUDE.md changes with user
-6. LEARN: Check for uncaptured errors
-7. EXECUTE: Merge/handoff/discard based on mode
-8. COMMIT: For merge mode, invoke /committing-changes (handles commit + push)
-9. CLEANUP: Remove worktree (merge/discard) or keep (handoff)
+1. DETECT: Find active session in current worktree via session-map.json
+2. GATHER: Read meta.json, errors.log, checkpoints.log
+3. SCAN: Find handoff docs created during this session (in .docs/handoffs/)
+4. COMPOSE: Build summary.json with all session data
+5. WRITE: Save to .docs/sessions/{name}/summary.json
+6. UPDATE: Mark session as "ended" in session-map.json
+7. SUGGEST: Recommend /learning-from-sessions if errors exist
 
-Skip conflict check = surprise merge failures
+Skip summary = session without close-out
 ```
 
-## Session Verification
+## Step 1: Detect Active Session
 
-First, confirm we're in a session worktree:
+Find the active session for the current worktree:
 
 ```bash
 # Get current worktree path
 worktree_path=$(git rev-parse --show-toplevel)
 
-# Get container and bare repo
-container=$(dirname "$(git rev-parse --git-common-dir)")
-bare="$container/.bare"
-
-# Get current branch
-branch=$(git rev-parse --abbrev-ref HEAD)
-
-# Check if running from main worktree
-main_worktree="$container/main"
+# Detect repo layout
+git_common=$(git rev-parse --git-common-dir 2>/dev/null)
+git_dir=$(git rev-parse --git-dir 2>/dev/null)
 ```
 
-If `worktree_path` != `main_worktree`:
+Read session-map.json and find entries matching this worktree with `status: "active"`.
+
+If no active session found:
 ```
-You're running /ending-session from inside the session worktree.
-Worktree cleanup requires running from main to avoid directory lock issues.
-
-Please switch to main first:
-cd {container}/main
-
-Then run /ending-session again.
-```
-**Stop execution — do not proceed with merge, handoff, or discard.**
-
-Read container-level `session-map.json` and find the entry matching this worktree.
-
-If in main: "You're on the main branch. No session to end."
-If no matching session: "No session found for this worktree."
-
-## Check Uncommitted Changes
-
-```bash
-git status --porcelain
-```
-
-If dirty: "You have uncommitted changes. Commit them first with /committing-changes, or choose to discard."
-
-## Mode Selection
-
-Ask the user:
-
-```
-How would you like to end this session?
-
-1. Merge   -- Squash merge to main, remove worktree (default)
-2. Handoff -- Keep branch open, create handoff doc for another session
-3. Discard -- Abandon all work on this branch (destructive)
-```
-
-## Mode A: Merge End (default)
-
-### Step 1: Conflict detection (dry run)
-
-```bash
-cd {container}/main
-git merge --no-commit --no-ff {session-branch}
-```
-
-If conflicts:
-```bash
-git merge --abort
-```
-
-Present to user:
-```
-Merge conflicts detected between your session and main:
-
-CONFLICT: src/auth.ts (both modified)
-CONFLICT: tests/auth.test.ts (both modified)
+No active session in this worktree.
 
 Options:
-1. Resolve conflicts manually, then retry /ending-session
-2. Hand off the session instead (keep branch open)
-3. Cancel
-
-Which would you prefer?
+1. If you want to start tracking: /starting-session
+2. If you want to merge/remove the worktree: /ending-worktree
 ```
 
-Return to session worktree after aborting.
+If multiple active sessions (shouldn't happen, but handle gracefully): present a picker and let the user choose which to end.
 
-If clean:
+## Step 2: Gather Session State
+
+Read the session's state files from `.claude/sessions/{name}/`:
+
+### meta.json (required)
 ```bash
-git merge --abort  # Clean up the dry run
+cat {worktree}/.claude/sessions/{name}/meta.json
 ```
 
-### Step 2: Squash merge
+Extract: `sessionId`, `claudeSessionIds`, `name`, `branch`, `worktree`, `created`, `gitBranch`, `summary`.
+
+If meta.json is missing or corrupt: warn and offer to create a minimal summary from session-map.json data instead.
+
+### errors.log (optional)
+```bash
+cat {worktree}/.claude/sessions/{name}/errors.log 2>/dev/null
+```
+
+Parse error entries. Count total errors. Extract the most recent entries for the summary.
+
+If missing: 0 errors (clean session).
+
+### checkpoints.log (optional)
+```bash
+cat {worktree}/.claude/sessions/{name}/checkpoints.log 2>/dev/null
+```
+
+Parse checkpoint entries. Each has a name, timestamp, and SHA.
+
+If missing: 0 checkpoints.
+
+## Step 3: Scan for Related Handoffs
+
+Scan `.docs/handoffs/` for handoff documents related to this session:
+
+1. Check for files whose `topic` frontmatter contains the session name
+2. Check for files whose `tags` include the session name
+3. Check for files created within the session's time window (created → now)
+
+Collect matching file paths for the summary.
+
+## Step 4: Compose summary.json
+
+Build the summary object:
+
+```json
+{
+  "name": "<session-name>",
+  "summary": "<purpose from meta.json>",
+  "branch": "<branch from meta.json>",
+  "worktree": "<worktree path from meta.json>",
+  "created": "<ISO 8601 from meta.json>",
+  "ended": "<ISO 8601 now>",
+  "claudeSessionIds": ["<uuid-1>", "<uuid-2>"],
+  "handoffs": [
+    ".docs/handoffs/02-11-2026-session-name-description.md"
+  ],
+  "errors": {
+    "count": 0,
+    "summary": []
+  },
+  "checkpoints": []
+}
+```
+
+**Fields:**
+- `name`: Session name from meta.json
+- `summary`: Purpose from meta.json (the user-provided description from discovery)
+- `branch`: Git branch the session was on
+- `worktree`: Worktree path
+- `created`: Session start time from meta.json
+- `ended`: Current time (ISO 8601)
+- `claudeSessionIds`: Full list of conversation UUIDs that participated in this session
+- `handoffs`: List of `.docs/handoffs/` file paths related to this session
+- `errors.count`: Total number of errors logged
+- `errors.summary`: Array of error objects, each with `tool`, `input`, `error`, and `source` fields
+- `checkpoints`: Array of checkpoint objects, each with `name`, `timestamp`, and `sha` fields
+
+## Step 5: Write summary.json
+
+Write to `.docs/sessions/{name}/summary.json`:
 
 ```bash
-cd {container}/main
-git merge --squash {session-branch}
+# Create directory
+mkdir -p {worktree}/.docs/sessions/{session-name}
 ```
 
-### Step 3: CLAUDE.md review
+Write the composed JSON to the file. Use atomic write if possible (write to temp file, then move).
 
-Check if CLAUDE.md was modified during the session:
+This file is committed to git (NOT gitignored). It becomes a permanent record of the session.
 
-```bash
-git diff HEAD -- CLAUDE.md
-```
+## Step 6: Update session-map.json
 
-If modified, show the diff:
-```
-CLAUDE.md was modified during this session:
+Mark the session as ended in session-map.json:
 
-[diff output]
+Set `status: "ended"` for this session's entry. This prevents the SessionStart hook from injecting this session's context in future conversations.
 
-Include these changes on main?
-1. Yes - merge CLAUDE.md changes to main
-2. No  - discard session-only CLAUDE.md changes
-```
-
-If user chooses No:
-```bash
-git checkout HEAD -- CLAUDE.md
-```
-
-### Step 4: Commit + Push
-
-Invoke `/committing-changes` with squash merge context. The files are pre-staged by `git merge --squash`. The commit message should summarize the session's work.
-
-### Step 5: Learning check
-
-Read `{worktree}/.claude/sessions/{name}/errors.log`. If errors exist:
-
-```
-This session had N error(s). Consider running /learning-from-sessions before I remove the worktree.
-```
-
-Wait for user response before proceeding.
-
-### Step 6: Remove worktree + branch
-
-```bash
-git -C "$bare" worktree remove "$container/{type}/{session-name}"
-git -C "$bare" branch -d {type}/{session-name}
-git -C "$bare" push origin --delete {type}/{session-name} 2>/dev/null || true
-```
-
-**Why `-C "$bare"`**: The container directory is not a git repo — `.bare/` is. Running git commands from the container fails with `fatal: not a git repository`.
-
-**Why `|| true` on remote delete**: Remote branch may not exist for local-only sessions.
-
-After removal, verify the worktree directory is actually gone:
-```bash
-# Verify removal succeeded
-if [ -d "$container/{type}/{session-name}" ]; then
-  echo "Worktree directory persists (ghost state). Manual cleanup needed:"
-  echo "rm -rf $container/{type}/{session-name}"
-fi
-```
-
-### Step 7: Update session-map.json
-
-Set `status: "ended"` for this session's entry in container-level session-map.json.
-
-### Step 8: Output
+## Step 7: Output
 
 ```
 SESSION ENDED
 =============
 Name: {session-name}
-Branch: {type}/{session-name} (merged + deleted)
-Squash commit: {sha} on main
-Worktree: removed
-Branch: deleted (local + remote)
+Duration: {created} -> {now}
+Conversations: {count} Claude sessions
+Handoffs: {count} created during session
+Errors: {count} logged
+Checkpoints: {count} created
 
-Work merged to main. You're now in: {container}/main/
+Summary saved: .docs/sessions/{name}/summary.json
+
+{if errors > 0:}
+This session had errors. Run /learning-from-sessions to extract learnings:
+/learning-from-sessions {session-name}
+
+The worktree is still active. Use /ending-worktree when ready to merge or discard.
 ```
-
-## Mode B: Handoff End
-
-Branch stays open for another session to pick up.
-
-### Steps
-
-1. Same verification as Mode A (session context + uncommitted changes)
-2. **Do NOT merge** -- branch stays open
-3. Create handoff document via `docs-writer` agent:
-   - Template: What I Was Working On, What I Accomplished, Key Learnings, Files Changed, Current State, Session Context, Next Steps, Context & References, Notes
-   - Write to `.docs/handoffs/{date}-{session-name}-handoff.md`
-4. Update session-map.json: Set `status: "handed-off"`
-5. Learning check (same as Mode A Step 5)
-6. **Do NOT remove worktree** -- it stays for the next session
-
-### Output
-
-```
-SESSION HANDED OFF
-==================
-Name: {session-name}
-Branch: {type}/{session-name} (kept open)
-Worktree: {container}/{type}/{session-name} (kept)
-Handoff: .docs/handoffs/{date}-{session-name}-handoff.md
-
-To resume this work:
-/resuming-session (from the worktree directory)
-```
-
-## Mode C: Discard End
-
-Permanently abandons the session's work.
-
-### Steps
-
-1. Confirm with user (destructive action):
-   ```
-   This will permanently discard all work on branch {type}/{session-name}.
-
-   Are you absolutely sure? Type the session name to confirm: {session-name}
-   ```
-
-2. Remove worktree + branch:
-   ```bash
-   git -C "$bare" worktree remove --force "$container/{type}/{session-name}"
-   git -C "$bare" branch -D {type}/{session-name}
-   git -C "$bare" push origin --delete {type}/{session-name} 2>/dev/null || true
-   ```
-
-   After removal, verify the worktree directory is actually gone:
-   ```bash
-   # Verify removal succeeded
-   if [ -d "$container/{type}/{session-name}" ]; then
-     echo "Worktree directory persists (ghost state). Manual cleanup needed:"
-     echo "rm -rf $container/{type}/{session-name}"
-   fi
-   ```
-
-3. Update session-map.json: Set `status: "ended"`.
 
 ## Red Flags - STOP and Verify
 
 If you notice any of these, pause:
 
-- About to merge without dry-run conflict check
-- About to remove worktree without confirming mode
-- Skipping CLAUDE.md review in merge mode
-- Skipping learning check when errors.log has entries
-- About to discard without explicit user confirmation
-- Running destructive commands without session name confirmation
+- About to mark session as ended without writing summary.json
+- Skipping errors.log or checkpoints.log reads
+- About to merge branches or remove worktrees (that's /ending-worktree)
+- About to create handoff docs (that's /handing-over)
+- Producing a summary with missing claudeSessionIds or empty fields
+- Marking ended without confirming which session to close (when multiple exist)
 
 ## Rationalization Prevention
 
 | Excuse | Reality |
 |--------|---------|
-| "No conflicts, skip dry run" | Run it anyway. Conflicts can appear after rebase. |
-| "CLAUDE.md probably didn't change" | Check the diff. Session-specific edits are common. |
-| "User wants to end quickly" | Learning check catches valuable knowledge. Don't skip. |
-| "Discard is fine, user said so" | Require name confirmation. Destructive = explicit consent. |
+| "No errors, skip errors.log" | Read it anyway. Confirm zero errors explicitly. |
+| "No handoffs to scan for" | Scan .docs/handoffs/ anyway. You might be wrong. |
+| "User just wants to end quickly" | Summary.json takes seconds to write. Never skip. |
+| "I should also merge the branch" | No. That's /ending-worktree. Stay in scope. |
+| "I should create a handoff too" | No. That's /handing-over. Stay in scope. |
+| "Checkpoints probably don't exist" | Read the file. Probably isn't evidence. |
+
+## The Bottom Line
+
+**No session end without summary.**
+
+Detect session. Gather state. Scan handoffs. Compose summary. Write file. Update map. Present results. Nothing more.
+
+This is non-negotiable. Every session close-out. Every time.

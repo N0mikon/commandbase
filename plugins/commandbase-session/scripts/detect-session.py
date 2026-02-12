@@ -44,13 +44,14 @@ def main():
     container = get_container_dir(cwd)
     cwd_norm = os.path.normpath(cwd)
 
-    # Find session matching this worktree
+    # Find ACTIVE session matching this worktree (not ended/handed-off)
     matched_entry = None
     for _sid, entry in session_map.items():
         wt = entry.get("worktree", "")
         if wt and os.path.normpath(normalize_path(wt)) == cwd_norm:
-            matched_entry = entry
-            break
+            if entry.get("status") == "active":
+                matched_entry = entry
+                break
 
     if matched_entry:
         name = matched_entry.get("name", "unknown")
@@ -66,8 +67,10 @@ def main():
             except Exception:
                 pass  # Don't crash the hook on meta.json write failure
 
+        summary = matched_entry.get("summary", "")
+        summary_line = f"\nPurpose: {summary}" if summary else ""
         print(
-            f'SESSION DETECTED: "{name}" on branch {branch} (status: {status}).\n'
+            f'SESSION DETECTED: "{name}" on branch {branch} (status: {status}).{summary_line}\n'
             f"Worktree: {worktree}\n"
             f"Session ID: {session_id}",
         )

@@ -73,7 +73,7 @@ Read the target area files to understand current state. Get enough context to de
 
 This step is NOT optional. Same enforcement as `/implementing-plans` phase checkpoints.
 
-1. Check session awareness: read `.claude/sessions/_current` if exists
+1. Check session awareness: detect repo layout, find session for current worktree via session-map.json
 2. Check for uncommitted changes:
    - If uncommitted changes exist, warn user:
      ```

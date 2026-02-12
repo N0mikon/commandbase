@@ -170,7 +170,6 @@ def resolve_session(cwd, session_id=""):
     Resolution order:
     1. Worktree path match in session-map.json (bare-worktree layout)
     2. session_id key lookup in session-map.json
-    3. Legacy _current file fallback
 
     Returns session name string, or "" if no session found.
     """
@@ -188,35 +187,57 @@ def resolve_session(cwd, session_id=""):
         entry = session_map[session_id]
         return entry.get("name", "")
 
-    # 3. Legacy _current fallback
-    layout = detect_repo_layout(cwd)
-    if layout == "regular":
-        sessions_dir = os.path.join(cwd, ".claude", "sessions")
-    else:
-        # In a worktree, .claude/sessions/ is per-worktree
-        try:
-            toplevel = subprocess.run(
-                ["git", "rev-parse", "--show-toplevel"],
-                capture_output=True, text=True, cwd=cwd, timeout=5
-            ).stdout.strip()
-            sessions_dir = os.path.join(normalize_path(toplevel), ".claude", "sessions")
-        except (FileNotFoundError, subprocess.TimeoutExpired, subprocess.SubprocessError):
-            sessions_dir = os.path.join(cwd, ".claude", "sessions")
-
-    current_file = os.path.join(sessions_dir, "_current")
-    if os.path.exists(current_file):
-        try:
-            with open(current_file, "r") as f:
-                return f.read().strip()
-        except (IOError, OSError):
-            pass
-
     return ""
+
+
+def get_active_session_for_worktree(cwd):
+    """Find the active session for the current worktree, if any.
+
+    Scans session-map.json for entries matching the given worktree path
+    with status "active". Used by /starting-session (duplicate check)
+    and /ending-worktree (pre-removal check).
+
+    Returns (session_name, entry) or (None, None).
+    """
+    session_map = read_session_map(cwd)
+    cwd_norm = os.path.normpath(cwd)
+    for _sid, entry in session_map.items():
+        wt = entry.get("worktree", "")
+        if wt and os.path.normpath(normalize_path(wt)) == cwd_norm:
+            if entry.get("status") == "active":
+                return entry.get("name"), entry
+    return None, None
 
 
 # ---------------------------------------------------------------------------
 # 8. Session directory operations
 # ---------------------------------------------------------------------------
+
+def get_session_summary_path(cwd, session_name):
+    """Return .docs/sessions/{session_name}/summary.json path.
+
+    Creates the directory if needed. This path is for committed session
+    close-out summaries (NOT gitignored), unlike .claude/sessions/ which
+    is for live tracking data (gitignored).
+    """
+    layout = detect_repo_layout(cwd)
+
+    if layout == "bare-worktree":
+        try:
+            toplevel = subprocess.run(
+                ["git", "rev-parse", "--show-toplevel"],
+                capture_output=True, text=True, cwd=cwd, timeout=5
+            ).stdout.strip()
+            base = normalize_path(toplevel)
+        except (FileNotFoundError, subprocess.TimeoutExpired, subprocess.SubprocessError):
+            base = cwd
+    else:
+        base = cwd
+
+    summary_dir = os.path.join(base, ".docs", "sessions", session_name)
+    os.makedirs(summary_dir, exist_ok=True)
+    return os.path.join(summary_dir, "summary.json")
+
 
 def get_session_dir(cwd, session_name):
     """Return .claude/sessions/{session_name}/ path relative to worktree root.
