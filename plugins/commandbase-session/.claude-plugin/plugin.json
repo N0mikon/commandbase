@@ -1,15 +1,5 @@
 {
   "name": "commandbase-session",
   "version": "3.0.0",
-  "description": "Session continuity with three-layer architecture: worktree isolation (/starting-worktree, /ending-worktree), session tracking (/starting-session, /ending-session, /resuming-session, /learning-from-sessions), and standalone handoff (/handing-over, /taking-over). Includes error tracking and learning extraction. Requires commandbase-core for docs agents.",
-  "skills": [
-    "starting-worktree",
-    "ending-worktree",
-    "starting-session",
-    "ending-session",
-    "resuming-session",
-    "learning-from-sessions",
-    "handing-over",
-    "taking-over"
-  ]
+  "description": "Session continuity with three-layer architecture: worktree isolation (/starting-worktree, /ending-worktree), session tracking (/starting-session, /ending-session, /resuming-session, /learning-from-sessions), and standalone handoff (/handing-over, /taking-over). Includes error tracking and learning extraction. Requires commandbase-core for docs agents."
 }
