@@ -4,24 +4,39 @@
 [![Plugins](https://img.shields.io/badge/plugins-8-green.svg)](#plugins)
 [![Skills](https://img.shields.io/badge/skills-46-purple.svg)](#plugins)
 
-Personal Claude Code workflow tools — skills, agents, and hooks for the BRDSPI workflow (brainstorm, research, design, structure, plan, implement).
+Skills, agents, and hooks that give Claude Code a repeatable workflow: brainstorm, research, design, structure, plan, implement.
 
 ## Table of Contents
 
+- [Why commandbase](#why-commandbase)
 - [Overview](#overview)
 - [Architecture](#architecture)
 - [Plugins](#plugins)
-- [Quick Start](#quick-start)
 - [Windows Setup](#windows-setup)
 - [Development](#development)
+- [Acknowledgments](#acknowledgments)
 - [Contributing](#contributing)
 - [License](#license)
 
+## Why commandbase
+
+I'm not a professional developer. I use Claude Code to build things I can't build alone, and I got tired of every session being a blank slate where Claude forgets everything and I re-explain the same stuff.
+
+[HumanLayer](https://github.com/humanlayer/humanlayer) and [Superpowers](https://github.com/obra/superpowers) both solved parts of this. HumanLayer's `thoughts/` system handles context management: `file:line` references instead of pasting code, handoffs instead of compacting, and a research-plan-implement workflow. Superpowers has iron law gates that force Claude to follow steps instead of skipping them, with tables that preempt every rationalization Claude tries. I borrowed from both and built my own version because I wanted to understand how they work, not just use them.
+
+The `.docs/` system is based on HumanLayer's `thoughts/`. The gate logic comes from Superpowers. The BRDSPI workflow (brainstorm, research, design, structure, plan, implement) started as HumanLayer's RPI and I guessed at what the B, D, and S might be in their upcoming release.
+
+This is a work in progress and probably has some bad ideas in it. If you spot something, open an issue.
+
 ## Overview
 
-commandbase is a collection of Claude Code plugins that give your AI assistant a structured workflow for tackling software projects, managing Obsidian vaults, and running homelab infrastructure. Instead of freeform prompting, you get repeatable phases: brainstorm direction, research the problem, design the architecture, structure files, plan implementation, then build it.
+Eight plugins, split by domain. Install `commandbase-core` first since it has the shared docs agents everything else depends on. Then pick the domains you care about:
 
-Eight plugins split the work by domain. `commandbase-core` provides shared documentation agents that the rest depend on. The domain plugins — code, vault, services — each follow the same BRDSPI phase pattern adapted to their context. Supporting plugins handle git workflow, session continuity, web research, and tooling for authoring new skills.
+- **Code, Vault, Services** each walk through the same phases (brainstorm → research → design → structure → plan → implement), just tuned for their context. Software projects, Obsidian vaults, or homelab Docker stacks.
+- **Git workflow** keeps Claude from running raw `git commit` and routes everything through a review skill.
+- **Session** tracks what you're working on across conversations so you don't start from scratch every time.
+- **Research** fetches live docs and web sources so Claude isn't guessing from stale training data.
+- **Meta** helps you build new skills, agents, and hooks without starting from a blank file.
 
 ## Architecture
 
@@ -32,36 +47,17 @@ For a visual guide to how plugins, skills, agents, and hooks connect, see [docs/
 | Plugin | Description | Skills | Agents | Hooks |
 |--------|-------------|:------:|:------:|:-----:|
 | [commandbase-core](plugins/commandbase-core/README.md) | Shared docs agents + utility skills. Install first. | 5 | 4 | 0 |
-| [commandbase-code](plugins/commandbase-code/README.md) | Code BRDSPI workflow for software projects | 8 | 3 | 0 |
-| [commandbase-vault](plugins/commandbase-vault/README.md) | Vault BRDSPI workflow for Obsidian vault management | 8 | 0 | 0 |
-| [commandbase-services](plugins/commandbase-services/README.md) | Services BRDSPI workflow for homelab Docker infrastructure | 6 | 0 | 0 |
-| [commandbase-research](plugins/commandbase-research/README.md) | Web and framework research with sourced output | 4 | 1 | 0 |
-| [commandbase-git-workflow](plugins/commandbase-git-workflow/README.md) | Opinionated git commit workflow with security review | 5 | 0 | 1 |
-| [commandbase-session](plugins/commandbase-session/README.md) | Session continuity with git branching + worktrees | 4 | 0 | 4 |
-| [commandbase-meta](plugins/commandbase-meta/README.md) | Skill, agent, and hook authoring tools | 6 | 0 | 0 |
+| [commandbase-code](plugins/commandbase-code/README.md) | BRDSPI phases for software projects | 8 | 3 | 0 |
+| [commandbase-vault](plugins/commandbase-vault/README.md) | Obsidian vault management: notes, links, templates | 8 | 0 | 0 |
+| [commandbase-services](plugins/commandbase-services/README.md) | Homelab Docker infrastructure: compose, proxy, config | 6 | 0 | 0 |
+| [commandbase-research](plugins/commandbase-research/README.md) | Web + framework docs with sourced output | 4 | 1 | 0 |
+| [commandbase-git-workflow](plugins/commandbase-git-workflow/README.md) | Git commits routed through review + security checks | 5 | 0 | 1 |
+| [commandbase-session](plugins/commandbase-session/README.md) | Cross-session context with branching + worktrees | 4 | 0 | 4 |
+| [commandbase-meta](plugins/commandbase-meta/README.md) | Tools for authoring new skills, agents, and hooks | 6 | 0 | 0 |
 
 ## Quick Start
 
-You'll need [Claude Code](https://docs.anthropic.com/en/docs/claude-code) installed.
-
-```bash
-# Add commandbase as a marketplace source
-/plugin marketplace add /path/to/commandbase
-
-# Install core first (other plugins depend on its agents)
-/plugin install commandbase-core
-
-# Then install whichever domain plugins you want
-/plugin install commandbase-code
-/plugin install commandbase-vault
-/plugin install commandbase-services
-/plugin install commandbase-research
-/plugin install commandbase-git-workflow
-/plugin install commandbase-session
-/plugin install commandbase-meta
-```
-
-Order matters for one thing: `commandbase-core` goes first. After that, install in any order you like.
+Install `commandbase-core` first. Other plugins depend on its agents. After that, install whichever ones you want in any order.
 
 ## Windows Setup
 
@@ -75,25 +71,28 @@ setx CLAUDE_CODE_GIT_BASH_PATH "C:\Program Files\Git\bin\bash.exe"
 
 Restart Claude Code after setting this.
 
-**Why this matters:** Windows has multiple `bash.exe` installs — `C:\Windows\System32\bash.exe` for WSL, `C:\Program Files\Git\usr\bin\bash.exe` for MINGW. Claude Code may pick the wrong one, which strips path separators from `${CLAUDE_PLUGIN_ROOT}`.
+**Why this matters:** Windows has multiple `bash.exe` installs. `C:\Windows\System32\bash.exe` is WSL, `C:\Program Files\Git\usr\bin\bash.exe` is MINGW. Claude Code may pick the wrong one, which strips path separators from `${CLAUDE_PLUGIN_ROOT}`.
 
 ## Development
 
-### Bare Repo Layout
-
-This repo uses the bare repo + worktrees pattern. The container lives at `/c/code/commandbase/`, the main worktree at `/c/code/commandbase/main/`. Session worktrees are created as peers (e.g., `feature/auth-mvp/`). `session-map.json` tracks active sessions at the container level.
-
 ### Editing Skills
 
-Skills live at `plugins/<plugin>/skills/<skill>/SKILL.md`. Edit them directly in the plugin directory — there's no separate build step.
+Skills live at `plugins/<plugin>/skills/<skill>/SKILL.md`. Edit them directly in the plugin directory. No build step.
 
 ### Commit Enforcement
 
 Three layers prevent direct `git commit` / `git push` calls and route everything through `/committing-changes`:
 
-1. **CLAUDE.md rule** — `~/.claude/CLAUDE.md` Git Workflow section tells Claude to always use the skill
-2. **PostToolUse nudge hook** — bundled in `commandbase-git-workflow`, warns if a bare commit is attempted
-3. **Deny rules** — manually configured in `~/.claude/settings.json` (see `plugins/commandbase-git-workflow/SETUP.md`)
+1. **CLAUDE.md rule** - your global `CLAUDE.md` Git Workflow section tells Claude to always use the skill
+2. **PostToolUse nudge hook** - bundled in `commandbase-git-workflow`, warns if a bare commit is attempted
+3. **Deny rules** - manually configured in `~/.claude/settings.json` (see `plugins/commandbase-git-workflow/SETUP.md`)
+
+## Acknowledgments
+
+commandbase builds on ideas from two projects:
+
+- **[HumanLayer](https://github.com/humanlayer/humanlayer)** - the `thoughts/` directory for context management, `file:line` references as documentation, handoffs instead of compacting, and the research-plan-implement workflow. My `.docs/` system is a reworked version of their `thoughts/` pattern, and BRDSPI grew out of their RPI phases.
+- **[Superpowers](https://github.com/obra/superpowers)** - the iron law gate logic, rationalization prevention tables, and the idea that skills need to actually stop Claude from skipping steps instead of politely suggesting it follow them.
 
 ## Contributing
 
