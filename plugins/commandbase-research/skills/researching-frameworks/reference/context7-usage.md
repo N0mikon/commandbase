@@ -21,7 +21,7 @@ Do NOT assume Context7 is available. Do NOT skip detection.
 
 ### Why the server name matters
 
-The `context7-researcher` agent declares tools for both `context7` and `MCP_DOCKER` server names. If Context7 is under a different name, the agent will have no tools and silently fail. In that case, use `general-purpose` subagents instead, passing the correct tool names in the prompt.
+Plugin subagents (like `context7-researcher`) cannot access MCP tools — Claude Code doesn't pass MCP server connections to plugin-defined agent types. The `general-purpose` built-in agent type does inherit MCP access. Record the exact tool names detected here (e.g., `mcp__MCP_DOCKER__resolve-library-id`) and pass them in the `general-purpose` agent's prompt.
 
 ## Available Tools
 
@@ -103,33 +103,56 @@ get-library-docs(
 
 **Note:** The server enforces a minimum floor (default 10,000). If you request 5,000, the server may return up to 10,000 anyway. This is a server-side setting — if the user has configured `DEFAULT_MINIMUM_TOKENS` lower, smaller values will work.
 
-### Strategy 2: Delegate to context7-researcher agent (preferred for multi-dep research)
+### Strategy 2: Delegate to general-purpose agents (preferred for multi-dep research)
 
-Use the `context7-researcher` agent to absorb large MCP responses. The agent resolves library IDs, fetches docs with explicit token limits, and returns only concise summaries (max 500 words). The raw MCP output stays in the agent's context, not yours.
+Use foreground `general-purpose` agents to absorb large MCP responses. Each agent resolves a library ID, fetches docs, and returns only a concise summary. The raw MCP output stays in the agent's context, not yours.
 
+**Prompt template** (subagent_type: `general-purpose`, model: `haiku`):
 ```
-Task prompt (subagent_type: "commandbase-research:context7-researcher"):
-  "Research [framework]: [specific topic]. Depth: full/focused/minimal."
+You have access to Context7 MCP tools. Call {resolve_tool} with libraryName "{library}" to resolve the library ID. Then call {docs_tool} with the resolved ID, topic "{topic}", and tokens {tokens}. Return the results in this format:
+
+## {library} — {topic}
+**Context7 ID:** [resolved ID]
+**Queried:** [topic]
+
+### Key Findings
+- [Finding 1]
+- [Finding 2]
+- [Finding 3]
+
+### Version Info
+- Current version: [if found]
+- Breaking changes: [if relevant]
+
+### Gaps
+- [Anything the query didn't cover]
+
+Keep findings under {word_limit} words.
 ```
 
-Spawn multiple agents in parallel for independent libraries:
+Where `{resolve_tool}` and `{docs_tool}` are the exact tool names detected in Phase 1 (e.g., `mcp__MCP_DOCKER__resolve-library-id` and `mcp__MCP_DOCKER__get-library-docs`).
+
+**Word limits by depth:** full = 500 words, focused = 300 words, minimal = 150 words. These are advisory — the agent may exceed them slightly.
+
+**Token values by tier:** Tier 1 = 10000, Tier 2 = 5000, Tier 3 = 5000.
+
+Spawn multiple agents in parallel for independent libraries (all foreground):
 ```
-Agent 1: "Research next.js: app router setup and configuration. Depth: full."
-Agent 2: "Research react: server components patterns and conventions. Depth: full."
-Agent 3: "Research tailwind css: v4 configuration and migration. Depth: focused."
+Agent 1 (general-purpose): "{prompt template with next.js, full depth, 10000 tokens}"
+Agent 2 (general-purpose): "{prompt template with react, full depth, 10000 tokens}"
+Agent 3 (general-purpose): "{prompt template with tailwind css, focused depth, 5000 tokens}"
 ```
 
 **When to use each strategy:**
 - **Single dependency, quick lookup (Mode C):** Strategy 1 (direct call, set tokens)
-- **Multi-dependency stack (3+ deps, Mode A/B):** Strategy 2 (context7-researcher agents protect main context)
+- **Multi-dependency stack (3+ deps, Mode A/B):** Strategy 2 (general-purpose agents protect main context)
 - **Called by /starting-projects:** Always Strategy 2 (research is a long pipeline, context preservation is critical)
 - **Context7 unavailable:** Skip both, use `web-researcher` agents as fallback
 
-**When context7-researcher agents fail (tool name mismatch):**
-- Do NOT fall back to Strategy 1 for multi-dep research — direct calls will flood the main context
-- Instead, spawn `general-purpose` subagents with instructions to call the correct tool names (detected in Phase 1)
-- Or fall back to `web-researcher` agents for those libraries
-- This is the #1 cause of context blowout in this skill
+**Important constraints for Strategy 2:**
+- `general-purpose` agents MUST run foreground — MCP tools are unavailable in background mode
+- One agent per library — no batching multiple libraries in a single agent
+- Word limits in the prompt are advisory, not enforced — the agent may exceed them slightly
 
 ### Token budget for a typical stack
 

@@ -13,7 +13,7 @@ commandbase/
 │   ├── commandbase-code/     # 8 skills + 3 agents
 │   ├── commandbase-vault/    # 13 skills
 │   ├── commandbase-services/ # 6 skills
-│   ├── commandbase-research/ # 4 skills + 1 agent
+│   ├── commandbase-research/ # 4 skills + 1 agent (web-researcher; Context7 uses general-purpose)
 │   ├── commandbase-git-workflow/ # 5 skills + 1 hook
 │   ├── commandbase-session/  # 8 skills + 4 hooks (v3: worktree/session/handoff layers)
 │   └── commandbase-meta/     # 6 skills

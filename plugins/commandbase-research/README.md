@@ -19,8 +19,9 @@ Web and framework research with sourced documentation output. Requires commandba
 
 | Agent | Description |
 |-------|-------------|
-| context7-researcher | Fetches framework/library docs via Context7 MCP, returns concise summaries — keeps large responses out of caller's context |
 | web-researcher | Searches the web and fetches page content for current, sourced information |
+
+> **Note:** Context7 MCP research uses `general-purpose` built-in agents (not a custom plugin agent) because plugin subagents cannot inherit MCP server connections. See `/researching-frameworks` SKILL.md for details.
 
 ## Installation
 

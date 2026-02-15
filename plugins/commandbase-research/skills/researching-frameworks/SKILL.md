@@ -111,7 +111,7 @@ This skill runs in four phases. Each phase **persists its output to disk before 
 
 Light on context. Produces the research plan.
 
-1. **Detect Context7** — Use ToolSearch for "resolve-library-id". See ./reference/context7-usage.md for detection and fallback logic. **Record the actual tool name prefix** (e.g., `mcp__context7__` vs `mcp__MCP_DOCKER__`) — subagents need this if `context7-researcher` agents fail due to tool name mismatch.
+1. **Detect Context7** — Use ToolSearch for "resolve-library-id". See ./reference/context7-usage.md for detection and fallback logic. **Record the actual tool names** (e.g., `mcp__MCP_DOCKER__resolve-library-id` and `mcp__MCP_DOCKER__get-library-docs`) — subagents need the exact names in their prompts.
 2. **Classify dependencies** by tier. See ./reference/research-tiers.md for definitions.
    - **Tier 1** (always): Primary framework, language runtime — full depth
    - **Tier 2** (major): Testing, build tools, CSS framework — focused
@@ -137,7 +137,7 @@ Proceed to Phase 2 (fetching docs)?
 
 This is where context fills up. **Delegate to subagents** and **persist each tier to disk before starting the next**.
 
-**CRITICAL: Never call Context7 MCP directly in the main context during multi-dep research.** Each `get-library-docs` response is 10-14k tokens. Three direct calls fill the context window; ten will crash it. All Context7 calls MUST go through subagents.
+**CRITICAL (Mode A/B only): Never call Context7 MCP directly in the main context during multi-dep research.** Each `get-library-docs` response is 10-14k tokens. Three direct calls fill the context window; ten will crash it. All Context7 calls MUST go through subagents. Mode C (single dependency) may call directly — see below.
 
 Phase 2 is a loop: **research tier → collect results → persist to disk → checkpoint → next tier**. Do NOT launch all tiers in parallel — that defeats persistence checkpoints and removes the user's opportunity to `/compact` or `/handing-over` between tiers.
 
@@ -146,9 +146,10 @@ Phase 2 is a loop: **research tier → collect results → persist to disk → c
 For each tier (1, then 2, then 3/4 if applicable):
 
 **Step 1 — Launch subagents for this tier only:**
-- Spawn parallel `context7-researcher` agents (one per library at the tier's depth) — see ./reference/context7-usage.md
+- Spawn parallel foreground `general-purpose` agents (one per library) with the Context7 tool names detected in Phase 1, token limits, and output format — see ./reference/context7-usage.md for the prompt template
 - Spawn parallel `web-researcher` agents for ecosystem patterns and gotchas
 - Wait for all agents in this tier to complete
+- **general-purpose agents MUST run foreground** — MCP tools are unavailable in background mode
 
 **Step 2 — Persist this tier's findings to disk immediately:**
 - Write to `.docs/references/framework-docs-snapshot.md` via `docs-writer`
@@ -174,17 +175,20 @@ Persisted to: .docs/references/framework-docs-snapshot.md
 
 Wait for user confirmation before proceeding to the next tier. This gives the user a natural pause to `/compact`, `/handing-over`, or adjust the remaining research plan.
 
-#### Fallback when context7-researcher agents fail
+#### Why general-purpose instead of context7-researcher
 
-If `context7-researcher` agents fail (tool name mismatch, MCP unavailable):
+Plugin subagents (like `context7-researcher`) cannot access MCP tools due to a Claude Code limitation — they don't inherit MCP server connections. `general-purpose` is a built-in agent type that does inherit MCP access. Each agent gets the exact tool names and output format in its prompt, keeping results structured.
+
+#### Fallback when Context7 is unavailable
+
+If `general-purpose` agents fail (MCP unavailable, rate limited):
 - Do NOT fall back to direct MCP calls in the main context
-- Instead, spawn `general-purpose` subagents with explicit instructions to call `resolve-library-id` and `get-library-docs` with the correct tool names detected in Phase 1
-- Or fall back to `web-researcher` agents for those libraries
-- The entire point of Phase 2 subagents is keeping large MCP responses out of the main context — bypassing this defeats the purpose
+- Fall back to `web-researcher` agents for those libraries
+- The entire point of Phase 2 subagents is keeping large MCP responses out of the main context
 
 #### Single-dependency exception (Mode C only)
 
-For single-dependency lookups (Mode C), call Context7 directly but **always set the `tokens` parameter**. See ./reference/context7-usage.md for per-tier token budgets. Single-dep mode is the ONLY case where direct calls are acceptable.
+For single-dependency lookups (Mode C), call Context7 directly — **always set the `tokens` parameter**. See ./reference/context7-usage.md for per-tier token budgets. Single-dep mode is the ONLY case where direct calls are acceptable.
 
 **Token management:** Never call `get-library-docs` without setting `tokens`. Default is 10,000 tokens. For multi-dep stacks, always use the subagent strategy.
 
@@ -314,7 +318,7 @@ If you notice any of these, pause:
 - Writing ADRs without presenting them for user confirmation
 - Dumping entire library docs instead of focused topic queries
 - Calling `get-library-docs` without setting the `tokens` parameter (default is 10k — context fills fast)
-- Running ANY Context7 queries in the main context during multi-dep research (Mode A/B) — even 1 direct `get-library-docs` call returns 10-14k tokens. If subagents fail, use general-purpose agents or web-researcher fallback, NEVER direct calls
+- Running ANY Context7 queries in the main context during multi-dep research (Mode A/B) — even 1 direct `get-library-docs` call returns 10-14k tokens. Use general-purpose subagents or web-researcher fallback, NEVER direct calls
 - Proceeding without checking Context7 availability first
 - Making changes beyond the research scope (writing code, modifying configs)
 - Moving to the next tier or phase without persisting to disk first
@@ -335,7 +339,7 @@ If you notice any of these, pause:
 | "I don't need the compatibility matrix" | Version conflicts are the #1 cause of setup failures. Check compatibility. |
 | "I'll persist everything at the end" | Context may not survive to the end. Persist after each phase. |
 | "I remember the docs from Phase 2" | After /compact, you won't. Read from disk in Phase 3+. |
-| "The subagents failed, I'll just call Context7 directly" | That's exactly how you fill 200k tokens in 10 calls. Use general-purpose subagents or web-researcher fallback. |
+| "I'll just call Context7 directly in multi-dep mode" | That's exactly how you fill 200k tokens in 10 calls. Use general-purpose subagents or web-researcher fallback. |
 | "I'll launch all tiers at once for speed" | Speed means nothing if you can't persist or checkpoint. One dead tier kills recovery for all. Sequential tiers with disk writes between. |
 
 ## The Bottom Line
