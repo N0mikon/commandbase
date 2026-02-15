@@ -10,10 +10,18 @@ Before any Context7 query, check availability:
 Use ToolSearch with query: "resolve-library-id"
 ```
 
-**If found:** Context7 is available. Proceed with Context7 as primary source.
+**If found:** Context7 is available. **Record the tool name prefix** — it tells you which MCP server hosts Context7:
+- `mcp__context7__resolve-library-id` → server name is `context7` (standalone install)
+- `mcp__MCP_DOCKER__resolve-library-id` → server name is `MCP_DOCKER` (Docker gateway bundle)
+- Other prefix → non-standard name, note it for subagent fallback
+
 **If not found:** Context7 is not configured. Fall back to web-only research.
 
 Do NOT assume Context7 is available. Do NOT skip detection.
+
+### Why the server name matters
+
+The `context7-researcher` agent declares tools for both `context7` and `MCP_DOCKER` server names. If Context7 is under a different name, the agent will have no tools and silently fail. In that case, use `general-purpose` subagents instead, passing the correct tool names in the prompt.
 
 ## Available Tools
 
@@ -112,10 +120,16 @@ Agent 3: "Research tailwind css: v4 configuration and migration. Depth: focused.
 ```
 
 **When to use each strategy:**
-- **Single dependency, quick lookup:** Strategy 1 (direct call, set tokens)
-- **Multi-dependency stack (3+ deps):** Strategy 2 (context7-researcher agents protect main context)
+- **Single dependency, quick lookup (Mode C):** Strategy 1 (direct call, set tokens)
+- **Multi-dependency stack (3+ deps, Mode A/B):** Strategy 2 (context7-researcher agents protect main context)
 - **Called by /starting-projects:** Always Strategy 2 (research is a long pipeline, context preservation is critical)
 - **Context7 unavailable:** Skip both, use `web-researcher` agents as fallback
+
+**When context7-researcher agents fail (tool name mismatch):**
+- Do NOT fall back to Strategy 1 for multi-dep research — direct calls will flood the main context
+- Instead, spawn `general-purpose` subagents with instructions to call the correct tool names (detected in Phase 1)
+- Or fall back to `web-researcher` agents for those libraries
+- This is the #1 cause of context blowout in this skill
 
 ### Token budget for a typical stack
 

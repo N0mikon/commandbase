@@ -1,7 +1,7 @@
 ---
 name: context7-researcher
 description: "Researches a specific framework or library by fetching current documentation via Context7 MCP. Delegates here when you need version-specific docs and Context7 is available. Returns concise summaries that keep large MCP responses out of the caller's context window."
-tools: mcp__context7__resolve-library-id, mcp__context7__get-library-docs
+tools: mcp__context7__resolve-library-id, mcp__context7__get-library-docs, mcp__MCP_DOCKER__resolve-library-id, mcp__MCP_DOCKER__get-library-docs
 model: haiku
 ---
 
@@ -78,14 +78,13 @@ Return findings in this structure. **Hard limits on length:**
 
 Do NOT retry on failure. Return the error promptly so the caller can fall back to web research.
 
-## MCP Server Name Assumption
+## MCP Server Name Compatibility
 
-The `tools` field assumes Context7 was configured with server name `context7`:
-```bash
-claude mcp add context7 -- npx -y @upstash/context7-mcp@latest
-```
+The `tools` field lists both common server names for Context7:
+- `mcp__context7__*` — standalone install via `claude mcp add context7 -- npx -y @upstash/context7-mcp@latest`
+- `mcp__MCP_DOCKER__*` — bundled Docker MCP gateway that includes Context7
 
-If the user used a different name (e.g., `c7`), the tool names won't match (`mcp__c7__*` vs `mcp__context7__*`) and this agent will have no tools available. The calling skill should fall back to `web-researcher` in that case.
+The agent uses whichever set is available. If the user configured Context7 under a different name (e.g., `c7`), the tool names won't match and this agent will have no tools available. The calling skill should fall back to `web-researcher` in that case.
 
 ## What NOT to Do
 
