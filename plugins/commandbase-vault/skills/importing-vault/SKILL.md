@@ -23,6 +23,19 @@ If you haven't read the vault's CLAUDE.md and understood its conventions, you ca
 - Don't assume frontmatter schema — read the vault's conventions
 - Don't auto-place notes in the vault — user reviews first
 
+## Scope Boundary
+
+This skill handles `.docs/` artifact conversion with full frontmatter translation and MOC integration.
+For quick note creation from external sources (web clips, fleeting thoughts, meeting notes),
+use `/capturing-vault` instead.
+
+| Aspect | /importing-vault (this skill) | /capturing-vault |
+|--------|-------------------------------|-----------------|
+| Source | .docs/ artifacts only | Any external content |
+| Depth | Full frontmatter translation, MOC integration | Minimal frontmatter, inbox routing |
+| Speed | Thorough, convention-aware | Quick, lightweight |
+| Review | User reviews before placement | Routes to inbox/triage folder |
+
 ## The Gate Function
 
 ```

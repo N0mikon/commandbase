@@ -11,7 +11,7 @@ commandbase/
 ├── plugins/
 │   ├── commandbase-core/     # 5 skills + 4 agents (install first)
 │   ├── commandbase-code/     # 8 skills + 3 agents
-│   ├── commandbase-vault/    # 8 skills
+│   ├── commandbase-vault/    # 13 skills
 │   ├── commandbase-services/ # 6 skills
 │   ├── commandbase-research/ # 4 skills + 1 agent
 │   ├── commandbase-git-workflow/ # 5 skills + 1 hook

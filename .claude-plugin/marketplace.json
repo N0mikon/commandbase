@@ -21,7 +21,7 @@
     },
     {
       "name": "commandbase-vault",
-      "description": "Vault BRDSPI workflow for Obsidian vault management. Requires commandbase-core.",
+      "description": "Vault BRDSPI workflow plus daily operations for Obsidian vault management. Requires commandbase-core.",
       "source": "./plugins/commandbase-vault",
       "category": "productivity"
     },

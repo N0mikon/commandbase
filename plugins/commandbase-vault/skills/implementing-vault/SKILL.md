@@ -31,7 +31,7 @@ BEFORE claiming any phase is complete:
 1. READ: The plan phase requirements fully
 2. CHECKPOINT: Create baseline via /bookmarking-code create (first phase only)
 3. EXECUTE: Implement vault changes using MCP and/or file-system tools
-4. LINT: Run vault linting after each phase (broken wikilinks, frontmatter, orphans)
+4. LINT: Run /linting-vault targeted on affected notes
 5. VERIFY: Check success criteria with tool output as evidence
 6. ONLY THEN: Mark checkboxes and proceed
 
@@ -97,21 +97,16 @@ See ./reference/vault-operations.md for detailed guidance on each operation type
 
 ## Vault Linting
 
-See ./reference/vault-linting.md for detailed linting procedures.
+Run `/linting-vault` in targeted mode on notes affected by this phase. See linting-vault for the full check procedures (broken wikilinks, frontmatter validation, orphan detection, heading structure, and more).
 
-After each phase, run these checks on affected notes:
-
-1. **Broken wikilinks**: For each `[[target]]` in modified notes, verify target note exists
-2. **Frontmatter validation**: Check required properties exist in modified notes
-3. **Orphan detection**: After moves, verify moved notes still have incoming links
-4. **Heading structure**: Verify no skipped heading levels in created/modified notes
+For reference on the core check types, see ./reference/vault-linting.md.
 
 ## Execution Flow
 
 For each phase:
 
 1. **Implement the vault changes** described in the plan
-2. **Run vault linting** on affected notes
+2. **Run `/linting-vault`** targeted on affected notes
 3. **Fix any failures** - do not proceed until linting passes
 4. **Show evidence** - state what tools you ran and their output
 5. **Update checkboxes** in the plan file using Edit

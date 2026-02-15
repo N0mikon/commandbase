@@ -1,6 +1,6 @@
 # MCP Setup Guide
 
-Guide for configuring Obsidian MCP server connectivity.
+Guide for configuring Obsidian MCP server connectivity. This guide only applies when the user chooses the "Filesystem + MCP" access path in Phase 1. Skip entirely for filesystem-only setups.
 
 ## Prerequisites
 
