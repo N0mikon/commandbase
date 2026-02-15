@@ -35,12 +35,17 @@ Converts a library name to a Context7-compatible identifier.
 
 Fetches version-specific documentation for a resolved library.
 
-**Input:** Library ID + topic query
+**Parameters:**
+- `context7CompatibleLibraryID` (required) — the resolved library ID
+- `topic` (optional) — focus documentation on a specific area (e.g., "routing", "hooks")
+- `tokens` (optional) — controls response size. **Default: 10,000 tokens.** Values below the server's `DEFAULT_MINIMUM_TOKENS` floor are automatically raised. **Always set this explicitly** to avoid bloated responses.
+
 **Output:** Relevant documentation snippets with source attribution
 
 **Usage notes:**
 - Use focused topic queries, not broad requests
 - Each query should target a specific aspect of the library
+- **Always pass `tokens` explicitly** — omitting it returns the 10,000-token default, which fills context fast
 
 ## Query Patterns
 
@@ -69,13 +74,55 @@ For version-specific research:
 
 ## Token Management
 
-Context7 defaults to ~5000 tokens per query response. To stay within budget:
+Context7 defaults to **10,000 tokens per response** if you don't set the `tokens` parameter. A single uncontrolled query can consume ~14k tokens in the main context window. Two strategies prevent this:
 
-- **Tier 1 dependencies:** Up to 4 queries each (setup, API, breaking changes, structure)
-- **Tier 2 dependencies:** Up to 2 queries each (setup, key APIs)
-- **Tier 3 dependencies:** 1 query each (setup with primary framework)
+### Strategy 1: Set `tokens` explicitly on every call
 
-This keeps total Context7 token usage under ~40,000 tokens for a typical 5-8 dependency stack.
+| Tier | Queries per dep | `tokens` value | Rationale |
+|------|----------------|----------------|-----------|
+| Tier 1 | Up to 3 | 10000 | Primary framework, needs depth |
+| Tier 2 | Up to 2 | 5000 | Supporting library, focused queries |
+| Tier 3 | 1 | 5000 | Setup integration only |
+
+Example call:
+```
+get-library-docs(
+  context7CompatibleLibraryID: "/vercel/next.js",
+  topic: "app router setup and configuration",
+  tokens: 5000
+)
+```
+
+**Note:** The server enforces a minimum floor (default 10,000). If you request 5,000, the server may return up to 10,000 anyway. This is a server-side setting — if the user has configured `DEFAULT_MINIMUM_TOKENS` lower, smaller values will work.
+
+### Strategy 2: Delegate to context7-researcher agent (preferred for multi-dep research)
+
+Use the `context7-researcher` agent to absorb large MCP responses. The agent resolves library IDs, fetches docs with explicit token limits, and returns only concise summaries (max 500 words). The raw MCP output stays in the agent's context, not yours.
+
+```
+Task prompt (subagent_type: "commandbase-research:context7-researcher"):
+  "Research [framework]: [specific topic]. Depth: full/focused/minimal."
+```
+
+Spawn multiple agents in parallel for independent libraries:
+```
+Agent 1: "Research next.js: app router setup and configuration. Depth: full."
+Agent 2: "Research react: server components patterns and conventions. Depth: full."
+Agent 3: "Research tailwind css: v4 configuration and migration. Depth: focused."
+```
+
+**When to use each strategy:**
+- **Single dependency, quick lookup:** Strategy 1 (direct call, set tokens)
+- **Multi-dependency stack (3+ deps):** Strategy 2 (context7-researcher agents protect main context)
+- **Called by /starting-projects:** Always Strategy 2 (research is a long pipeline, context preservation is critical)
+- **Context7 unavailable:** Skip both, use `web-researcher` agents as fallback
+
+### Token budget for a typical stack
+
+With Strategy 2, the main context sees only distilled summaries (~500 words each):
+- 3 Tier 1 deps × 500 words = ~1,500 words returned to main context
+- 3 Tier 2 deps × 300 words = ~900 words returned to main context
+- Total main context impact: ~2,400 words (~3,200 tokens) vs ~84,000 tokens unmanaged
 
 ## Fallback: Web-Only Research
 

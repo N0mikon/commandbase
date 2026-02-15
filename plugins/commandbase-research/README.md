@@ -19,6 +19,7 @@ Web and framework research with sourced documentation output. Requires commandba
 
 | Agent | Description |
 |-------|-------------|
+| context7-researcher | Fetches framework/library docs via Context7 MCP, returns concise summaries — keeps large responses out of caller's context |
 | web-researcher | Searches the web and fetches page content for current, sourced information |
 
 ## Installation

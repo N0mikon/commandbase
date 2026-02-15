@@ -45,7 +45,57 @@ When this skill is invoked, respond with:
 Welcome! I'll help you set up this new project. Let me ask a few questions to understand what we're building.
 ```
 
-Then immediately use the AskUserQuestion tool to gather project information.
+Then immediately check the directory state before gathering project information.
+
+## Phase 0: Repository Layout
+
+Before discovery, detect the starting state:
+
+```bash
+git rev-parse --git-dir 2>/dev/null
+```
+
+**If already a git repo:** Skip to Phase 1.
+
+**If not a git repo (empty or non-git directory):** Check if the current path looks like a base container directory (e.g., `/c/code/project-name/`). Offer the bare-repo + worktree layout:
+
+```
+Before we start — do you want to use the bare-repo + worktree layout?
+
+This creates isolated directories for each work session:
+  /c/code/{project}/main/       ← your daily working directory
+  /c/code/{project}/feature/    ← session branches (created later)
+
+Benefits: parallel branches, clean isolation, session tracking support.
+
+If not, I'll do a standard git init here.
+```
+
+**If user wants bare-repo layout**, set it up before continuing:
+
+```bash
+# Initialize bare repo in current directory
+git init --bare .bare
+
+# Create main worktree (the daily working directory)
+git -C .bare worktree add ../main -b main
+
+# Container-level session map
+echo '{}' > session-map.json
+```
+
+Then continue all remaining phases (discovery, research, plan, CLAUDE.md) inside the `main/` worktree. Notify the user:
+
+```
+Bare-repo layout created. Continuing project setup in:
+/c/code/{project}/main/
+
+After setup, always work from this directory.
+```
+
+Add `.claude/sessions/` to `.gitignore` in the main worktree.
+
+**If user wants standard layout**, run `git init` in the current directory and continue to Phase 1.
 
 ## Phase 1: Project Discovery
 
@@ -135,6 +185,8 @@ Your project is initialized!
 3. Start building!
 
 **Your workflow going forward:**
+- `/starting-session` - Start session tracking in your worktree
+- `/starting-worktree` - Create isolated worktrees for features/fixes (bare-repo layout only)
 - `/researching-frameworks` - Research framework docs and library APIs
 - `/researching-code` - Research and document codebase patterns
 - `/planning-code` - Create implementation plans for new features

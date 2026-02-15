@@ -87,7 +87,7 @@ The 20-note chunk size emerged from balancing context window limits against mean
 ## Deferred Actions
 
 - [ ] Consider creating a plugin design guide skill: reference file architecture patterns (discovery 1), dependency decisions (discovery 4), daily-use gap testing (discovery 5)
-- [ ] Consider adding to commandbase-vault CLAUDE.md: filesystem-first principle for vault access (discovery 2)
-- [ ] Consider updating creating-skills skill: add "reference file splitting by use case" as a design pattern, add "Tuesday test" for skill suite completeness
-- [ ] Consider adding three-layer safety protocol to commandbase-core as a reusable reference: dry-run → checkpoint → chunked processing (discovery 3)
-- [ ] Consider updating maintaining-vault: validate 20-note chunk size against actual context window usage after real-world testing
+- [x] Added filesystem-first architecture section to commandbase-vault README (discovery 2)
+- [x] Updated creating-skills: added "reference file splitting by use case" pattern in Step 4 and "Tuesday test" in Step 1 (discovery 1, 5)
+- [x] Created commandbase-core/reference/batch-safety-protocol.md with generalized three-layer pattern; updated maintaining-vault to reference it (discovery 3)
+- [x] Added chunk size rationale and adjustment guidance to maintaining-vault batch-safety-protocol.md (discovery 3, 5)

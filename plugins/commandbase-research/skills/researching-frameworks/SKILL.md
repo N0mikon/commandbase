@@ -32,17 +32,17 @@ Don't suggest patterns, configurations, or dependency versions based on training
 ```
 BEFORE producing any framework reference artifacts:
 
-1. IDENTIFY: What frameworks/libraries need research?
-2. DETECT: Is Context7 MCP available? (ToolSearch for "resolve-library-id")
-3. TIER: Classify each dependency by research tier (see ./reference/research-tiers.md)
-4. FETCH: Query Context7 for Tier 1 dependencies, web search for patterns
-5. VERIFY: Cross-reference Context7 docs against web findings
-6. PERSIST: Write .docs/references/ artifacts
-7. ONLY THEN: Present findings and recommendations
+Phase 1 — PLAN:    Detect Context7, classify deps by tier, present plan
+Phase 2 — FETCH:   Research one tier at a time, persist each to disk immediately
+Phase 3 — ANALYZE: Read from disk, build compatibility matrix + ADRs, persist
+Phase 4 — FINALIZE: Suggest MCP config, present summary
 
-Skip detection = wasted queries on unavailable tools
-Skip tiering = researching everything at equal depth (token waste)
-Skip persistence = research that dies with the session
+Each phase persists to .docs/references/ BEFORE the next phase starts.
+Each phase boundary is a natural /compact or /handing-over point.
+Phase 3+ reads from persisted files, never from conversation memory.
+
+Skip persistence between phases = research lost to context compaction
+Skip subagent delegation in Phase 2 = context fills before Phase 3
 ```
 
 ## Initial Response
@@ -97,113 +97,113 @@ Use when researching a single new framework/library to add to an existing projec
 5. Update `.docs/references/` with new dependency info
 6. Present integration guidance
 
-## Process
+## Process: Four Phases
 
-### Step 1: Detect Context7
+This skill runs in four phases. Each phase **persists its output to disk before the next phase starts**. This ensures research survives context compaction (`/compact`) and enables handover (`/handing-over`) between phases if context runs low.
 
-Use ToolSearch to check for Context7 MCP availability.
+**Phase boundary rule:** After each phase, present results and offer a checkpoint. If context is getting large, suggest `/compact` before continuing. If context is critically low, suggest `/handing-over` with the current phase noted.
 
-See ./reference/context7-usage.md for detection logic, tool usage patterns, and fallback behavior.
+---
 
-**Decision point:**
-- If Context7 available: Use it as primary source, web search as supplement
-- If Context7 unavailable: Use web search as primary, WebFetch for official docs URLs
+### Phase 1: Plan (detect + classify)
 
-### Step 2: Classify Dependencies
+Light on context. Produces the research plan.
 
-Assign each framework/library a research tier. See ./reference/research-tiers.md for the full tier definitions.
+1. **Detect Context7** — Use ToolSearch for "resolve-library-id". See ./reference/context7-usage.md for detection and fallback logic.
+2. **Classify dependencies** by tier. See ./reference/research-tiers.md for definitions.
+   - **Tier 1** (always): Primary framework, language runtime — full depth
+   - **Tier 2** (major): Testing, build tools, CSS framework — focused
+   - **Tier 3** (on request): Database, auth, deployment — if user specifies
+   - **Tier 4** (AI-specific): MCP servers, AI SDKs — if applicable
 
-**Quick reference:**
-- **Tier 1** (always): Primary framework, language runtime - full depth research
-- **Tier 2** (major deps): Testing, build tools, CSS framework - focused research
-- **Tier 3** (on request): Database, auth, deployment - research if user specifies
-- **Tier 4** (AI-specific): MCP servers, AI SDKs, automation tools - research if applicable
-
-Present the classification to the user:
+**Present and checkpoint:**
 ```
-Here's my research plan:
+PHASE 1 COMPLETE — Research Plan
+==================================
+Context7: [available/unavailable]
 
 Tier 1 (full depth): Next.js 15, React 19
 Tier 2 (focused): Vitest, Tailwind CSS 4
 Tier 3 (if needed): Prisma, NextAuth
-Tier 4 (AI tooling): Vercel AI SDK
 
-Proceed with this plan?
+Proceed to Phase 2 (fetching docs)?
 ```
 
-### Step 3: Fetch Documentation
+---
 
-For each dependency, starting with Tier 1:
+### Phase 2: Fetch (the heavy phase)
 
-**With Context7:**
-1. Use `resolve-library-id` to get the Context7 ID
-2. Use `get-library-docs` with focused topic queries:
-   - "project setup and configuration"
-   - "key API patterns and conventions"
-   - "breaking changes from previous version"
-   - "recommended project structure"
-3. Capture results with source attribution
+This is where context fills up. **Delegate to subagents** and **persist immediately**.
 
-**With web search (supplement or fallback):**
-1. Spawn parallel web-researcher agents for:
-   - Official documentation and migration guides
-   - Version compatibility and known issues
-   - Community best practices and gotchas
-2. Check for `llms.txt` at the framework's documentation domain
+Research one tier at a time. After each tier completes, persist findings to disk via `docs-writer` before starting the next tier.
 
-**Token management:** Query specific topics, not entire library docs. Each Context7 query should target a focused aspect. See ./reference/context7-usage.md for query patterns.
+**Tier 1 research:**
+- Spawn parallel `context7-researcher` agents (one per library, depth: full) — see ./reference/context7-usage.md
+- Spawn parallel `web-researcher` agents for ecosystem patterns and gotchas
+- **Persist immediately:** Write Tier 1 findings to `.docs/references/framework-docs-snapshot.md` via `docs-writer`
 
-### Step 4: Build Compatibility Matrix
+**Tier 2 research:**
+- Spawn `context7-researcher` agents (depth: focused) + `web-researcher` agents
+- **Persist immediately:** Append Tier 2 findings to the snapshot file
 
-Cross-reference version requirements across all researched dependencies:
-- Which versions of each library are compatible with each other?
-- Are there known conflicts between any dependencies?
-- What are the minimum version requirements?
+**Tier 3/4 research** (if applicable):
+- `context7-researcher` at minimal depth, web search only if needed
+- **Persist immediately**
 
-### Step 5: Draft Architecture Decisions
+For single-dependency lookups (Mode C), call Context7 directly but **always set the `tokens` parameter**. See ./reference/context7-usage.md for per-tier token budgets.
 
-For each significant technology choice, draft a lightweight ADR:
-- What was chosen and why
-- What alternatives were considered
-- What trade-offs were accepted
+**Token management:** Never call `get-library-docs` without setting `tokens`. Default is 10,000 tokens. For multi-dep stacks, always use the subagent strategy.
 
-See ./templates/architecture-decision-template.md for the ADR format.
-
-Present draft ADRs to the user for confirmation before persisting.
-
-### Step 6: Persist to .docs/references/
-
-Spawn a `docs-writer` agent via the Task tool for each output file:
-
-**1. Framework Docs Snapshot:**
+**Checkpoint after Phase 2:**
 ```
-Task prompt:
-  doc_type: "reference"
-  topic: "<primary framework> Documentation Snapshot"
-  tags: [<framework names>]
-  references: [<source URLs>]
-  content: |
-    <compiled framework docs using body sections from ./templates/framework-research-template.md>
+PHASE 2 COMPLETE — Documentation Fetched
+==========================================
+Persisted to: .docs/references/framework-docs-snapshot.md
+Sources: [N] Context7 queries + [M] web sources
+
+Ready for Phase 3 (compatibility + ADRs)?
+(If context is large, consider /compact before continuing)
 ```
 
-**2. Dependency Compatibility:**
+---
+
+### Phase 3: Analyze (compatibility + decisions)
+
+Read from persisted `.docs/references/` artifacts — **do not rely on conversation history** for the raw docs fetched in Phase 2.
+
+1. **Build compatibility matrix** — Read the snapshot file, cross-reference version requirements:
+   - Which versions are compatible with each other?
+   - Known conflicts between dependencies?
+   - Minimum version requirements?
+
+2. **Draft ADRs** — For each significant technology choice:
+   - What was chosen and why
+   - What alternatives were considered
+   - What trade-offs were accepted
+   - See ./templates/architecture-decision-template.md for format
+
+3. **Persist both:**
+   - Write compatibility matrix to `.docs/references/dependency-compatibility.md` via `docs-writer`
+   - Write ADRs to `.docs/references/architecture-decisions.md` directly (ADRs use their own format)
+
+**Present ADRs for user confirmation before finalizing.**
+
+**Checkpoint after Phase 3:**
 ```
-Task prompt:
-  doc_type: "reference"
-  topic: "<primary framework> Dependency Compatibility"
-  tags: [<framework names>, compatibility]
-  content: |
-    <compiled compatibility matrix using body sections from ./templates/framework-research-template.md>
+PHASE 3 COMPLETE — Analysis Done
+==================================
+Persisted:
+- .docs/references/dependency-compatibility.md
+- .docs/references/architecture-decisions.md
+
+Ready for Phase 4 (finalization)?
 ```
 
-**3. Architecture Decisions** (written directly, not via docs-writer — ADRs use a different format):
-- Write `architecture-decisions.md` to `.docs/references/` using the ADR template at ./templates/architecture-decision-template.md
+---
 
-The `docs-writer` agent handles frontmatter, file naming, and directory creation for files 1 and 2. See ./templates/framework-research-template.md for the body section templates.
+### Phase 4: Finalize (MCP config + summary)
 
-### Step 7: Suggest Project MCP Configuration (Optional)
-
-If the researched stack would benefit from specific MCP servers, suggest a `.mcp.json`:
+Light phase. Suggest MCP configuration if relevant:
 
 ```json
 {
@@ -216,7 +216,22 @@ If the researched stack would benefit from specific MCP servers, suggest a `.mcp
 }
 ```
 
-Only suggest MCP servers that are directly relevant to the chosen stack. Don't suggest every possible server.
+Only suggest MCP servers directly relevant to the chosen stack.
+
+Then present the final output (see Output Format below).
+
+---
+
+### Resuming After Compaction or Handover
+
+If this skill is resumed after `/compact` or picked up from a `/handing-over`:
+
+1. **Check what exists:** Read `.docs/references/` to determine which phases completed
+2. **Resume from the next incomplete phase:**
+   - No snapshot file → resume at Phase 2
+   - Snapshot exists but no compatibility matrix → resume at Phase 3
+   - All files exist but no summary presented → resume at Phase 4
+3. **Read from disk, not memory:** Phase 3+ must read persisted artifacts, never rely on conversation history for fetched documentation
 
 ## Output Format
 
@@ -273,8 +288,13 @@ If you notice any of these, pause:
 - Skipping the compatibility matrix for multi-dependency stacks
 - Writing ADRs without presenting them for user confirmation
 - Dumping entire library docs instead of focused topic queries
+- Calling `get-library-docs` without setting the `tokens` parameter (default is 10k — context fills fast)
+- Running 3+ Context7 queries in the main context instead of delegating to subagents
 - Proceeding without checking Context7 availability first
 - Making changes beyond the research scope (writing code, modifying configs)
+- Moving to the next phase without persisting the current phase's output to disk
+- Relying on conversation memory for raw docs instead of reading from `.docs/references/`
+- Skipping the checkpoint message between phases
 
 ## Rationalization Prevention
 
@@ -287,6 +307,8 @@ If you notice any of these, pause:
 | "I'll write the docs later" | Docs written later are docs forgotten. Persist now. |
 | "This stack is too simple to need ADRs" | Simple decisions still benefit from recorded rationale. |
 | "I don't need the compatibility matrix" | Version conflicts are the #1 cause of setup failures. Check compatibility. |
+| "I'll persist everything at the end" | Context may not survive to the end. Persist after each phase. |
+| "I remember the docs from Phase 2" | After /compact, you won't. Read from disk in Phase 3+. |
 
 ## The Bottom Line
 

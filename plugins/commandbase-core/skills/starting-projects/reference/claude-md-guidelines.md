@@ -61,6 +61,7 @@ Project CLAUDE.md inherits from global (`~/.claude/CLAUDE.md`).
 - This project's commands
 - This project's verification steps
 - Pointers to this project's .docs/
+- Bare repo layout note if applicable (container path, main worktree path, where session-map.json lives)
 
 ## Progressive Disclosure Pattern
 

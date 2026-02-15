@@ -1,5 +1,7 @@
 # Batch Safety Protocol
 
+Vault-specific adaptation of the three-layer batch safety pattern. See `commandbase-core/reference/batch-safety-protocol.md` for the generalized, domain-agnostic version.
+
 Safety requirements for batch maintenance operations on vault notes. These are non-negotiable.
 
 ## The Three Gates
@@ -71,6 +73,7 @@ Large batches (100+ notes) should be processed in chunks to:
 - Default: 20 notes per chunk
 - User can adjust if needed
 - After each chunk, briefly verify (spot-check 2-3 notes)
+- **Rationale**: 20 balances meaningful progress per batch against context window limits — each note's dry-run output, edit operation, and verification consumes context. This default emerged from design analysis, not production testing. Adjust downward if notes are large (>500 lines each) or operations produce verbose output; adjust upward for small metadata-only changes.
 
 ### Between Chunks
 ```

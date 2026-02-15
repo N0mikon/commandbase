@@ -25,6 +25,14 @@ None. This is the base plugin.
 | docs-updater | Checks if a document is stale and updates it or archives it if no longer relevant |
 | docs-writer | Creates and formats .docs/ output files with consistent frontmatter and structure |
 
+## Shared References
+
+| Reference | Description |
+|-----------|-------------|
+| reference/batch-safety-protocol.md | Reusable three-layer safety pattern (dry-run → checkpoint → chunked processing) for any skill that modifies >10 files |
+
+These are design-time references — skills in other plugins can adapt these patterns into their own domain-specific reference files.
+
 ## Installation
 
 ```shell

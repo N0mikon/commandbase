@@ -84,6 +84,7 @@ Ask and answer these questions before designing anything:
 - Personal (`~/.claude/skills/`) or project (`.claude/skills/`) scope?
 - Are there similar existing skills to learn from? Read them first.
 - How much existing Claude knowledge applies? If Claude already knows the domain well, focus the skill on project-specific patterns, not general knowledge.
+- **If this skill is part of a suite** (5+ skills in a plugin): Run the Tuesday test — "What does a user do with this tool on a normal Tuesday?" If the answer doesn't map to any skill in the suite, there's a daily-use gap. Episodic workflows (research, plan, implement) are necessary but insufficient without habitual operations (quick capture, review, maintenance).
 
 **Step 2: Choose Freedom Tier**
 
@@ -105,6 +106,7 @@ See the Freedom Tiers section below. Match the tier to the task's error toleranc
 - Write the body following the chosen template structure
 - Keep SKILL.md under 500 lines (target: 200-300 lines)
 - Add reference files with intention-revealing names (not `reference.md` or `helpers.md`)
+- **Split reference files by use case, not by topic**: When multiple skills share domain knowledge, each skill should get a reference file scoped to how it uses the knowledge. Example: OFM knowledge splits into `ofm-validation-rules.md` (for linting) and `ofm-note-formats.md` (for creation), not a single `ofm-reference.md` that bloats every consumer with irrelevant content.
 - Use skinny pointers to reference files: `See ./reference/filename.md for [topic]`
 - Write for Claude, not for humans - instructions should be actionable, not explanatory
 - For skills that produce structured output: specify explicit format constraints (line counts, bullet limits, section lengths) rather than subjective guidance like "be concise" or "keep it short"
@@ -199,6 +201,7 @@ These contain the detailed rules and guidance referenced throughout this workflo
 - See ./reference/description-writing-guide.md for the description formula, 4C principles, and examples
 - See ./reference/naming-conventions.md for gerund form, kebab-case rules, and naming examples
 - See ./reference/converting-subagents.md for the sub-agent migration workflow
+- See ./reference/plugin-layout-guide.md for plugin directory structure, dependency decisions, reference file architecture, and suite completeness testing (the Tuesday test)
 
 ## Templates
 

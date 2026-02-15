@@ -39,6 +39,18 @@ Daily operations and maintenance — run these independently as needed.
 
 OFM format knowledge (wikilink syntax, callout types, frontmatter constraints) is baked into our reference files rather than depending on external plugins. See `reference/ofm-validation-rules.md` in linting-vault and `reference/ofm-note-formats.md` in capturing-vault.
 
+## Architecture: Filesystem-First
+
+Vault skills default to filesystem access (Read, Write, Edit, Glob, Grep) for all file operations. MCP (obsidian-mcp-tools via Local REST API) is optional and only used for operations that genuinely require Obsidian's runtime:
+
+- `search_vault_smart` — semantic search (no filesystem equivalent)
+- `execute_template` — Templater execution (requires Obsidian runtime)
+- `show_file_in_obsidian` — open a note in the app UI
+
+**The test**: "Can I do this with Read/Write/Glob?" — if yes, don't require MCP.
+
+This matters because MCP adds adoption friction: Local REST API binds to one port per vault, requiring unique port configuration per vault for multi-vault users. Filesystem-first means vault skills work out of the box for anyone whose vault is on the local filesystem.
+
 ## Installation
 
 ```shell
