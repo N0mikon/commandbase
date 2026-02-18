@@ -290,10 +290,10 @@ model: haiku
 **After:**
 ```yaml
 tools: Read, Grep, Glob, LS, Edit, Bash
-model: opus
+model: sonnet
 ```
 
-**Note:** State-modifying agents need stronger reasoning. Use `sonnet` at minimum, `opus` for complex modifications.
+**Note:** State-modifying agents need stronger reasoning. Use `sonnet` for state-modifying agents. Reserve `opus` for agents that coordinate multiple sub-agents, need 128K output, or require deep novel reasoning.
 
 ### bypassPermissions without justification
 

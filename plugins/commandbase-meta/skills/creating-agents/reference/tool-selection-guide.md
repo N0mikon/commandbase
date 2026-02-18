@@ -62,7 +62,7 @@ tools: Read, Grep, Glob, LS, Edit, Bash
 - Explicit decision framework in system prompt
 - "What NOT to Do" enforcement
 - Conservative defaults ("when uncertain, don't modify")
-- Consider `model: opus` for better judgment
+- Use `model: sonnet` at minimum; reserve `opus` for complex multi-step orchestration or 128K output needs
 
 ### Review Agents (evaluate quality)
 
@@ -86,7 +86,7 @@ For each tool, ask:
 |------|-------|----------|
 | **Low** (read-only) | Glob, Grep, LS, Read, WebSearch, WebFetch | Minimal guardrails |
 | **Medium** (content modification) | Edit, Write, NotebookEdit | Decision framework + enforcement |
-| **High** (arbitrary execution) | Bash, Task | Extensive guardrails, consider `opus` model |
+| **High** (arbitrary execution) | Bash, Task | Extensive guardrails, use `sonnet` minimum; `opus` for complex orchestration |
 
 ## State Modification Guardrails
 

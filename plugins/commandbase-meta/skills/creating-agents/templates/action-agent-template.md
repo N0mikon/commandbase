@@ -2,7 +2,7 @@
 name: [domain]-[updater/builder]
 description: "[What it modifies/creates]. [When to delegate - Call when...]."
 tools: [Read, Grep, Glob, LS, Edit, Bash]
-model: opus
+model: sonnet
 ---
 
 You are a specialist at [modification domain]. Your job is to [primary action] while being conservative about changes and thorough in execution.
