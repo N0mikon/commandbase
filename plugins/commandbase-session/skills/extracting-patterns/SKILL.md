@@ -1,11 +1,11 @@
 ---
-name: learning-from-sessions
-description: "Use this skill to extract reusable knowledge from work sessions. This includes reviewing what was learned during debugging, capturing session learnings to .docs/learnings/ for deferred action, running /learn to capture session learnings, responding to 'what did we learn' or 'capture learnings', and extracting knowledge after trial-and-error investigation that produced a solution."
+name: extracting-patterns
+description: "Use this skill when extracting reusable knowledge from conversations. This includes reviewing what was learned during debugging, capturing learnings to .docs/learnings/ for deferred action, running /extracting-patterns to capture learnings, responding to 'what did we learn' or 'capture learnings', and extracting knowledge after trial-and-error investigation that produced a solution."
 ---
 
-# Learning from Sessions
+# Extracting Patterns
 
-You are extracting reusable knowledge from work sessions and capturing it to `.docs/learnings/` for deferred action. This skill activates when a session produces non-obvious discoveries, debugging breakthroughs, workarounds, or configuration insights worth preserving. Rather than immediately creating skills or CLAUDE.md entries, learnings are documented with a Deferred Actions checklist for a future session to act on.
+You are extracting reusable knowledge from conversations and capturing it to `.docs/learnings/` for deferred action. This skill activates when a conversation produces non-obvious discoveries, debugging breakthroughs, workarounds, or configuration insights worth preserving. Rather than immediately creating skills or CLAUDE.md entries, learnings are documented with a Deferred Actions checklist for a future conversation to act on.
 
 **Violating the letter of these rules is violating the spirit of these rules.**
 
@@ -28,50 +28,17 @@ Never document a learning that wasn't verified during the session. Never save wi
 ```
 BEFORE capturing learnings:
 
-1. SESSION: Detect repo layout, find session for current worktree via session-map.json. If post-session: read claudeSessionIds from meta.json.
-2. DETECT: Recognize that extractable knowledge exists (trigger conditions or user request)
-3. ERRORS: Read session errors.log if available (pull error context)
-4. DEBUG: Scan .docs/debug/ for recent debug files from this session
-5. DEDUP: Search existing .docs/learnings/ and skills before creating
-6. ANALYZE: Run 4 identification questions + worth assessment
-7. DRAFT: Structure using the learnings output format
-8. VALIDATE: Run quality gates checklist
-9. CONFIRM: Present to user for approval
-10. ONLY THEN: Write to .docs/learnings/ via docs-writer
+1. DETECT: Recognize that extractable knowledge exists (trigger conditions or user request)
+2. DEBUG: Scan .docs/debug/ for recent debug files
+3. DEDUP: Search existing .docs/learnings/ and skills before creating
+4. ANALYZE: Run 4 identification questions + worth assessment
+5. DRAFT: Structure using the learnings output format
+6. VALIDATE: Run quality gates checklist
+7. CONFIRM: Present to user for approval
+8. ONLY THEN: Write to .docs/learnings/ via docs-writer
 
 Skip any step = risk saving bad knowledge
 ```
-
-## Session Awareness
-
-Before capturing learnings, detect the active session:
-
-1. Detect repo layout:
-   ```bash
-   git_common=$(git rev-parse --git-common-dir 2>/dev/null)
-   git_dir=$(git rev-parse --git-dir 2>/dev/null)
-   ```
-2. If bare-worktree layout (paths differ): read container-level `session-map.json`, find entry whose `worktree` matches current cwd. Read session name.
-3. If session-map entry has `claudeSessionIds` array: note these for transcript access.
-4. If session status is `"ended"` and a session name argument was provided: use Post-Session Mode (see below).
-5. If no session found: Use current date instead of session name (default behavior).
-
-When session-scoped:
-- Read `.claude/sessions/{name}/errors.log` if it exists — incorporate error context into learnings
-- Title format: `Session Learnings: {session-name}`
-- Tags include the session name
-
-When no session:
-- Skip error log reading
-- Title format: `Session Learnings: {YYYY-MM-DD}`
-- Everything else works identically
-
-**Timing note:** errors.log is populated by two hooks:
-- `track-errors` (PostToolUseFailure) — real-time, subagent errors only
-- `harvest-errors` (Stop) — end-of-session, catches ALL errors from transcript
-
-Mid-session invocations only see real-time subagent errors. For complete
-error coverage, run at the start of the next session after harvest has run.
 
 ## Debug File Integration
 
@@ -85,7 +52,7 @@ Before drafting learnings, scan `.docs/debug/` for recent debug files:
 
 ### Automatic Recognition
 
-Watch for these signals during sessions:
+Watch for these signals during conversations:
 
 - **Non-obvious debugging**: Investigation took multiple attempts, the root cause wasn't what the error message suggested, or the fix required domain-specific knowledge not in docs
 - **Misleading errors**: The error message pointed to the wrong location or cause, and the actual fix was elsewhere
@@ -101,7 +68,7 @@ This could be worth capturing to .docs/learnings/. Want me to document it?
 
 ### Explicit Invocation
 
-When the user says `/learn`, "what did we learn", "capture learnings", or similar:
+When the user says `/extracting-patterns`, "what did we learn", "capture learnings", or similar:
 - Switch to Retrospective Mode (see below)
 - Review the full session for learning candidates
 
@@ -153,13 +120,11 @@ If answers are thin ("it was just a typo"), the discovery fails the worth assess
 
 ### Step 3: Gather Error Context
 
-When a session is active (detected via session-map.json worktree match):
+Review the current conversation for errors:
 
-1. Read `.claude/sessions/{name}/errors.log` if it exists
-2. For each error: extract tool name, input summary, and error summary
+1. Identify tool failures, skill failures, and repeated attempts from the conversation
+2. For each error: note the tool name, what was attempted, and the resolution
 3. Correlate errors with discoveries — which errors led to which learnings?
-
-When no session is active, skip this step.
 
 ### Step 4: Draft and Write
 
@@ -168,14 +133,14 @@ Spawn a `docs-writer` agent via the Task tool to create the learnings document:
 ```
 Task prompt:
   doc_type: "learnings"
-  topic: "Session Learnings: <session-name or YYYY-MM-DD>"
-  tags: [learnings, <session-name if available>, <categories found>]
+  topic: "Learnings: <YYYY-MM-DD or descriptive name>"
+  tags: [learnings, <categories found>]
   references: [<files involved in learnings>]
   content: |
-    # Session Learnings: <session-name or YYYY-MM-DD>
+    # Learnings: <YYYY-MM-DD or descriptive name>
 
     ## Error Summary
-    [From session errors.log — omit section if no session or no errors]
+    [From conversation review — omit section if no meaningful errors]
     - [error 1]: [context, what was tried, resolution]
     - [error 2]: [context, what was tried, resolution]
 
@@ -203,14 +168,14 @@ Run every item before saving. See ./reference/quality-gates.md for the full chec
 - [ ] No sensitive information (credentials, internal URLs, API keys)
 - [ ] Doesn't duplicate existing learnings or skills
 - [ ] Deferred Actions are concrete and actionable
-- [ ] Error context is included when session errors exist
+- [ ] Error context is included when conversation errors exist
 
 ### Step 6: Present and Save
 
 Show the complete draft to the user:
 
 ```
-I've captured learnings from this session:
+I've captured learnings from this conversation:
 
 Discoveries: [count]
 Deferred actions: [count]
@@ -231,11 +196,11 @@ Deferred actions: [count] items for future sessions to review
 
 ## Retrospective Mode
 
-When explicitly invoked (`/learn` or "what did we learn"):
+When explicitly invoked (`/extracting-patterns` or "what did we learn"):
 
-1. **Review**: Scan the session conversation for learning candidates. Look for debugging sequences, error resolutions, workarounds, corrections, and non-obvious discoveries.
+1. **Review**: Scan the conversation for learning candidates. Look for debugging sequences, error resolutions, workarounds, corrections, and non-obvious discoveries.
 
-2. **Gather context**: Read session errors.log and .docs/debug/ files if available.
+2. **Gather context**: Review conversation errors and .docs/debug/ files if available.
 
 3. **Identify**: List candidates with brief justifications:
    ```
@@ -251,35 +216,13 @@ When explicitly invoked (`/learn` or "what did we learn"):
 
 6. **Summarize**:
    ```
-   Session learning summary:
+   Learning summary:
    - Captured: [count] discovery/discoveries
    - Deferred actions: [count] items
    - Location: .docs/learnings/[filename]
    - Skipped: [count] candidate(s)
      - [reason for each skip]
    ```
-
-## Post-Session Mode
-
-When invoked with a session name argument after the session has ended
-(e.g., `/learning-from-sessions auth-mvp`):
-
-1. **Locate session**: Look up session name in container-level `session-map.json`
-2. **Read meta.json**: Get `claudeSessionIds` array from the session's state directory
-   - Fall back to `sessionId` if `claudeSessionIds` is missing (old schema)
-3. **Find transcripts**: For each UUID, locate transcript at:
-   `~/.claude/projects/{path-encoded-worktree}/{uuid}.jsonl`
-   Path encoding: replace path separators with `--`
-   (e.g., `/c/code/project/feature/auth` -> `C--code-project-feature-auth`)
-4. **Parse transcripts**: Stream JSONL, extract:
-   - Tool failures (`is_error: true` in tool_result)
-   - Debugging sequences (multiple tool attempts on same problem)
-   - Error -> resolution pairs (error followed by successful fix)
-   - Thinking blocks discussing root causes
-5. **Correlate with errors.log**: Match transcript errors against errors.log entries
-6. **Proceed to Capture Workflow** (Steps 1-6) with extracted candidates
-
-**Transcript parsing guidance**: Reuse the JSONL streaming pattern from `harvest-errors.py` — stream line by line, filter by entry type, index tool_use blocks, and extract error sequences. See `.docs/research/02-08-2026-session-v2-1-deferred-actions-research.md` Section 4 for transcript format details.
 
 ## Output Routing
 
@@ -304,6 +247,18 @@ All learnings go to `.docs/learnings/` as deferred-action documents. The Deferre
 - One-time issue that won't recur
 - Knowledge already well-documented in official docs
 
+## Self-Improvement
+
+Before finishing, review this skill execution:
+
+- If errors occurred (tool failures, skill failures, repeated attempts), suggest:
+  > **Suggestion**: [N] errors occurred during this execution.
+  > Consider running `/extracting-patterns` to capture learnings.
+  >
+  > Errors: [brief summary of error types]
+- Only suggest when errors are meaningful — use judgment about significance.
+- Do not auto-run. Suggest only.
+
 ## Red Flags - STOP and Reconsider
 
 If you notice any of these, pause:
@@ -311,7 +266,7 @@ If you notice any of these, pause:
 - About to save without user confirmation
 - Discovery wasn't verified during this session
 - Immediately creating a skill instead of writing to .docs/learnings/
-- Skipping session error context when errors.log exists
+- Skipping error context from the conversation when errors occurred
 - Skipping the dedup check
 - The discovery is a simple typo or syntax fix
 - Content restates official documentation without adding non-obvious insight
@@ -324,7 +279,7 @@ If you notice any of these, pause:
 | "User will want this saved" | Ask. Never assume. Confirmation is mandatory. |
 | "This should be a skill right now" | Defer it. Write to .docs/learnings/ with a deferred action. |
 | "No need to dedup, this is definitely new" | Search anyway. You might find an existing learning to supplement. |
-| "No errors.log, so skip error context" | Correct — but only skip if no session is found or errors.log is empty. |
+| "No errors in this conversation" | Review carefully — tool failures and repeated attempts are easy to overlook. |
 | "I'll skip quality gates, the content is solid" | Run the checklist. Every item. Every time. |
 | "Deferred actions can be vague" | Each action must name the specific skill, CLAUDE.md section, or pattern. |
 
@@ -332,6 +287,6 @@ If you notice any of these, pause:
 
 **No learnings without verification and user approval.**
 
-Detect the signal. Gather session context. Dedup first. Analyze thoroughly. Write to .docs/learnings/. Validate rigorously. Confirm with the user. Then save.
+Detect the signal. Gather error context. Dedup first. Analyze thoroughly. Write to .docs/learnings/. Validate rigorously. Confirm with the user. Then save.
 
 This is non-negotiable. Every capture. Every time.

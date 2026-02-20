@@ -19,7 +19,7 @@ flowchart TB
     subgraph supporting["Supporting Plugins"]
         research["commandbase-research<br>4 skills · 1 agent"]
         git["commandbase-git-workflow<br>5 skills · 1 hook"]
-        session["commandbase-session<br>4 skills · 4 hooks"]
+        session["commandbase-session<br>5 skills"]
     end
 
     meta["commandbase-meta<br>6 skills · standalone"]
@@ -47,4 +47,4 @@ flowchart TB
 | research | web-researcher | Available to any conversation |
 | meta | Standalone — no exports consumed by other plugins | — |
 
-The most-referenced skill across the system is `/committing-changes` — it's invoked by /implementing-plans, /debugging-code, /ending-session, /validating-code, /starting-projects, and /reviewing-changes.
+The most-referenced skill across the system is `/committing-changes` — it's invoked by /implementing-plans, /debugging-code, /ending-worktree, /validating-code, /starting-projects, and /reviewing-changes.

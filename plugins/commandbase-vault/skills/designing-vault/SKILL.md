@@ -163,6 +163,18 @@ Or: /planning-vault if structure is straightforward
 4. **User decides, with context** — present trade-offs, let user choose
 5. **Rationale is mandatory** — even for "obvious" choices, document why
 
+## Self-Improvement
+
+Before finishing, review this skill execution:
+
+- If errors occurred (tool failures, skill failures, repeated attempts), suggest:
+  > **Suggestion**: [N] errors occurred during this execution.
+  > Consider running `/extracting-patterns` to capture learnings.
+  >
+  > Errors: [brief summary of error types]
+- Only suggest when errors are meaningful — use judgment about significance.
+- Do not auto-run. Suggest only.
+
 ## Red Flags - STOP and Redirect
 
 If you notice any of these, pause:

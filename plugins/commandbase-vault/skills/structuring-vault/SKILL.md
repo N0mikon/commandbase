@@ -181,6 +181,18 @@ Next: /planning-vault to break this into phased implementation tasks
 4. **Every migration step must preserve links** — no broken wikilinks in intermediate states
 5. **Wikilink integrity is critical** — every note move must account for references
 
+## Self-Improvement
+
+Before finishing, review this skill execution:
+
+- If errors occurred (tool failures, skill failures, repeated attempts), suggest:
+  > **Suggestion**: [N] errors occurred during this execution.
+  > Consider running `/extracting-patterns` to capture learnings.
+  >
+  > Errors: [brief summary of error types]
+- Only suggest when errors are meaningful — use judgment about significance.
+- Do not auto-run. Suggest only.
+
 ## Red Flags - STOP and Research
 
 If you notice any of these, pause:

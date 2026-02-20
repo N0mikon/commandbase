@@ -1,11 +1,11 @@
 ---
 name: handing-over
-description: "Use this skill when switching context, preparing for another session to continue your work, or documenting current progress for knowledge transfer. This includes capturing key learnings, listing modified files, and writing handover documents to .docs/handoffs/. Standalone -- does not require or trigger /ending-session. Trigger phrases: '/handover', 'hand this off', 'document where we are', 'save progress for later', 'create a handoff'."
+description: "Use this skill when switching context, preparing for another conversation to continue your work, or documenting current progress for knowledge transfer. This includes capturing key learnings, listing modified files, and writing handover documents to .docs/handoffs/. Trigger phrases: '/handover', 'hand this off', 'document where we are', 'save progress for later', 'create a handoff'."
 ---
 
 # Handover
 
-You are creating a handover document to pass your work to another session (or yourself later). The goal is to distill your context to its essential elements - what matters, what you learned, what's next.
+You are creating a handover document to pass your work to another conversation (or yourself later). The goal is to distill your context to its essential elements - what matters, what you learned, what's next.
 
 This is NOT a lossy auto-summary. This is intelligent extraction of crucial context.
 
@@ -45,28 +45,9 @@ BEFORE writing the handover document:
 Skip learnings = useless handover
 ```
 
-## Session Awareness
-
-Before creating the handover document, detect the active session:
-
-1. Detect repo layout:
-   ```bash
-   git_common=$(git rev-parse --git-common-dir 2>/dev/null)
-   git_dir=$(git rev-parse --git-dir 2>/dev/null)
-   ```
-2. If bare-worktree layout (paths differ): read container-level `session-map.json`, find entry whose `worktree` matches current cwd with `status: "active"`.
-3. If session found: read `.claude/sessions/{name}/meta.json` for session name, summary, and claudeSessionIds.
-4. If no session: proceed without session context (default behavior).
-
-When session-scoped:
-- Handoff topic is prefixed: `{session-name} - <brief description>`
-- Session checkpoints and errors are included in the body
-- UUID(s) from the current conversation are stamped into the Session Context section
-- The handover becomes a session artifact, not just a date-stamped document
-
 ## Process
 
-### Step 1: Analyze Current Session
+### Step 1: Analyze Current Work
 
 Review the conversation and gather:
 - What tasks were you working on?
@@ -83,14 +64,14 @@ Spawn a `docs-writer` agent via the Task tool to create the handover file:
 ```
 Task prompt:
   doc_type: "handoff"
-  topic: "<session-name> - <brief description of work>"  # session prefix when available, omit prefix when no session
+  topic: "<brief description of work>"
   tags: [<relevant component names>]
   references: [<key files worked on>]
   content: |
     <compiled handover using the body sections below>
 ```
 
-The agent handles frontmatter, file naming (`MM-DD-YYYY-description.md`), and directory creation.
+The agent handles frontmatter, file naming (`MM-DD-YYYY-description.md`), and directory creation. Include `claude_session_id: <current conversation UUID>` in the frontmatter for traceability.
 
 **Body sections to include in `content`:**
 
@@ -132,15 +113,6 @@ The agent handles frontmatter, file naming (`MM-DD-YYYY-description.md`), and di
 - [What's partially done]
 - [What's blocked or needs attention]
 
-## Session Context
-
-[Include ONLY when active session exists - omit entire section otherwise]
-- **Session name**: [name from meta.json]
-- **Session purpose**: [summary from meta.json]
-- **Claude UUIDs**: [list from claudeSessionIds, plus current conversation UUID]
-- **Checkpoints**: [list from checkpoints.log, or "None"]
-- **Errors**: [count from errors.log, or "None"]
-
 ## Next Steps
 
 [Prioritized list of what should happen next]
@@ -177,11 +149,21 @@ To resume this work in a new session:
 
 ### Learning Check
 
-After creating the handover document, check for session errors:
+Before completing the handoff, review whether meaningful errors occurred in this conversation:
 
-1. If active session exists (detected via session-map.json worktree match) AND `.claude/sessions/{name}/errors.log` has entries:
-   - Remind user: "This session had N error(s). Consider running /learning-from-sessions before ending."
-2. If no session or no errors: skip this step
+> **Suggestion**: If errors occurred during this work, consider running `/extracting-patterns` to capture learnings before handing over.
+
+## Self-Improvement
+
+Before finishing, review this skill execution:
+
+- If errors occurred (tool failures, skill failures, repeated attempts), suggest:
+  > **Suggestion**: [N] errors occurred during this execution.
+  > Consider running `/extracting-patterns` to capture learnings.
+  >
+  > Errors: [brief summary of error types]
+- Only suggest when errors are meaningful — use judgment about significance.
+- Do not auto-run. Suggest only.
 
 ## Red Flags - STOP and Extract Learnings
 
@@ -195,7 +177,7 @@ If you notice any of these, STOP immediately:
 
 **When you hit a red flag:**
 1. Stop and reflect on the session
-2. What would you tell a colleague taking over?
+2. What would you tell someone taking over?
 3. What mistakes should they avoid?
 4. Add these insights to Key Learnings
 

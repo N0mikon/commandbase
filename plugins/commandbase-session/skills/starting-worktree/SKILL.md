@@ -5,7 +5,7 @@ description: "Use this skill when creating an isolated git worktree for a featur
 
 # Starting Worktree
 
-You are creating an isolated git worktree with its own branch. This skill handles git plumbing only -- branch creation and worktree setup. Session tracking is handled separately by `/starting-session`.
+You are creating an isolated git worktree with its own branch. This skill handles git plumbing only -- branch creation and worktree setup.
 
 **Violating the letter of these rules is violating the spirit of these rules.**
 
@@ -119,11 +119,6 @@ cp -rn {project}-migrating/.docs/* {project}/main/.docs/ 2>/dev/null
 # Clean up
 rm -rf {project}-migrating
 
-# Create container-level session-map.json
-echo '{}' > {project}/session-map.json
-
-# Ensure .claude/sessions/ is in .gitignore
-grep -q '.claude/sessions/' {project}/main/.gitignore 2>/dev/null || echo '.claude/sessions/' >> {project}/main/.gitignore
 ```
 
 **WARNING**: The `cp -rn` commands use `-n` (no-clobber) to prevent nested duplicates when copying directories that `git worktree add` already checked out. Check for duplicates (`.claude/.claude/`, `.docs/.docs/`) after running.
@@ -137,7 +132,6 @@ Your project is now at: /c/code/{project}/main/
 Open a new Claude Code session in that directory to continue.
 
 Next time you run /starting-worktree, it will create a worktree directly.
-To start session tracking in the new worktree, run /starting-session.
 ```
 
 ## Mode B: Create Worktree
@@ -197,10 +191,19 @@ Path: /c/code/{project}/{type}/{worktree-name}
 
 Switch to this directory to begin work:
 cd /c/code/{project}/{type}/{worktree-name}
-
-To start session tracking in this worktree, run:
-/starting-session
 ```
+
+## Self-Improvement
+
+Before finishing, review this skill execution:
+
+- If errors occurred (tool failures, skill failures, repeated attempts), suggest:
+  > **Suggestion**: [N] errors occurred during this execution.
+  > Consider running `/extracting-patterns` to capture learnings.
+  >
+  > Errors: [brief summary of error types]
+- Only suggest when errors are meaningful — use judgment about significance.
+- Do not auto-run. Suggest only.
 
 ## Red Flags - STOP and Verify
 
@@ -226,4 +229,4 @@ If you notice any of these, pause:
 
 **Worktree creation is git plumbing only.**
 
-Create the branch. Create the worktree. Suggest `/starting-session` for tracking. Nothing more.
+Create the branch. Create the worktree. Nothing more.

@@ -62,11 +62,11 @@ git rev-parse --git-dir 2>/dev/null
 ```
 Before we start — do you want to use the bare-repo + worktree layout?
 
-This creates isolated directories for each work session:
+This creates isolated directories for each piece of work:
   /c/code/{project}/main/       ← your daily working directory
   /c/code/{project}/feature/    ← session branches (created later)
 
-Benefits: parallel branches, clean isolation, session tracking support.
+Benefits: parallel branches, clean isolation.
 
 If not, I'll do a standard git init here.
 ```
@@ -80,8 +80,6 @@ git init --bare .bare
 # Create main worktree (the daily working directory)
 git -C .bare worktree add ../main -b main
 
-# Container-level session map
-echo '{}' > session-map.json
 ```
 
 Then continue all remaining phases (discovery, research, plan, CLAUDE.md) inside the `main/` worktree. Notify the user:
@@ -92,8 +90,6 @@ Bare-repo layout created. Continuing project setup in:
 
 After setup, always work from this directory.
 ```
-
-Add `.claude/sessions/` to `.gitignore` in the main worktree.
 
 **If user wants standard layout**, run `git init` in the current directory and continue to Phase 1.
 
@@ -185,7 +181,6 @@ Your project is initialized!
 3. Start building!
 
 **Your workflow going forward:**
-- `/starting-session` - Start session tracking in your worktree
 - `/starting-worktree` - Create isolated worktrees for features/fixes (bare-repo layout only)
 - `/researching-frameworks` - Research framework docs and library APIs
 - `/researching-code` - Research and document codebase patterns
@@ -194,9 +189,22 @@ Your project is initialized!
 - `/validating-code` - Validate implementation against plan
 - `/committing-changes` - Commit and push changes
 - `/creating-prs` - Create pull requests
-- `/ending-session` - End a session (merge, handoff, or discard)
-- `/resuming-session` - Resume a session or pick up from a handover
+- `/ending-worktree` - Merge or discard a worktree
+- `/handing-over` - Create a handover document for context transfer
+- `/extracting-patterns` - Extract reusable learnings from conversations
 ```
+
+## Self-Improvement
+
+Before finishing, review this skill execution:
+
+- If errors occurred (tool failures, skill failures, repeated attempts), suggest:
+  > **Suggestion**: [N] errors occurred during this execution.
+  > Consider running `/extracting-patterns` to capture learnings.
+  >
+  > Errors: [brief summary of error types]
+- Only suggest when errors are meaningful — use judgment about significance.
+- Do not auto-run. Suggest only.
 
 ## Red Flags - STOP and Verify
 

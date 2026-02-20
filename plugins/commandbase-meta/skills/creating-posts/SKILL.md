@@ -175,6 +175,18 @@ Offer a full rewrite preserving the user's core message.
 5. Code fences for post text — makes copy-paste easy
 6. Character counts are mandatory — user needs to know if it fits
 
+## Self-Improvement
+
+Before finishing, review this skill execution:
+
+- If errors occurred (tool failures, skill failures, repeated attempts), suggest:
+  > **Suggestion**: [N] errors occurred during this execution.
+  > Consider running `/extracting-patterns` to capture learnings.
+  >
+  > Errors: [brief summary of error types]
+- Only suggest when errors are meaningful — use judgment about significance.
+- Do not auto-run. Suggest only.
+
 ## Red Flags - STOP and Rewrite
 
 If you notice any of these, pause:

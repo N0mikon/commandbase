@@ -1,6 +1,6 @@
 ---
 name: planning-vault
-description: "Create or iterate on vault implementation plans with thorough vault research. Use when the user says 'plan vault changes', 'vault implementation plan', 'plan vault reorganization', or provides a path to an existing vault plan in .docs/plans/. Researches vault structure before planning, produces phased plans with success criteria."
+description: "Use this skill when creating or iterating on vault implementation plans with thorough vault research. This includes producing phased plans with success criteria, researching vault structure before planning, and working with existing vault plans in .docs/plans/. Trigger phrases: 'plan vault changes', 'vault implementation plan', 'plan vault reorganization', or providing a path to an existing plan."
 ---
 
 # Planning Vault
@@ -226,6 +226,18 @@ After structure approval:
 4. **Be Practical**: Focus on incremental, verifiable changes. Include "what we're NOT doing".
 
 5. **No Open Questions in Final Plan**: If you encounter open questions during planning, STOP. Research or ask for clarification immediately. The plan must be complete and actionable.
+
+## Self-Improvement
+
+Before finishing, review this skill execution:
+
+- If errors occurred (tool failures, skill failures, repeated attempts), suggest:
+  > **Suggestion**: [N] errors occurred during this execution.
+  > Consider running `/extracting-patterns` to capture learnings.
+  >
+  > Errors: [brief summary of error types]
+- Only suggest when errors are meaningful — use judgment about significance.
+- Do not auto-run. Suggest only.
 
 ## Red Flags - STOP and Research First
 

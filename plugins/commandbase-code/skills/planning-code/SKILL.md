@@ -1,6 +1,6 @@
 ---
 name: planning-code
-description: "Create or iterate on implementation plans with thorough codebase research. Use when the user says 'create a plan', 'implementation plan', 'plan this feature', or provides a path to an existing plan in .docs/plans/. Spawns research agents before planning, produces phased plans with success criteria."
+description: "Use this skill when creating or iterating on implementation plans with thorough codebase research. This includes producing phased plans with success criteria, spawning research agents before planning, and working with existing plans in .docs/plans/. Trigger phrases: 'create a plan', 'implementation plan', 'plan this feature', or providing a path to an existing plan."
 ---
 
 # Implementation Planning
@@ -243,6 +243,18 @@ After structure approval:
 4. **Be Practical**: Focus on incremental, testable changes. Include "what we're NOT doing".
 
 5. **No Open Questions in Final Plan**: If you encounter open questions during planning, STOP. Research or ask for clarification immediately. The plan must be complete and actionable.
+
+## Self-Improvement
+
+Before finishing, review this skill execution:
+
+- If errors occurred (tool failures, skill failures, repeated attempts), suggest:
+  > **Suggestion**: [N] errors occurred during this execution.
+  > Consider running `/extracting-patterns` to capture learnings.
+  >
+  > Errors: [brief summary of error types]
+- Only suggest when errors are meaningful — use judgment about significance.
+- Do not auto-run. Suggest only.
 
 ## Red Flags - STOP and Research First
 

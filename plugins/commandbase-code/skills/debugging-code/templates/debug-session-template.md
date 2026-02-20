@@ -106,7 +106,7 @@ If evidence grows large (10+ entries), check if you're going in circles. Review 
 ## Cleanup
 
 After debug complete:
-- Option 1: Delete file (if learnings extracted via `/learning-from-sessions`)
+- Option 1: Delete file (if learnings extracted via `/extracting-patterns`)
 - Option 2: Keep for reference (if complex issue worth preserving)
 
 No automatic archival - user decides.

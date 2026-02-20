@@ -1,6 +1,6 @@
 # Capture Workflow
 
-The 6-step process for turning session knowledge into deferred-action learnings documents.
+The 6-step process for turning conversation knowledge into deferred-action learnings documents.
 
 ## Step 1: Dedup Check
 
@@ -30,7 +30,7 @@ rg -i "keyword1|keyword2" .claude/skills ~/.claude/skills 2>/dev/null
 
 ## Step 2: Identify the Knowledge
 
-Run these four analysis questions against the session discovery:
+Run these four analysis questions against the discovery:
 
 1. **What was the problem?** -- Describe the symptom, not the fix. Include exact error messages, unexpected behaviors, or misleading indicators.
 
@@ -44,23 +44,21 @@ If any of these questions yields a weak answer ("it was just a typo", "the docs 
 
 ## Step 3: Gather Error Context
 
-When a session is active:
-1. Read `.claude/sessions/{name}/errors.log`
-2. For each error entry: extract timestamp, tool, input summary, error summary
+Review the current conversation for errors:
+1. Identify tool failures, skill failures, and repeated attempts
+2. For each error: note the tool name, what was attempted, and the resolution
 3. Correlate errors with discoveries — which errors led to which learnings?
 4. Include correlated errors in the Error Summary section
-
-When no session is active, skip this step entirely.
 
 ## Step 4: Draft the Learnings Document
 
 Structure the output using the learnings format (see ../templates/learnings-template.md):
 
 **Sections:**
-- Error Summary (from session errors.log — omit if no session or no errors)
+- Error Summary (from conversation review — omit if no meaningful errors)
 - Discoveries (the core learnings with context)
 - Debug References (from .docs/debug/ — omit if no debug files)
-- Deferred Actions (concrete checklist of what future sessions should do)
+- Deferred Actions (concrete checklist of what to do next)
 
 **Key decisions:**
 
@@ -83,5 +81,5 @@ Run every item in quality-gates.md before saving. No exceptions.
 Learnings captured: [topic]
 Location: .docs/learnings/[filename]
 Discoveries: [count]
-Deferred actions: [count] items for future sessions
+Deferred actions: [count] items to review
 ```

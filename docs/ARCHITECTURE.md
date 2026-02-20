@@ -1,6 +1,6 @@
 # Architecture
 
-Visual guide to how commandbase's 8 plugins, 46 skills, 8 agents, and 5 hooks connect.
+Visual guide to how commandbase's 8 plugins, 46 skills, 8 agents, and 1 hook connect.
 
 ## System Diagrams
 
@@ -8,7 +8,6 @@ Visual guide to how commandbase's 8 plugins, 46 skills, 8 agents, and 5 hooks co
 |---------|--------------|
 | [Plugin Dependencies](plugin-dependencies.md) | How the 8 plugins relate and what each exports |
 | [BRDSPI Pipeline](brdspi-pipeline.md) | The six-phase artifact chain all domain plugins share |
-| [Session Lifecycle](session-lifecycle.md) | Session states, transitions, and resume paths |
 | [Hook Timeline](hook-timeline.md) | When each hook fires during a conversation |
 
 ## Domain Workflows

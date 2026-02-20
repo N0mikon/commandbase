@@ -236,6 +236,18 @@ Response: Launches advocates who argue for each option, judge decides.
   - Seems paralyzed by the decision
   - Wants to understand *why* each option matters, not just facts
 
+## Self-Improvement
+
+Before finishing, review this skill execution:
+
+- If errors occurred (tool failures, skill failures, repeated attempts), suggest:
+  > **Suggestion**: [N] errors occurred during this execution.
+  > Consider running `/extracting-patterns` to capture learnings.
+  >
+  > Errors: [brief summary of error types]
+- Only suggest when errors are meaningful — use judgment about significance.
+- Do not auto-run. Suggest only.
+
 ## Red Flags - STOP and Verify
 
 If you notice any of these, pause:

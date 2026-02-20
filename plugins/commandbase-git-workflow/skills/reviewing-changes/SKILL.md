@@ -172,7 +172,7 @@ Based on the diff:
 1. Identify the primary change type (feat/fix/refactor/etc)
 2. Write a one-line summary
 3. Add bullet points for specific changes if needed
-4. Include Co-Authored-By if pair programming
+4. Follow project commit message conventions
 
 ### Step 4: Compile Report
 
@@ -257,6 +257,18 @@ Would you like to:
 - After validation passes
 - Before committing
 - When unsure if changes are commit-ready
+
+## Self-Improvement
+
+Before finishing, review this skill execution:
+
+- If errors occurred (tool failures, skill failures, repeated attempts), suggest:
+  > **Suggestion**: [N] errors occurred during this execution.
+  > Consider running `/extracting-patterns` to capture learnings.
+  >
+  > Errors: [brief summary of error types]
+- Only suggest when errors are meaningful — use judgment about significance.
+- Do not auto-run. Suggest only.
 
 ## Red Flags - STOP and Verify
 

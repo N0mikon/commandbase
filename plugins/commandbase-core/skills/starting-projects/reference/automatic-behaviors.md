@@ -26,7 +26,7 @@ I notice this seems like a recurring issue. Would you like me to save this as a 
 If yes, I'll extract it to `~/.claude/skills/learned/` so it's automatically available in future sessions.
 ```
 
-If user agrees, follow the /learn skill process.
+If user agrees, follow the /extracting-patterns skill process.
 
 ### Why This Matters
 

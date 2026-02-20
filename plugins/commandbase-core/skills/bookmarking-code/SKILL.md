@@ -22,37 +22,18 @@ Before creating or verifying checkpoints, confirm git state is clean or intentio
 - Don't verify against non-existent checkpoints
 - Don't assume checkpoint exists - check the log first
 
-## Session Awareness
-
-Before creating or verifying checkpoints, detect the active session:
-
-1. Detect repo layout:
-   ```bash
-   git_common=$(git rev-parse --git-common-dir 2>/dev/null)
-   git_dir=$(git rev-parse --git-dir 2>/dev/null)
-   ```
-2. If bare-worktree layout (paths differ): read container-level `session-map.json`, find entry whose `worktree` matches current cwd. Use `.claude/sessions/{name}/checkpoints.log` in the worktree.
-3. If no session found: Use `.claude/checkpoints.log` (default behavior).
-
-When session-scoped:
-- Checkpoint names are automatically prefixed: `{session-name}:{checkpoint-name}`
-- The prefix is for display/search only — storage uses the session folder for isolation
-- Verification commands search the session-scoped log first
-
 ## The Gate Function
 
 ```
 BEFORE any checkpoint operation:
 
 1. IDENTIFY: Which operation? (create/verify/list/clear)
-2. SESSION: Detect repo layout, find session for current worktree via session-map.json.
-3. CHECK: Does checkpoint log exist? Create if needed.
-   - Session active: .claude/sessions/{name}/checkpoints.log (in worktree root)
-   - No session: .claude/checkpoints.log
-4. VERIFY: For create - is git state acceptable?
+2. CHECK: Does checkpoint log exist? Create if needed.
+   - Location: .claude/checkpoints.log
+3. VERIFY: For create - is git state acceptable?
           For verify - does checkpoint name exist?
-5. EXECUTE: Perform the operation
-6. REPORT: Show clear output with evidence
+4. EXECUTE: Perform the operation
+5. REPORT: Show clear output with evidence
 
 Skip verification = unreliable checkpoints
 ```
@@ -67,10 +48,7 @@ Creates a named checkpoint at current git state.
 1. Check git status for uncommitted changes
 2. If dirty, ask user to confirm or commit first
 3. Get current git SHA: `git rev-parse --short HEAD`
-4. Determine checkpoint log location (using session detection from Gate Function step 2):
-   - If session found: use `.claude/sessions/{name}/checkpoints.log`
-   - Otherwise: use `.claude/checkpoints.log`
-5. Append to the checkpoint log:
+4. Append to `.claude/checkpoints.log`:
    ```
    YYYY-MM-DD-HH:MM | checkpoint-name | abc1234
    ```
@@ -104,11 +82,9 @@ Which would you prefer?
 Compares current state to a named checkpoint.
 
 **Process:**
-1. Determine checkpoint log location (using session detection from Gate Function step 2):
-   - If session found: search `.claude/sessions/{name}/checkpoints.log` first
-   - If not found in session log (or no session): fall back to `.claude/checkpoints.log`
+1. Read `.claude/checkpoints.log`
 2. Find checkpoint by name (use most recent if duplicates)
-3. If not found in either log, list available checkpoints
+3. If not found, list available checkpoints
 4. Run comparison:
    ```bash
    git diff --stat <checkpoint-sha>..HEAD
@@ -226,9 +202,17 @@ Suggested checkpoint names:
 - `pre-refactor` - Before major refactoring
 - `feature-complete` - Before validation/PR
 
-When a session is active, checkpoints display with session prefix:
-- `auth-mvp:phase-2-done` (session-scoped)
-- `auth-mvp:pre-refactor` (session-scoped)
+## Self-Improvement
+
+Before finishing, review this skill execution:
+
+- If errors occurred (tool failures, skill failures, repeated attempts), suggest:
+  > **Suggestion**: [N] errors occurred during this execution.
+  > Consider running `/extracting-patterns` to capture learnings.
+  >
+  > Errors: [brief summary of error types]
+- Only suggest when errors are meaningful — use judgment about significance.
+- Do not auto-run. Suggest only.
 
 ## Red Flags - STOP and Verify
 
@@ -249,7 +233,7 @@ If you notice any of these, pause:
 
 ## Workflow Integration
 
-Checkpoints integrate with the RPI workflow. When a session is created via `/starting-session`, all checkpoints are automatically scoped to the session's worktree folder.
+Checkpoints integrate with the RPI workflow:
 
 ```
 /planning-code → Plan approved → /bookmarking-code create "plan-approved"

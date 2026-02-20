@@ -1,6 +1,6 @@
 ---
 name: taking-over
-description: "Use this skill when picking up work from a handover document or continuing where another session left off. This includes reading handover documents from .docs/handoffs/, understanding prior context, reviewing modified files, and preparing to continue implementation. Standalone -- does not require /resuming-session. Trigger phrases: '/takeover', 'continue from handover', 'pick up where we left off', 'read the handover', 'absorb handoff'."
+description: "Use this skill when picking up work from a handover document or continuing where a previous conversation left off. This includes reading handover documents from .docs/handoffs/, understanding prior context, reviewing modified files, and preparing to continue implementation. Trigger phrases: '/takeover', 'continue from handover', 'pick up where we left off', 'read the handover', 'absorb handoff'."
 ---
 
 # Takeover
@@ -100,20 +100,7 @@ git log --oneline -5
 - Check that described changes are present
 - Look for any drift since the handover
 
-### Step 4: Session Association
-
-After absorbing the handoff, check for session context:
-
-1. Detect repo layout:
-   ```bash
-   git_common=$(git rev-parse --git-common-dir 2>/dev/null)
-   git_dir=$(git rev-parse --git-dir 2>/dev/null)
-   ```
-2. If bare-worktree layout: read container-level `session-map.json`, find entry whose `worktree` matches current cwd with `status: "active"`.
-3. If in the same worktree and session is active: associate this conversation's UUID with that session by calling `update_meta_json()` to append to `claudeSessionIds`.
-4. If no active session: note this for the session offer in Step 6.
-
-### Step 5: Present Takeover Summary
+### Step 4: Present Takeover Summary
 
 ```
 I've absorbed the handover from [date].
@@ -137,15 +124,7 @@ I've absorbed the handover from [date].
 Ready to continue with [first next step]?
 ```
 
-### Step 6: Session and Confirmation
-
-After presenting the summary, if no active session was found in Step 4, offer:
-
-```
-Would you like to start a new session for this work?
-1. Yes - run /starting-session to create a tracking session
-2. No - continue without session tracking
-```
+### Step 5: Confirmation
 
 Wait for user to confirm the approach before starting work.
 
@@ -154,12 +133,24 @@ If user wants adjustments:
 - Adjust the plan
 - Confirm again
 
-### Step 7: Begin Work
+### Step 6: Begin Work
 
 Once confirmed:
 - Start with the first next step
 - Apply learnings throughout
 - Reference the handover when relevant
+
+## Self-Improvement
+
+Before finishing, review this skill execution:
+
+- If errors occurred (tool failures, skill failures, repeated attempts), suggest:
+  > **Suggestion**: [N] errors occurred during this execution.
+  > Consider running `/extracting-patterns` to capture learnings.
+  >
+  > Errors: [brief summary of error types]
+- Only suggest when errors are meaningful — use judgment about significance.
+- Do not auto-run. Suggest only.
 
 ## Red Flags - STOP and Verify
 

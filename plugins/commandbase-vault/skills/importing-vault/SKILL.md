@@ -168,6 +168,18 @@ After user approval:
 - **Batch imports need summaries**: When importing multiple files, present a summary table showing source → target mappings before starting conversion.
 - **Duplicate detection**: Before writing, check if a note with a similar title already exists in the vault. If so, warn the user and ask how to proceed.
 
+## Self-Improvement
+
+Before finishing, review this skill execution:
+
+- If errors occurred (tool failures, skill failures, repeated attempts), suggest:
+  > **Suggestion**: [N] errors occurred during this execution.
+  > Consider running `/extracting-patterns` to capture learnings.
+  >
+  > Errors: [brief summary of error types]
+- Only suggest when errors are meaningful — use judgment about significance.
+- Do not auto-run. Suggest only.
+
 ## Red Flags - STOP and Verify
 
 If you notice any of these, pause:

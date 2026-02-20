@@ -5,7 +5,7 @@ description: "Use this skill when committing work to git, pushing changes to Git
 
 # Commit and Push
 
-You are tasked with committing and pushing all changes from this session.
+You are tasked with committing and pushing all changes from this work.
 
 **Violating the letter of these rules is violating the spirit of these rules.**
 
@@ -194,6 +194,18 @@ Branch: [branch name]
 [N] file(s) changed, [X] insertions(+), [Y] deletions(-)
 ```
 
+## Self-Improvement
+
+Before finishing, review this skill execution:
+
+- If errors occurred (tool failures, skill failures, repeated attempts), suggest:
+  > **Suggestion**: [N] errors occurred during this execution.
+  > Consider running `/extracting-patterns` to capture learnings.
+  >
+  > Errors: [brief summary of error types]
+- Only suggest when errors are meaningful — use judgment about significance.
+- Do not auto-run. Suggest only.
+
 ## Red Flags - STOP and Review
 
 If you notice any of these, STOP immediately:
@@ -272,7 +284,7 @@ To set up manually:
 
 ## Squash Merge Context
 
-When invoked by `/ending-session` after `git merge --squash`, the workflow adapts. Detect this state:
+When invoked after `git merge --squash` (e.g., from `/ending-worktree`), the workflow adapts. Detect this state:
 
 ```bash
 # Squash merge leaves files pre-staged and creates MERGE_MSG
@@ -285,15 +297,15 @@ If `$cached` has content AND `$merge_msg` exists: squash merge context is active
 
 **Adapted steps:**
 
-1. **Skip Step 2** (stale docs check) -- the session's docs are the new content being committed; staleness doesn't apply.
+1. **Skip Step 2** (stale docs check) -- the worktree's docs are the new content being committed; staleness doesn't apply.
 2. **Step 3** (analyze changes): Use `git diff --cached` instead of `git diff`. Report: "Squash merge detected. Files are pre-staged. Reviewing staged changes."
 3. **Skip Step 4 staging** -- files are pre-staged by `git merge --squash`. Do NOT re-stage or unstage files. Proceed directly to commit message.
 4. **Step 5** (sensitive file verification): Still applies -- scan staged files for .env, credentials, keys.
 5. **Step 5 security** (public repos): Still applies -- run `/reviewing-security` on staged files.
-6. **Commit message**: Summarize the session's work (e.g., "Add JWT authentication with login/logout endpoints"). `/ending-session` provides the session summary context. Read `MERGE_MSG` for additional context.
+6. **Commit message**: Summarize the worktree's work (e.g., "Add JWT authentication with login/logout endpoints"). Read `MERGE_MSG` for additional context.
 7. **Step 7** (push): Still applies -- push to remote, handle divergence.
 
-**Iron Law still holds**: Review `git diff --cached` before committing. The diff shows the session's entire body of work.
+**Iron Law still holds**: Review `git diff --cached` before committing. The diff shows the worktree's entire body of work.
 
 ## The Bottom Line
 

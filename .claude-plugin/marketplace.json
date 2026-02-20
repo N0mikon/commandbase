@@ -45,7 +45,7 @@
     },
     {
       "name": "commandbase-session",
-      "description": "Session continuity — naming, handover, takeover, error tracking, and learning extraction. Requires commandbase-core.",
+      "description": "Worktree isolation, context handoff, and pattern extraction. Requires commandbase-core.",
       "source": "./plugins/commandbase-session",
       "category": "productivity"
     },

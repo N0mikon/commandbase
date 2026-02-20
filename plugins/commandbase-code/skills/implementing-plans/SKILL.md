@@ -82,7 +82,7 @@ For each phase:
 3. **Fix any failures** - do not proceed until verification passes
 4. **Show evidence** - state what commands you ran and their output
 5. **Update checkboxes** in the plan file using Edit
-6. **Create checkpoint** - `/bookmarking-code create "phase-N-done"` (session-aware when available)
+6. **Create checkpoint** - `/bookmarking-code create "phase-N-done"`
 7. **Move to the next phase** - only after evidence is shown and checkpoint created
 
 **Remember:** Steps 4 and 6 are not optional. No evidence = no completion. No checkpoint = no proceeding.
@@ -138,6 +138,18 @@ This is non-negotiable. Every phase. Every time.
 
 See `reference/anti-patterns.md` for detailed anti-patterns.
 
+## Self-Improvement
+
+Before finishing, review this skill execution:
+
+- If errors occurred (tool failures, skill failures, repeated attempts), suggest:
+  > **Suggestion**: [N] errors occurred during this execution.
+  > Consider running `/extracting-patterns` to capture learnings.
+  >
+  > Errors: [brief summary of error types]
+- Only suggest when errors are meaningful — use judgment about significance.
+- Do not auto-run. Suggest only.
+
 ## Red Flags - STOP and Verify
 
 If you notice any of these, pause:
@@ -168,9 +180,7 @@ If you notice any of these, pause:
 
 After completing each phase with verified evidence, create a checkpoint:
 
-1. Detect repo layout and find active session via session-map.json (worktree match)
-2. If session exists: `/bookmarking-code create "phase-N-done"` (writes to session folder)
-3. If no session: `/bookmarking-code create "phase-N-done"` (writes to global log)
+1. Run `/bookmarking-code create "phase-N-done"`
 
 This is NOT optional. Every verified phase gets a checkpoint before proceeding.
 

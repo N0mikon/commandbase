@@ -73,8 +73,7 @@ Read the target area files to understand current state. Get enough context to de
 
 This step is NOT optional. Same enforcement as `/implementing-plans` phase checkpoints.
 
-1. Check session awareness: detect repo layout, find session for current worktree via session-map.json
-2. Check for uncommitted changes:
+1. Check for uncommitted changes:
    - If uncommitted changes exist, warn user:
      ```
      Warning: Uncommitted changes detected. These should be committed before
@@ -82,8 +81,8 @@ This step is NOT optional. Same enforcement as `/implementing-plans` phase check
 
      Would you like to commit first, or proceed with the checkpoint as-is?
      ```
-3. Run `/bookmarking-code create "pre-refactor-<area>"` (session-aware)
-4. Checkpoint must complete successfully before proceeding
+2. Run `/bookmarking-code create "pre-refactor-<area>"`
+3. Checkpoint must complete successfully before proceeding
 
 ### Step 3: Audit Target Area
 
@@ -150,6 +149,18 @@ Next steps (BRDSPI chain):
 3. **Scope is a boundary** — resist expanding beyond what user specified
 4. **Warn about uncommitted changes** — checkpoint should capture clean state
 5. **Downstream skills need the scope doc** — don't skip writing it
+
+## Self-Improvement
+
+Before finishing, review this skill execution:
+
+- If errors occurred (tool failures, skill failures, repeated attempts), suggest:
+  > **Suggestion**: [N] errors occurred during this execution.
+  > Consider running `/extracting-patterns` to capture learnings.
+  >
+  > Errors: [brief summary of error types]
+- Only suggest when errors are meaningful — use judgment about significance.
+- Do not auto-run. Suggest only.
 
 ## Red Flags - STOP and Verify
 

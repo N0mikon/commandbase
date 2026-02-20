@@ -203,6 +203,18 @@ I've documented the full details in `.docs/research/01-27-2026-api-error-handlin
 Would you like me to dig deeper into any specific aspect?
 ```
 
+## Self-Improvement
+
+Before finishing, review this skill execution:
+
+- If errors occurred (tool failures, skill failures, repeated attempts), suggest:
+  > **Suggestion**: [N] errors occurred during this execution.
+  > Consider running `/extracting-patterns` to capture learnings.
+  >
+  > Errors: [brief summary of error types]
+- Only suggest when errors are meaningful — use judgment about significance.
+- Do not auto-run. Suggest only.
+
 ## Red Flags - STOP and Verify
 
 If you notice any of these, pause:

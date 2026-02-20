@@ -1,6 +1,6 @@
 ---
 name: reviewing-security
-description: "Use this skill when reviewing code for security vulnerabilities before committing to public repositories. This includes scanning for hardcoded secrets and API keys, checking for SQL injection and XSS vulnerabilities, validating input sanitization, detecting OWASP Top 10 issues, and reviewing authentication/authorization logic. Trigger phrases: '/review-security', 'security review', 'check for secrets', 'is this safe to commit publicly'."
+description: "Use this skill when reviewing code for security vulnerabilities before committing to public repositories. This includes scanning for hardcoded secrets and API keys, checking for SQL injection and XSS vulnerabilities, validating input sanitization, detecting OWASP Top 10 issues, and reviewing authentication/authorization logic. Trigger phrases: '/reviewing-security', 'security review', 'check for secrets', 'is this safe to commit publicly'."
 allowed-tools: Read, Grep, Glob, LS, Bash, AskUserQuestion
 ---
 
@@ -257,6 +257,18 @@ No security issues detected. Safe to commit.
 **Blocking errors:**
 - No files to review: Ask user to specify scope
 - Git not available: Cannot determine staged files, ask for file list
+
+## Self-Improvement
+
+Before finishing, review this skill execution:
+
+- If errors occurred (tool failures, skill failures, repeated attempts), suggest:
+  > **Suggestion**: [N] errors occurred during this execution.
+  > Consider running `/extracting-patterns` to capture learnings.
+  >
+  > Errors: [brief summary of error types]
+- Only suggest when errors are meaningful — use judgment about significance.
+- Do not auto-run. Suggest only.
 
 ## Red Flags - STOP and Investigate
 

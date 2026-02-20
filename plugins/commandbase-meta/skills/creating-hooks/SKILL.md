@@ -300,6 +300,18 @@ newhooks/
 
 Deploy: copy `.py` to `~/.claude/hooks/`, merge snippet into `~/.claude/settings.json`.
 
+## Self-Improvement
+
+Before finishing, review this skill execution:
+
+- If errors occurred (tool failures, skill failures, repeated attempts), suggest:
+  > **Suggestion**: [N] errors occurred during this execution.
+  > Consider running `/extracting-patterns` to capture learnings.
+  >
+  > Errors: [brief summary of error types]
+- Only suggest when errors are meaningful — use judgment about significance.
+- Do not auto-run. Suggest only.
+
 ## Red Flags - STOP and Verify
 
 If you notice any of these, pause:

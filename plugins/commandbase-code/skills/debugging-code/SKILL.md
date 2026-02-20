@@ -169,7 +169,7 @@ Suggested Fix Direction: [brief hint, not implementation]
 Next steps:
 - "Fix it" - I'll implement and verify the fix
 - "I'll fix it manually" - Done, session saved
-- "/learning-from-sessions" - Extract learnings from this debug
+- "/extracting-patterns" - Extract learnings from this debug
 ```
 
 ### Step 5: Fix and Verify
@@ -199,7 +199,7 @@ Files Changed:
 
 Next steps:
 - "/committing-changes" - Commit the fix
-- "/learning-from-sessions" - Extract learnings
+- "/extracting-patterns" - Extract learnings
 - Delete .docs/debug/{slug}.md when done
 ```
 
@@ -216,9 +216,21 @@ The debug file IS the debugging brain. Perfect resume from any interruption.
 
 ## Integration Points
 
-- **`/learning-from-sessions`**: After resolving, offer to extract learnings
+- **`/extracting-patterns`**: After resolving, offer to extract learnings
 - **`/committing-changes`**: After fix verified, suggest committing
 - **`/researching-code`**: If investigation reveals need for broader codebase understanding
+
+## Self-Improvement
+
+Before finishing, review this skill execution:
+
+- If errors occurred (tool failures, skill failures, repeated attempts), suggest:
+  > **Suggestion**: [N] errors occurred during this execution.
+  > Consider running `/extracting-patterns` to capture learnings.
+  >
+  > Errors: [brief summary of error types]
+- Only suggest when errors are meaningful — use judgment about significance.
+- Do not auto-run. Suggest only.
 
 ## Red Flags - STOP and Refocus
 
@@ -238,6 +250,16 @@ See `reference/verification-patterns.md` for:
 - Reproduction verification
 - Regression testing
 - Stability testing
+
+## Rationalization Prevention
+
+| Excuse | Reality |
+|--------|---------|
+| "I have a hunch, let me just try it" | Form a hypothesis first. Hunches without structure lead to thrashing. |
+| "I already checked that" | Check the Eliminated section. If it's not there, you didn't document it. |
+| "This is probably the same bug" | Different symptoms can have different causes. Verify, don't assume. |
+| "I'll update the debug file later" | Update it now. Memory drifts. Evidence doesn't. |
+| "One more quick change" | Stop. Evaluate what you have. Multiple changes obscure root cause. |
 
 ## The Bottom Line
 

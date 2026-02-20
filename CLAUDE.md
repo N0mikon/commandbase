@@ -15,7 +15,7 @@ commandbase/
 │   ├── commandbase-services/ # 6 skills
 │   ├── commandbase-research/ # 4 skills + 1 agent (web-researcher; Context7 uses general-purpose)
 │   ├── commandbase-git-workflow/ # 5 skills + 1 hook
-│   ├── commandbase-session/  # 8 skills + 4 hooks (v3: worktree/session/handoff layers)
+│   ├── commandbase-session/  # 5 skills (worktree, handoff, patterns)
 │   └── commandbase-meta/     # 6 skills
 ├── scripts/                  # Utility scripts
 └── .docs/                    # Research, plans, and handoff documents
@@ -45,13 +45,13 @@ Skills are now at `plugins/<plugin>/skills/<skill>/SKILL.md` instead of `newskil
 
 ## Bare Repo Layout
 
-This repo uses the bare repo + worktrees pattern. Container at `/c/code/commandbase/`, main worktree at `/c/code/commandbase/main/`. Session worktrees are created as peers (e.g., `feature/auth-mvp/`). `session-map.json` lives at the container level.
+This repo uses the bare repo + worktrees pattern. Container at `/c/code/commandbase/`, main worktree at `/c/code/commandbase/main/`. Feature worktrees are created as peers (e.g., `feature/auth-mvp/`).
 
 ## Additional Context
 
 - `.docs/handoffs/` - Latest session context
 - `.docs/research/` - Pattern analysis from other repos
-- `/auditing-docs` - Standalone skill to audit `.docs/` staleness; 4 upstream-reading skills (resuming-session, planning-code, designing-code) auto-refresh stale docs via docs-updater before reading
+- `/auditing-docs` - Standalone skill to audit `.docs/` staleness; upstream-reading skills (planning-code, designing-code, taking-over) auto-refresh stale docs via docs-updater before reading
 
 ## Automatic Behaviors
 

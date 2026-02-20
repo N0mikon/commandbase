@@ -73,6 +73,7 @@ These are not in the official spec but are commandbase conventions for enforceme
 | Has Red Flags | Heading search | Contains `## Red Flags` |
 | Has Rationalization Prevention | Heading + table | Contains `## Rationalization Prevention` and has `\| Excuse \|` |
 | Has Bottom Line | Heading search | Contains `## The Bottom Line` |
+| Has Self-Improvement | Heading search | Contains `## Self-Improvement` |
 
 **Note:** Pattern compliance is a convention, not a hard requirement. Skills can pass validation without enforcement patterns, but they are recommended for consistency.
 

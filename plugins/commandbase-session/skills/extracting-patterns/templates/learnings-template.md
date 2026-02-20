@@ -1,8 +1,8 @@
-# Session Learnings: [session-name or YYYY-MM-DD]
+# Learnings: [YYYY-MM-DD or descriptive name]
 
 ## Error Summary
 
-[Include ONLY when session errors.log exists and has entries — omit entire section otherwise]
+[Include ONLY when meaningful errors occurred — omit entire section otherwise]
 
 | Timestamp | Tool | Error | Resolution |
 |-----------|------|-------|------------|
