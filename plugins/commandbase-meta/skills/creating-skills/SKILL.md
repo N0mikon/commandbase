@@ -111,6 +111,12 @@ See the Freedom Tiers section below. Match the tier to the task's error toleranc
 - Write for Claude, not for humans - instructions should be actionable, not explanatory
 - For skills that produce structured output: specify explicit format constraints (line counts, bullet limits, section lengths) rather than subjective guidance like "be concise" or "keep it short"
 - For skills that modify state or follow a plan: include a Red Flag for making changes beyond what was requested, and a Rationalization Prevention entry for scope creep
+- **When adapting a skill from another skill**: Audit every mandatory output step from the source. Steps that produce user-facing artifacts (monitoring lists, reports, config files) are easy to omit during adaptation. Diff the source skill's workflow steps against the new skill's steps — every step that writes or updates a file must be explicitly accounted for (kept, adapted, or deliberately removed with justification).
+- **Selective enforcement** — not every skill needs every enforcement section:
+  - **Gate Function**: Only for skills that operate on existing state (graduating, connecting, fleshing-out). Linear skills under ~120 lines need only Iron Law + Red Flags.
+  - **Rationalization Prevention**: Only where the specific temptation is dangerous and non-obvious (e.g., seeding: temptation to over-prompt; graduating: temptation to skip verification). Generic rationalizations add bulk without value.
+  - **The Bottom Line**: Optional for simple skills. Earns its place in complex workflows where the discipline needs reinforcing.
+  - Iron Law + Red Flags are sufficient guardrails for lightweight, linear skills.
 
 **Step 5: Validate**
 
@@ -235,6 +241,8 @@ If you notice any of these, pause:
 - Reference files with generic names (`reference.md`, `helpers.md`, `utils.md`)
 - Template has TODOs or placeholder text left in final output
 - Skipping validation because the skill "looks right"
+- Adapting a skill from another skill without diffing every mandatory output step against the source
+- Adding Gate Function / Rationalization Prevention to a lightweight linear skill that doesn't need them
 
 ## Rationalization Prevention
 
@@ -246,6 +254,8 @@ If you notice any of these, pause:
 | "The name doesn't need to be gerund" | Gerund form is the convention. Follow it unless there's a strong reason not to. |
 | "I already know how to structure this" | Read the research first if it exists. Prior analysis prevents blind spots. |
 | "Validation is just bureaucracy" | Validation catches the mistakes that break skill loading. |
+| "I adapted the important parts" | Diff every step. `/cleaning-plex` missed the monitoring list step from `/cleaning-anime-series` — user had to catch it. |
+| "Every skill needs Gate Function and Rationalization Prevention" | Only state-dependent skills need Gate Function. Only skills with specific, dangerous temptations need Rationalization Prevention. Lightweight linear skills need only Iron Law + Red Flags. |
 
 ## The Bottom Line
 

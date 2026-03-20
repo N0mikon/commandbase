@@ -23,6 +23,8 @@ You are [brief description of what this multi-step workflow does]. This skill ac
 - [Another violation]
 
 ## The Gate Function
+<!-- Workflow skills typically need Gate Function since they operate on existing state.
+     Omit only if the workflow creates from scratch with no preconditions. -->
 
 ```
 BEFORE [main action]:
@@ -173,6 +175,8 @@ If you notice any of these, pause:
 - Making changes beyond the current mode's scope ("while I'm here" improvements, unsolicited cleanups)
 
 ## Rationalization Prevention
+<!-- CONDITIONAL: Include only when specific temptations are dangerous and non-obvious.
+     If the rationalizations are generic ("don't skip steps"), they add bulk without value. -->
 
 | Excuse | Reality |
 |--------|---------|
@@ -182,6 +186,7 @@ If you notice any of these, pause:
 | "The output needs more detail/context" | Stick to the format constraints. Users can ask for more. |
 
 ## The Bottom Line
+<!-- CONDITIONAL: Include when the workflow discipline needs reinforcing across modes. -->
 
 **[Bold summary of the workflow's core discipline.]**
 

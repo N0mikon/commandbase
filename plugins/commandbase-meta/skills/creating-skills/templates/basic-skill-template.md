@@ -23,6 +23,8 @@ You are [brief description of what this skill does and when it activates]. [One 
 - [Another specific violation]
 
 ## The Gate Function
+<!-- CONDITIONAL: Include only if this skill operates on existing state (reads/modifies files,
+     checks preconditions). Omit for lightweight linear skills under ~120 lines. -->
 
 ```
 BEFORE [main action this skill performs]:
@@ -81,6 +83,8 @@ If you notice any of these, pause:
 - Making changes beyond what was asked ("while I'm here" improvements, unsolicited refactoring)
 
 ## Rationalization Prevention
+<!-- CONDITIONAL: Include only when a specific temptation is dangerous and non-obvious.
+     Generic rationalizations add bulk without value. Omit for simple skills. -->
 
 | Excuse | Reality |
 |--------|---------|
@@ -90,6 +94,7 @@ If you notice any of these, pause:
 | "The output needs more detail/context" | Stick to the format constraints. Users can ask for more. |
 
 ## The Bottom Line
+<!-- CONDITIONAL: Optional for simple skills. Include when the discipline needs reinforcing. -->
 
 **[Bold single-sentence summary of the skill's core discipline.]**
 

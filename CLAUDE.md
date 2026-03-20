@@ -53,6 +53,11 @@ This repo uses the bare repo + worktrees pattern. Container at `/c/code/commandb
 - `.docs/research/` - Pattern analysis from other repos
 - `/auditing-docs` - Standalone skill to audit `.docs/` staleness; upstream-reading skills (planning-code, designing-code, taking-over) auto-refresh stale docs via docs-updater before reading
 
+## Skill Design Patterns
+
+- **Selective enforcement**: Gate Function is only for skills that operate on existing state. Rationalization Prevention is only for skills with specific, dangerous temptations. Lightweight linear skills (~120 lines) need only Iron Law + Red Flags.
+- **Brainstorm bridge documents**: Brainstorming skills should produce a structured summary artifact (Key Decisions, Open Questions, Connections) so downstream /creating-* and /designing-* skills don't re-ask settled questions. The value is in what the artifact prevents (redundant prompting), not what it contains.
+
 ## Automatic Behaviors
 
 When I mention a repeat problem ("this happened before", "same issue again"), offer to save the solution as a learned pattern.
