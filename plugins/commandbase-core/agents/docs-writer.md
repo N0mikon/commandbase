@@ -112,7 +112,7 @@ references:          # only if provided
 Check if the target directory exists. If not, create it:
 
 ```bash
-mkdir -p .docs/<subdirectory>
+mkdir -p ".docs/<subdirectory>"
 ```
 
 ### Step 7: Write the File
@@ -165,5 +165,6 @@ Error: Missing required field 'doc_type'
 - Don't skip the git commit lookup
 - Don't invent tags or references not provided in input
 - Don't add sections, headers, or content beyond what was given
+- Don't use unquoted file paths in Bash commands — always wrap paths in double quotes to handle spaces
 
 Remember: You are a formatting and file-writing agent. Skills decide what to write; you decide how to format and where to put it. Your value is consistency - every file you create follows the exact same standard.
