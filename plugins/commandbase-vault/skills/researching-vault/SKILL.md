@@ -1,6 +1,7 @@
 ---
 name: researching-vault
 description: "Use this skill when researching an Obsidian vault to understand its structure, conventions, and content patterns. This includes mapping folder structure, analyzing tag usage, finding orphan notes, tracing link graphs, documenting frontmatter conventions, and identifying MOC patterns. Activate when the user says 'research vault', 'analyze vault structure', 'what's in my vault', 'map vault conventions', or before designing vault changes."
+effort: high
 ---
 
 # Researching Vault
@@ -123,7 +124,7 @@ After ALL exploration is complete:
 
 ### Step 5: Write Research Document
 
-Spawn a `docs-writer` agent via the Task tool to create the research file:
+Spawn a `docs-writer` agent via the Agent tool to create the research file:
 
 ```
 Task prompt:

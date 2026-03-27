@@ -1,6 +1,7 @@
 ---
 name: brainstorming-code
 description: "Use this skill when exploring direction and preferences for a code feature before research or planning. This includes discussing layout vs API vs CLI interaction modes, settling high-level architecture direction ('REST or GraphQL?'), capturing user preferences for downstream design phases, and feature discussions that previously used /discussing-features."
+effort: medium
 ---
 
 # Brainstorming Code
@@ -143,7 +144,7 @@ After all topics explored:
 2. Detect greenfield vs brownfield:
    - Greenfield: no existing codebase for this feature
    - Brownfield: modifying or extending existing code
-3. Spawn a `docs-writer` agent via the Task tool:
+3. Spawn a `docs-writer` agent via the Agent tool:
 
    ```
    Task prompt:

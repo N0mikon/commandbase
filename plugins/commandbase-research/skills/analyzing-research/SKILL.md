@@ -1,6 +1,7 @@
 ---
 name: analyzing-research
 description: "Use this skill when cross-referencing multiple research documents to find patterns, contradictions, or emergent insights. This includes synthesizing findings across .docs/ files, comparing conclusions from different research sessions, detecting how understanding evolved over time, identifying gaps where one document's open questions were answered by another, and drawing higher-order conclusions not visible in any single document. Trigger phrases: '/analyzing-research', 'cross-reference research', 'compare these research files', 'what patterns across research', 'synthesize findings', 'connect the dots'."
+effort: high
 ---
 
 # Analyzing Research
@@ -185,7 +186,7 @@ Identify patterns visible only when comparing across documents — recurring the
 
 ### Step 5: Write Analysis Document
 
-Spawn a `docs-writer` agent via the Task tool:
+Spawn a `docs-writer` agent via the Agent tool:
 
 ```
 Task prompt (docs-writer):

@@ -10,7 +10,7 @@ Detailed process for researching the vault before writing implementation plans.
    - Structure documents (`.docs/structure/` with vault tags)
    - Vault CLAUDE.md for vault path and MCP config
    - **IMPORTANT**: Read files FULLY without limit/offset parameters
-   - **CRITICAL**: DO NOT spawn sub-tasks before reading context files yourself
+   - **CRITICAL**: DO NOT spawn subagents before reading context files yourself
 
 ### Upstream BRDSPI Artifacts
 

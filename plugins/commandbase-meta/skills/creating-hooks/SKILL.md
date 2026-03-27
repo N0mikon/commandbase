@@ -1,6 +1,7 @@
 ---
 name: creating-hooks
 description: "Use this skill when creating Claude Code hooks (PreToolUse, PostToolUse, SessionStart, Stop, etc.), configuring deny rules in settings.json, or debugging hook execution issues. Covers hook lifecycle events, exit code semantics, Windows/MINGW compatibility, self-block deadlocks with skills, the 3-layer enforcement pattern, and known pitfalls. Trigger phrases: 'create a hook', 'add a hook', 'hook not firing', 'deny rule', 'enforce workflow'."
+effort: medium
 ---
 
 # Creating Hooks
@@ -58,9 +59,14 @@ Skip self-block check = deadlocked skills
 | Auto-approve trusted tool | `PermissionRequest` | Yes | Use with caution |
 | Keep teammate working | `TeammateIdle` | Yes | Agent teams only; no matcher support |
 | Gate task completion | `TaskCompleted` | Yes | Validate before marking done; no matcher support |
+| React to API failures | `StopFailure` | No | Matcher: rate_limit, authentication_failed, server_error, max_output_tokens |
+| Re-inject after compaction | `PostCompact` | No | Fires after compaction completes; restore critical rules |
+| React to config loading | `InstructionsLoaded` | No | Fires when CLAUDE.md or .claude/rules/*.md loaded |
+| Post-worktree setup | `WorktreeCreate` | No | stdout path used as worktree path |
+| Pre-worktree cleanup | `WorktreeRemove` | No | Fires when worktree is removed |
 | Log all tool calls | `PostToolUse` | No | Use async for performance |
 
-## Hook Lifecycle (All 14 Events)
+## Hook Lifecycle (All 19 Events)
 
 | Event | When | Can Block? | Exit 2 Effect |
 |-------|------|------------|---------------|
@@ -77,6 +83,11 @@ Skip self-block check = deadlocked skills
 | `TeammateIdle` | Agent team teammate about to go idle | Yes | Teammate continues working |
 | `TaskCompleted` | Task being marked complete | Yes | Prevents task completion |
 | `PreCompact` | Before context compaction | No | stderr shown to user only |
+| `PostCompact` | After context compaction | No | stderr shown to user only |
+| `StopFailure` | Turn ends due to API error | No | Matcher: rate_limit, authentication_failed, billing_error, server_error, max_output_tokens |
+| `InstructionsLoaded` | CLAUDE.md or rules files loaded | No | stderr shown to user only |
+| `WorktreeCreate` | Worktree is created | No | stdout path used as worktree path |
+| `WorktreeRemove` | Worktree is removed | No | stderr shown to user only |
 | `SessionEnd` | Session terminates | No | stderr shown to user only |
 
 ## Exit Code Rules

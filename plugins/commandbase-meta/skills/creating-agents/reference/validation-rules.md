@@ -9,7 +9,7 @@ Every agent must pass these checks before it can be considered complete. These r
 - Content between delimiters must be valid YAML
 - YAML must parse as a dictionary (not a list or scalar)
 - Required properties: `name` and `description`
-- Optional properties: `tools`, `disallowedTools`, `model`, `permissionMode`, `skills`, `hooks`, `memory`
+- Optional properties: `tools`, `disallowedTools`, `model`, `permissionMode`, `skills`, `hooks`, `memory`, `effort`, `maxTurns`, `background`, `isolation`
 - Unknown properties are ignored but may indicate a typo
 
 ## Name Rules

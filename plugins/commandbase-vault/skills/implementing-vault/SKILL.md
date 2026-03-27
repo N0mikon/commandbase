@@ -1,6 +1,7 @@
 ---
 name: implementing-vault
 description: "Use this skill when executing vault implementation plans from .docs/plans/. This includes creating notes, moving notes, updating wikilinks after moves, applying frontmatter properties, managing folder structure, and running vault linting validation. Activate when the user says 'implement vault plan', 'execute vault changes', 'apply vault structure', or after completing planning with /planning-vault."
+effort: high
 ---
 
 # Implementing Vault

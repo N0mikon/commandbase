@@ -1,6 +1,7 @@
 ---
 name: creating-posts
 description: "Use this skill when drafting social media posts about projects, reviewing drafts for AI-sounding language, or creating platform-specific content. This includes generating posts for Reddit, Twitter/X, HN, LinkedIn, and Discord, critiquing existing drafts for anti-AI voice compliance, and auto-reading project context for content. Trigger phrases: '/creating-posts', 'write a post', 'draft a tweet', 'critique my post', 'review this draft'."
+effort: low
 ---
 
 # Creating Posts

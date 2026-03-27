@@ -1,6 +1,7 @@
 ---
 name: extracting-patterns
 description: "Use this skill when extracting reusable knowledge from conversations. This includes reviewing what was learned during debugging, capturing learnings to .docs/learnings/ for deferred action, running /extracting-patterns to capture learnings, responding to 'what did we learn' or 'capture learnings', and extracting knowledge after trial-and-error investigation that produced a solution."
+effort: medium
 ---
 
 # Extracting Patterns
@@ -128,7 +129,7 @@ Review the current conversation for errors:
 
 ### Step 4: Draft and Write
 
-Spawn a `docs-writer` agent via the Task tool to create the learnings document:
+Spawn a `docs-writer` agent via the Agent tool to create the learnings document:
 
 ```
 Task prompt:

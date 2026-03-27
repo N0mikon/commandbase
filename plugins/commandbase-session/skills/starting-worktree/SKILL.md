@@ -1,6 +1,7 @@
 ---
 name: starting-worktree
 description: "Use this skill when creating an isolated git worktree for a feature, fix, or refactor, or when migrating a repo to bare-repo layout for the first time. This is git plumbing only -- no session tracking. Trigger phrases: '/starting-worktree', 'create a worktree', 'new worktree', 'migrate to bare repo'."
+effort: low
 ---
 
 # Starting Worktree

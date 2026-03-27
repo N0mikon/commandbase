@@ -10,7 +10,7 @@ Complete checklist for agent validation. Each item maps to the agent specificati
 | Closes with delimiter | Frontmatter ends with `---` on own line |
 | Valid YAML | Content parses as YAML without errors |
 | Is dictionary | Parsed YAML is object, not array or scalar |
-| Allowed properties only | Only: name, description, tools, disallowedTools, model, permissionMode, skills, hooks, memory |
+| Allowed properties only | Only: name, description, tools, disallowedTools, model, permissionMode, skills, hooks, memory, effort, maxTurns, background, isolation |
 | Has name | `name` field present and non-empty |
 | Has description | `description` field present and non-empty |
 | No unknown properties | Flag any property not in the allowed list (may be typo) |

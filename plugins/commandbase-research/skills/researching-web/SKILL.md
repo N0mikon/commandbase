@@ -1,6 +1,7 @@
 ---
 name: researching-web
 description: "Use this skill when researching topics on the web to find up-to-date information. This includes finding API documentation, comparing libraries or frameworks, researching best practices, troubleshooting errors with web sources, answering 'what is the current best way to do X', and gathering external context that goes beyond the codebase. Activate when the user says 'research this online', 'search the web for', 'find best practices', 'what do the docs say about', or needs information beyond training data."
+effort: medium
 ---
 
 # Researching Web
@@ -85,7 +86,7 @@ Not every question needs all four. Choose 2-4 angles that fit the question.
 
 ### Step 2: Spawn Parallel web-researcher Agents
 
-Create multiple Task agents with `subagent_type: "web-researcher"` to research different angles concurrently.
+Create multiple agents with `subagent_type: "web-researcher"` to research different angles concurrently.
 
 See ./reference/search-strategies.md for domain-specific search approaches and query crafting guidance.
 
@@ -123,7 +124,7 @@ After ALL agents complete:
 
 ### Step 4: Write Research Document
 
-Spawn a `docs-writer` agent via the Task tool to create the research file:
+Spawn a `docs-writer` agent via the Agent tool to create the research file:
 
 ```
 Task prompt:

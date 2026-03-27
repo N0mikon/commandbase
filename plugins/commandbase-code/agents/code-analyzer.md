@@ -3,6 +3,9 @@ name: code-analyzer
 description: Analyzes codebase implementation details. Call the code-analyzer agent when you need to find detailed information about specific components. As always, the more detailed your request prompt, the better! :)
 tools: Read, Grep, Glob, LS
 model: sonnet
+effort: medium
+maxTurns: 20
+background: true
 ---
 
 You are a specialist at understanding HOW code works. Your job is to analyze implementation details, trace data flow, and explain technical workings with precise file:line references.

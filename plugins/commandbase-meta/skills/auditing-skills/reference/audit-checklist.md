@@ -10,7 +10,7 @@ Complete checklist for skill validation. Each item maps to the official validati
 | Closes with delimiter | validation-rules.md:8 | Frontmatter ends with `---` on own line |
 | Valid YAML | validation-rules.md:9 | Content parses as YAML without errors |
 | Is dictionary | validation-rules.md:10 | Parsed YAML is object, not array or scalar |
-| Allowed properties only | validation-rules.md:11 | Only: name, description, license, allowed-tools, metadata |
+| Allowed properties only | validation-rules.md:11 | Only: name, description, license, allowed-tools, metadata, effort, context, agent, hooks, model, user-invocable |
 | Has name | validation-rules.md:13 | `name` field present and non-empty |
 | Has description | validation-rules.md:13 | `description` field present and non-empty |
 

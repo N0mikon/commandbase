@@ -1,6 +1,7 @@
 ---
 name: maintaining-vault
 description: "Use this skill when performing batch maintenance operations on vault content. This includes normalizing tags across notes, bulk-updating frontmatter properties, detecting and fixing link rot, identifying stale notes needing review, cleaning up empty or placeholder notes, and running batch metadata corrections. Activate when the user says 'maintain vault', 'normalize tags', 'bulk update frontmatter', 'find stale notes', 'clean up vault', or 'fix link rot'."
+effort: high
 ---
 
 # Maintaining Vault

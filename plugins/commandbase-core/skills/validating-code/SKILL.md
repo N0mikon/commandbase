@@ -1,6 +1,7 @@
 ---
 name: validating-code
 description: "Use this skill when verifying implementation against a plan, checking success criteria, or after /implementing-plans completes. This includes running validation commands, comparing code to plan specifications, checking test coverage, and confirming all phases meet their success criteria. Trigger phrases: '/vcode', 'validate the implementation', 'check against the plan', 'verify success criteria'."
+effort: medium
 ---
 
 # Validate Implementation
@@ -19,7 +20,7 @@ If you haven't run verification commands in this response, you cannot claim pass
 
 **No exceptions:**
 - Don't trust previous test runs - run fresh
-- Don't trust icode's evidence - verify independently
+- Don't trust implementing-plans's evidence - verify independently
 - Don't extrapolate from partial checks - run everything
 - Don't say "should work" - show it works
 
@@ -192,7 +193,7 @@ Before finishing, review this skill execution:
 If you notice any of these, STOP immediately:
 
 - Skipping Stage 1 and jumping straight to tests
-- Trusting icode's verification output
+- Trusting implementing-plans's verification output
 - Using "should pass", "looks correct", "seems fine"
 - About to give verdict without running commands
 - Combining stages to "save time"
@@ -207,7 +208,7 @@ If you notice any of these, STOP immediately:
 
 | Excuse | Reality |
 |--------|---------|
-| "icode already verified" | Verify independently. Trust but verify. |
+| "implementing-plans already verified" | Verify independently. Trust but verify. |
 | "Tests pass = spec met" | Tests prove behavior, not requirements. Check both. |
 | "Stage 1 is obvious" | Compare requirements line by line. Document findings. |
 | "I can do both stages together" | Sequential stages catch different issues. Do both. |

@@ -10,7 +10,7 @@ Detailed process for researching the codebase before writing implementation plan
    - Related implementation plans
    - Any JSON/data files mentioned
    - **IMPORTANT**: Use the Read tool WITHOUT limit/offset parameters to read entire files
-   - **CRITICAL**: DO NOT spawn sub-tasks before reading these files yourself in the main context
+   - **CRITICAL**: DO NOT spawn subagents before reading these files yourself in the main context
    - **NEVER** read files partially - if a file is mentioned, read it completely
 
 ### Upstream BRDSPI Artifacts
@@ -73,8 +73,8 @@ After getting initial clarifications:
 
 2. **Create a research todo list** using TodoWrite to track exploration tasks
 
-3. **Spawn parallel sub-tasks for comprehensive research**:
-   - Create multiple Task agents to research different aspects concurrently
+3. **Spawn parallel subagents for comprehensive research**:
+   - Create multiple agents to research different aspects concurrently
    - Use the right agent for each type of research:
 
    **For deeper investigation:**
@@ -93,7 +93,7 @@ After getting initial clarifications:
    - Return specific file:line references
    - Find tests and examples
 
-4. **Wait for ALL sub-tasks to complete** before proceeding
+4. **Wait for ALL subagents to complete** before proceeding
 
 5. **Present findings and design options**:
    ```
@@ -116,7 +116,7 @@ After getting initial clarifications:
 
 ## Sub-task Spawning Best Practices
 
-When spawning research sub-tasks:
+When spawning research subagents:
 
 1. **Spawn multiple tasks in parallel** for efficiency
 2. **Each task should be focused** on a specific area

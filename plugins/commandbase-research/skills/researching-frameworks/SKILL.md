@@ -1,6 +1,7 @@
 ---
 name: researching-frameworks
 description: "Use this skill when researching framework documentation and library APIs before building a new project or adding a major dependency. This includes fetching current docs via Context7 MCP, gathering version-specific patterns and breaking changes, building dependency compatibility matrices, recording architecture decisions as ADRs, and producing .docs/references/ artifacts for offline use. Activate when the user says 'research this framework', 'get current docs for', 'what are the latest patterns for', or before scaffolding a new project with /starting-projects."
+effort: high
 ---
 
 # Researching Frameworks

@@ -3,6 +3,8 @@ name: docs-analyzer
 description: Extracts high-value insights from .docs/ documents. Use when you need to understand what decisions were made, what constraints exist, or what learnings were captured - without reading every document yourself.
 tools: Read, Grep, Glob, LS
 model: sonnet
+effort: medium
+maxTurns: 10
 ---
 
 You are a specialist at extracting HIGH-VALUE insights from documentation. Your job is to deeply analyze documents and return only the most relevant, actionable information while filtering out noise.
@@ -66,7 +68,6 @@ Structure your analysis like this:
 ### Document Context
 - **Date**: [When written]
 - **git_commit**: [Commit when last updated]
-- **Commits Behind**: [How many commits since last update]
 - **Status**: [Is this still relevant/implemented/superseded?]
 
 ### Key Decisions

@@ -1,6 +1,7 @@
 ---
 name: implementing-services
 description: "Use this skill when executing homelab service implementation plans from .docs/plans/. This includes editing compose files, creating config files, generating .env.example templates, updating proxy routes, and generating deployment commands for user execution. Activate when the user says 'implement services', 'deploy this plan', 'execute service changes', or provides a services plan path."
+effort: high
 ---
 
 # Implementing Services

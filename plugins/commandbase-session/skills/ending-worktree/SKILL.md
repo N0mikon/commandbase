@@ -1,6 +1,7 @@
 ---
 name: ending-worktree
 description: "Use this skill when merging a worktree's work back to main and removing it, or when discarding an abandoned worktree. This is git plumbing only -- squash merge, branch deletion, and worktree removal. Trigger phrases: '/ending-worktree', 'merge to main', 'remove worktree', 'discard worktree', 'clean up worktree'."
+effort: low
 ---
 
 # Ending Worktree

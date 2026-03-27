@@ -8,7 +8,7 @@ Every skill must pass these checks before it can be considered complete. These r
 - Frontmatter must end with `---` on its own line
 - Content between delimiters must be valid YAML
 - YAML must parse as a dictionary (not a list or scalar)
-- Allowed properties: `name`, `description`, `license`, `allowed-tools`, `metadata`
+- Allowed properties: `name`, `description`, `license`, `allowed-tools`, `metadata`, `effort`, `context`, `agent`, `hooks`, `model`, `user-invocable`
 - Any other property will cause validation failure
 - Required properties: `name` and `description`
 

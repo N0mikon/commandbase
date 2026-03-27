@@ -1,6 +1,7 @@
 ---
 name: structuring-vault
 description: "Use this skill when mapping folder layout, naming conventions, and note placement rules for an Obsidian vault. This includes deciding folder hierarchy, note file naming, MOC placement, template locations, attachment organization, and migration order for vault reorganizations. Activate when the user says 'structure vault', 'organize vault folders', 'where should notes go', or after /designing-vault."
+effort: high
 ---
 
 # Structuring Vault
@@ -137,7 +138,7 @@ For vault reorganizations, determine migration order:
 
 ### Step 5: Write Structural Map
 
-Spawn a `docs-writer` agent via the Task tool:
+Spawn a `docs-writer` agent via the Agent tool:
 
 ```
 Task prompt:

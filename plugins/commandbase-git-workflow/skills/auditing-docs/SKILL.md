@@ -1,6 +1,7 @@
 ---
 name: auditing-docs
 description: "Use this skill when auditing .docs/ documents for staleness, checking document health across the project, or reviewing which documents need updating or archiving. This includes scanning all .docs/ subdirectories for stale frontmatter, spawning docs-updater for each stale document, presenting audit dashboards with staleness metrics, and archiving obsolete documents. Trigger phrases: '/auditing-docs', 'audit docs', 'check document freshness', 'which docs are stale', 'review documents'."
+effort: medium
 ---
 
 # Auditing Docs

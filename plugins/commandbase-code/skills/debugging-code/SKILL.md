@@ -1,6 +1,7 @@
 ---
 name: debugging-code
 description: "Use this skill when debugging issues in the codebase using systematic investigation. This includes tracking hypotheses, eliminating dead ends, finding root causes, and optionally fixing verified issues. Activate when the user says 'debug this', 'why is this failing', 'find the bug', 'investigate this issue', or describes unexpected behavior they want diagnosed."
+effort: high
 ---
 
 # Debugging Codebases
@@ -75,7 +76,7 @@ Or provide the issue description directly: /debugging-code [description]
 
 ### Step 1: Create Debug Session
 
-Spawn a `docs-writer` agent via the Task tool to create the session file:
+Spawn a `docs-writer` agent via the Agent tool to create the session file:
 
 ```
 Task prompt:

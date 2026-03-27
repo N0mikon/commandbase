@@ -1,6 +1,7 @@
 ---
 name: auditing-agents
 description: "Use this skill when auditing existing agents for validation issues, updating agents to fix compliance problems, or checking agent health after specification changes. This includes running validation checks against all agents, fixing frontmatter issues, correcting noun-form naming violations, rewriting descriptions to follow the delegation trigger formula, validating tool sets and model selections, and checking system prompt Contract Format compliance."
+effort: medium
 ---
 
 # Auditing Agents
@@ -109,7 +110,7 @@ Six categories, checked in order. See `./reference/audit-checklist.md` for full 
 
 - Starts with `---`, ends with `---`
 - Valid YAML dictionary
-- Only allowed properties: `name`, `description`, `tools`, `disallowedTools`, `model`, `permissionMode`, `skills`, `hooks`, `memory`
+- Only allowed properties: `name`, `description`, `tools`, `disallowedTools`, `model`, `permissionMode`, `skills`, `hooks`, `memory`, `effort`, `maxTurns`, `background`, `isolation`
 - Required: `name`, `description`
 - Unknown properties flagged (may indicate typo)
 

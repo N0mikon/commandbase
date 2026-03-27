@@ -1,6 +1,7 @@
 ---
 name: starting-projects
 description: "Use this skill when initializing a new greenfield project from scratch. This includes guiding users through project discovery questions, researching current best practices for their tech stack, creating a development plan in .docs/plans/, and generating a minimal CLAUDE.md file. Activate when the user says 'new project', 'start a project', 'initialize a project', 'set up a new repo', or 'scaffold a project'."
+effort: high
 ---
 
 # Starting Projects

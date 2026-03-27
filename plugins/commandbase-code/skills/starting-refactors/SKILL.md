@@ -1,6 +1,7 @@
 ---
 name: starting-refactors
 description: "Use this skill when initializing a brownfield refactor, establishing refactor scope, or capturing the current state before restructuring existing code. This includes defining refactor goals, snapshotting baseline state via checkpoint, auditing the target area, and setting up CLAUDE.md context pointers. Activate when the user says 'refactor this', 'restructure this code', 'start a refactor', or before running BRDSPI on existing code."
+effort: medium
 ---
 
 # Starting Refactors

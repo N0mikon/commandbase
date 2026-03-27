@@ -116,7 +116,7 @@ Example pattern:
 
 ### Task Tool
 
-Giving an agent the `Task` tool means it can spawn sub-agents of its own. This creates agent hierarchies. Only do this for orchestrator-level agents that genuinely need to delegate.
+Giving an agent the `Agent` tool means it can spawn agents of its own. This creates agent hierarchies. Only do this for orchestrator-level agents that genuinely need to delegate.
 
 ### Bash Tool
 

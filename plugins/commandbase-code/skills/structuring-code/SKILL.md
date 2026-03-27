@@ -1,6 +1,7 @@
 ---
 name: structuring-code
 description: "Use this skill when mapping file placement, module organization, and dependency structure for a feature or refactor. This includes deciding where new files go, how modules connect, what interfaces to define, how tests are organized, and sequencing migrations for brownfield work. Activate when the user says 'structure this', 'where should files go', 'organize the codebase', or after /designing-code."
+effort: medium
 ---
 
 # Structuring Code
@@ -120,7 +121,7 @@ For refactors, determine migration order:
 
 ### Step 5: Write Structural Map
 
-Spawn a `docs-writer` agent via the Task tool:
+Spawn a `docs-writer` agent via the Agent tool:
 
 ```
 Task prompt:

@@ -1,6 +1,7 @@
 ---
 name: reviewing-vault
 description: "Use this skill when performing periodic vault reviews to surface patterns, track progress, and maintain knowledge freshness. This includes daily note reviews scanning recent additions, weekly synthesis connecting themes across notes, monthly retrospectives identifying stale or orphaned content, and generating review summaries with actionable insights. Activate when the user says 'review vault', 'daily review', 'weekly synthesis', 'what changed this week', or 'vault retrospective'."
+effort: medium
 ---
 
 # Reviewing Vault

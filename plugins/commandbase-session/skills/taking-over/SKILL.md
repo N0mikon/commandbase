@@ -1,6 +1,7 @@
 ---
 name: taking-over
 description: "Use this skill when picking up work from a handover document or continuing where a previous conversation left off. This includes reading handover documents from .docs/handoffs/, understanding prior context, reviewing modified files, and preparing to continue implementation. Trigger phrases: '/takeover', 'continue from handover', 'pick up where we left off', 'read the handover', 'absorb handoff'."
+effort: low
 ---
 
 # Takeover

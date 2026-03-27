@@ -36,7 +36,7 @@ commandbase/
 ```
 
 ### Editing Skills in Plugins
-Skills are now at `plugins/<plugin>/skills/<skill>/SKILL.md` instead of `newskills/<skill>/SKILL.md`. Edit directly in the plugin directory.
+Skills are now at `plugins/<plugin>/skills/<skill>/SKILL.md` instead of `newskills/<skill>/SKILL.md`. Edit directly in the plugin directory. After editing, run `/reload-plugins` to activate changes without restarting.
 
 ### Commit Enforcement (3 layers)
 1. **CLAUDE.md rule** — `~/.claude/CLAUDE.md` Git Workflow section

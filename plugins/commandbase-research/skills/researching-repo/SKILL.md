@@ -1,6 +1,7 @@
 ---
 name: researching-repo
 description: "Use this skill when analyzing external git repositories to understand their structure, patterns, and conventions. This includes cloning third-party repos, analyzing directory layouts, architecture patterns, naming conventions, key implementations, and detecting CLAUDE.md/AGENTS.md files. Activate when the user says 'analyze this repo', 'research this repository', 'how does their code work', 'clone and analyze', or provides a git URL for analysis."
+effort: medium
 ---
 
 # Researching Repositories
@@ -143,7 +144,7 @@ After ALL agents complete:
 
 ### Step 6: Write Research Document
 
-Spawn a `docs-writer` agent via the Task tool to create the research file:
+Spawn a `docs-writer` agent via the Agent tool to create the research file:
 
 ```
 Task prompt:

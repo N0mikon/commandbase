@@ -1,6 +1,7 @@
 ---
 name: structuring-services
 description: "Use this skill when mapping file placement, compose organization, and configuration structure for homelab service changes. This includes deciding compose file layout, .env template structure, proxy route organization, volume directory layout, backup configuration placement, and network definitions. Activate when the user says 'structure services', 'organize compose files', 'where should configs go', or after completing design with /designing-services."
+effort: high
 ---
 
 # Structuring Services
@@ -148,7 +149,7 @@ For infrastructure reorganizations, determine migration order:
 
 ### Step 5: Write Structural Map
 
-Spawn a `docs-writer` agent via the Task tool:
+Spawn a `docs-writer` agent via the Agent tool:
 
 ```
 Task prompt:

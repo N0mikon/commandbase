@@ -1,6 +1,7 @@
 ---
 name: committing-changes
 description: "Use this skill when committing work to git, pushing changes to GitHub, or ending a session with saved progress. This includes staging files, writing commit messages, pushing to remote, and auto-creating private repos when needed. Trigger phrases: '/commit', 'commit this', 'save my work', 'push changes', 'git commit', 'commit and push'."
+effort: low
 ---
 
 # Commit and Push

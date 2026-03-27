@@ -1,6 +1,7 @@
 ---
 name: updating-claude-md
 description: "Use this skill when updating an existing CLAUDE.md file, adding new sections to project instructions, or modifying project configuration for Claude. This includes adding commands, updating directory structures, adding context pointers to new documentation, recording learned patterns as automatic behaviors, and restructuring files that have grown too large. Trigger phrases: 'update CLAUDE.md', 'add to CLAUDE.md', 'modify project instructions', 'change the project config'."
+effort: low
 ---
 
 # Updating CLAUDE.md

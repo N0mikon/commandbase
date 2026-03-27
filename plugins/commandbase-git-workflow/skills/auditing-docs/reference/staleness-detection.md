@@ -55,7 +55,7 @@ fi
 How to invoke the docs-updater agent via Task tool to refresh a stale document:
 
 ```
-Spawn a Task agent with subagent_type "docs-updater":
+Spawn an agent with subagent_type "docs-updater":
 
   prompt: "Check and update this document for staleness: <path-to-doc>
            It is <N> commits behind HEAD.

@@ -1,6 +1,7 @@
 ---
 name: designing-code
 description: "Use this skill when making architectural decisions for a feature or system. This includes choosing API shapes, selecting patterns, resolving trade-offs, defining component boundaries, deciding error handling strategies, and making state management choices. Activate when the user says 'design this', 'architecture decisions', 'how should this be structured', or after completing research with /researching-code."
+effort: high
 ---
 
 # Designing Code
@@ -120,7 +121,7 @@ Are these the right areas to focus on? Any to add or skip?
 
 For each design domain that needs decisions:
 
-1. Spawn an opus-model Task agent to analyze the options based on research findings
+1. Spawn an opus-model agent to analyze the options based on research findings
 2. When a decision point requires user input, use AskUserQuestion with concrete options
    - Options must be specific: "REST", "GraphQL", "tRPC" — NOT "Option A", "Option B"
    - Always include a "You decide" option for areas the user wants to delegate
@@ -133,7 +134,7 @@ For each design domain that needs decisions:
 After all decisions are made:
 
 1. Compile decisions with rationale into a design document
-2. Spawn a `docs-writer` agent via the Task tool:
+2. Spawn a `docs-writer` agent via the Agent tool:
 
    ```
    Task prompt:

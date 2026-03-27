@@ -1,6 +1,7 @@
 ---
 name: starting-vault
 description: "Use this skill when initializing a new Obsidian vault for Claude Code management or configuring Claude Code to work with an existing vault. This includes discovering vault path, choosing an access method (filesystem or MCP), configuring connectivity, supporting multi-vault setups, creating vault-aware CLAUDE.md, and verifying access. Activate when the user says 'start a vault', 'set up vault', 'configure obsidian', 'connect to vault', or before running vault workflows."
+effort: low
 ---
 
 # Starting Vault

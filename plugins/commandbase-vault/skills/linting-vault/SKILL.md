@@ -1,6 +1,7 @@
 ---
 name: linting-vault
 description: "Use this skill when checking vault health, validating note quality, or running vault-wide linting checks. This includes detecting broken wikilinks, validating frontmatter against schema, finding orphaned notes with no incoming links, checking heading structure, identifying empty files, and generating actionable health reports. Activate when the user says 'lint vault', 'check vault health', 'find broken links', 'validate frontmatter', or 'run vault checks'."
+effort: medium
 ---
 
 # Linting Vault

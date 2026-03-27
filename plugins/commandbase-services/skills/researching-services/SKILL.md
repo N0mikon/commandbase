@@ -1,6 +1,7 @@
 ---
 name: researching-services
 description: "Use this skill when researching homelab or Docker service infrastructure to understand current state. This includes mapping running services, port allocations, network topology, volume mounts, environment configuration, reverse proxy routes, service dependencies, backup coverage, and identifying gaps or risks. Activate when the user says 'research services', 'map infrastructure', 'what services are running', 'analyze homelab', or before designing infrastructure changes with /designing-services."
+effort: high
 ---
 
 # Researching Services
@@ -134,7 +135,7 @@ After ALL exploration is complete:
 
 ### Step 6: Write Research Document
 
-Spawn a `docs-writer` agent via the Task tool to create the research file:
+Spawn a `docs-writer` agent via the Agent tool to create the research file:
 
 ```
 Task prompt:

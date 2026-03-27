@@ -1,6 +1,7 @@
 ---
 name: creating-skills
-description: "Use this skill when creating new Claude Code skills from scratch, editing existing skills to improve their structure or descriptions, or converting Claude Code sub-agents into skills. This includes writing SKILL.md files, choosing skill names, crafting invocation-focused descriptions, organizing supporting files with progressive disclosure, and validating skill structure against the official specification."
+description: "Use this skill when creating new Claude Code skills from scratch, editing existing skills to improve their structure or descriptions, or converting Claude Code agents into skills. This includes writing SKILL.md files, choosing skill names, crafting invocation-focused descriptions, organizing supporting files with progressive disclosure, and validating skill structure against the official specification."
+effort: medium
 ---
 
 # Creating Skills
@@ -147,11 +148,11 @@ Improve an existing skill's structure, description, or content.
 
 ### Mode 3: Convert Sub-Agent to Skill
 
-Transform a Claude Code sub-agent into a skill. The core shift: sub-agents explain WHAT they are, skills explain WHEN to use them.
+Transform a Claude Code agent into a skill. The core shift: agents explain WHAT they are, skills explain WHEN to use them.
 
 **Direction check:** This mode converts Agent -> Skill. If the user wants to convert a Skill -> Agent, redirect to `/creating-agents` Mode 3.
 
-1. **Read the sub-agent** file completely. Identify its purpose, instructions, and domain knowledge.
+1. **Read the agent** file completely. Identify its purpose, instructions, and domain knowledge.
 2. **Transform the name** from noun form to gerund form (e.g., `code-reviewer` becomes `reviewing-code`).
 3. **Rewrite the description** using the WHEN formula. Strip "I am..." / "This agent..." language.
 4. **Create the directory structure**: `skill-name/SKILL.md` at minimum.
@@ -190,7 +191,7 @@ Choose how prescriptive the skill should be based on error tolerance.
 | Converts | Agents -> Skills (Mode 3) | Skills -> Agents (Mode 3) |
 
 **Redirect to `/creating-agents` when:**
-- The user wants to create a sub-agent (single `.md` file with tools, model, system prompt)
+- The user wants to create an agent (single `.md` file with tools, model, system prompt)
 - The user wants to convert a skill into an agent
 - The user says "create an agent", "build a subagent", or describes agent-like functionality
 
@@ -206,7 +207,7 @@ These contain the detailed rules and guidance referenced throughout this workflo
 - See ./reference/validation-rules.md for official spec constraints and the validation checklist
 - See ./reference/description-writing-guide.md for the description formula, 4C principles, and examples
 - See ./reference/naming-conventions.md for gerund form, kebab-case rules, and naming examples
-- See ./reference/converting-subagents.md for the sub-agent migration workflow
+- See ./reference/converting-subagents.md for the agent migration workflow
 - See ./reference/plugin-layout-guide.md for plugin directory structure, dependency decisions, reference file architecture, and suite completeness testing (the Tuesday test)
 
 ## Templates

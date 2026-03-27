@@ -293,7 +293,7 @@ tools: Read, Grep, Glob, LS, Edit, Bash
 model: sonnet
 ```
 
-**Note:** State-modifying agents need stronger reasoning. Use `sonnet` for state-modifying agents. Reserve `opus` for agents that coordinate multiple sub-agents, need 128K output, or require deep novel reasoning.
+**Note:** State-modifying agents need stronger reasoning. Use `sonnet` for state-modifying agents. Reserve `opus` for agents that coordinate multiple agents, need 128K output, or require deep novel reasoning.
 
 ### bypassPermissions without justification
 

@@ -1,6 +1,6 @@
 # Research Agents
 
-Guide to using specialized sub-agents for codebase research.
+Guide to using specialized agents for codebase research.
 
 ## Available Agents
 

@@ -1,6 +1,7 @@
 ---
 name: handing-over
 description: "Use this skill when switching context, preparing for another conversation to continue your work, or documenting current progress for knowledge transfer. This includes capturing key learnings, listing modified files, and writing handover documents to .docs/handoffs/. Trigger phrases: '/handover', 'hand this off', 'document where we are', 'save progress for later', 'create a handoff'."
+effort: low
 ---
 
 # Handover
@@ -59,7 +60,7 @@ Review the conversation and gather:
 
 ### Step 2: Create Handover Document
 
-Spawn a `docs-writer` agent via the Task tool to create the handover file:
+Spawn a `docs-writer` agent via the Agent tool to create the handover file:
 
 ```
 Task prompt:

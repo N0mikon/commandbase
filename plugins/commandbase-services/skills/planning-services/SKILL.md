@@ -1,6 +1,7 @@
 ---
 name: planning-services
 description: "Use this skill when creating or iterating on implementation plans for homelab service changes. This includes phased deployment plans with success criteria, rollback steps, and verification checklists. Activate when the user says 'plan services', 'create deployment plan', 'implementation plan for services', or provides a path to an existing services plan in .docs/plans/."
+effort: high
 ---
 
 # Planning Services
@@ -171,7 +172,7 @@ It DOES still:
 
 After structure approval:
 
-1. **Spawn a `docs-writer` agent** via the Task tool to create the plan file:
+1. **Spawn a `docs-writer` agent** via the Agent tool to create the plan file:
 
    ```
    Task prompt:

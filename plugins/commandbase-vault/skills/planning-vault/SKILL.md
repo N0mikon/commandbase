@@ -1,6 +1,7 @@
 ---
 name: planning-vault
 description: "Use this skill when creating or iterating on vault implementation plans with thorough vault research. This includes producing phased plans with success criteria, researching vault structure before planning, and working with existing vault plans in .docs/plans/. Trigger phrases: 'plan vault changes', 'vault implementation plan', 'plan vault reorganization', or providing a path to an existing plan."
+effort: high
 ---
 
 # Planning Vault
@@ -170,7 +171,7 @@ It DOES still:
 
 After structure approval:
 
-1. **Spawn a `docs-writer` agent** via the Task tool to create the plan file:
+1. **Spawn a `docs-writer` agent** via the Agent tool to create the plan file:
 
    ```
    Task prompt:

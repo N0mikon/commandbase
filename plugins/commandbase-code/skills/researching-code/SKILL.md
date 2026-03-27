@@ -1,11 +1,12 @@
 ---
 name: researching-code
 description: "Use this skill when researching a codebase to understand how it works. This includes answering questions like 'how does X work', 'where is Y defined', 'explain the architecture', documenting existing implementations, tracing data flows, and creating technical documentation. Activate when the user says 'research codebase', 'how does this work', 'where is this defined', or 'explain the code'."
+effort: high
 ---
 
 # Researching Codebases
 
-You are tasked with conducting comprehensive research across the codebase to answer user questions by spawning parallel sub-agents and synthesizing their findings.
+You are tasked with conducting comprehensive research across the codebase to answer user questions by spawning parallel agents and synthesizing their findings.
 
 **Violating the letter of these rules is violating the spirit of these rules.**
 
@@ -75,7 +76,7 @@ Then wait for the user's query.
 
 If the user mentions specific files:
 - Read them FULLY using the Read tool WITHOUT limit/offset parameters
-- Read these files yourself in the main context before spawning any sub-tasks
+- Read these files yourself in the main context before spawning any subagents
 - This ensures you have full context before decomposing the research
 
 ### Step 2: Decompose the Research Question
@@ -87,13 +88,13 @@ If the user mentions specific files:
 
 ### Step 3: Spawn Parallel Research Agents
 
-Create multiple Task agents to research different aspects concurrently.
+Create multiple agents to research different aspects concurrently.
 
 See ./reference/research-agents.md for the full guide on available agents and how to use them effectively.
 
 ### Step 4: Synthesize Findings
 
-After ALL sub-agents complete:
+After ALL agents complete:
 - Compile results from all agents
 - Connect findings across different components
 - Include specific file paths and line numbers
@@ -101,7 +102,7 @@ After ALL sub-agents complete:
 
 ### Step 5: Write Research Document
 
-Spawn a `docs-writer` agent via the Task tool to create the research file:
+Spawn a `docs-writer` agent via the Agent tool to create the research file:
 
 ```
 Task prompt:

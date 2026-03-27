@@ -1,6 +1,6 @@
 # Analysis Strategies
 
-Guide to decomposing repository analysis into parallel sub-agents for comprehensive coverage. Each strategy targets different aspects of a repository.
+Guide to decomposing repository analysis into parallel agents for comprehensive coverage. Each strategy targets different aspects of a repository.
 
 ## Agent Decomposition
 

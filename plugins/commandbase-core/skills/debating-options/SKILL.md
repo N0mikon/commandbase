@@ -1,6 +1,7 @@
 ---
 name: debating-options
 description: "Use this skill when the user says '/debating-options', 'debate these options', 'compare these choices', 'which should I choose', or wants parallel research on multiple options with synthesized recommendations. Launches research agents for each option, then synthesizes into a decision matrix. Default is objective analysis; use advocate mode when user is unsure or wants deeper exploration."
+effort: high
 ---
 
 # Debating Options
@@ -206,11 +207,11 @@ Use ratings: Strong, Moderate, Weak
 
 ## Implementation Notes
 
-- Use `subagent_type: general-purpose` for all agents
+- Use the Agent tool with `subagent_type: "general-purpose"` for all agents
 - Use `model: haiku` for researchers/advocates (fast, parallel)
 - Use `model: sonnet` for judge (synthesis quality matters)
 - Set `run_in_background: true` for parallel execution
-- Use `TaskOutput` to collect results before judging
+- Wait for all agents to complete before judging
 
 ## Example Invocations
 

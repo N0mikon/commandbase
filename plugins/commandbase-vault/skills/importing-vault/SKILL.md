@@ -1,6 +1,7 @@
 ---
 name: importing-vault
 description: "Use this skill when converting .docs/ artifacts into Obsidian vault notes. This includes transforming research documents, plans, handoffs, and learnings into vault-native format with wikilinks, callouts, tags, and frontmatter. Activate when the user says 'import to vault', 'convert docs to vault', 'move research to obsidian', or after completing a research/planning cycle."
+effort: medium
 ---
 
 # Importing to Vault

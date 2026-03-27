@@ -1,6 +1,7 @@
 ---
 name: capturing-vault
 description: "Use this skill when quickly capturing content into the vault from various sources. This includes creating fleeting notes from ideas or thoughts, capturing web content as vault notes, logging meeting notes or voice transcript summaries, processing inbox items into proper vault notes, and routing captured content to appropriate folders based on vault conventions. Activate when the user says 'capture to vault', 'quick note', 'save this to vault', 'clip this', 'process inbox', or 'log to vault'."
+effort: low
 ---
 
 # Capturing to Vault

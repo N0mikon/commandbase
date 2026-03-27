@@ -1,6 +1,7 @@
 ---
 name: auditing-skills
 description: "Use this skill when auditing existing skills for validation issues, updating skills to fix compliance problems, or checking skill health after pattern changes. This includes running validation checks against all skills, fixing frontmatter issues, correcting name format violations, rewriting descriptions to follow the WHEN formula, and adding missing enforcement pattern sections."
+effort: medium
 ---
 
 # Auditing Skills
@@ -108,7 +109,7 @@ Five categories, checked in order. See `./reference/audit-checklist.md` for full
 From validation-rules.md:5-13:
 - Starts with `---`, ends with `---`
 - Valid YAML dictionary
-- Only allowed properties: name, description, license, allowed-tools, metadata
+- Only allowed properties: name, description, license, allowed-tools, metadata, effort, context, agent, hooks, model, user-invocable
 - Required: name, description
 
 ### 2. Name Validation

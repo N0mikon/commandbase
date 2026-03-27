@@ -18,7 +18,7 @@ Agents use noun/role form because the name describes **what the agent is**, not 
 - `researching-web` - this is a skill name
 - `parsing-logs` - sounds like a skill invocation
 
-**Why noun form?** Agents are specialists invoked explicitly via the Task tool. The parent orchestrator delegates work to them by name, like assigning tasks to team members. You send work to "the analyzer", not to "analyzing". Noun names reinforce that agents are **roles** you delegate to, while gerund names (used by skills) describe **actions** a user is performing.
+**Why noun form?** Agents are specialists invoked explicitly via the Agent tool. The parent orchestrator delegates work to them by name, like assigning tasks to team members. You send work to "the analyzer", not to "analyzing". Noun names reinforce that agents are **roles** you delegate to, while gerund names (used by skills) describe **actions** a user is performing.
 
 ## Naming Patterns
 

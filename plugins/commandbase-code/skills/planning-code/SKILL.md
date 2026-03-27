@@ -1,6 +1,7 @@
 ---
 name: planning-code
 description: "Use this skill when creating or iterating on implementation plans with thorough codebase research. This includes producing phased plans with success criteria, spawning research agents before planning, and working with existing plans in .docs/plans/. Trigger phrases: 'create a plan', 'implementation plan', 'plan this feature', or providing a path to an existing plan."
+effort: high
 ---
 
 # Implementation Planning
@@ -139,8 +140,8 @@ After getting initial clarifications:
 
 1. If the user corrects a misunderstanding, spawn new research to verify
 2. Create a research todo list using TodoWrite
-3. Spawn parallel sub-tasks for comprehensive research
-4. Wait for ALL sub-tasks to complete
+3. Spawn parallel subagents for comprehensive research
+4. Wait for ALL subagents to complete
 5. Present findings and design options
 
 ### Step 3: Plan Structure Development
@@ -185,7 +186,7 @@ It DOES still:
 
 After structure approval:
 
-1. **Spawn a `docs-writer` agent** via the Task tool to create the plan file:
+1. **Spawn a `docs-writer` agent** via the Agent tool to create the plan file:
 
    ```
    Task prompt:

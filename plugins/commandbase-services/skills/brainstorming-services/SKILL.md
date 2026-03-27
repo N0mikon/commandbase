@@ -1,6 +1,7 @@
 ---
 name: brainstorming-services
 description: "Use this skill when exploring direction and preferences for homelab or Docker service infrastructure before deployment. This includes discussing reverse proxy choices (Traefik vs Nginx), compose architecture (single vs per-service), backup strategies (Borg vs restic), networking topology, and service dependency ordering."
+effort: medium
 ---
 
 # Brainstorming Services
@@ -162,7 +163,7 @@ After all topics explored:
 
 1. Confirm: "Ready to capture these decisions?"
 2. Compile decision dependency chain showing which choices constrain which
-3. Spawn a `docs-writer` agent via the Task tool:
+3. Spawn a `docs-writer` agent via the Agent tool:
 
    ```
    Task prompt:

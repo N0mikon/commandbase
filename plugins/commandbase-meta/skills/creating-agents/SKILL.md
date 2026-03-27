@@ -1,6 +1,7 @@
 ---
 name: creating-agents
 description: "Use this skill when creating new Claude Code agents (subagents) from scratch, editing existing agents to improve their descriptions or system prompts, or converting skills into agents. This includes writing agent .md files, choosing agent names, crafting delegation-trigger descriptions, designing system prompts using the Contract Format, selecting tool sets, and validating agent structure against the specification."
+effort: medium
 ---
 
 # Creating Agents

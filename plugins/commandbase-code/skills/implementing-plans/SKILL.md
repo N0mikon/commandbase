@@ -1,6 +1,7 @@
 ---
 name: implementing-plans
 description: "Use this skill when implementing technical plans from .docs/plans/ with automated verification. This includes executing phased plans, running success criteria checks, updating completion checkboxes, and continuing implementation after interruption. Trigger phrases: 'implement this plan', 'execute the plan', 'continue implementation', or providing a plan path."
+effort: high
 ---
 
 # Implementing Plans
@@ -97,7 +98,7 @@ When something isn't working as expected:
 - Try debugging with targeted searches or test runs
 - If truly blocked, present the issue clearly and ask for guidance
 
-Use sub-tasks sparingly - mainly for targeted debugging or exploring unfamiliar territory.
+Use subagents sparingly - mainly for targeted debugging or exploring unfamiliar territory.
 
 ## Resuming Work
 

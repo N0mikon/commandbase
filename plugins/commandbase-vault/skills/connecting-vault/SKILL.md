@@ -1,6 +1,7 @@
 ---
 name: connecting-vault
 description: "Use this skill when discovering relationships between vault notes, maintaining Maps of Content, or improving vault connectivity. This includes suggesting wikilinks between related notes, identifying orphaned notes needing connections, updating or generating MOCs, detecting duplicate or near-duplicate notes, and analyzing link graph density. Activate when the user says 'connect notes', 'find related notes', 'update MOC', 'find orphans', 'link suggestions', or 'vault graph analysis'."
+effort: medium
 ---
 
 # Connecting Vault

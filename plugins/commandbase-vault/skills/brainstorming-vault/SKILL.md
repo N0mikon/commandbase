@@ -1,6 +1,7 @@
 ---
 name: brainstorming-vault
 description: "Use this skill when exploring direction and preferences for an Obsidian vault before building structure. This includes discussing folder hierarchy vs flat tags, MOC strategies, linking philosophies (Zettelkasten vs PARA vs hybrid), template approaches, and plugin decisions for knowledge management."
+effort: medium
 ---
 
 # Brainstorming Vault
@@ -147,7 +148,7 @@ Track deferred ideas for inclusion in brainstorm artifact.
 After all topics explored:
 
 1. Confirm: "Ready to capture these decisions?"
-2. Spawn a `docs-writer` agent via the Task tool:
+2. Spawn a `docs-writer` agent via the Agent tool:
 
    ```
    Task prompt:
