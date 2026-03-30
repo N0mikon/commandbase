@@ -61,6 +61,7 @@ Complete checklist for skill validation. Each item maps to the official validati
 | No README | validation-rules.md:46 | No `README.md` in skill directory |
 | No CHANGELOG | validation-rules.md:46 | No `CHANGELOG.md` in skill directory |
 | Allowed subdirs only | validation-rules.md:45 | Only: reference/, templates/, scripts/, assets/ |
+| No dead external refs | convention | No paths to `.docs/`, other skills, or repo files outside skill directory. Skills only see their own directory at runtime. |
 
 ## 5. Pattern Compliance Checks
 

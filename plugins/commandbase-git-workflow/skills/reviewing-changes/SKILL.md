@@ -179,7 +179,11 @@ Based on the diff:
 
 Use the template at `templates/review-report.md`
 
-### Step 5: Present Verdict
+### Step 5: Reason Before Verdict
+
+Before assigning PASS or WARN, state the reasoning chain: what checks found → why findings do or don't warrant concern → what the overall verdict should be. If the reasoning has gaps (e.g., a check wasn't run or a finding is ambiguous), run additional checks before concluding.
+
+### Step 6: Present Verdict
 
 **PASS** - No issues found
 ```
@@ -273,6 +277,7 @@ Before finishing, review this skill execution:
 
 ## Red Flags - STOP and Verify
 
+- About to say "PASS" or "WARN" without stating the reasoning chain that led there
 - About to say "PASS" without running git diff
 - Skipping check categories because "changes are small"
 - Not drafting a commit message

@@ -121,8 +121,9 @@ Are these the right areas to focus on? Any to add or skip?
 
 For each design domain that needs decisions:
 
-1. Spawn an opus-model agent to analyze the options based on research findings
-2. When a decision point requires user input, use AskUserQuestion with concrete options
+1. **Quote before recommending**: Before proposing any approach, extract verbatim code quotes from research artifacts that inform the recommendation. Unquoted architectural claims are ungrounded claims — if you can't quote the code that justifies a design choice, you don't have evidence for it.
+2. Spawn an opus-model agent to analyze the options based on research findings
+3. When a decision point requires user input, use AskUserQuestion with concrete options
    - Options must be specific: "REST", "GraphQL", "tRPC" — NOT "Option A", "Option B"
    - Always include a "You decide" option for areas the user wants to delegate
    - See `./reference/design-domains.md` for example questions per domain
@@ -200,6 +201,7 @@ If you notice any of these, pause:
 - Skipping inline questions to "move faster"
 - Writing a design doc without spawning the docs-writer agent
 - Proposing architecture without understanding existing codebase patterns
+- Making design recommendations without quoting the actual code that informs them
 
 ## Rationalization Prevention
 

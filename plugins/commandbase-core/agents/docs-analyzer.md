@@ -50,7 +50,10 @@ Focus on finding:
 - **Technical specifications**: Specific values, configs, approaches
 - **File references**: Code locations mentioned
 
-### Step 3: Filter Ruthlessly
+### Step 3: Verify Each Insight
+After extracting insights, confirm each one has a supporting quote or specific reference from the document. If an insight cannot be traced to specific document content, retract it — do not include ungrounded claims.
+
+### Step 4: Filter Ruthlessly
 Remove:
 - Exploratory rambling without conclusions
 - Options that were rejected (unless learning from them)

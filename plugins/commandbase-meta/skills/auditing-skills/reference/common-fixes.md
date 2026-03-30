@@ -211,6 +211,35 @@ See ./reference/validation-rules.md for the complete validation checklist.
 - scripts/ (optional)
 - assets/ (optional)
 
+### Dead external references
+
+**Issue:** Skill references files outside its own directory (e.g., `.docs/research/`, other skills' reference files, arbitrary repo paths). These paths are not in context when the skill runs — they are dead references at runtime.
+
+**Detection:** Search SKILL.md body for paths containing `.docs/`, `~/.claude/skills/` (pointing to other skills), or absolute/relative paths outside `./reference/` and `./templates/`.
+
+**Fix approach:**
+1. If the referenced content is short: inline it directly in SKILL.md
+2. If the referenced content is substantial: copy the relevant parts into a `reference/` file within the skill's own directory
+3. If the reference is just a "see also" without functional dependency: remove it
+
+**Before:**
+```markdown
+See `.docs/research/03-29-2026-hallucination-techniques.md` for full details.
+```
+
+**After (option 1 — inline):**
+```markdown
+Three anti-hallucination techniques apply:
+- Quote before analyzing: extract verbatim code before drawing conclusions
+- Post-generation verification: verify each claim has evidence, retract if not
+- Reason before verdict: trace reasoning chain before stating pass/fail
+```
+
+**After (option 2 — reference file):**
+```markdown
+See ./reference/hallucination-techniques.md for the full technique catalog.
+```
+
 ## Enforcement Pattern Fixes
 
 ### Missing Iron Law section

@@ -33,7 +33,9 @@ BEFORE writing any implementation plan:
 2. SPAWN: Create parallel research agents (minimum 2: code-locator + code-analyzer)
 3. WAIT: All agents must complete before proceeding
 4. READ: Read ALL files identified by agents into main context
-5. VERIFY: Do you have file:line references for integration points?
+5. QUOTE: For each integration point, extract the actual code verbatim.
+   Unquoted assumptions about existing code lead to plans that don't fit the codebase.
+6. VERIFY: Do you have file:line references AND quoted code for integration points?
    - If NO: Spawn follow-up agents to get specific references
    - If YES: Proceed to planning
 6. ONLY THEN: Write the implementation plan
@@ -263,7 +265,7 @@ If you notice any of these, STOP immediately:
 
 - About to write plan without spawning research agents
 - Using "typically", "usually", "in most codebases" about THIS codebase
-- Planning integration points without file:line references
+- Planning integration points without file:line references and quoted code
 - Assuming directory structure without verification
 - Thinking "I remember where this is"
 - Feeling like research "takes too long"

@@ -138,6 +138,7 @@ From validation-rules.md:39-47:
 - Under 500 lines
 - Reference nesting max 1 level
 - No extraneous files (README, CHANGELOG)
+- No dead external references (paths to `.docs/`, other skills' directories, or repo paths outside the skill's own directory — these won't be in context at runtime)
 
 ### 5. Pattern Compliance
 
@@ -191,6 +192,7 @@ See `./reference/common-fixes.md` for detailed fix patterns. Key fixes:
 | Description not WHEN-focused | Rewrite using formula from description-writing-guide.md |
 | Missing enforcement sections | Add section from template, customize for skill |
 | Over 500 lines | Suggest splitting to reference/ subdirectory |
+| Dead external references | Inline the content or copy to skill's reference/ directory |
 
 ## Self-Improvement
 

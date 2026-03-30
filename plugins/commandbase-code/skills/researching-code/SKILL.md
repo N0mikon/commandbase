@@ -92,13 +92,14 @@ Create multiple agents to research different aspects concurrently.
 
 See ./reference/research-agents.md for the full guide on available agents and how to use them effectively.
 
-### Step 4: Synthesize Findings
+### Step 4: Synthesize and Verify Findings
 
 After ALL agents complete:
 - Compile results from all agents
 - Connect findings across different components
 - Include specific file paths and line numbers
 - Document patterns, connections, and data flows
+- **Post-generation verification**: Review each finding. For each claim, confirm you have a file:line reference with actual code evidence from the agents. If you cannot find supporting evidence for a claim, retract it rather than include an ungrounded assertion.
 
 ### Step 5: Write Research Document
 
@@ -225,6 +226,7 @@ If you notice any of these, pause:
 - Completing research without a `.docs/research/` file path in your response
 - Skipping the research file because "it was a simple question"
 - Synthesizing without spawning parallel agents first
+- Including a finding without a file:line reference — retract it, don't hedge it
 
 ## Rationalization Prevention
 

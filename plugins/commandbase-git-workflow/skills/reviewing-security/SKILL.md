@@ -34,8 +34,10 @@ BEFORE issuing a verdict:
 2. SCAN: Run automated secret detection
 3. REVIEW: Manual inspection for each vulnerability category
 4. CLASSIFY: Categorize findings by severity
-5. VERDICT: PASS (no issues), WARN (medium only), or BLOCK (critical/high found)
-6. ONLY THEN: Report findings with remediation guidance
+5. REASON: For each finding, trace the logic: what was found → why it's exploitable →
+   what the impact would be. If the reasoning has gaps, investigate before classifying.
+6. VERDICT: PASS (no issues), WARN (medium only), or BLOCK (critical/high found)
+7. ONLY THEN: Report findings with remediation guidance
 
 Skip any step = missed vulnerabilities
 ```
@@ -291,6 +293,7 @@ If you notice any of these, investigate thoroughly:
 | "This repo is private" | Repos get accidentally publicized. Protect now. |
 | "It's encrypted" | Encrypted secrets with hardcoded keys aren't secure. |
 | "Only I use this" | Public means anyone. No exceptions. |
+| "This looks like a vulnerability" | Trace the exploit chain before classifying. Ungrounded severity ratings erode trust. |
 
 ## Integration with /committing-changes
 

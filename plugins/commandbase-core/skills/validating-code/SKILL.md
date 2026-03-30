@@ -37,7 +37,10 @@ BEFORE checking code quality:
 2. LIST: All phase requirements and success criteria
 3. READ: The actual implementation files
 4. COMPARE: Line by line - what was requested vs what was built
-5. VERDICT: For each requirement:
+5. REASON: For each requirement, state the evidence chain:
+   what was required → what was found in code → why this constitutes pass/fail.
+   If the reasoning has gaps, investigate before concluding.
+6. VERDICT: For each requirement:
    - ✓ Implemented correctly
    - ✗ Missing
    - ⚠️ Partial or different
@@ -54,7 +57,10 @@ AFTER spec compliance passes:
 2. RUN: Execute each command (tests, lint, typecheck)
 3. READ: Full output - exit codes, pass/fail counts
 4. VERIFY: Does output confirm all criteria?
-5. DOCUMENT: Show evidence for each check
+5. REASON: Before declaring pass/fail, trace the logic: what the criterion requires →
+   what the evidence shows → why this constitutes the verdict. Retract any claim
+   that lacks supporting output.
+6. DOCUMENT: Show evidence for each check
 
 Skip any step = incomplete validation
 ```

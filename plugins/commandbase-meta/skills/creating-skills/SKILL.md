@@ -109,10 +109,15 @@ See the Freedom Tiers section below. Match the tier to the task's error toleranc
 - Add reference files with intention-revealing names (not `reference.md` or `helpers.md`)
 - **Split reference files by use case, not by topic**: When multiple skills share domain knowledge, each skill should get a reference file scoped to how it uses the knowledge. Example: OFM knowledge splits into `ofm-validation-rules.md` (for linting) and `ofm-note-formats.md` (for creation), not a single `ofm-reference.md` that bloats every consumer with irrelevant content.
 - Use skinny pointers to reference files: `See ./reference/filename.md for [topic]`
+- **No dead external references**: Skills only have access to their own directory at runtime (SKILL.md, reference/, templates/). Never reference files outside the skill's directory (e.g., `.docs/research/`, other skills' reference files, arbitrary repo paths) — they won't be in context when the skill runs. If external information is needed, inline it or copy it into a reference file.
 - Write for Claude, not for humans - instructions should be actionable, not explanatory
 - For skills that produce structured output: specify explicit format constraints (line counts, bullet limits, section lengths) rather than subjective guidance like "be concise" or "keep it short"
 - For skills that modify state or follow a plan: include a Red Flag for making changes beyond what was requested, and a Rationalization Prevention entry for scope creep
 - **When adapting a skill from another skill**: Audit every mandatory output step from the source. Steps that produce user-facing artifacts (monitoring lists, reports, config files) are easy to omit during adaptation. Diff the source skill's workflow steps against the new skill's steps — every step that writes or updates a file must be explicitly accounted for (kept, adapted, or deliberately removed with justification).
+- **Anti-hallucination patterns** — apply where the skill's output depends on grounded evidence:
+  - **Quote before analyzing**: Skills that make decisions based on existing code should extract verbatim code quotes before drawing conclusions. Prevents hallucinated assumptions about what code actually does.
+  - **Post-generation verification**: Skills that produce findings or claims should verify each claim has supporting evidence before presenting. Retract unsupported claims rather than hedging them.
+  - **Reason before verdict**: Skills that render judgments (pass/fail, WARN/BLOCK) should trace the reasoning chain before stating the verdict. Reveals faulty logic before it becomes a conclusion.
 - **Selective enforcement** — not every skill needs every enforcement section:
   - **Gate Function**: Only for skills that operate on existing state (graduating, connecting, fleshing-out). Linear skills under ~120 lines need only Iron Law + Red Flags.
   - **Rationalization Prevention**: Only where the specific temptation is dangerous and non-obvious (e.g., seeding: temptation to over-prompt; graduating: temptation to skip verification). Generic rationalizations add bulk without value.
@@ -244,6 +249,7 @@ If you notice any of these, pause:
 - Skipping validation because the skill "looks right"
 - Adapting a skill from another skill without diffing every mandatory output step against the source
 - Adding Gate Function / Rationalization Prevention to a lightweight linear skill that doesn't need them
+- Referencing files outside the skill's directory (`.docs/`, other skills, repo paths) — these are dead references at runtime
 
 ## Rationalization Prevention
 
@@ -257,6 +263,7 @@ If you notice any of these, pause:
 | "Validation is just bureaucracy" | Validation catches the mistakes that break skill loading. |
 | "I adapted the important parts" | Diff every step. `/cleaning-plex` missed the monitoring list step from `/cleaning-anime-series` — user had to catch it. |
 | "Every skill needs Gate Function and Rationalization Prevention" | Only state-dependent skills need Gate Function. Only skills with specific, dangerous temptations need Rationalization Prevention. Lightweight linear skills need only Iron Law + Red Flags. |
+| "I'll point to the .docs/ research file" | Skills can't see .docs/ at runtime. Inline the content or copy it to a reference file. |
 
 ## The Bottom Line
 
